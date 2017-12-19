@@ -1,0 +1,13 @@
+maxSzin = 4;
+orszagokSzama = 6;
+
+szinNev = ["Black", "Yellow", "Red", "Blue"];
+orszagNev = ["Belgium", "Denmark", "France", "Germany", "Netherlands", "Luxembourg"];
+
+szomszedos = [| 0, 0, 1, 1, 1, 1,
+               | 0, 0, 0, 1, 0, 0,
+               | 1, 0, 0, 1, 0, 1,
+               | 1, 1, 1, 0, 0, 0,
+               | 1, 0, 0, 0, 0, 0,
+               | 1, 0, 1, 0, 0, 0
+               |];
