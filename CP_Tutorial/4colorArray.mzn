@@ -4,7 +4,7 @@ int: orszagokSzama = 6;
 set of int: Szinek   = 1..maxSzin;
 set of int: Orszagok = 1..orszagokSzama;
 
-array[Szinek] of string: szinNev = ["Black", "Yellow", "Red", "Blue"];
+array[Szinek] of string: szinNev = ["Green", "Yellow", "Red", "Blue"];
 array[Orszagok] of string: orszagNev = ["Belgium", "Denmark", "France", "Germany", "Netherlands", "Luxembourg"];
 
 array[Orszagok] of var Szinek: szin;
