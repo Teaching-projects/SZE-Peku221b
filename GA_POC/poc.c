@@ -8,13 +8,17 @@ struct gen{
     int megsert;
 };
 
+int hanyatSert(struct gen egyed){
+    return 0;
+}
+
 struct gen kezdetiRandom(){
     struct gen egyed;
     int e,t;
     for(t=0;t<TULAJDONSAG;t++)
         for(e=0;e<EMBER;e++)
             egyed.allel[t][e]=e;
-    egyed.megsert=0; // TODO neghivni majd a kiertekelo fuggvenyt.
+    egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
     /*
      * ITt valahogy random beallitgatni az ize-ben levo ertekeket
      */
