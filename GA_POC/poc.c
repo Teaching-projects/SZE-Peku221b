@@ -2,6 +2,7 @@
 
 #define SZEK 4
 #define TULAJDONSAG 5
+#define POPMERET 100
 
 /*
  * 0 -- Shirt
@@ -67,9 +68,38 @@ void egyedKiir(struct gen egyed){
     printf("\n");
 }
 
+struct gen Mutal(struct gen egyed){
+    // valahol csereljen meg kettot a blokkon belul
+    return egyed;
+}
+
+struct gen Keresztez(struct gen egyed1, struct gen egyed2){
+    struct gen egyed;
+    // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
+    return egyed;
+}
     
 int main(){
-    struct gen elso=kezdetiRandom();
-    egyedKiir(elso);
+
+    // Kezdeti populacio inicializalasa
+    struct gen populacio[POPMERET];
+    int i;
+    for(i=0;i<POPMERET;i++) {
+        populacio[i]=kezdetiRandom();
+        populacio[i].megsert = hanyatSert(populacio[i]);
+    }
+
+    struct gen temp[POPMERET+50];
+    // Iteralasok
+    int k;
+    for(i=0;i<50;i++){
+        k=0;
+        // Mutaljyunk meg nehany egyedet
+        //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
+        // CSinaljunk par crossovert
+        //  temp[k]=Keresztez(populacio[j],populacio[j2]);temp[k].megsert=hanyarSert(temp[k]) k++
+        // Valasszuk ki, kik maradnak
+        //  populacio[l]=temp[m]
+    }
     return 0;
 }
