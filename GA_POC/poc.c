@@ -4,27 +4,29 @@
 #define TULAJDONSAG 5
 
 /*
- * 0 - black
- * 1 - blue
- * 2 - green
- * 3 - red
+ * 0 -- Shirt
+ *  0 - black
+ *  1 - blue
+ *  2 - green
+ *  3 - red
  *
- * 0 - Daniel
- * 1 - Joshua
- * 2 - Nicholas
- * 3 - Ryan
+ * 1 -- Name
+ *  0 - Daniel
+ *  1 - Joshua
+ *  2 - Nicholas
+ *  3 - Ryan
  *
  * ...
  */
  
 struct gen{
-    int allel[TULAJDONSAG][SZEK];
+    int allel[SZEK][TULAJDONSAG];
     int megsert;
 };
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if(egyed.allel[1][0]==1 || egyed.allel[1][3]==1) return 0;
+    if(egyed.allel[0][1]==1 || egyed.allel[3][1]==1) return 0;
     else return 1;
 }
 
@@ -46,7 +48,7 @@ struct gen kezdetiRandom(){
     int sz,t;
     for(t=0;t<TULAJDONSAG;t++)
         for(sz=0;sz<SZEK;sz++)
-            egyed.allel[t][sz]=sz;
+            egyed.allel[sz][t]=sz;
     egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
     /*
      * ITt valahogy random beallitgatni az ize-ben levo ertekeket
@@ -59,7 +61,7 @@ void egyedKiir(struct gen egyed){
     printf("|");
     for(t=0;t<TULAJDONSAG;t++){
         for(sz=0;sz<SZEK;sz++)
-            printf("%d",egyed.allel[t][sz]);
+            printf("%d",egyed.allel[sz][t]);
         printf("|");
     }
     printf("\n");
