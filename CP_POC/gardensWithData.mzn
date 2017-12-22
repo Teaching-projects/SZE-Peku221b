@@ -9,7 +9,7 @@ set of int: Termenyek = 1.. termenyek;
 %Nagy bináris mátrix, megadja hogy melyik kertben mit termesztenek
 array[Termenyek, Kertek] of var: termeszt;
 
-%Tömb az adott sorszámú kert tulajdonosának azonosítására, azért int mert az i-edik kert tulaja a tulajNev tömb j-edik eleme
+%Tömb az adott sorszámú kert tulajdonosának azonosítására
 array[Kertek] of int: tulaj;
 
 %Termények nevei, majd a kiíratáshoz fog kelleni
@@ -18,11 +18,11 @@ array[Termenyek] of string: termenyNev = ["alma", "körte", "mogyoró", "cseresz
 %Tulajdonosok nevei, szintén kiíratáshoz kell majd
 array[Kertek] of string: tulajNev = ["Luke", "Sam", "Hank", "Paul", "Zick"];
 
-% 7. kikötés
+% 7. Pear is only in the two border gardens.
 constraint termeszt[2,1]=1;
 constraint termeszt[2,5]=1;
 
-% 8. kikötés
+% 8. Paul's garden is in the middle with no lily.
 constraint termeszt[12,3]=0;
 constraint tulaj[3]=4;
 
