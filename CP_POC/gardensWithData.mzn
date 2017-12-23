@@ -37,4 +37,25 @@ constraint forall(k in Kertek, z in Zoldsegek where termeszt[9,k]=1) (termeszt[z
 % 10. Rose growers don't grow parsley.
 constraint forall(k in Kertek where termeszt[10,k]=1) (termeszt[6,k]=0);
 
+% 12. In the first garden are apples and cherries.
+constraint termeszt[1,1]=1;
+constraint termeszt[4,1]=1;
+
+% 16. Tulip is only in two gardens.
+constraint forall(k in Kertek)(sum(v in Viragok)(termeszt[11,k])=2);
+
+%17. Apple is in a single garden.
+constraint forall(k in Kertek)(sum(gy in Gyumolcsok)(termeszt[1,k])=1);
+
+% 19. Sam's garden is not on the border.
+constraint tulaj[1]!=2;
+constraint tulaj[5]!=2;
+
+% 20. Hank grows neither vegetables nor asters.
+constraint forall(t in tulaj)(sum(z in Zoldsegek)(termeszt[z,3])=0);
+
+
+% 21. Paul has exactly three kinds of vegetable.
+constraint forall(t in tulaj)(sum(z in Zoldsegek)(termeszt[z,4])=3);
+
 solve satisfy;
