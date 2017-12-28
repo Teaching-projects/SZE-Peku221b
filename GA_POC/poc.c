@@ -17,7 +17,23 @@
  *  2 - Nicholas
  *  3 - Ryan
  *
- * ...
+ * 2 -- Movie
+ *  0 - action
+ *  1 - comedy
+ *  2 - horror
+ *  3 - thriller
+ * 
+ * 3 -- Snack
+ *  0 - chips
+ *  1 - cookies
+ *  2 - crackers
+ *  3 - popcorn
+ * 
+ * 4 -- Age
+ *  0 - 11 years
+ *  1 - 12 years
+ *  2 - 13 years
+ *  3 - 14 years
  */
  
 struct gen{
@@ -67,15 +83,37 @@ void egyedKiir(struct gen egyed){
     }
     printf("\n");
 }
-
+/*
+ * //Rendezés (növekvő)
+ * void Rendezes(populacio, POPMERET){
+ * struct gen X;
+ * 	for (i=0;i<POPMERET;i++){
+ * 		X==populacio[i];
+ * 		j==i-1;
+ * 		while((j>=1)AND(populacio[j].megsert>X.megsert)){
+ * 			populacio[j+1]==populacio[j];
+ * 			j==j-1;
+ * 		}
+ * 		populacio[j+1]==X
+ *  }
+ * }
+ */
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
     return egyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
+	int sz;
+   for (sz=0;i<SZEK;i++){
     struct gen egyed;
+			egyed[sz][0]==egyed1.allel[sz][0];
+			egyed[sz][1]==egyed1.allel[sz][1];
+			egyed[sz][2]==egyed1.allel[sz][2];
+			egyed[sz][3]==egyed2.allel[sz][3];
+			egyed[sz][4]==egyed2.allel[sz][4];
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
+	}	
     return egyed;
 }
     
