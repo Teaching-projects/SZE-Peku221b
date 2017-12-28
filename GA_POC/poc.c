@@ -94,7 +94,7 @@ void egyedKiir(struct gen egyed){
  * 			populacio[j+1]==populacio[j];
  * 			j==j-1;
  * 		}
- * 		populacio[j+1]==X
+ * 		populacio[j+1]==X;
  *  }
  * }
  */
@@ -107,11 +107,11 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz;
    for (sz=0;i<SZEK;i++){
     struct gen egyed;
-			egyed[sz][0]==egyed1.allel[sz][0];
-			egyed[sz][1]==egyed1.allel[sz][1];
-			egyed[sz][2]==egyed1.allel[sz][2];
-			egyed[sz][3]==egyed2.allel[sz][3];
-			egyed[sz][4]==egyed2.allel[sz][4];
+			egyed.allel[sz][0]==egyed1.allel[sz][0];
+			egyed.allel[sz][1]==egyed1.allel[sz][1];
+			egyed.allel[sz][2]==egyed1.allel[sz][2];
+			egyed.allel[sz][3]==egyed2.allel[sz][3];
+			egyed.allel[sz][4]==egyed2.allel[sz][4];
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
 	}	
     return egyed;
@@ -130,12 +130,20 @@ int main(){
     struct gen temp[POPMERET+50];
     // Iteralasok
     int k;
+    int j;
     for(i=0;i<50;i++){
         k=0;
         // Mutaljyunk meg nehany egyedet
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
         // CSinaljunk par crossovert
-        //  temp[k]=Keresztez(populacio[j],populacio[j2]);temp[k].megsert=hanyarSert(temp[k]) k++
+        temp[k].allel=Keresztez(populacio[POPMERET],populacio[0]);
+        temp[k].megsert=hanyarSert(temp[k]);
+        k++;
+        for (j=0;i<POPMERET-1;j+=2){
+			temp[k].allel=Keresztez(populacio[j],populacio[j+1]);
+			temp[k].megsert=hanyarSert(temp[k]);
+			k++;
+		}
         // Valasszuk ki, kik maradnak
         //  populacio[l]=temp[m]
     }
