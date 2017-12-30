@@ -12,7 +12,7 @@ set of int: Zoldsegek = 5..8;
 set of int: Viragok = 9..12;
 
 %Nagy bináris mátrix, megadja hogy melyik kertben mit termesztenek
-array[Termenyek, Kertek] of var: termeszt;
+array[Termenyek, Kertek] of int: termeszt;
 
 %Tömb az adott sorszámú kert tulajdonosának azonosítására
 array[Kertek] of int: tulaj;
@@ -37,38 +37,42 @@ constraint forall(k in Kertek, z in Zoldsegek where termeszt[9,k]=1) (termeszt[z
 % 10. Rose growers don't grow parsley.
 constraint forall(k in Kertek where termeszt[10,k]=1) (termeszt[6,k]=0);
 
+% 11. Nuts grower has also gourd and parsley.
+constraint forall(k in Kertek where termeszt[3,k]=1)(termeszt[7,k]=1);
+constraint forall(k in Kertek where termeszt[3,k]=1)(termeszt[6,k]=1);
+
 % 12. In the first garden are apples and cherries.
 constraint termeszt[1,1]=1;
 constraint termeszt[4,1]=1;
 
 % 13. Only in two gardens are cherries.
-constraint forall(k in Kertek)(sum(termeszt[4,k])=2);
+constraint forall(k in Kertek)(sum(k in Kertek)(termeszt[4,k])=2);
 
 % 14. Sam has onions and cherries.
-constraint forall(t in tulaj where (tulajt[t]=2)(termeszt[8,t]=1);
-constraint forall(t in tulaj where (tulajt[t]=2)(termeszt[4,t]=1);
+constraint forall(t in tulaj where tulaj[t]=2)(termeszt[8,t]=1);
+constraint forall(t in tulaj where tulaj[t]=2)(termeszt[4,t]=1);
 
 % 15. Luke grows exactly two kinds of fruit.
-constraint forall(t in tulaj where (tulajt[t]=1)(sum(gy in Gyumolcsok)(termeszt[gy,t])=2);
+constraint forall(t in tulaj where tulaj[t]=1)(sum(gy in Gyumolcsok)(termeszt[gy,t])=2);
 
 % 16. Tulip is only in two gardens.
-constraint forall(k in Kertek)(sum(termeszt[11,k])=2);
+constraint forall(k in Kertek)(sum(k in Kertek)(termeszt[11,k])=2);
 
 % 17. Apple is in a single garden.
-constraint forall(k in Kertek)(sum(termeszt[1,k])=1);
+constraint forall(k in Kertek)(sum(k in Kertek)(termeszt[1,k])=1);
 
 % 18. Only in one garden next to Zick's is parsley.
-constraint if termeszt[6,1]=1 then termeszt[6,5]=0 else termeszt[6,5]=1;
+constraint forall(t in tulaj where tulaj[t]=5)(termeszt[6,t-1]=1 xor termeszt[6,t+1]=1);
 
 % 19. Sam's garden is not on the border.
 constraint tulaj[1]!=2;
 constraint tulaj[5]!=2;
 
 % 20. Hank grows neither vegetables nor asters.
-constraint forall(t in tulaj where tulajt[t]=3)(sum(z in Zoldsegek)(termeszt[z,t])=0);
-constraint forall(t in tulaj where tulajt[t]=3)(termeszt[9,t]=0);
+constraint forall(t in tulaj where tulaj[t]=3)(sum(z in Zoldsegek)(termeszt[z,t])=0);
+constraint forall(t in tulaj where tulaj[t]=3)(termeszt[9,t]=0);
 
 % 21. Paul has exactly three kinds of vegetable.
-constraint forall(t in tulaj where tulajt[t]=4)(sum(z in Zoldsegek)(termeszt[z,t])=3);
+constraint forall(t in tulaj where tulaj[t]=4)(sum(z in Zoldsegek)(termeszt[z,t])=3);
 
 solve satisfy;
