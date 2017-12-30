@@ -1,0 +1,22 @@
+
+dist: trusty
+sudo: required
+
+language: cpp
+compiler: gcc
+
+before_install:
+- sudo apt-get update
+- sudo apt-get install minizinc
+
+install: true
+
+before_script:
+- cd GA_POC
+
+script: gcc -Wall poc.c
+
+
+
+
+
