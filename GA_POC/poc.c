@@ -22,20 +22,29 @@
  *  1 - comedy
  *  2 - horror
  *  3 - thriller
- * 
+ *
  * 3 -- Snack
  *  0 - chips
  *  1 - cookies
  *  2 - crackers
  *  3 - popcorn
- * 
+ *
  * 4 -- Age
  *  0 - 11 years
  *  1 - 12 years
  *  2 - 13 years
  *  3 - 14 years
  */
- 
+
+
+const char *TULAJDONSAG[4][3] = {
+        {"black","blue","green","red"},
+        {"Daniel", "Joshua", "Nicholas", "Ryan"},
+        {"action", "comedy", "horror", "thriller"},
+        {"chips", "cookies", "crackers", "popcorn"},
+        {11, 12, 13, 14}
+    };
+
 struct gen{
     int allel[SZEK][TULAJDONSAG];
     int megsert;
@@ -43,7 +52,9 @@ struct gen{
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if(egyed.allel[0][1]==1 || egyed.allel[3][1]==1) return 0;
+    int i;
+    i=TULAJDONSAG[1][1];
+    if(egyed.allel[0][i]==1 || egyed.allel[3][i]==1) return 0;
     else return 1;
 }
 
@@ -113,10 +124,10 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 			egyed.allel[sz][3]==egyed2.allel[sz][3];
 			egyed.allel[sz][4]==egyed2.allel[sz][4];
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
-	}	
+	}
     return egyed;
 }
-    
+
 int main(){
 
     // Kezdeti populacio inicializalasa
