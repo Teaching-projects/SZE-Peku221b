@@ -94,35 +94,37 @@ void egyedKiir(struct gen egyed){
     }
     printf("\n");
 }
-/*
- * //Rendezés (növekvő)
- * void Rendezes(populacio, POPMERET){
- * struct gen X;
- * 	for (i=0;i<POPMERET;i++){
- * 		X==populacio[i];
- * 		j==i-1;
- * 		while((j>=1)AND(populacio[j].megsert>X.megsert)){
- * 			populacio[j+1]==populacio[j];
- * 			j==j-1;
- * 		}
- * 		populacio[j+1]==X;
- *  }
- * }
- */
+
+ //Rendezés (növekvő)
+ void Rendezes(populacio){
+ struct gen X;
+  for (i=1;i<POPMERET;i++){
+ 		X==populacio[i];
+  		j==i-1;
+  		while((j>=0)AND(populacio[j].megsert>X.megsert)){
+  			populacio[j+1]==populacio[j];
+  			j==j-1;
+  		}
+  		populacio[j+1]==X;
+   }
+  }
+ 
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
     return egyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
-	int sz;
-   for (sz=0;i<SZEK;i++){
-    struct gen egyed;
-			egyed.allel[sz][0]==egyed1.allel[sz][0];
-			egyed.allel[sz][1]==egyed1.allel[sz][1];
-			egyed.allel[sz][2]==egyed1.allel[sz][2];
-			egyed.allel[sz][3]==egyed2.allel[sz][3];
-			egyed.allel[sz][4]==egyed2.allel[sz][4];
+	int sz,t;
+	struct gen egyed;
+   for (sz=0;sz<SZEK;sz++){ 
+		for (t=0;t<TULAJDONSAG;t++){
+			if (t<TULAJDONSAG/2){
+			egyed.allel[sz][t]==egyed1.allel[sz][t];
+			} else {
+			egyed.allel[sz][t]==egyed2.allel[sz][t];
+			}
+		}
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
 	}
     return egyed;
@@ -144,15 +146,15 @@ int main(){
     int j;
     for(i=0;i<50;i++){
         k=0;
-        // Mutaljyunk meg nehany egyedet
+        // Mutaljunk meg nehany egyedet
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
         // CSinaljunk par crossovert
         temp[k].allel=Keresztez(populacio[POPMERET],populacio[0]);
-        temp[k].megsert=hanyarSert(temp[k]);
+        temp[k].megsert=hanyatSert(temp[k]);
         k++;
-        for (j=0;i<POPMERET-1;j+=2){
-			temp[k].allel=Keresztez(populacio[j],populacio[j+1]);
-			temp[k].megsert=hanyarSert(temp[k]);
+        for (j=0;j<POPMERET-1;j++){
+			temp[k]=Keresztez(populacio[j],populacio[j+1]);
+			temp[k].megsert=hanyatSert(temp[k]);
 			k++;
 		}
         // Valasszuk ki, kik maradnak
