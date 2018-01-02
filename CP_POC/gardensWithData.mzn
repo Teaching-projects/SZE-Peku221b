@@ -30,9 +30,21 @@ constraint forall(k in Kertek)(sum(t in Termenyek)(termeszt[t,k])=4);
 % 3. Each variety is at least in one garden.
 constraint forall(t in Termenyek)(sum(k in Kertek)(termeszt[t,k])>=1);
 
+% 4. Only one variety is in 4 gardens.
+%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=4)) /\ ((k in Kertek)(sum(t in Termenyek)(termeszt[t,k])=1)));
+
+% 5. Only in one garden are all 3 kinds of crops.
+%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=1)) /\ ((k in Kertek)(sum(z in Zoldsegek)(termeszt[z,k])>=1)) /\ ((k in Kertek)(sum(gy in Gyumolcsok)(termeszt[gy,k])>=1)) /\ ((k in Kertek)(sum(v in Viragok)(termeszt[v,k])>=1)));
+
+% 6. Only in one garden are all 4 varieties of one kind of crops.
+%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=1)) /\ (((k in Kertek)(sum(z in Zoldsegek)(termeszt[z,k])=4) xor (k in Kertek)(sum(gy in Gyumolcsok)(termeszt[gy,k])=4)) xor (k in Kertek)(sum(v in Viragok)(termeszt[v,k])=4)));
+
 % 7. Pear is only in the two border gardens.
 constraint termeszt[2,1]=1;
 constraint termeszt[2,5]=1;
+constraint termeszt[2,2]=0;
+constraint termeszt[2,3]=0;
+constraint termeszt[2,4]=0;
 
 % 8. Paul's garden is in the middle with no lily.
 constraint termeszt[12,3]=0;
