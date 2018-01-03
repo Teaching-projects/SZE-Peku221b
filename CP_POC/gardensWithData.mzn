@@ -1,3 +1,6 @@
+%Az összes beépített fgv meg egyéb fontos dolog használatához a "globals.mzn" file belinkelése
+include "globals.mzn";
+
 %Bemenő paraméterek: kertek száma, termények száma
 int: kertek = 5;
 int: termenyek = 12;
@@ -24,6 +27,9 @@ array[Termenyek] of string: termenyNev = ["alma", "körte", "mogyoró", "cseresz
 %Tulajdonosok nevei, szintén kiíratáshoz kell majd
 array[Kertek] of string: tulajNev = ["Luke", "Sam", "Hank", "Paul", "Zick"];
 
+% +1 extra feltétel: egy embernek pontosan 1 kertje van(azaz minden tulaj különböző)
+constraint alldifferent(tulaj);
+
 % 2. Everybody grows exactly 4 different varieties
 constraint forall(k in Kertek)(sum(t in Termenyek)(termeszt[t,k])=4);
 
@@ -31,13 +37,13 @@ constraint forall(k in Kertek)(sum(t in Termenyek)(termeszt[t,k])=4);
 constraint forall(t in Termenyek)(sum(k in Kertek)(termeszt[t,k])>=1);
 
 % 4. Only one variety is in 4 gardens.
-%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=4)) /\ ((k in Kertek)(sum(t in Termenyek)(termeszt[t,k])=1)));
+constraint exactly(1, [sum(k in Kertek)(termeszt[t, k]) | t in Termenyek], 4);
 
 % 5. Only in one garden are all 3 kinds of crops.
-%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=1)) /\ ((k in Kertek)(sum(z in Zoldsegek)(termeszt[z,k])>=1)) /\ ((k in Kertek)(sum(gy in Gyumolcsok)(termeszt[gy,k])>=1)) /\ ((k in Kertek)(sum(v in Viragok)(termeszt[v,k])>=1)));
+constraint exactly(1, [bool2int(sum(z in Zoldsegek)(termeszt[z, k])>0 /\ sum(gy in Gyumolcsok)(termeszt[gy, k])>0 /\ sum(v in Viragok)(termeszt[v, k])>0) | k in Kertek], 1);
 
 % 6. Only in one garden are all 4 varieties of one kind of crops.
-%constraint forall(((t in Termenyek)(sum(k in Kertek)(termeszt[t,k])=1)) /\ (((k in Kertek)(sum(z in Zoldsegek)(termeszt[z,k])=4) xor (k in Kertek)(sum(gy in Gyumolcsok)(termeszt[gy,k])=4)) xor (k in Kertek)(sum(v in Viragok)(termeszt[v,k])=4)));
+constraint exactly(1, [bool2int(sum(z in Zoldsegek)(termeszt[z, k])=4 \/ sum(gy in Gyumolcsok)(termeszt[gy, k])=4 \/ sum(v in Viragok)(termeszt[v, k])=4) | k in Kertek], 1);
 
 % 7. Pear is only in the two border gardens.
 constraint termeszt[2,1]=1;
