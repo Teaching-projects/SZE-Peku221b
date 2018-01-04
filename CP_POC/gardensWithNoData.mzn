@@ -101,3 +101,9 @@ constraint forall(t in Tulaj where tulaj[t]=3)(termeszt[9,t]=0);
 constraint forall(t in Tulaj where tulaj[t]=4)(sum(z in Zoldsegek)(termeszt[z,t])=3);
 
 solve satisfy;
+
+output [show(tulajNev[fix(tulaj[1])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,1])=1]++["\n"];
+output [show(tulajNev[fix(tulaj[2])]) ++ ":\t\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,2])=1]++["\n"];
+output [show(tulajNev[fix(tulaj[3])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,3])=1]++["\n"];
+output [show(tulajNev[fix(tulaj[4])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,4])=1]++["\n"];
+output [show(tulajNev[fix(tulaj[5])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,5])=1]++["\n"];
