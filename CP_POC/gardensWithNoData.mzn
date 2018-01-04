@@ -2,8 +2,8 @@
 include "globals.mzn";
 
 %Bemenő paraméterek: kertek száma, termények száma
-int: kertek = 5;
-int: termenyek = 12;
+int: kertek;
+int: termenyek;
 
 %Indexelésre használt halmazok
 set of int: Kertek = 1..kertek;
@@ -11,9 +11,9 @@ set of int: Termenyek = 1.. termenyek;
 set of int: Tulaj = 1..kertek;
 
 %Segédhalmazok a termények kategóriáihoz, feltételeknél használjuk
-set of int: Gyumolcsok = 1..4;
-set of int: Zoldsegek = 5..8;
-set of int: Viragok = 9..12;
+set of int: Gyumolcsok;
+set of int: Zoldsegek;
+set of int: Viragok;
 
 %Nagy bináris mátrix, megadja hogy melyik kertben mit termesztenek
 array[Termenyek, Kertek] of var {0, 1}: termeszt;
@@ -22,10 +22,10 @@ array[Termenyek, Kertek] of var {0, 1}: termeszt;
 array[Kertek] of var 1..5: tulaj;
 
 %Termények nevei, majd a kiíratáshoz fog kelleni
-array[Termenyek] of string: termenyNev = ["alma", "körte", "mogyoró", "cseresznye", "sárgarépa", "petrezselyem", "tök", "hagyma", "őszirózsa", "rózsa", "tulipán", "liliom"];
+array[Termenyek] of string: termenyNev;
 
 %Tulajdonosok nevei, szintén kiíratáshoz kell majd
-array[Kertek] of string: tulajNev = ["Luke", "Sam", "Hank", "Paul", "Zick"];
+array[Kertek] of string: tulajNev;
 
 % +1 extra feltétel: egy embernek pontosan 1 kertje van(azaz minden tulaj különböző)
 constraint alldifferent(tulaj);
