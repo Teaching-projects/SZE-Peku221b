@@ -52,16 +52,18 @@ struct gen{
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    int i;
-    i=TULAJDONSAG[1][1];
-    if(egyed.allel[0][i]==1 || egyed.allel[3][i]==1) return 0;
+    if(egyed.allel[0][1]=1 || egyed.allel[3][1]=1) return 0;
     else return 1;
 }
 
 int Teszt2(struct gen egyed) {
     // The boy wearning the Black shirt is somewhere to the left of the youngest boy.
-    return 0;
-}
+    if(egyed.allel[3][4]=0 and egyed.allel[2][0]=0) return 0;
+    else if(egyed.allel[2][4]=0 and egyed.allel[1][0]=0) return 0;
+    else if(egyed.allel[1][4]=0 and egyed.allel[0][0]=0) return 0;
+    else return 1;
+
+    }
 
 int hanyatSert(struct gen egyed){
     int sert=0;
@@ -108,16 +110,23 @@ void egyedKiir(struct gen egyed){
   		populacio[j+1]==X;
    }
   }
- 
+
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
+     /* x=szek, y=tulajdonságok*/
+    int x=rand()%SZEK;
+    int y=rand()%4;
+    int temp=egyed.allel[x][y];
+    egyed.allel[x][y]=egyed.allel[x][(y+3)%3];
+    egyed.allel[x][(y+3)%3]=temp;
+
     return egyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
 	struct gen egyed;
-   for (sz=0;sz<SZEK;sz++){ 
+   for (sz=0;sz<SZEK;sz++){
 		for (t=0;t<TULAJDONSAG;t++){
 			if (t<TULAJDONSAG/2){
 			egyed.allel[sz][t]==egyed1.allel[sz][t];
