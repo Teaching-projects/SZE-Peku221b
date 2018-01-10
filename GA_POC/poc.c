@@ -98,18 +98,18 @@ void egyedKiir(struct gen egyed){
 }
 
  //Rendezés (növekvő)
- void Rendezes(populacio){
- struct gen X;
-  for (i=1;i<POPMERET;i++){
- 		X==populacio[i];
-  		j==i-1;
+void Rendezes(populacio){
+	struct gen X;
+	for (i=1;i<POPMERET;i++){
+ 		X=populacio[i];
+  		j=i-1;
   		while((j>=0)AND(populacio[j].megsert>X.megsert)){
-  			populacio[j+1]==populacio[j];
-  			j==j-1;
+  			populacio[j+1]=populacio[j];
+  			j=j-1;
   		}
-  		populacio[j+1]==X;
-   }
-  }
+  	populacio[j+1]=X;
+	}
+}
 
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
@@ -126,12 +126,12 @@ struct gen Mutal(struct gen egyed){
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
 	struct gen egyed;
-   for (sz=0;sz<SZEK;sz++){
+	for (sz=0;sz<SZEK;sz++){
 		for (t=0;t<TULAJDONSAG;t++){
 			if (t<TULAJDONSAG/2){
-			egyed.allel[sz][t]==egyed1.allel[sz][t];
+			egyed.allel[sz][t]=egyed1.allel[sz][t];
 			} else {
-			egyed.allel[sz][t]==egyed2.allel[sz][t];
+			egyed.allel[sz][t]=egyed2.allel[sz][t];
 			}
 		}
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
@@ -149,15 +149,15 @@ int main(){
         populacio[i].megsert = hanyatSert(populacio[i]);
     }
 
-    struct gen temp[POPMERET+50];
+    struct gen temp[POPMERET*2];
     // Iteralasok
     int k;
     int j;
     for(i=0;i<50;i++){
         k=0;
-        // Mutaljunk meg nehany egyedet
+        // Mutaljunk meg nehany egyedet (100 db)
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
-        // CSinaljunk par crossovert
+        // Crossover 1.0
         temp[k].allel=Keresztez(populacio[POPMERET],populacio[0]);
         temp[k].megsert=hanyatSert(temp[k]);
         k++;
@@ -166,8 +166,27 @@ int main(){
 			temp[k].megsert=hanyatSert(temp[k]);
 			k++;
 		}
+		
+		/* Crossover 2.0
+		 * for (j=0;j<POPMERET;j++){
+		 * 	int x=rand()%POPMERET;
+		 * 	int y=rand()%POPMERET;
+		 * 	temp[k]=Keresztez(populacio[x],populacio[y]);
+		 * 	k++;
+		 * }
+		 */
+		 
         // Valasszuk ki, kik maradnak
-        //  populacio[l]=temp[m]
+        Rendezes(temp);
+        //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
+        for (j=0;j<POPMERET;j++){
+			k=rand()%(POPMERET*1.2);
+			if (k<POPMERET){
+			poplacio[j]=temp[j];
+			} else {
+			populacio[j]=temp[k];
+			}
+		}
     }
     return 0;
 }
