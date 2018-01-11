@@ -14,6 +14,21 @@ install: true
 
 script: gcc -Wall GA_POC/poc.c && for i in `ls CP_POC/*.mzn`; do gecode $i; done;
 
+notifications:
+  email:
+    recipients:
+      - szilidaniel98@gmail.com
+      - schofferfruzsi@gmail.com
+      - vmate0116@gmail.com
+      - nikolettsos@gmail.com
+      - adipapp98@gmail.com
+      - tsbalazs@freemail.hu
+      - hegyhati.work@gmail.com
+      
+    on_success: never 
+    on_failure: always 
+        
+
 
 
 
