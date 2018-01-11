@@ -6,9 +6,11 @@ language: cpp
 compiler: gcc
 
 before_install:
+- sudo apt-get install libgecode36 libgecodeflatzinc36
 - wget https://github.com/MiniZinc/MiniZincIDE/releases/download/2.1.7/MiniZincIDE-2.1.7-bundle-linux-x86_64.tgz
 - tar -xzvf MiniZincIDE-2.1.7-bundle-linux-x86_64.tgz
 - ln -s MiniZincIDE-2.1.7-bundle-linux-x86_64/mzn-gecode gecode
+- export PATH=$PATH:./MiniZincIDE-2.1.7-bundle-linux-x86_64/
 
 install: true
 
