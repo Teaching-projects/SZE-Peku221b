@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SZEK 4
 #define TULAJDONSAG 5
@@ -37,12 +38,12 @@
  */
 
 
-const char *TULAJDONSAG[4][3] = {
+const char *TULNEVEK[5][4] = {
         {"black","blue","green","red"},
         {"Daniel", "Joshua", "Nicholas", "Ryan"},
         {"action", "comedy", "horror", "thriller"},
         {"chips", "cookies", "crackers", "popcorn"},
-        {11, 12, 13, 14}
+        {"11", "12", "13", "14"}
     };
 
 struct gen{
@@ -52,15 +53,15 @@ struct gen{
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if(egyed.allel[0][1]=1 || egyed.allel[3][1]=1) return 0;
+    if(egyed.allel[0][1]==1 || egyed.allel[3][1]==1) return 0;
     else return 1;
 }
 
 int Teszt2(struct gen egyed) {
     // The boy wearning the Black shirt is somewhere to the left of the youngest boy.
-    if(egyed.allel[3][4]=0 and egyed.allel[2][0]=0) return 0;
-    else if(egyed.allel[2][4]=0 and egyed.allel[1][0]=0) return 0;
-    else if(egyed.allel[1][4]=0 and egyed.allel[0][0]=0) return 0;
+    if(egyed.allel[3][4]==0 && egyed.allel[2][0]==0) return 0;
+    else if(egyed.allel[2][4]==0 && egyed.allel[1][0]==0) return 0;
+    else if(egyed.allel[1][4]==0 && egyed.allel[0][0]==0) return 0;
     else return 1;
 
     }
@@ -98,16 +99,17 @@ void egyedKiir(struct gen egyed){
 }
 
  //Rendezés (növekvő)
-void Rendezes(populacio){
+void Rendezes(struct gen populacio[]){
 	struct gen X;
+    int i,j;
 	for (i=1;i<POPMERET;i++){
  		X=populacio[i];
   		j=i-1;
-  		while((j>=0)AND(populacio[j].megsert>X.megsert)){
+  		while((j>=0) && (populacio[j].megsert>X.megsert)){
   			populacio[j+1]=populacio[j];
   			j=j-1;
   		}
-  	populacio[j+1]=X;
+        populacio[j+1]=X;
 	}
 }
 
@@ -129,9 +131,9 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	for (sz=0;sz<SZEK;sz++){
 		for (t=0;t<TULAJDONSAG;t++){
 			if (t<TULAJDONSAG/2){
-			egyed.allel[sz][t]=egyed1.allel[sz][t];
+                egyed.allel[sz][t]=egyed1.allel[sz][t];
 			} else {
-			egyed.allel[sz][t]=egyed2.allel[sz][t];
+                egyed.allel[sz][t]=egyed2.allel[sz][t];
 			}
 		}
     // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
@@ -158,7 +160,7 @@ int main(){
         // Mutaljunk meg nehany egyedet (100 db)
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
         // Crossover 1.0
-        temp[k].allel=Keresztez(populacio[POPMERET],populacio[0]);
+        temp[k]=Keresztez(populacio[POPMERET],populacio[0]);
         temp[k].megsert=hanyatSert(temp[k]);
         k++;
         for (j=0;j<POPMERET-1;j++){
@@ -180,9 +182,9 @@ int main(){
         Rendezes(temp);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
         for (j=0;j<POPMERET;j++){
-			k=rand()%(POPMERET*1.2);
+			k=rand()%((int) (POPMERET*1.2));
 			if (k<POPMERET){
-			poplacio[j]=temp[j];
+			populacio[j]=temp[j];
 			} else {
 			populacio[j]=temp[k];
 			}
