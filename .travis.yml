@@ -1,0 +1,35 @@
+
+dist: trusty
+sudo: required
+
+language: cpp
+compiler: gcc
+
+before_install:
+- wget https://github.com/MiniZinc/MiniZincIDE/releases/download/2.1.7/MiniZincIDE-2.1.7-bundle-linux-x86_64.tgz
+- tar -xzvf MiniZincIDE-2.1.7-bundle-linux-x86_64.tgz
+- ln -s MiniZincIDE-2.1.7-bundle-linux-x86_64/mzn-gecode gecode
+
+install: true
+
+script: gcc -Wall GA_POC/poc.c && for i in `ls CP_POC/*.mzn`; do gecode $i; done;
+
+notifications:
+  email:
+    recipients:
+      - szilidaniel98@gmail.com
+      - schofferfruzsi@gmail.com
+      - vmate0116@gmail.com
+      - nikolettsos@gmail.com
+      - adipapp98@gmail.com
+      - tsbalazs@freemail.hu
+      - hegyhati.work@gmail.com
+      
+    on_success: never 
+    on_failure: always 
+        
+
+
+
+
+
