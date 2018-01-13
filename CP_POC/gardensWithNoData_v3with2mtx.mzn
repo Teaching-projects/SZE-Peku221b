@@ -54,6 +54,7 @@ constraint forall(k in 2..kertek-1)(termeszt[2,k]=0);
 % 8. Paul's garden is in the middle with no lily.
 constraint termeszt[12,3]=0;
 constraint tulaj[3,4]=1;
+constraint forall(k in Kertek where k!=3)(tulaj[k,4]=0);
 
 % 9. Aster grower doesn't grow vegetables.
 constraint forall(k in Kertek, z in Zoldsegek)(termeszt[9,k]=1 -> termeszt[z,k]=0);
@@ -84,8 +85,8 @@ constraint sum(k in Kertek)(termeszt[11,k])=2;
 constraint sum(k in Kertek)(termeszt[1,k])=1;
 
 % 18. Only in one garden next to Zick's is parsley.
-%constraint forall(t in Tulaj)(tulaj[t]=5 -> termeszt[6,t-1]=1 xor termeszt[6,t+1]=1);
-constraint sum(k in Kertek)(termeszt[6,k])=1;
+constraint forall(k in 1..kertek-1)(tulaj[k,5]=1 -> termeszt[6,k+1]=1) xor forall(k in 2..kertek)(tulaj[k,5]=1 -> termeszt[6,k-1]=1);
+%constraint sum(k in Kertek)(termeszt[6,k])=1;
 
 % 19. Sam's garden is not on the border.
 constraint forall(k in Kertek)(tulaj[1,2]!=1);
@@ -99,8 +100,8 @@ constraint forall(k in Kertek)(tulaj[k,4]=1 -> sum(z in Zoldsegek)(termeszt[z,k]
 
 solve satisfy;
 
-%output [show(tulajNev[fix(tulaj[1])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,1])=1]++["\n"];
-%output [show(tulajNev[fix(tulaj[2])]) ++ ":\t\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,2])=1]++["\n"];
-%output [show(tulajNev[fix(tulaj[3])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,3])=1]++["\n"];
-%output [show(tulajNev[fix(tulaj[4])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,4])=1]++["\n"];
-%output [show(tulajNev[fix(tulaj[5])]) ++ ":\t"]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,5])=1]++["\n"];
+output [show(tulajNev[t]) ++ ":\t" | t in Tulaj where fix(tulaj[1,t])=1]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,1])=1]++["\n"];
+output [show(tulajNev[t]) ++ ":\t\t" | t in Tulaj where fix(tulaj[2,t])=1]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,2])=1]++["\n"];
+output [show(tulajNev[t]) ++ ":\t" | t in Tulaj where fix(tulaj[3,t])=1]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,3])=1]++["\n"];
+output [show(tulajNev[t]) ++ ":\t" | t in Tulaj where fix(tulaj[4,t])=1]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,4])=1]++["\n"];
+output [show(tulajNev[t]) ++ ":\t" | t in Tulaj where fix(tulaj[5,t])=1]++[show(termenyNev[t]) ++ " " | t in Termenyek where fix(termeszt[t,5])=1]++["\n"];
