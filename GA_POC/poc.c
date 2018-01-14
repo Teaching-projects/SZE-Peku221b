@@ -143,7 +143,6 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 			for (sz=0;sz<SZEK;sz++){
                egyed.allel[t][sz]=egyed2.allel[t][sz];
 			}
-			}
 		}
 	}
     return egyed;
