@@ -47,21 +47,21 @@ const char *TULNEVEK[5][4] = {
     };
 
 struct gen{
-    int allel[SZEK][TULAJDONSAG];
+    int allel[TULAJDONSAG][SZEK];
     int megsert;
 };
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if(egyed.allel[0][1]==1 || egyed.allel[3][1]==1) return 0;
+    if(egyed.allel[1][0]==1 || egyed.allel[1][3]==1) return 0;
     else return 1;
 }
 
 int Teszt2(struct gen egyed) {
     // The boy wearning the Black shirt is somewhere to the left of the youngest boy.
-    if(egyed.allel[3][4]==0 && egyed.allel[2][0]==0) return 0;
-    else if(egyed.allel[2][4]==0 && egyed.allel[1][0]==0) return 0;
-    else if(egyed.allel[1][4]==0 && egyed.allel[0][0]==0) return 0;
+    if(egyed.allel[4][3]==0 && egyed.allel[0][2]==0) return 0;
+    else if(egyed.allel[4][2]==0 && egyed.allel[0][1]==0) return 0;
+    else if(egyed.allel[4][1]==0 && egyed.allel[0][0]==0) return 0;
     else return 1;
 
     }
@@ -115,14 +115,21 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
-     /* x=szek, y=tulajdonságok*/
-    int x=rand()%SZEK;
-    int y=rand()%4;
-    int temp=egyed.allel[x][y];
-    egyed.allel[x][y]=egyed.allel[x][(y+3)%3];
-    egyed.allel[x][(y+3)%3]=temp;
 
-    return egyed;
+    int csere1t=rand()%TULAJDONSAG;
+    int csere1sz=rand()%SZEK;
+    int csere2t=rand()%TULAJDONSAG;
+    int csere2sz=rand()%SZEK;
+    while (csere1t==csere2t && csere1sz==csere2sz);
+        csere2t=rand()%TULAJDONSAG;
+        csere2sz=rand()%SZEK;
+    int regiegyed.allel=egyed.allel[csere1t][csere1sz];
+    int ujegyed.allel=egyed.allel[csere2t][csere2sz];
+    ujegyed.allel[csere1t][csere1sz]=regiegyed.allel[csere1t][csere2sz];
+    ujegyed.allel[csere1t][csere2sz]=regiegyed.allel[csere1t][csere1sz];
+
+
+    return ujegyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
@@ -168,7 +175,7 @@ int main(){
 			temp[k].megsert=hanyatSert(temp[k]);
 			k++;
 		}
-		
+
 		/* Crossover 2.0
 		 * for (j=0;j<POPMERET;j++){
 		 * 	int x=rand()%POPMERET;
@@ -177,7 +184,7 @@ int main(){
 		 * 	k++;
 		 * }
 		 */
-		 
+
         // Valasszuk ki, kik maradnak
         Rendezes(temp);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
