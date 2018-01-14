@@ -77,9 +77,9 @@ int hanyatSert(struct gen egyed){
 struct gen kezdetiRandom(){
     struct gen egyed;
     int sz,t;
-    for(t=0;t<TULAJDONSAG;t++)
-        for(sz=0;sz<SZEK;sz++)
-            egyed.allel[sz][t]=sz;
+    for(sz=0;sz<SZEK;sz++)
+        for(t=0;t<TULAJDONSAG;t++)
+            egyed.allel[sz][t]=t;
     egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
     /*
      * ITt valahogy random beallitgatni az ize-ben levo ertekeket
@@ -90,9 +90,9 @@ struct gen kezdetiRandom(){
 void egyedKiir(struct gen egyed){
     int sz,t;
     printf("|");
-    for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++)
-            printf("%d",egyed.allel[sz][t]);
+    for(sz=0;sz<SZEK;sz++){
+        for(t=0;t<TULAJDONSAG;t++)
+            printf("%d",egyed.allel[t][sz]);
         printf("|");
     }
     printf("\n");
@@ -135,15 +135,16 @@ struct gen Mutal(struct gen egyed){
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
 	struct gen egyed;
-	for (sz=0;sz<SZEK;sz++){
-		for (t=0;t<TULAJDONSAG;t++){
-			if (t<TULAJDONSAG/2){
-                egyed.allel[sz][t]=egyed1.allel[sz][t];
+	for (t=0;t<TULAJDONSAG;t++){
+		if (t<TULAJDONSAG/2){
+		for (sz=0;sz<SZEK;sz++){
+             egyed.allel[t][sz]=egyed1.allel[t][sz];
 			} else {
-                egyed.allel[sz][t]=egyed2.allel[sz][t];
+			for (sz=0;sz<SZEK;sz++){
+               egyed.allel[t][sz]=egyed2.allel[t][sz];
+			}
 			}
 		}
-    // Az egyednek az elejebe masolja bele az egyed 1 dolgait, a vegebe meg az egyed 2 dolgait
 	}
     return egyed;
 }
