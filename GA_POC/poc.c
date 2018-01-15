@@ -58,18 +58,117 @@ int Teszt1(struct gen egyed) {
 }
 
 int Teszt2(struct gen egyed) {
-    // The boy wearning the Black shirt is somewhere to the left of the youngest boy.
+    // The boy wearing the Black shirt is somewhere to the left of the youngest boy.
     if(egyed.allel[4][3]==0 && egyed.allel[0][2]==0) return 0;
     else if(egyed.allel[4][2]==0 && egyed.allel[0][1]==0) return 0;
     else if(egyed.allel[4][1]==0 && egyed.allel[0][0]==0) return 0;
     else return 1;
 
+}
+
+int Teszt3(struct gen egyed) {
+    //Joshua likes Horror movies.
+    int sz;
+    for(sz=0;sz<=3;sz++){
+        if(egyed.allel[1][sz]==1 && egyed.allel[2][sz]==2) return 0;
+        else return 1;
     }
+
+}
+
+int Teszt4(struct gen egyed) {
+    //The 14 years old boy is at third position.
+    if(egyed.allel[4][2]==3) return 0;
+    else return 1;
+}
+
+int Teszt5(struct gen egyed) {
+    //The boy wearing the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
+    if(egyed.allel[4][0]==2 && egyed.allel[0][1]==3 && egyed.allel[2][3]==0) return 0;
+    else if(egyed.allel[4][0]==2 && egyed.allel[0][2]==3 && egyed.allel[2][3]==0) return 0;
+    else if(egyed.allel[4][0]==2 && egyed.allel[0][1]==3 && egyed.allel[2][2]==0) return 0;
+    else if(egyed.allel[4][1]==2 && egyed.allel[0][2]==3 && egyed.allel[2][3]==0) return 0;
+    else return 1;
+}
+
+int Teszt6(struct gen egyed) {
+    //Daniel likes Thriller movies.
+    int sz;
+    for(sz=0;sz<=3;sz++){
+        if(egyed.allel[1][sz]==0 && egyed.allel[2][sz]==3) return 0;
+        else return 1;
+    }
+
+}
+
+int Teszt7(struct gen egyed) {
+    //The boy who is going to eat Cookies is in one of the ends.
+    if(egyed.allel[3][0]==1 || egyed.allel[3][3]==1) return 0;
+    else return 1;
+
+}
+
+int Teszt8 (struct gen egyed) {
+    //The boy wearing the Black shirt is exactly to the left of the one who likes Thriller movies.
+    if(egyed.allel[2][3]==3 && egyed.allel[0][2]==0) return 0;
+    else if(egyed.allel[2][2]==3 && egyed.allel[0][1]==0) return 0;
+    else if(egyed.allel[2][1]==3 && egyed.allel[0][0]==0) return 0;
+    else return 1;
+}
+
+int Teszt9 (struct gen egyed) {
+    //The boy who is going to eat Crackers is exactly to the right of the boy who likes Comedy movies.
+    if(egyed.allel[2][0]==1 && egyed.allel[3][1]==2) return 0;
+    else if(egyed.allel[2][1]==1 && egyed.allel[3][2]==2) return 0;
+    else if(egyed.allel[2][2]==1 && egyed.allel[3][3]==2) return 0;
+    else return 1;
+}
+
+int Teszt10 (struct gen egyed) {
+    //The boy wearing the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
+    if(egyed.allel[3][0]==3 && egyed.allel[0][1]==3 && egyed.allel[1][3]==2) return 0;
+    else if(egyed.allel[3][0]==3 && egyed.allel[0][2]==3 && egyed.allel[1][3]==2) return 0;
+    else if(egyed.allel[3][0]==3 && egyed.allel[0][1]==3 && egyed.allel[1][2]==2) return 0;
+    else if(egyed.allel[3][1]==3 && egyed.allel[0][2]==3 && egyed.allel[1][3]==2) return 0;
+    else return 1;
+}
+
+int Teszt11 (struct gen egyed) {
+    //In one of the ends is the boy who likes Thriller movies.
+    if(egyed.allel[2][0]==3 || egyed.allel[2][3]==3) return 0;
+    else return 1;
+}
+
+
+int Teszt12 (struct gen egyed) {
+    //Nicholas is somewhere between Joshua and Daniel, in that order.
+    if(egyed.allel[1][0]==1 && egyed.allel[1][1]==2 && egyed.allel[1][3]==0) return 0;
+    else if(egyed.allel[1][0]==1 && egyed.allel[1][2]==2 && egyed.allel[1][3]==0) return 0;
+    else if(egyed.allel[1][0]==1 && egyed.allel[1][1]==2 && egyed.allel[1][2]==0) return 0;
+    else if(egyed.allel[1][1]==1 && egyed.allel[1][2]==2 && egyed.allel[1][3]==0) return 0;
+    else return 1;
+}
+
+int Teszt13 (struct gen egyed) {
+    //At first position is the boy wearing the Green shirt.
+    if(egyed.allel[0][0]==2) return 0;
+    else return 1;
+}
 
 int hanyatSert(struct gen egyed){
     int sert=0;
     sert+=Teszt1(egyed);
     sert+=Teszt2(egyed);
+    sert+=Teszt3(egyed);
+    sert+=Teszt4(egyed);
+    sert+=Teszt6(egyed);
+    sert+=Teszt7(egyed);
+    sert+=Teszt8(egyed);
+    sert+=Teszt9(egyed);
+    sert+=Teszt10(egyed);
+    sert+=Teszt11(egyed);
+    sert+=Teszt12(egyed);
+    sert+=Teszt13(egyed);
     // ...
     return 0;
 }
@@ -115,21 +214,14 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
+     /* x=szek, y=tulajdonságok*/
+    int x=rand()%SZEK;
+    int y=rand()%4;
+    int temp=egyed.allel[x][y];
+    egyed.allel[x][y]=egyed.allel[x][(y+3)%3];
+    egyed.allel[x][(y+3)%3]=temp;
 
-    int csere1t=rand()%TULAJDONSAG;
-    int csere1sz=rand()%SZEK;
-    int csere2t=rand()%TULAJDONSAG;
-    int csere2sz=rand()%SZEK;
-    while (csere1t==csere2t && csere1sz==csere2sz);
-        csere2t=rand()%TULAJDONSAG;
-        csere2sz=rand()%SZEK;
-    int regiegyed.allel=egyed.allel[csere1t][csere1sz];
-    int ujegyed.allel=egyed.allel[csere2t][csere2sz];
-    ujegyed.allel[csere1t][csere1sz]=regiegyed.allel[csere1t][csere2sz];
-    ujegyed.allel[csere1t][csere2sz]=regiegyed.allel[csere1t][csere1sz];
-
-
-    return ujegyed;
+    return egyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
@@ -142,6 +234,7 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 			} else {
 			for (sz=0;sz<SZEK;sz++){
                egyed.allel[t][sz]=egyed2.allel[t][sz];
+			}
 			}
 		}
 	}
