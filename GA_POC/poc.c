@@ -71,9 +71,8 @@ int Teszt3(struct gen egyed) {
     int sz;
     for(sz=0;sz<=3;sz++){
         if(egyed.allel[1][sz]==1 && egyed.allel[2][sz]==2) return 0;
-        else return 1;
     }
-
+    return 1;
 }
 
 int Teszt4(struct gen egyed) {
@@ -96,9 +95,8 @@ int Teszt6(struct gen egyed) {
     int sz;
     for(sz=0;sz<=3;sz++){
         if(egyed.allel[1][sz]==0 && egyed.allel[2][sz]==3) return 0;
-        else return 1;
     }
-
+    return 1;
 }
 
 int Teszt7(struct gen egyed) {
@@ -213,20 +211,16 @@ void Rendezes(struct gen populacio[]){
 }
 
 struct gen Mutal(struct gen egyed){
-    // valahol csereljen meg kettot a blokkon belul
-     /* x=szek, y=tulajdonságok*/
- int csere1t=rand()%TULAJDONSAG;
- int csere1sz=rand()%SZEK;
- int csere2t=rand()%TULAJDONSAG;
- int csere2sz=rand()%SZEK;
- while (csere1t==csere2t && csere1sz==csere2sz);
-        csere2t=rand()%TULAJDONSAG;
+    struct gen uj=egyed;
+    int cseret=rand()%TULAJDONSAG;
+    int csere1sz=rand()%SZEK;
+    int csere2sz=rand()%SZEK;
+    while (csere1sz==csere2sz) {
         csere2sz=rand()%SZEK;
- int regiegyed.allel=egyed.allel[csere1t][csere1sz];
- int ujegyed.allel=egyed.allel[csere2t][csere2sz];
- ujegyed.allel[csere1t][csere1sz]=regiegyed.allel[csere1t][csere2sz];
- ujegyed.allel[csere2t][csere2sz]=regiegyed.allel[csere2t][csere1sz];
- return ujegyed;
+    }
+    uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
+    uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
+    return uj;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
@@ -234,12 +228,12 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	struct gen egyed;
 	for (t=0;t<TULAJDONSAG;t++){
 		if (t<TULAJDONSAG/2){
-		for (sz=0;sz<SZEK;sz++){
-             egyed.allel[t][sz]=egyed1.allel[t][sz];
-			} else {
+            for (sz=0;sz<SZEK;sz++){
+                egyed.allel[t][sz]=egyed1.allel[t][sz];
+            }
+        } else {
 			for (sz=0;sz<SZEK;sz++){
                egyed.allel[t][sz]=egyed2.allel[t][sz];
-			}
 			}
 		}
 	}
@@ -286,12 +280,13 @@ int main(){
         // Valasszuk ki, kik maradnak
         Rendezes(temp);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
-        for (j=0;j<POPMERET;j++){
+        populacio[0]=temp[0];
+        for (j=1;j<POPMERET;j++){
 			k=rand()%((int) (POPMERET*1.2));
 			if (k<POPMERET){
-			populacio[j]=temp[j];
+                populacio[j]=temp[j];
 			} else {
-			populacio[j]=temp[k];
+                populacio[j]=temp[POPMERET+j];
 			}
 		}
     }
