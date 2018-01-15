@@ -83,8 +83,10 @@ constraint sum(k in Kertek)(termeszt[11,k])=2;
 constraint sum(k in Kertek)(termeszt[1,k])=1;
 
 % 18. Only in one garden next to Zick's is parsley.
-%constraint forall(t in Tulaj)(tulaj[t]=5 -> termeszt[6,t-1]=1 xor termeszt[6,t+1]=1);
-constraint sum(k in Kertek)(termeszt[6,k])=1;
+constraint forall(k in 2..kertek-1)(tulaj[k]=5 -> termeszt[6,k-1]+termeszt[6,k+1]=1);
+constraint tulaj[1]=5 -> termeszt[6,2]=1;
+constraint tulaj[kertek]=5 -> termeszt[6,kertek-1]=1;
+%constraint sum(k in Kertek)(termeszt[6,k])=1;
 
 % 19. Sam's garden is not on the border.
 constraint tulaj[1]!=2;
