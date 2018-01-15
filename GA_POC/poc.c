@@ -215,13 +215,18 @@ void Rendezes(struct gen populacio[]){
 struct gen Mutal(struct gen egyed){
     // valahol csereljen meg kettot a blokkon belul
      /* x=szek, y=tulajdonságok*/
-    int x=rand()%SZEK;
-    int y=rand()%4;
-    int temp=egyed.allel[x][y];
-    egyed.allel[x][y]=egyed.allel[x][(y+3)%3];
-    egyed.allel[x][(y+3)%3]=temp;
-
-    return egyed;
+ int csere1t=rand()%TULAJDONSAG;
+ int csere1sz=rand()%SZEK;
+ int csere2t=rand()%TULAJDONSAG;
+ int csere2sz=rand()%SZEK;
+ while (csere1t==csere2t && csere1sz==csere2sz);
+        csere2t=rand()%TULAJDONSAG;
+        csere2sz=rand()%SZEK;
+ int regiegyed.allel=egyed.allel[csere1t][csere1sz];
+ int ujegyed.allel=egyed.allel[csere2t][csere2sz];
+ ujegyed.allel[csere1t][csere1sz]=regiegyed.allel[csere1t][csere2sz];
+ ujegyed.allel[csere2t][csere2sz]=regiegyed.allel[csere2t][csere1sz];
+ return ujegyed;
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
