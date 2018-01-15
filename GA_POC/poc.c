@@ -220,6 +220,7 @@ struct gen Mutal(struct gen egyed){
     }
     uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
     uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
+    uj.megsert=hanyatSert(uj);
     return uj;
 }
 
@@ -237,6 +238,7 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 			}
 		}
 	}
+    egyed.megsert=hanyatSert(egyed);
     return egyed;
 }
 
@@ -247,7 +249,6 @@ int main(){
     int i;
     for(i=0;i<POPMERET;i++) {
         populacio[i]=kezdetiRandom();
-        populacio[i].megsert = hanyatSert(populacio[i]);
     }
 
     struct gen temp[POPMERET*2];
@@ -260,11 +261,9 @@ int main(){
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
         // Crossover 1.0
         temp[k]=Keresztez(populacio[POPMERET],populacio[0]);
-        temp[k].megsert=hanyatSert(temp[k]);
         k++;
         for (j=0;j<POPMERET-1;j++){
 			temp[k]=Keresztez(populacio[j],populacio[j+1]);
-			temp[k].megsert=hanyatSert(temp[k]);
 			k++;
 		}
 
