@@ -68,7 +68,7 @@ constraint 1 in termeszt[1];
 constraint 4 in termeszt[1];
 
 % 13. Only in two gardens are cherries.
-constraint exactly(2, termeszt, 4..4);
+%constraint exactly(2, termeszt, 4..4);
 
 % 14. Sam has onions and cherries.
 constraint forall(t in Tulaj)(tulaj[t]=2 -> 8 in termeszt[t] /\ 4 in termeszt[t]);
@@ -77,10 +77,10 @@ constraint forall(t in Tulaj)(tulaj[t]=2 -> 8 in termeszt[t] /\ 4 in termeszt[t]
 constraint forall(t in Tulaj)(tulaj[t]=1 -> card(Gyumolcsok intersect termeszt[t])=2);
 
 % 16. Tulip is only in two gardens.
-constraint exactly(2, termeszt, 11..11);
+%constraint exactly(2, termeszt, 11..11);
 
 % 17. Apple is in a single garden.
-constraint exactly(1, termeszt, 1..1);
+%constraint exactly(1, termeszt, 1..1);
 
 % 18. Only in one garden next to Zick's is parsley.
 constraint forall(k in 1..kertek-1)(tulaj[k]=5 -> 6 in termeszt[k+1]) xor forall(k in 2..kertek)(tulaj[k]=5 -> 6 in termeszt[k-1]);
