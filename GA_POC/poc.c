@@ -4,6 +4,7 @@
 #define SZEK 4
 #define TULAJDONSAG 5
 #define POPMERET 100
+#define MEGTART 10
 
 /*
  * 0 -- Shirt
@@ -159,6 +160,7 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt2(egyed);
     sert+=Teszt3(egyed);
     sert+=Teszt4(egyed);
+    sert+=Teszt5(egyed);
     sert+=Teszt6(egyed);
     sert+=Teszt7(egyed);
     sert+=Teszt8(egyed);
@@ -254,18 +256,29 @@ int main(){
         populacio[i]=kezdetiRandom();
     }
 
-    struct gen temp[POPMERET*2];
+    struct gen temp[POPMERET*3];
     // Iteralasok
     int k;
     int j;
-    for(i=0;i<50;i++){
+    while(populacio[0].megsert!=0){
         printf("Generacio %2d: ",i);
         egyedKiir(populacio[0]);
         k=0;
+        // Masoljunk at minden eddigit
+        for (j=0;j<POPMERET; j++){
+            temp[k]=populacio[j];
+            k++;
+        }
+
+        
         // Mutaljunk meg nehany egyedet (100 db)
-        //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
+        for (j=0;j<POPMERET; j++){
+            temp[k]=Mutal(populacio[j]);
+            k++;
+        }
+        
         // Crossover 1.0
-        temp[k]=Keresztez(populacio[POPMERET],populacio[0]);
+        temp[k]=Keresztez(populacio[POPMERET-1],populacio[0]);
         k++;
         for (j=0;j<POPMERET-1;j++){
 			temp[k]=Keresztez(populacio[j],populacio[j+1]);
@@ -284,15 +297,17 @@ int main(){
         // Valasszuk ki, kik maradnak
         Rendezes(temp);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
-        populacio[0]=temp[0];
-        for (j=1;j<POPMERET;j++){
+        for (j=0; j<MEGTART;j++){
+            populacio[j]=temp[j];
+        }
+        for (j=MEGTART;j<POPMERET;j++){
 			k=rand()%((int) (POPMERET*1.2));
 			if (k<POPMERET){
                 populacio[j]=temp[j];
 			} else {
                 populacio[j]=temp[POPMERET+j];
 			}
-		}
+		}        
     }
     return 0;
 }
