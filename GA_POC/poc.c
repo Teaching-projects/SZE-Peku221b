@@ -168,15 +168,17 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt12(egyed);
     sert+=Teszt13(egyed);
     // ...
-    return 0;
+    return sert;
 }
 
 struct gen kezdetiRandom(){
     struct gen egyed;
     int sz,t;
-    for(sz=0;sz<SZEK;sz++)
-        for(t=0;t<TULAJDONSAG;t++)
-            egyed.allel[sz][t]=t;
+    for(t=0;t<TULAJDONSAG;t++){
+        for(sz=0;sz<SZEK;sz++){
+            egyed.allel[t][sz]=sz;
+        }
+    }
     egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
     /*
      * ITt valahogy random beallitgatni az ize-ben levo ertekeket
@@ -187,12 +189,13 @@ struct gen kezdetiRandom(){
 void egyedKiir(struct gen egyed){
     int sz,t;
     printf("|");
-    for(sz=0;sz<SZEK;sz++){
-        for(t=0;t<TULAJDONSAG;t++)
+    for(t=0;t<TULAJDONSAG;t++){
+        for(sz=0;sz<SZEK;sz++){
             printf("%d",egyed.allel[t][sz]);
-        printf("|");
+        }
+        printf("|");        
     }
-    printf("\n");
+    printf(" - %2d \n",egyed.megsert);
 }
 
  //Rendezés (növekvő)
@@ -256,6 +259,8 @@ int main(){
     int k;
     int j;
     for(i=0;i<50;i++){
+        printf("Generacio %2d: ",i);
+        egyedKiir(populacio[0]);
         k=0;
         // Mutaljunk meg nehany egyedet (100 db)
         //  temp[k]=Mutal(populacio[j]); temp[k].megsert=hanyarSert(temp[k]); k++;
