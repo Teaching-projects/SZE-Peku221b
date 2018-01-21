@@ -1,0 +1,19 @@
+Shirt: black, blue, green, red
+Name: Daniel, Joshua, Nicholas, Ryan
+Movie: action, comedy, horror, thriller
+Snack: chips, cookies, crackers, popcorn
+Age: 11 years, 12 years, 13 years, 14 years
+
+- Joshua is in one of the ends.
+- The boy wearning the Black shirt is somewhere to the left of the youngest boy.
+- Joshua likes Horror movies.
+- The 14 years old boy is at third position.
+- The boy wearning the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
+- Daniel likes Thriller movies.
+- The boy who is going to eat Cookies is in one of the ends.
+- The boy wearning the Black shirt is exactly to the left of the one who likes Thriller movies.
+- The boy who is going to eat Crackers is exactly to the right of the boy who likes Comedy movies.
+- The boy wearning the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
+- In one of the ends is the boy who likes Thriller movies.
+- Nicholas is somewhere between Joshua and Daniel, in that order.
+- At first position is the boy wearning the Green shirt.
