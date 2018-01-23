@@ -3,10 +3,10 @@
 
 #define SZEK 4
 #define TULAJDONSAG 5
-#define POPMERET 100
+#define POPMERET 1000
 #define MEGTART 10
 
-/*#define Shirt 0
+#define Shirt 0
     #define black 00
     #define blue 01
     #define green 02
@@ -31,43 +31,10 @@
     #define popcorn 33
 
 #define Age 4
-    #define 11 years 40
-    #define 12 years 41
-    #define 13 years 42
-    #define 14 years 43
-
-
-/*
- * 0 -- Shirt
- *  0 - black
- *  1 - blue
- *  2 - green
- *  3 - red
- *
- * 1 -- Name
- *  0 - Daniel
- *  1 - Joshua
- *  2 - Nicholas
- *  3 - Ryan
- *
- * 2 -- Movie
- *  0 - action
- *  1 - comedy
- *  2 - horror
- *  3 - thriller
- *
- * 3 -- Snack
- *  0 - chips
- *  1 - cookies
- *  2 - crackers
- *  3 - popcorn
- *
- * 4 -- Age
- *  0 - 11 years
- *  1 - 12 years
- *  2 - 13 years
- *  3 - 14 years
- */
+    #define eleven 40
+    #define twelve 41
+    #define thirteen 42
+    #define fourteen 43
 
 
 const char *TULNEVEK[5][4] = {
@@ -89,26 +56,27 @@ struct gen{
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if(egyed.allel[1][0]==1 || egyed.allel[1][3]==1) return 0;
+    if (egyed.allel[Name][0]==Joshua || egyed.allel[Name][SZEK-1]==Joshua) return 0;
     else return 1;
-    //if (egyed.allel[type(Joshua)][0]==Joshua || egyed.allel[type(Joshua)][3]==Joshua) return 0; else return 1;
 
 }
 
 int Teszt2(struct gen egyed) {
     // The boy wearing the Black shirt is somewhere to the left of the youngest boy.
-    if(egyed.allel[4][3]==0 && egyed.allel[0][2]==0) return 0;
-    else if(egyed.allel[4][2]==0 && egyed.allel[0][1]==0) return 0;
-    else if(egyed.allel[4][1]==0 && egyed.allel[0][0]==0) return 0;
+    int fekete, tizenegy;
+    int sz;
+    for(sz=1;sz<SZEK; sz++){
+        if(egyed.allel[Age][sz]==eleven)  tizenegy=sz;
+        if(egyed.allel[Shirt][sz]==black) fekete=sz;
+    }
+    if (fekete<tizenegy) return 0;
     else return 1;
-    // if(egyed.allel[type(Black)][3]==0 && egyed.allel[type(11 years)][2]==0) return 0; stb
-
 }
 
 int Teszt3(struct gen egyed) {
     //Joshua likes Horror movies.
     int sz;
-    for(sz=0;sz<=3;sz++){
+    for(sz=0;sz<SZEK;sz++){
         if(egyed.allel[1][sz]==1 && egyed.allel[2][sz]==2) return 0;
     }
     return 1;
@@ -216,7 +184,7 @@ struct gen kezdetiRandom(){
     int sz,t;
     for(t=0;t<TULAJDONSAG;t++){
         for(sz=0;sz<SZEK;sz++){
-            egyed.allel[t][sz]=sz;
+            egyed.allel[t][sz]=t*10+sz;
         }
     }
     egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
@@ -228,14 +196,29 @@ struct gen kezdetiRandom(){
 
 void egyedKiir(struct gen egyed){
     int sz,t;
-    printf("|");
+    printf("\n");
     for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++){
-            printf("%d",egyed.allel[t][sz]);
-        }
         printf("|");
+        for(sz=0;sz<SZEK;sz++){
+            printf("%15s",TULNEVEK[t][egyed.allel[t][sz]%10]);
+        }
+        printf("|\n");
     }
-    printf(" - %2d \n",egyed.megsert);
+    printf("%2d ",egyed.megsert);
+    if(Teszt1(egyed)==1) printf ("(1)");
+    if(Teszt2(egyed)==1) printf ("(2)");
+    if(Teszt3(egyed)==1) printf ("(3)");
+    if(Teszt4(egyed)==1) printf ("(4)");
+    if(Teszt5(egyed)==1) printf ("(5)");
+    if(Teszt6(egyed)==1) printf ("(6)");
+    if(Teszt7(egyed)==1) printf ("(7)");
+    if(Teszt8(egyed)==1) printf ("(8)");
+    if(Teszt9(egyed)==1) printf ("(9)");
+    if(Teszt10(egyed)==1) printf ("(10)");
+    if(Teszt11(egyed)==1) printf ("(11)");
+    if(Teszt12(egyed)==1) printf ("(12)");
+    if(Teszt13(egyed)==1) printf ("(13)");
+    printf ("\n\n");
 }
 
  //Rendezés (növekvő)
@@ -298,7 +281,17 @@ int main(){
     // Iteralasok
     int k;
     int j;
-    while(populacio[0].megsert!=0){
+
+    //struct gen megoldas;
+    //megoldas.allel[Name][0]=Joshua;
+    //...
+    // megoldas.allel={{Joshua,Dave, kdfjl,sdf},{black,red,...
+
+    //megoldas.megsert=hanyatSert(megoldas);
+    //egyedKiir(megoldas);
+    
+    
+    for(i=0;populacio[0].megsert!=0;i++){
         printf("Generacio %2d: ",i);
         egyedKiir(populacio[0]);
         k=0;
@@ -323,14 +316,14 @@ int main(){
 			k++;
 		}
 
-		/* Crossover 2.0
-		 * for (j=0;j<POPMERET;j++){
-		 * 	int x=rand()%POPMERET;
-		 * 	int y=rand()%POPMERET;
-		 * 	temp[k]=Keresztez(populacio[x],populacio[y]);
-		 * 	k++;
-		 * }
-		 */
+		// Crossover 2.0
+        //   for (j=0;j<POPMERET;j++){
+        //   int x=rand()%POPMERET;
+        //   int y=rand()%POPMERET;
+        //   temp[k]=Keresztez(populacio[x],populacio[y]);
+        //   k++;
+        // }
+		 
 
         // Valasszuk ki, kik maradnak
         Rendezes(temp);
