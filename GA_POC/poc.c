@@ -6,6 +6,37 @@
 #define POPMERET 100
 #define MEGTART 10
 
+/*#define Shirt 0
+    #define black 00
+    #define blue 01
+    #define green 02
+    #define red 03
+
+#define Name 1
+    #define Daniel 10
+    #define Joshua 11
+    #define Nicholas 12
+    #define Ryan 13
+
+#define Movie 2
+    #define action 20
+    #define comedy 21
+    #define horror 22
+    #define thriller 23
+
+#define Snack 3
+    #define chips 30
+    #define cookies 31
+    #define crackers 32
+    #define popcorn 33
+
+#define Age 4
+    #define 11 years 40
+    #define 12 years 41
+    #define 13 years 42
+    #define 14 years 43
+
+
 /*
  * 0 -- Shirt
  *  0 - black
@@ -46,6 +77,10 @@ const char *TULNEVEK[5][4] = {
         {"chips", "cookies", "crackers", "popcorn"},
         {"11", "12", "13", "14"}
     };
+int type(int value) {
+     return value/10;
+}
+
 
 struct gen{
     int allel[TULAJDONSAG][SZEK];
@@ -56,6 +91,8 @@ int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
     if(egyed.allel[1][0]==1 || egyed.allel[1][3]==1) return 0;
     else return 1;
+    //if (egyed.allel[type(Joshua)][0]==Joshua || egyed.allel[type(Joshua)][3]==Joshua) return 0; else return 1;
+
 }
 
 int Teszt2(struct gen egyed) {
@@ -64,6 +101,7 @@ int Teszt2(struct gen egyed) {
     else if(egyed.allel[4][2]==0 && egyed.allel[0][1]==0) return 0;
     else if(egyed.allel[4][1]==0 && egyed.allel[0][0]==0) return 0;
     else return 1;
+    // if(egyed.allel[type(Black)][3]==0 && egyed.allel[type(11 years)][2]==0) return 0; stb
 
 }
 
@@ -195,7 +233,7 @@ void egyedKiir(struct gen egyed){
         for(sz=0;sz<SZEK;sz++){
             printf("%d",egyed.allel[t][sz]);
         }
-        printf("|");        
+        printf("|");
     }
     printf(" - %2d \n",egyed.megsert);
 }
@@ -270,13 +308,13 @@ int main(){
             k++;
         }
 
-        
+
         // Mutaljunk meg nehany egyedet (100 db)
         for (j=0;j<POPMERET; j++){
             temp[k]=Mutal(populacio[j]);
             k++;
         }
-        
+
         // Crossover 1.0
         temp[k]=Keresztez(populacio[POPMERET-1],populacio[0]);
         k++;
@@ -307,7 +345,7 @@ int main(){
 			} else {
                 populacio[j]=temp[POPMERET+j];
 			}
-		}        
+		}
     }
     return 0;
 }
