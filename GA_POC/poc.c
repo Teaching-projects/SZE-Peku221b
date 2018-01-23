@@ -56,7 +56,7 @@ struct gen{
 
 int Teszt1(struct gen egyed) {
     // Joshua is in one of the ends.
-    if (egyed.allel[Name][0]==Joshua || egyed.allel[Name][SZEK-1]==Joshua) return 0;
+    if (egyed.allel[NAME][0]==JOSHUA || egyed.allel[NAME][SZEK-1]==JOSHUA) return 0;
     else return 1;
 
 }
@@ -66,8 +66,8 @@ int Teszt2(struct gen egyed) {
     int fekete, tizenegy;
     int sz;
     for(sz=1;sz<SZEK; sz++){
-        if(egyed.allel[Age][sz]==eleven)  tizenegy=sz;
-        if(egyed.allel[Shirt][sz]==black) fekete=sz;
+        if(egyed.allel[AGE][sz]==ELEVEN)  tizenegy=sz;
+        if(egyed.allel[SHIRT][sz]==BLACK) fekete=sz;
     }
     if (fekete<tizenegy) return 0;
     else return 1;
