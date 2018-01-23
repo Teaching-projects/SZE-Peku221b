@@ -6,35 +6,35 @@
 #define POPMERET 1000
 #define MEGTART 10
 
-#define Shirt 0
-    #define black 00
-    #define blue 01
-    #define green 02
-    #define red 03
+#define SHIRT 0
+    #define BLACK 00
+    #define BLUE 01
+    #define GREEN 02
+    #define RED 03
 
-#define Name 1
-    #define Daniel 10
-    #define Joshua 11
-    #define Nicholas 12
-    #define Ryan 13
+#define NAME 1
+    #define DANIEL 10
+    #define JOSHUA 11
+    #define NICHOLAS 12
+    #define RYAN 13
 
-#define Movie 2
-    #define action 20
-    #define comedy 21
-    #define horror 22
-    #define thriller 23
+#define MOVIE 2
+    #define ACTION 20
+    #define COMEDY 21
+    #define HORROR 22
+    #define THRILLER 23
 
-#define Snack 3
-    #define chips 30
-    #define cookies 31
-    #define crackers 32
-    #define popcorn 33
+#define SNACK 3
+    #define CHIPS 30
+    #define COOKIES 31
+    #define CRACKERS 32
+    #define POPCORN 33
 
-#define Age 4
-    #define eleven 40
-    #define twelve 41
-    #define thirteen 42
-    #define fourteen 43
+#define AGE 4
+    #define ELEVEN 40
+    #define TWELVE 41
+    #define THIRTEEN 42
+    #define FOURTEEN 43
 
 
 const char *TULNEVEK[5][4] = {
@@ -289,8 +289,8 @@ int main(){
 
     //megoldas.megsert=hanyatSert(megoldas);
     //egyedKiir(megoldas);
-    
-    
+
+
     for(i=0;populacio[0].megsert!=0;i++){
         printf("Generacio %2d: ",i);
         egyedKiir(populacio[0]);
@@ -323,7 +323,7 @@ int main(){
         //   temp[k]=Keresztez(populacio[x],populacio[y]);
         //   k++;
         // }
-		 
+
 
         // Valasszuk ki, kik maradnak
         Rendezes(temp);
