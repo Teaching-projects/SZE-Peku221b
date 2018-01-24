@@ -37,7 +37,7 @@
     #define FOURTEEN 43
 
 
-const char *TULNEVEK[5][4] = {
+const char *TULNEVEK[TULAJDONSAG][SZEK] = {
         {"black","blue","green","red"},
         {"Daniel", "Joshua", "Nicholas", "Ryan"},
         {"action", "comedy", "horror", "thriller"},
