@@ -75,6 +75,73 @@ int Teszt11(struct gen egyed) {
 	else return 1;
 }
 
+int Teszt12(struct gen egyed){
+	//Melissa is exactly to the right of the guest drinking Cosmopolitan.
+	int sz=0;
+	while (egyed.allel[COCKTAIL][sz]==COSMOPOLITAN){
+		sz++;
+	}
+	if (sz==(SZEK-1) || egyed.allel[NAME][sz+1]!=MELISSA) return 1;
+	else return 0; 
+}
+
+int Teszt13(struct gen egyed){
+	//The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
+	int kek, margarita;
+    int sz;
+    for(sz=1;sz<SZEK; sz++){
+        if(egyed.allel[DRESS][sz]==BLUE)  kek=sz;
+        if(egyed.allel[COCKTAIL][sz]==MARGARITA) margarita=sz;
+    }
+    if (kek<margarita) return 0;
+    else return 1;
+}
+
+int Teszt14(struct gen egyed){
+	//The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
+	int sz=0;
+	while (egyed.allel[DONATION][sz]==HUSZK){
+		sz++;
+	}
+	if (sz==(SZEK-1) || egyed.allel[COCKTAIL][sz+1]!=DAIQUIRI) return 1;
+	else return 0; 
+}
+
+int Teszt15(struct gen egyed){
+	//The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
+	int sz=0;
+	while (egyed.allel[AGE][sz]==OTVEN){
+		sz++;
+	}
+	if (sz==0) 
+		{ return 1;
+			} else {
+				if (egyed.allel[NECKLACE][sz-1]==PEARL) return 1;
+				else return 0; 
+			}
+}
+
+int Teszt16(struct gen egyed){
+	//Lidia is next to the woman drinking Cosmopolitan.
+	int sz=0;
+	while (egyed.allel[NAME][sz]==LIDIA){
+		sz++;
+	}
+	switch (sz)
+	{
+	case 0:
+		if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
+	break;
+	
+	case SZEK:
+		if (egyed.allel[COCKTAIL][SZEK-1]==COSMOPOLITAN) return 0; else return 1;
+	break;
+	
+	default:
+		if (egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN || egyed.allel[COCKTAIL][sz+1]==COSMOPOLITAN) return 0; else return 1;
+	}
+}
+
 
 int hanyatSert(struct gen egyed){
     int sert=0;
@@ -90,12 +157,12 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt10(egyed);
     */
     sert+=Teszt11(egyed);
-    /*
     sert+=Teszt12(egyed);
     sert+=Teszt13(egyed);
     sert+=Teszt14(egyed);
     sert+=Teszt15(egyed);
     sert+=Teszt16(egyed);
+    /*
     sert+=Teszt17(egyed);
     sert+=Teszt18(egyed);
     sert+=Teszt19(egyed);
@@ -142,12 +209,12 @@ void egyedKiir(struct gen egyed){
     if(Teszt10(egyed)==1) printf ("(10)");
     */
     if(Teszt11(egyed)==1) printf ("(11)");
-    /*
     if(Teszt12(egyed)==1) printf ("(12)");
     if(Teszt13(egyed)==1) printf ("(13)");
     if(Teszt14(egyed)==1) printf ("(14)");
     if(Teszt15(egyed)==1) printf ("(15)");
     if(Teszt16(egyed)==1) printf ("(16)");
+	/*
     if(Teszt17(egyed)==1) printf ("(17)");
     if(Teszt18(egyed)==1) printf ("(18)");
     if(Teszt19(egyed)==1) printf ("(19)");
