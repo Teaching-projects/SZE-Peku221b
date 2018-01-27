@@ -1,0 +1,28 @@
+Dress: black, blue, purple, red, white
+Name: Carmen, Diana, Jane, Lidia, Melissa
+Donation: $ 10,000, $ 20,000, $ 30,000, $ 40,000, $ 50,000
+Cocktail: cosmopolitan, daiquiri, manhattan, margarita, martini
+Necklace: emerald, moonstone, pearl, sapphire, turquoise
+Age: 40 years, 45 years, 50 years, 55 years, 60 years
+
+- The woman who donated $ 30,000 is immediately before the youngest woman.
+- Diana is exactly to the left of the 50 years old woman.
+- The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
+- The lady wearing the Pearl necklace donated the smallest amount.
+- The guest drinking Martini is next to the guest who donated $ 10,000.
+- The woman wearing the Turquoise necklace donated $ 30,000.
+- The oldest woman is exactly to the right of the lady drinking Cosmopolitan.
+- The donator wearing the White dress is next to the woman who gave the biggest donation.
+- The woman wearing the Red dress is somewhere between the woman that donated $ 20,000 and the woman that gave $ 40,000, in that order.
+- Lidia is next to the guest wearing the Black dress.
+- Jane donated $ 20,000.
+- Melissa is exactly to the right of the guest drinking Cosmopolitan.
+- The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
+- The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
+- The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
+- Lidia is next to the woman drinking Cosmopolitan.
+- The lady wearing the Black dress is somewhere to the left of the lady who donated $ 40,000.
+- The 55 years old woman is wearing the Sapphire necklace.
+- The 60 years old woman is somewhere to the right of the woman wearing the Black dress.
+- The lady drinking Manhattan is exactly to the right of the lady wearing the Red dress.
+- The guest wearing the White dress is somewhere to the left of the guest wearing the Black dress.
