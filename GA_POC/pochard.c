@@ -40,7 +40,7 @@
     #define PEARL 42
     #define SAPPHIRE 43
     #define TURQUOISE 44
-    
+
 #define AGE 5
     #define NEGYVEN 50
     #define NEGYVENOT 51
@@ -65,6 +65,74 @@ struct gen{
     int megsert;
 };
 
+int Teszt6(struct gen egyed){
+    //The woman wearing the Turquoise necklace donated $ 30,000.
+    int sz=0;
+    while (egyed.allel[NECKLACE][sz]==TURQUOISE){
+        sz++; }
+    if(egyed.allel[DONATION][sz]==HARMINCK) return 0;
+    else return 1;
+}
+
+int Teszt7(struct gen egyed) {
+    //The oldest woman is exactly to the right of the lady drinking Cosmopolitan.
+    int sz;
+    for(sz=1;sz<SZEK;sz++){
+        if(egyed.allel[AGE][sz]==HATVAN || egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN) return 0;
+        else return 1;
+    }
+}
+
+int Teszt8 (struct gen egyed) {
+    //The donator wearing the White dress is next to the woman who gave the biggest donation.
+    int sz=0;
+    while (egyed.allel[DRESS][sz]==WHITE){
+        sz++; }
+    if(egyed.allel[DONATION][sz-1]==OTVENK) return 0;
+    else if (egyed.allel[DONATION][sz+1]==OTVENK) return 0;
+    else return 1;
+}
+
+int Teszt9 (struct gen egyed) {
+    //The woman wearing the Red dress is somewhere between the woman that
+    //donated $ 20,000 and the woman that gave $ 40,000, in that order.
+    //tudom, hogy ezt nem igy kene de a felso otlet megvalositasa egyelore nem sikerult
+    /* foolproof teszt
+    if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
+    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][3]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
+    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
+    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
+    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
+    else if(egyed.allel[DONATION][3]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
+    else return 1; */
+
+    int huszk;
+    int negyvenk;
+    int red;
+    int sz;
+    for(sz=1;sz<SZEK;sz++){
+       if(egyed.allel[DONATION][sz]==HUSZK) huszk=sz;
+       if(egyed.allel[DONATION][sz]==NEGYVENK) negyvenk=sz;
+       if(egyed.allel[DRESS][sz]==RED) red=sz;
+    }
+    if(huszk<red && negyvenk>red) return 0;
+    else return 1;
+}
+int Teszt10(struct gen egyed){
+    //Lidia is next to the guest wearing the Black dress.
+    int sz=0;
+    while (egyed.allel[NAME][sz]==LIDIA){
+        sz++; }
+    if(egyed.allel[DRESS][sz-1]==BLACK) return 0;
+    else if (egyed.allel[DRESS][sz+1]==BLACK) return 0;
+    else return 1;
+}
+
 int Teszt11(struct gen egyed) {
     // Jane donated $ 20,000.
     int i=0;
@@ -82,7 +150,7 @@ int Teszt12(struct gen egyed){
 		sz++;
 	}
 	if (sz==(SZEK-1) || egyed.allel[NAME][sz+1]!=MELISSA) return 1;
-	else return 0; 
+	else return 0;
 }
 
 int Teszt13(struct gen egyed){
@@ -104,7 +172,7 @@ int Teszt14(struct gen egyed){
 		sz++;
 	}
 	if (sz==(SZEK-1) || egyed.allel[COCKTAIL][sz+1]!=DAIQUIRI) return 1;
-	else return 0; 
+	else return 0;
 }
 
 int Teszt15(struct gen egyed){
@@ -113,11 +181,11 @@ int Teszt15(struct gen egyed){
 	while (egyed.allel[AGE][sz]==OTVEN){
 		sz++;
 	}
-	if (sz==0) 
+	if (sz==0)
 		{ return 1;
 			} else {
 				if (egyed.allel[NECKLACE][sz-1]==PEARL) return 1;
-				else return 0; 
+				else return 0;
 			}
 }
 
@@ -132,11 +200,11 @@ int Teszt16(struct gen egyed){
 	case 0:
 		if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
 	break;
-	
+
 	case SZEK:
 		if (egyed.allel[COCKTAIL][SZEK-1]==COSMOPOLITAN) return 0; else return 1;
 	break;
-	
+
 	default:
 		if (egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN || egyed.allel[COCKTAIL][sz+1]==COSMOPOLITAN) return 0; else return 1;
 	}
@@ -170,7 +238,7 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt21(egyed);
     */
     return sert;
-    
+
 }
 
 struct gen kezdetiRandom(){
@@ -181,7 +249,7 @@ struct gen kezdetiRandom(){
             egyed.allel[t][sz]=t*10+sz;
         }
     }
-    egyed.megsert=hanyatSert(egyed); 
+    egyed.megsert=hanyatSert(egyed);
      return egyed;
 }
 
