@@ -65,6 +65,53 @@ struct gen{
     int megsert;
 };
 
+
+int Teszt1(struct gen egyed){
+    //The woman who donated $ 30,000 is immediately before the youngest woman.
+    int sz;
+    for(sz=1;sz<SZEK;sz++){
+        if(egyed.allel[DONATION][sz]==HARMINCK || egyed.allel[AGE][sz+1]==NEGYVEN) return 0;
+        else return 1;
+    }
+}
+
+int Teszt2(struct gen egyed){
+   //Diana is exactly to the left of the 50 years old woman.
+   int sz;
+    for(sz=1;sz<SZEK;sz++){
+        if(egyed.allel[NAME][sz]==DIANA || egyed.allel[AGE][sz+1]==OTVEN) return 0;
+        else return 1;
+    }
+}
+
+int Teszt3(struct gen egyed){
+   //The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
+   int sz;
+    for(sz=1;sz<SZEK;sz++){
+        if(egyed.allel[NECKLACE][sz]==EMERALD || egyed.allel[DRESS][sz+1]==PURPLE) return 0;
+        else return 1;
+    }
+}
+
+int Teszt4(struct gen egyed){
+   //The lady wearing the Pearl necklace donated the smallest amount.
+   int sz=0;
+    while (egyed.allel[NECKLACE][sz]==PEARL){
+        sz++; }
+    if(egyed.allel[DONATION][sz]==TIZK) return 0;
+    else return 1;
+}
+
+int Teszt5(struct gen egyed){
+   //The guest drinking Martini is next to the guest who donated $ 10,000.
+   int sz=0;
+    while (egyed.allel[COCKTAIL][sz]==MARTINI){
+        sz++; }
+    if(egyed.allel[DONATION][sz-1]==TIZK) return 0;
+    else if (egyed.allel[DONATION][sz+1]==TIZK) return 0;
+    else return 1;
+}
+
 int Teszt6(struct gen egyed){
     //The woman wearing the Turquoise necklace donated $ 30,000.
     int sz=0;
