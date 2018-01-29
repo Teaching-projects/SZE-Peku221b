@@ -1,80 +1,54 @@
 include "globals.mzn";
 
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
-int: db;
-set of int: Db = 1..db;
+int: db = 5;
+set of int: PEOPLE = 1..db;
 
-int: Carmen = 1;
-int: Diana = 2;
-int: Jane = 3;
-int: Lidia = 4;
-int: Melissa = 5;
-
-int: black = 1;
-int: blue = 2;
-int: purple = 3;
-int: red = 4;
-int: white = 5;
-
-int: tenthousand = 1;
-int: twentythousand = 2;
-int: thirtythousand = 3;
-int: fourtythousand = 4;
-int: fiftythousand = 5;
-
-int: cosmopolitan = 1;
-int: daiquiri = 2;
-int: manhattan = 3;
-int: margarita = 4;
-int: martini = 5;
-
-int: emerald = 1;
-int: moonstone = 2;
-int: pearl = 3;
-int: sapphire = 4;
-int: turquoise = 5;
-
-int: fourty = 1;
-int: fourtyfive = 2;
-int: fifty = 3;
-int: fiftyfive = 4;
-int: sixty = 5;
-
-%A tulajdonságok nevei a kiíratáshoz
-array[Db] of string: dressData;
-array[Db] of string: nameData;
-array[Db] of string: donationData;
-array[Db] of string: cocktailData;
-array[Db] of string: necklaceData;
-array[Db] of string: ageData;
+enum COLORS = {black, blue, purple, red, white};
+enum NAMES = {Carmen, Diana, Jane, Lidia, Melissa};
+enum MONEY = {tenthousand, twentythousand, thirtythousand, fourtythousand, fiftythousand};
+enum DRINKS = {cosmopolitan, daiquiri, manhattan, margarita, martini};
+enum GEMS = {emerald, moonstone, pearl, sapphire, turquoise};
+enum AGES = {fourty, fourtyfive, fifty, fiftyfive, sixty};
 
 %Tulajdonságonként egy bináris mtx
-array[Db, Db] of var {0, 1}: dress;
-array[Db, Db] of var {0, 1}: name;
-array[Db, Db] of var {0, 1}: donation;
-array[Db, Db] of var {0, 1}: cocktail;
-array[Db, Db] of var {0, 1}: necklace;
-array[Db, Db] of var {0, 1}: age;
+array[COLORS, PEOPLE] of var {0, 1}: dress;
+array[NAMES, PEOPLE] of var {0, 1}: name;
+array[MONEY, PEOPLE] of var {0, 1}: donation;
+array[DRINKS, PEOPLE] of var {0, 1}: cocktail;
+array[GEMS, PEOPLE] of var {0, 1}: necklace;
+array[AGES, PEOPLE] of var {0, 1}: age;
 
 %Mindegyik mtx minden sor- és oszlopösszege 1
-constraint forall(d1 in Db)(sum(d2 in Db)(dress[d1, d2])=1 /\ sum(d2 in Db)(dress[d2, d1])=1);
-constraint forall(d1 in Db)(sum(d2 in Db)(name[d1, d2])=1 /\ sum(d2 in Db)(name[d2, d1])=1);
-constraint forall(d1 in Db)(sum(d2 in Db)(donation[d1, d2])=1 /\ sum(d2 in Db)(donation[d2, d1])=1);
-constraint forall(d1 in Db)(sum(d2 in Db)(cocktail[d1, d2])=1 /\ sum(d2 in Db)(cocktail[d2, d1])=1);
-constraint forall(d1 in Db)(sum(d2 in Db)(necklace[d1, d2])=1 /\ sum(d2 in Db)(necklace[d2, d1])=1);
-constraint forall(d1 in Db)(sum(d2 in Db)(age[d1, d2])=1 /\ sum(d2 in Db)(age[d2, d1])=1);
+constraint forall(c in COLORS)(sum(p in PEOPLE)(dress[c, p])=1);
+constraint forall(p in PEOPLE)(sum(c in COLORS)(dress[c, p])=1);
+
+constraint forall(n in NAMES)(sum(p in PEOPLE)(name[n, p])=1);
+constraint forall(p in PEOPLE)(sum(n in NAMES)(name[n, p])=1);
+
+constraint forall(m in MONEY)(sum(p in PEOPLE)(donation[m, p])=1);
+constraint forall(p in PEOPLE)(sum(m in MONEY)(donation[m, p])=1);
+
+constraint forall(d in DRINKS)(sum(p in PEOPLE)(cocktail[d, p])=1);
+constraint forall(p in PEOPLE)(sum(d in DRINKS)(cocktail[d, p])=1);
+
+constraint forall(g in GEMS)(sum(p in PEOPLE)(necklace[g, p])=1);
+constraint forall(p in PEOPLE)(sum(g in GEMS)(necklace[g, p])=1);
+
+constraint forall(a in AGES)(sum(p in PEOPLE)(age[a, p])=1);
+constraint forall(p in PEOPLE)(sum(a in AGES)(age[a, p])=1);
 
 %Jane donated $20,000.
-constraint forall(p in Db)(name[Jane, p] = donation[twentythousand, p]);
+constraint forall(p in PEOPLE)(name[Jane, p] = donation[twentythousand, p]);
 
 %The lady wearing the Pearl necklace donated the smallest amount.
-constraint forall(p in Db)(necklace[pearl, p] = donation[tenthousand, p]);
+constraint forall(p in PEOPLE)(necklace[pearl, p] = donation[tenthousand, p]);
 
 %The woman wearing the Turquoise necklace donated $30,000.
-constraint forall(p in Db)(necklace[turquoise, p] = donation[thirtythousand, p]);
+constraint forall(p in PEOPLE)(necklace[turquoise, p] = donation[thirtythousand, p]);
 
 %The 55 years old woman is wearing the Sapphire necklace.
-constraint forall(p in Db)(necklace[sapphire, p] = age[fiftyfive, p]);
+constraint forall(p in PEOPLE)(necklace[sapphire, p] = age[fiftyfive, p]);
 
 %The woman who donated $ 30,000 is immediately before the youngest woman.
 constraint forall(p in 2..db)(age[fourty, p]=1 -> donation[thirtythousand, p-1]=1);
@@ -121,25 +95,26 @@ constraint cocktail[cosmopolitan, 1]=1 -> name[Lidia, 2]=1;
 constraint cocktail[cosmopolitan, db]=1 -> name[Lidia, db-1]=1;
 
 %The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
-constraint forall(x in Db)(cocktail[margarita, x]=1 -> sum(p in 1..x-1)(dress[blue, p])=1);
+constraint forall(x in PEOPLE)(cocktail[margarita, x]=1 -> sum(p in 1..x-1)(dress[blue, p])=1);
 
 %The lady wearing the Black dress is somewhere to the left of the lady who donated $ 40,000.
-constraint forall(x in Db)(donation[fourtythousand, x]=1 -> sum(p in 1..x-1)(dress[black, p])=1);
+constraint forall(x in PEOPLE)(donation[fourtythousand, x]=1 -> sum(p in 1..x-1)(dress[black, p])=1);
 
 %The guest wearing the White dress is somewhere to the left of the guest wearing the Black dress.
-constraint forall(x in Db)(dress[black, x]=1 -> sum(p in 1..x-1)(dress[white, p])=1);
+constraint forall(x in PEOPLE)(dress[black, x]=1 -> sum(p in 1..x-1)(dress[white, p])=1);
 
 %The 60 years old woman is somewhere to the right of the woman wearing the Black dress.
-constraint forall(x in Db)(dress[black, x]=1 -> sum(p in x+1..db)(age[sixty, p])=1);
+constraint forall(x in PEOPLE)(dress[black, x]=1 -> sum(p in x+1..db)(age[sixty, p])=1);
 
 %The woman wearing the Red dress is somewhere between the woman that donated $ 20,000 and the woman that gave $ 40,000, in that order.
-constraint forall(x in Db, y in Db)(donation[twentythousand,x]=1 /\ donation[fourtythousand,y]=1 -> sum(p in x+1..y-1)(dress[red, p])=1);
+constraint forall(x in PEOPLE, y in PEOPLE)(donation[twentythousand,x]=1 /\ donation[fourtythousand,y]=1 -> sum(p in x+1..y-1)(dress[red, p])=1);
 
 solve satisfy;
 
-output [show(dressData[n]) ++ "\t" ++ "\t" | t in Db, n in Db where fix(dress[n,t])=1]++["\n"];
-output [show(nameData[n]) ++ "\t" ++ "\t" | t in Db, n in Db where fix(name[n,t])=1]++["\n"];
-output [show(donationData[n]) ++ "\t"   | t in Db, n in Db where fix(donation[n,t])=1]++["\n"];
-output [show(cocktailData[n]) ++ "\t"   | t in Db, n in Db where fix(cocktail[n,t])=1]++["\n"];
-output [show(necklaceData[n]) ++ "\t"  | t in Db, n in Db where fix(necklace[n,t])=1]++["\n"];
-output [show(ageData[n]) ++ "\t" ++ "\t" | t in Db, n in Db where fix(age[n,t])=1]++["\n"];
+int: width = -15;
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in COLORS where fix(dress[n,t])=1]++["\n"];
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in NAMES where fix(name[n,t])=1]++["\n"];
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in MONEY where fix(donation[n,t])=1]++["\n"];
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in DRINKS where fix(cocktail[n,t])=1]++["\n"];
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in GEMS where fix(necklace[n,t])=1]++["\n"];
+output [format(width,show(n)) ++ "\t" | t in PEOPLE, n in AGES where fix(age[n,t])=1]++["\n"];
