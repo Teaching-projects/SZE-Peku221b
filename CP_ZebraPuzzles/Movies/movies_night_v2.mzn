@@ -55,22 +55,25 @@ constraint forall(szek in PEOPLE)(name[Joshua,szek] = movie[horror, szek]);
 constraint forall(szek in PEOPLE)(name[Daniel,szek] = movie[thriller, szek]);
 
 %The boy wearning the Black shirt is exactly to the left of the one who likes Thriller movies.
-constraint forall(szek in 2..db)(movie[thriller,szek]=1 -> shirt[black, szek-1]=1);
+constraint forall(szek in 2..db)(movie[thriller,szek] = shirt[black, szek-1]);
 
 %The boy who is going to eat Crackers is exactly to the right of the boy who likes Comedy movies.
-constraint forall(szek in 1..db-1)(movie[comedy,szek]=1 -> snack[crackers, szek+1]=1);
+constraint forall(szek in 1..db-1)(movie[comedy,szek] = snack[crackers, szek+1]);
 
 %The boy wearning the Black shirt is somewhere to the left of the youngest boy.
-constraint forall(x in PEOPLE)(age[eleven,x]=1 -> sum(szek in 1..x-1)(shirt[black, szek])=1);
+constraint forall(x in 2..db)(age[eleven, x] <= sum(szek in 1..x-1)(shirt[black, szek]));
 
 %The boy wearning the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
-constraint forall(x in PEOPLE, y in PEOPLE)(age[thirteen,x]=1 /\ movie[action,y]=1 -> sum(szek in x+1..y-1)(shirt[red,szek])=1);
+constraint forall(x in 2..db)(movie[action, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
+constraint forall(x in 1..db-1)(age[thirteen, x] <= sum(szek in x+1..db)(shirt[red, szek]));
 
 %The boy wearning the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
-constraint forall(x in PEOPLE, y in PEOPLE)(snack[popcorn,x]=1 /\ name[Nicholas,y]=1 -> sum(szek in x+1..y-1)(shirt[red,szek])=1);
+constraint forall(x in 2..db)(name[Nicholas, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
+constraint forall(x in 1..db-1)(snack[popcorn, x] <= sum(szek in x+1..db)(shirt[red, szek]));
 
 %Nicholas is somewhere between Joshua and Daniel, in that order.
-constraint forall(x in PEOPLE, y in PEOPLE)(name[Joshua,x]=1 /\ name[Daniel,y]=1 -> sum(szek in x+1..y-1)(name[Nicholas,szek])=1);
+constraint forall(x in 2..db)(name[Daniel, x] <= sum(szek in 1..x-1)(name[Nicholas, szek]));
+constraint forall(x in 1..db-1)(name[Joshua, x] <= sum(szek in x+1..db)(name[Nicholas, szek]));
 
 solve satisfy;
 

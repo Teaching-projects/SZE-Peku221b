@@ -1,7 +1,0 @@
-db = 4;
-
-nameData = ["Daniel", "Joshua", "Nicholas", "Ryan"];
-shirtData = ["black", "blue", "green", "red"];
-snackData = ["chips", "cookies", "crackers", "popcorn"];
-movieData = ["action", "comedy", "horror", "thriller"];
-ageData = ["11", "12", "13", "14"];
