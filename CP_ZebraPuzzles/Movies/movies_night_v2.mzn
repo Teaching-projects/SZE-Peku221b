@@ -1,9 +1,8 @@
-include "globals.mzn";
-
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
 int: db = 4;
 set of int: PEOPLE = 1..db;
 
+%Tulajdonságok
 enum NAMES = {Daniel, Joshua, Nicholas, Ryan};
 enum MOVIES = {action, comedy, horror, thriller};
 enum SNACKS = {chips, cookies, crackers, popcorn};
@@ -61,24 +60,25 @@ constraint forall(szek in 2..db)(movie[thriller,szek] = shirt[black, szek-1]);
 constraint forall(szek in 1..db-1)(movie[comedy,szek] = snack[crackers, szek+1]);
 
 %The boy wearning the Black shirt is somewhere to the left of the youngest boy.
-constraint forall(x in 2..db)(age[eleven, x] <= sum(szek in 1..x-1)(shirt[black, szek]));
+constraint forall(x in PEOPLE)(age[eleven, x] <= sum(szek in 1..x-1)(shirt[black, szek]));
 
 %The boy wearning the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
-constraint forall(x in 2..db)(movie[action, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
-constraint forall(x in 1..db-1)(age[thirteen, x] <= sum(szek in x+1..db)(shirt[red, szek]));
+constraint forall(x in PEOPLE)(movie[action, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
+constraint forall(x in PEOPLE)(age[thirteen, x] <= sum(szek in x+1..db)(shirt[red, szek]));
 
 %The boy wearning the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
-constraint forall(x in 2..db)(name[Nicholas, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
-constraint forall(x in 1..db-1)(snack[popcorn, x] <= sum(szek in x+1..db)(shirt[red, szek]));
+constraint forall(x in PEOPLE)(name[Nicholas, x] <= sum(szek in 1..x-1)(shirt[red, szek]));
+constraint forall(x in PEOPLE)(snack[popcorn, x] <= sum(szek in x+1..db)(shirt[red, szek]));
 
 %Nicholas is somewhere between Joshua and Daniel, in that order.
-constraint forall(x in 2..db)(name[Daniel, x] <= sum(szek in 1..x-1)(name[Nicholas, szek]));
-constraint forall(x in 1..db-1)(name[Joshua, x] <= sum(szek in x+1..db)(name[Nicholas, szek]));
+constraint forall(x in PEOPLE)(name[Daniel, x] <= sum(szek in 1..x-1)(name[Nicholas, szek]));
+constraint forall(x in PEOPLE)(name[Joshua, x] <= sum(szek in x+1..db)(name[Nicholas, szek]));
 
 solve satisfy;
 
-output [show(n) ++ "\t" ++ "\t" | n in NAMES, t in PEOPLE where fix(name[n,t])=1]++["\n"];
-output [show(c) ++ "\t" ++ "\t" | c in COLORS, t in PEOPLE where fix(shirt[c,t])=1]++["\n"];
-output [show(m) ++ "\t" ++ "\t"  | m in MOVIES, t in PEOPLE where fix(movie[m,t])=1]++["\n"];
-output [show(s) ++ "\t" ++ "\t"  | s in SNACKS, t in PEOPLE where fix(snack[s,t])=1]++["\n"];
-output [show(a) ++ "\t" ++ "\t" | a in AGES, t in PEOPLE where fix(age[a,t])=1]++["\n"];
+int: width = -15;
+output [format(width, show(n)) ++ "\t" | n in NAMES, t in PEOPLE where fix(name[n,t])=1]++["\n"];
+output [format(width, show(c)) ++ "\t" | c in COLORS, t in PEOPLE where fix(shirt[c,t])=1]++["\n"];
+output [format(width, show(m)) ++ "\t"  | m in MOVIES, t in PEOPLE where fix(movie[m,t])=1]++["\n"];
+output [format(width, show(s)) ++ "\t"  | s in SNACKS, t in PEOPLE where fix(snack[s,t])=1]++["\n"];
+output [format(width, show(a)) ++ "\t" | a in AGES, t in PEOPLE where fix(age[a,t])=1]++["\n"];

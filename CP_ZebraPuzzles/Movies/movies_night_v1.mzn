@@ -1,9 +1,8 @@
-include "globals.mzn";
-
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
 int: db = 4;
 set of int: PEOPLE = 1..db;
 
+%Tulajdonságok
 enum NAMES = {Daniel, Joshua, Nicholas, Ryan};
 enum MOVIES = {action, comedy, horror, thriller};
 enum SNACKS = {chips, cookies, crackers, popcorn};
@@ -74,8 +73,9 @@ constraint forall(x in PEOPLE, y in PEOPLE)(name[Joshua,x]=1 /\ name[Daniel,y]=1
 
 solve satisfy;
 
-output [show(n) ++ "\t" ++ "\t" | n in NAMES, t in PEOPLE where fix(name[n,t])=1]++["\n"];
-output [show(c) ++ "\t" ++ "\t" | c in COLORS, t in PEOPLE where fix(shirt[c,t])=1]++["\n"];
-output [show(m) ++ "\t" ++ "\t"  | m in MOVIES, t in PEOPLE where fix(movie[m,t])=1]++["\n"];
-output [show(s) ++ "\t" ++ "\t"  | s in SNACKS, t in PEOPLE where fix(snack[s,t])=1]++["\n"];
-output [show(a) ++ "\t" ++ "\t" | a in AGES, t in PEOPLE where fix(age[a,t])=1]++["\n"];
+int: width = -15;
+output [format(width, show(n)) ++ "\t" | n in NAMES, t in PEOPLE where fix(name[n,t])=1]++["\n"];
+output [format(width, show(c)) ++ "\t" | c in COLORS, t in PEOPLE where fix(shirt[c,t])=1]++["\n"];
+output [format(width, show(m)) ++ "\t"  | m in MOVIES, t in PEOPLE where fix(movie[m,t])=1]++["\n"];
+output [format(width, show(s)) ++ "\t"  | s in SNACKS, t in PEOPLE where fix(snack[s,t])=1]++["\n"];
+output [format(width, show(a)) ++ "\t" | a in AGES, t in PEOPLE where fix(age[a,t])=1]++["\n"];

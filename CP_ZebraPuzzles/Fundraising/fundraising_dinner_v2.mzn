@@ -1,9 +1,8 @@
-include "globals.mzn";
-
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
 int: db = 5;
 set of int: PEOPLE = 1..db;
 
+%Tulajdonságok
 enum COLORS = {black, blue, purple, red, white};
 enum NAMES = {Carmen, Diana, Jane, Lidia, Melissa};
 enum MONEY = {tenthousand, twentythousand, thirtythousand, fourtythousand, fiftythousand};
@@ -51,71 +50,76 @@ constraint forall(p in PEOPLE)(necklace[turquoise, p] = donation[thirtythousand,
 constraint forall(p in PEOPLE)(necklace[sapphire, p] = age[fiftyfive, p]);
 
 %The woman who donated $ 30,000 is immediately before the youngest woman.
-constraint forall(p in 2..db)(age[fourty, p]=1 -> donation[thirtythousand, p-1]=1);
+constraint forall(p in 2..db)(age[fourty, p] = donation[thirtythousand, p-1]);
 
 %Diana is exactly to the left of the 50 years old woman.
-constraint forall(p in 2..db)(age[fifty, p]=1 -> name[Diana, p-1]=1);
+constraint forall(p in 2..db)(age[fifty, p] = name[Diana, p-1]);
 
 %The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
-constraint forall(p in 2..db)(dress[purple, p]=1 -> necklace[emerald, p-1]=1);
+constraint forall(p in 2..db)(dress[purple, p] = necklace[emerald, p-1]);
 
 %The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
-constraint forall(p in 2..db)(cocktail[daiquiri, p]=1 -> donation[twentythousand, p-1]=1);
+constraint forall(p in 2..db)(cocktail[daiquiri, p] = donation[twentythousand, p-1]);
 
 %The oldest woman is exactly to the right of the lady drinking Cosmopolitan.
-constraint forall(p in 1..db-1)(cocktail[cosmopolitan, p]=1 -> age[sixty, p+1]=1);
+constraint forall(p in 1..db-1)(cocktail[cosmopolitan, p] = age[sixty, p+1]);
 
 %Melissa is exactly to the right of the guest drinking Cosmopolitan.
-constraint forall(p in 1..db-1)(cocktail[cosmopolitan, p]=1 -> name[Melissa, p+1]=1);
+constraint forall(p in 1..db-1)(cocktail[cosmopolitan, p] = name[Melissa, p+1]);
 
 %The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
-constraint forall(p in 1..db-1)(necklace[pearl, p]=1 -> age[fifty, p+1]=1);
+constraint forall(p in 1..db-1)(necklace[pearl, p] = age[fifty, p+1]);
 
 %The lady drinking Manhattan is exactly to the right of the lady wearing the Red dress.
-constraint forall(p in 1..db-1)(dress[red, p]=1 -> cocktail[manhattan, p+1]=1);
+constraint forall(p in 1..db-1)(dress[red, p] = cocktail[manhattan, p+1]);
 
 %The guest drinking Martini is next to the guest who donated $ 10,000.
-constraint forall(p in 2..db-1)(donation[tenthousand, p]=1 -> cocktail[martini, p-1]+cocktail[martini, p+1]=1);
-constraint forall(p in 2..db-1)(cocktail[martini, p]=1 -> donation[tenthousand, p-1]+donation[tenthousand, p+1]=1);
-constraint donation[tenthousand, 1]=1 -> cocktail[martini, 2]=1;
-constraint donation[tenthousand, db]=1 -> cocktail[martini, db-1]=1;
-constraint cocktail[martini, 1]=1 -> donation[tenthousand, 2]=1;
-constraint cocktail[martini, db]=1 -> donation[tenthousand, db-1]=1;
+constraint forall(p in 2..db-1)(donation[tenthousand, p] <= cocktail[martini, p-1]+cocktail[martini, p+1]);
+constraint forall(p in 2..db-1)(cocktail[martini, p] <= donation[tenthousand, p-1]+donation[tenthousand, p+1]);
+constraint donation[tenthousand, 1] <= cocktail[martini, 2];
+constraint donation[tenthousand, db] <= cocktail[martini, db-1];
+constraint cocktail[martini, 1] <= donation[tenthousand, 2];
+constraint cocktail[martini, db] <= donation[tenthousand, db-1];
 
 %The donator wearing the White dress is next to the woman who gave the biggest donation.
 constraint forall(p in 2..db-1)(donation[fiftythousand, p]=1 -> dress[white, p-1]+dress[white, p+1]=1);
-constraint donation[fiftythousand, 1]=1 -> dress[white, 2]=1;
-constraint donation[fiftythousand, db]=1 -> dress[white, db-1]=1;
-% TODO
+constraint forall(p in 2..db-1)(dress[white, p] <= donation[fiftythousand, p-1]+donation[fiftythousand, p+1]);
+constraint donation[fiftythousand, 1] <= dress[white, 2];
+constraint donation[fiftythousand, db] <= dress[white, db-1];
+constraint dress[white, 1] <= donation[fiftythousand, 2];
+constraint dress[white, db] <= donation[fiftythousand, db-1];
 
 %Lidia is next to the guest wearing the Black dress.
-constraint forall(p in 2..db-1)(dress[black, p]=1 -> name[Lidia, p-1]+name[Lidia, p+1]=1);
-constraint dress[black, 1]=1 -> name[Lidia, 2]=1;
-constraint dress[black, db]=1 -> name[Lidia, db-1]=1;
-% TODO
+constraint forall(p in 2..db-1)(dress[black, p] <= name[Lidia, p-1]+name[Lidia, p+1]);
+constraint forall(p in 2..db-1)(name[Lidia, p] <= dress[black, p-1]+dress[black, p+1]);
+constraint dress[black, 1] <= name[Lidia, 2];
+constraint dress[black, db] <= name[Lidia, db-1];
+constraint name[Lidia, 1] <= dress[black, 2];
+constraint name[Lidia, db] <= dress[black, db-1];
 
 %Lidia is next to the woman drinking Cosmopolitan.
-constraint forall(p in 2..db-1)(cocktail[cosmopolitan, p]=1 -> name[Lidia, p-1]+name[Lidia, p+1]=1);
-constraint cocktail[cosmopolitan, 1]=1 -> name[Lidia, 2]=1;
-constraint cocktail[cosmopolitan, db]=1 -> name[Lidia, db-1]=1;
-% TODO
+constraint forall(p in 2..db-1)(cocktail[cosmopolitan, p] <= name[Lidia, p-1]+name[Lidia, p+1]);
+constraint forall(p in 2..db-1)(name[Lidia, p] <= cocktail[cosmopolitan, p-1]+cocktail[cosmopolitan, p+1]);
+constraint cocktail[cosmopolitan, 1] <= name[Lidia, 2];
+constraint cocktail[cosmopolitan, db] <= name[Lidia, db-1];
+constraint name[Lidia, 1] <= cocktail[cosmopolitan, 2];
+constraint name[Lidia, db] <= cocktail[cosmopolitan, db-1];
 
 %The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
-constraint forall(x in PEOPLE)(cocktail[margarita, x]=1 -> sum(p in 1..x-1)(dress[blue, p])=1);
-% Ez javit-e?
-%constraint forall(x in PEOPLE)(cocktail[margarita, x] <= sum(p in 1..x-1)(dress[blue, p])=1);
+constraint forall(x in PEOPLE)(cocktail[margarita, x] <= sum(p in 1..x-1)(dress[blue, p]));
 
 %The lady wearing the Black dress is somewhere to the left of the lady who donated $ 40,000.
-constraint forall(x in PEOPLE)(donation[fourtythousand, x]=1 -> sum(p in 1..x-1)(dress[black, p])=1);
+constraint forall(x in PEOPLE)(donation[fourtythousand, x] <= sum(p in 1..x-1)(dress[black, p]));
 
 %The guest wearing the White dress is somewhere to the left of the guest wearing the Black dress.
-constraint forall(x in PEOPLE)(dress[black, x]=1 -> sum(p in 1..x-1)(dress[white, p])=1);
+constraint forall(x in PEOPLE)(dress[black, x] <= sum(p in 1..x-1)(dress[white, p]));
 
 %The 60 years old woman is somewhere to the right of the woman wearing the Black dress.
-constraint forall(x in PEOPLE)(dress[black, x]=1 -> sum(p in x+1..db)(age[sixty, p])=1);
+constraint forall(x in PEOPLE)(dress[black, x] <= sum(p in x+1..db)(age[sixty, p]));
 
 %The woman wearing the Red dress is somewhere between the woman that donated $ 20,000 and the woman that gave $ 40,000, in that order.
-constraint forall(x in PEOPLE, y in PEOPLE)(donation[twentythousand,x]=1 /\ donation[fourtythousand,y]=1 -> sum(p in x+1..y-1)(dress[red, p])=1);
+constraint forall(x in PEOPLE)(donation[fourtythousand, x] <= sum(p in 1..x-1)(dress[red, p])); 
+constraint forall(x in PEOPLE)(donation[twentythousand, x] <= sum(p in x+1..db)(dress[red, p]));
 
 solve satisfy;
 

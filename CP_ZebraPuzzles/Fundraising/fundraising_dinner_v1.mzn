@@ -1,9 +1,8 @@
-include "globals.mzn";
-
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
 int: db = 5;
 set of int: PEOPLE = 1..db;
 
+%Tulajdonságok
 enum COLORS = {black, blue, purple, red, white};
 enum NAMES = {Carmen, Diana, Jane, Lidia, Melissa};
 enum MONEY = {tenthousand, twentythousand, thirtythousand, fourtythousand, fiftythousand};
