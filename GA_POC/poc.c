@@ -175,23 +175,29 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt11(egyed);
     sert+=Teszt12(egyed);
     sert+=Teszt13(egyed);
-    // ...
     return sert;
 }
 
 struct gen kezdetiRandom(){
     struct gen egyed;
-    int sz,t;
-    for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++){
-            egyed.allel[t][sz]=t*10+sz;
-        }
-    }
-    egyed.megsert=hanyatSert(egyed); // TODO neghivni majd a kiertekelo fuggvenyt.
-    /*
-     * ITt valahogy random beallitgatni az ize-ben levo ertekeket
-     */
-     return egyed;
+    int sz,t,db,index;
+    int van[SZEK];
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			van[sz]=0;
+		}
+		for(sz=0;sz<SZEK;sz++){
+			db=rand()%(SZEK-sz-1)+1;
+			for(index=0;db!=0;index++){
+				if (van[index]==0){
+					db--; 
+				}
+			}
+			van[index]=1;
+			egyed.allel[t][sz]=t*10+index;
+		}
+	}
+	return egyed;
 }
 
 void egyedKiir(struct gen egyed){

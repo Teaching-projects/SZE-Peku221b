@@ -182,56 +182,69 @@ int Teszt10(struct gen egyed){
 
 int Teszt11(struct gen egyed) {
     // Jane donated $ 20,000.
-    int i=0;
-    while (egyed.allel[NAME][i]==JANE){
-		i++;
+    int sz=0;
+    while (egyed.allel[NAME][sz]!=JANE || sz!=SZEK){
+		sz++;
 	}
-	if (egyed.allel[DONATION][i]==HUSZK)	return 0;
-	else return 1;
+	if (sz==SZEK)
+	{ return 1;
+	} else {
+		if (egyed.allel[DONATION][sz]==HUSZK)	return 0;
+			else return 1;
+		}
 }
 
 int Teszt12(struct gen egyed){
 	//Melissa is exactly to the right of the guest drinking Cosmopolitan.
 	int sz=0;
-	while (egyed.allel[COCKTAIL][sz]==COSMOPOLITAN){
+	while (egyed.allel[COCKTAIL][sz]!=COSMOPOLITAN || sz!=SZEK){
 		sz++;
 	}
-	if (sz==(SZEK-1) || egyed.allel[NAME][sz+1]!=MELISSA) return 1;
-	else return 0;
+	if (sz>=SZEK-1)
+	{ return 1;
+	} else {
+		if (egyed.allel[NAME][sz+1]!=MELISSA) return 1;
+			else return 0;
+		}
 }
 
 int Teszt13(struct gen egyed){
 	//The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
-	int kek, margarita;
+	int kek=SZEK;
+	int margarita=SZEK;
     int sz;
     for(sz=1;sz<SZEK; sz++){
         if(egyed.allel[DRESS][sz]==BLUE)  kek=sz;
         if(egyed.allel[COCKTAIL][sz]==MARGARITA) margarita=sz;
     }
-    if (kek<margarita) return 0;
+    if (kek<margarita && kek!=SZEK && margarita!=SZEK) return 0;
     else return 1;
 }
 
 int Teszt14(struct gen egyed){
 	//The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
 	int sz=0;
-	while (egyed.allel[DONATION][sz]==HUSZK){
+	while (egyed.allel[DONATION][sz]!=HUSZK || sz!=SZEK){
 		sz++;
 	}
-	if (sz==(SZEK-1) || egyed.allel[COCKTAIL][sz+1]!=DAIQUIRI) return 1;
-	else return 0;
+	if (sz>=SZEK-1)
+	{ return 1;
+	} else {
+		if (egyed.allel[COCKTAIL][sz+1]!=DAIQUIRI) return 1;
+			else return 0;
+		}
 }
 
 int Teszt15(struct gen egyed){
 	//The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
 	int sz=0;
-	while (egyed.allel[AGE][sz]==OTVEN){
+	while (egyed.allel[AGE][sz]!=OTVEN || sz!=SZEK){
 		sz++;
 	}
-	if (sz==0)
+	if (sz==0 || sz==SZEK)
 		{ return 1;
-			} else {
-				if (egyed.allel[NECKLACE][sz-1]==PEARL) return 1;
+		} else {
+			if (egyed.allel[NECKLACE][sz-1]==PEARL) return 1;
 				else return 0;
 			}
 }
@@ -239,28 +252,32 @@ int Teszt15(struct gen egyed){
 int Teszt16(struct gen egyed){
 	//Lidia is next to the woman drinking Cosmopolitan.
 	int sz=0;
-	while (egyed.allel[NAME][sz]==LIDIA){
+	while (egyed.allel[NAME][sz]!=LIDIA || sz!=SZEK){
 		sz++;
 	}
 	switch (sz)
-	{
-	case 0:
-		if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
-	break;
+		{
+		case 0:
+			if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
+		break;
+		
+		case SZEK:
+			return 1;
+		break;
 
-	case SZEK:
-		if (egyed.allel[COCKTAIL][SZEK-1]==COSMOPOLITAN) return 0; else return 1;
-	break;
+		case (SZEK-1):
+			if (egyed.allel[COCKTAIL][SZEK-1]==COSMOPOLITAN) return 0; else return 1;
+		break;
 
-	default:
-		if (egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN || egyed.allel[COCKTAIL][sz+1]==COSMOPOLITAN) return 0; else return 1;
+		default:
+			if (egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN || egyed.allel[COCKTAIL][sz+1]==COSMOPOLITAN) return 0; else return 1;
 	}
 }
 
 
 int hanyatSert(struct gen egyed){
     int sert=0;
-    /*sert+=Teszt1(egyed);
+    sert+=Teszt1(egyed);
     sert+=Teszt2(egyed);
     sert+=Teszt3(egyed);
     sert+=Teszt4(egyed);
@@ -270,7 +287,6 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt8(egyed);
     sert+=Teszt9(egyed);
     sert+=Teszt10(egyed);
-    */
     sert+=Teszt11(egyed);
     sert+=Teszt12(egyed);
     sert+=Teszt13(egyed);
@@ -290,16 +306,35 @@ int hanyatSert(struct gen egyed){
 
 struct gen kezdetiRandom(){
     struct gen egyed;
-    int sz,t;
-    for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++){
-            egyed.allel[t][sz]=t*10+sz;
-        }
-    }
-    egyed.megsert=hanyatSert(egyed);
-     return egyed;
+    int sz,t,db,index;
+    int van[SZEK];
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			van[sz]=0;
+		}
+		for(sz=0;sz<SZEK;sz++){
+			db=rand()%(SZEK-sz-1)+1;
+			for(index=0;db!=0;index++){
+				if (van[index]==0){
+					db--; 
+				}
+			}
+			van[index]=1;
+			egyed.allel[t][sz]=t*10+index;
+		}
+	}
+	return egyed;
+	
+    /* egyszerű random:
+     * for(t=0;t<TULAJDONSAG;t++){
+     *   for(sz=0;sz<SZEK;sz++){
+     *       egyed.allel[t][sz]=t*10+sz;
+     *   }
+	 * }
+	 *egyed.megsert=hanyatSert(egyed);
+     *return egyed;
+     */
 }
-
 void egyedKiir(struct gen egyed){
     int sz,t;
     printf("\n");
@@ -311,7 +346,6 @@ void egyedKiir(struct gen egyed){
         printf("|\n");
     }
     printf("%2d ",egyed.megsert);
-    /*
     if(Teszt1(egyed)==1) printf ("(1)");
     if(Teszt2(egyed)==1) printf ("(2)");
     if(Teszt3(egyed)==1) printf ("(3)");
@@ -322,7 +356,6 @@ void egyedKiir(struct gen egyed){
     if(Teszt8(egyed)==1) printf ("(8)");
     if(Teszt9(egyed)==1) printf ("(9)");
     if(Teszt10(egyed)==1) printf ("(10)");
-    */
     if(Teszt11(egyed)==1) printf ("(11)");
     if(Teszt12(egyed)==1) printf ("(12)");
     if(Teszt13(egyed)==1) printf ("(13)");
