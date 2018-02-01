@@ -90,11 +90,18 @@ int Teszt4(struct gen egyed) {
 
 int Teszt5(struct gen egyed) {
     //The boy wearing the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
-    if(egyed.allel[AGE][0]==THIRTEEN && egyed.allel[SHIRT][1]==RED && egyed.allel[MOVIE][3]==ACTION) return 0;
-    else if(egyed.allel[AGE][0]==THIRTEEN && egyed.allel[SHIRT][2]==RED && egyed.allel[MOVIE][3]==ACTION) return 0;
-    else if(egyed.allel[AGE][0]==THIRTEEN && egyed.allel[SHIRT][1]==RED && egyed.allel[MOVIE][2]==ACTION) return 0;
-    else if(egyed.allel[AGE][1]==THIRTEEN && egyed.allel[SHIRT][2]==RED && egyed.allel[MOVIE][3]==ACTION) return 0;
-    else return 1;
+    int piros=SZEK;
+	int tizenharom=SZEK;
+	int akcio=SZEK;
+    int sz;
+    for(sz=0;sz<SZEK; sz++){
+        if(egyed.allel[AGE][sz]==THIRTEEN)  tizenharom=sz;
+        if(egyed.allel[SHIRT][sz]==RED) piros=sz;
+        if(egyed.allel[MOVIE][sz]==ACTION) akcio=sz;
+    }
+    if (akcio!=SZEK && piros!=SZEK && tizenharom!=SZEK) {
+		if (piros>tizenharom && piros<akcio)return 0; else return 1;
+    }else return 1;
 }
 
 int Teszt6(struct gen egyed) {
@@ -131,11 +138,18 @@ int Teszt9 (struct gen egyed) {
 
 int Teszt10 (struct gen egyed) {
     //The boy wearing the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
-    if(egyed.allel[SNACK][0]==POPCORN && egyed.allel[SHIRT][1]==RED && egyed.allel[NAME][3]==NICHOLAS) return 0;
-    else if(egyed.allel[SNACK][0]==POPCORN && egyed.allel[SHIRT][2]==RED && egyed.allel[NAME][3]==NICHOLAS) return 0;
-    else if(egyed.allel[SNACK][0]==POPCORN && egyed.allel[SHIRT][1]==RED && egyed.allel[NAME][2]==NICHOLAS) return 0;
-    else if(egyed.allel[SNACK][1]==POPCORN && egyed.allel[SHIRT][2]==RED && egyed.allel[NAME][3]==NICHOLAS) return 0;
-    else return 1;
+    int piros=SZEK;
+	int popc=SZEK;
+	int nic=SZEK;
+    int sz;
+    for(sz=0;sz<SZEK; sz++){
+        if(egyed.allel[SNACK][sz]==POPCORN)  popc=sz;
+        if(egyed.allel[SHIRT][sz]==RED) piros=sz;
+        if(egyed.allel[NAME][sz]==NICHOLAS) nic=sz;
+    }
+    if (popc!=SZEK && piros!=SZEK && nic!=SZEK) {
+		if (piros>popc && piros<nic)return 0; else return 1;
+    }else return 1;
 }
 
 int Teszt11 (struct gen egyed) {
@@ -147,11 +161,25 @@ int Teszt11 (struct gen egyed) {
 
 int Teszt12 (struct gen egyed) {
     //Nicholas is somewhere between Joshua and Daniel, in that order.
-    if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][2]==DANIEL) return 0;
-    else if(egyed.allel[NAME][1]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    else return 1;
+	/*
+    *if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
+    *else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
+    *else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][2]==DANIEL) return 0;
+    *else if(egyed.allel[NAME][1]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
+    *else return 1;
+    */
+    int jos=SZEK;
+	int nic=SZEK;
+	int dan=SZEK;
+    int sz;
+    for(sz=0;sz<SZEK; sz++){
+        if(egyed.allel[NAME][sz]==JOSHUA)  jos=sz;
+        if(egyed.allel[NAME][sz]==NICHOLAS) nic=sz;
+        if(egyed.allel[NAME][sz]==DANIEL) dan=sz;
+    }
+    if (jos!=SZEK && nic!=SZEK && dan!=SZEK) {
+		if (nic>jos && nic<dan)return 0; else return 1;
+    }else return 1;
 }
 
 int Teszt13 (struct gen egyed) {

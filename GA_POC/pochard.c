@@ -162,7 +162,7 @@ int Teszt9 (struct gen egyed) {
     int negyvenk;
     int red;
     int sz;
-    for(sz=1;sz<SZEK;sz++){
+    for(sz=0;sz<SZEK;sz++){
        if(egyed.allel[DONATION][sz]==HUSZK) huszk=sz;
        if(egyed.allel[DONATION][sz]==NEGYVENK) negyvenk=sz;
        if(egyed.allel[DRESS][sz]==RED) red=sz;
@@ -213,7 +213,7 @@ int Teszt13(struct gen egyed){
 	int kek=SZEK;
 	int margarita=SZEK;
     int sz;
-    for(sz=1;sz<SZEK; sz++){
+    for(sz=0;sz<SZEK; sz++){
         if(egyed.allel[DRESS][sz]==BLUE)  kek=sz;
         if(egyed.allel[COCKTAIL][sz]==MARGARITA) margarita=sz;
     }
@@ -305,7 +305,7 @@ int hanyatSert(struct gen egyed){
 }
 
 struct gen kezdetiRandom(){
-    struct gen egyed;
+	struct gen egyed;
     int sz,t,db,index;
     int van[SZEK];
     for (t=0;t<TULAJDONSAG;t++){
@@ -326,15 +326,18 @@ struct gen kezdetiRandom(){
 	egyed.megsert=hanyatSert(egyed);
 	return egyed;
 	
-    /* egyszerű random:
-     * for(t=0;t<TULAJDONSAG;t++){
-     *   for(sz=0;sz<SZEK;sz++){
-     *       egyed.allel[t][sz]=t*10+sz;
-     *   }
-	 * }
-	 *egyed.megsert=hanyatSert(egyed);
-     *return egyed;
+     /*egyszerű random:
+      struct gen egyed;
+      int sz,t;
+      for(t=0;t<TULAJDONSAG;t++){
+        for(sz=0;sz<SZEK;sz++){
+            egyed.allel[t][sz]=t*10+sz;
+        }
+	  }
+	 egyed.megsert=hanyatSert(egyed);
+     return egyed;
      */
+     
 }
 void egyedKiir(struct gen egyed){
     int sz,t;
