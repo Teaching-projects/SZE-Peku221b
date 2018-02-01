@@ -323,6 +323,7 @@ struct gen kezdetiRandom(){
 			egyed.allel[t][sz]=t*10+index;
 		}
 	}
+	egyed.megsert=hanyatSert(egyed);
 	return egyed;
 	
     /* egyszerű random:
