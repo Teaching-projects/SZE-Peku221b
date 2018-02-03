@@ -74,8 +74,8 @@ constraint forall(x in PEOPLE, y in PEOPLE)(name[Joshua,x]=1 /\ name[Daniel,y]=1
 solve satisfy;
 
 int: width = -15;
-output [format(width, show(n)) ++ "\t" | n in NAMES, t in PEOPLE where fix(name[n,t])=1]++["\n"];
-output [format(width, show(c)) ++ "\t" | c in COLORS, t in PEOPLE where fix(shirt[c,t])=1]++["\n"];
-output [format(width, show(m)) ++ "\t"  | m in MOVIES, t in PEOPLE where fix(movie[m,t])=1]++["\n"];
-output [format(width, show(s)) ++ "\t"  | s in SNACKS, t in PEOPLE where fix(snack[s,t])=1]++["\n"];
-output [format(width, show(a)) ++ "\t" | a in AGES, t in PEOPLE where fix(age[a,t])=1]++["\n"];
+output [format(width, show(n)) ++ "\t" | t in PEOPLE, n in NAMES where fix(name[n,t])=1]++["\n"];
+output [format(width, show(c)) ++ "\t" | t in PEOPLE, c in COLORS where fix(shirt[c,t])=1]++["\n"];
+output [format(width, show(m)) ++ "\t"  | t in PEOPLE, m in MOVIES where fix(movie[m,t])=1]++["\n"];
+output [format(width, show(s)) ++ "\t"  | t in PEOPLE, s in SNACKS where fix(snack[s,t])=1]++["\n"];
+output [format(width, show(a)) ++ "\t" | t in PEOPLE, a in AGES where fix(age[a,t])=1]++["\n"];
