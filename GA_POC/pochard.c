@@ -65,6 +65,13 @@ struct gen{
     int megsert;
 };
 
+/*
+//fuggveny a tesztekhez
+int HanyadikSzek(struct gen egyed,int property, int value){
+     return 0;
+}
+*/
+
 
 int Teszt1(struct gen egyed){
     //The woman who donated $ 30,000 is immediately before the youngest woman.
@@ -74,6 +81,19 @@ int Teszt1(struct gen egyed){
         else return 1;
     }
 }
+
+/*
+//Teszt1 fuggvennyel:
+int Teszt1(struct gen egyed){
+    //The woman who donated $ 30,000 is immediately before the youngest woman.
+    int sz;
+    int harminck=HanyadikSzek(egyed,DONATION,HARMINCK)
+    int negyven=HanyadikSzek(egyed,AGE,NEGYVEN)
+    if negyven=sz && harminck=sz-1 return 0;
+    else return 1
+{
+*/
+
 
 int Teszt2(struct gen egyed){
    //Diana is exactly to the left of the 50 years old woman.
@@ -260,7 +280,7 @@ int Teszt16(struct gen egyed){
 		case 0:
 			if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
 		break;
-		
+
 		case SZEK:
 			return 1;
 		break;
@@ -316,7 +336,7 @@ struct gen kezdetiRandom(){
 			db=rand()%(SZEK-sz-1)+1;
 			for(index=0;db!=0;index++){
 				if (van[index]==0){
-					db--; 
+					db--;
 				}
 			}
 			van[index]=1;
@@ -325,7 +345,7 @@ struct gen kezdetiRandom(){
 	}
 	egyed.megsert=hanyatSert(egyed);
 	return egyed;
-	
+
      /*egyszerű random:
       struct gen egyed;
       int sz,t;
@@ -337,7 +357,7 @@ struct gen kezdetiRandom(){
 	 egyed.megsert=hanyatSert(egyed);
      return egyed;
      */
-     
+
 }
 void egyedKiir(struct gen egyed){
     int sz,t;
