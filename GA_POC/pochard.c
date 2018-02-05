@@ -144,10 +144,14 @@ int Teszt6(struct gen egyed){
 int Teszt7(struct gen egyed) {
     //The oldest woman is exactly to the right of the lady drinking Cosmopolitan.
     int sz;
+    int oldest;
+    int cosm;
     for(sz=1;sz<SZEK;sz++){
-        if(egyed.allel[AGE][sz]==HATVAN || egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN) return 0;
-        else return 1;
+        if(egyed.allel[AGE][sz]==HATVAN) oldest=sz;
+        else if(egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN) cosm=sz;
     }
+    if(oldest-1==cosm) return 0;
+    else return 1;
 }
 
 int Teszt8 (struct gen egyed) {
@@ -163,20 +167,6 @@ int Teszt8 (struct gen egyed) {
 int Teszt9 (struct gen egyed) {
     //The woman wearing the Red dress is somewhere between the woman that
     //donated $ 20,000 and the woman that gave $ 40,000, in that order.
-    //tudom, hogy ezt nem igy kene de a felso otlet megvalositasa egyelore nem sikerult
-    /* foolproof teszt
-    if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
-    else if(egyed.allel[DONATION][1]==HUSZK && egyed.allel[DONATION][3]==NEGYVENK && egyed.allel[DRESS][2]==RED) return 0;
-    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
-    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
-    else if(egyed.allel[DONATION][2]==HUSZK && egyed.allel[DONATION][4]==NEGYVENK && egyed.allel[DRESS][3]==RED) return 0;
-    else if(egyed.allel[DONATION][3]==HUSZK && egyed.allel[DONATION][5]==NEGYVENK && egyed.allel[DRESS][4]==RED) return 0;
-    else return 1; */
 
     int huszk;
     int negyvenk;
