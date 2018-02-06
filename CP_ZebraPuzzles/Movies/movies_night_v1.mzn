@@ -55,6 +55,7 @@ constraint forall(szek in PEOPLE)(name[Daniel,szek] = movie[thriller, szek]);
 
 %The boy wearning the Black shirt is exactly to the left of the one who likes Thriller movies.
 constraint forall(szek in 2..db)(movie[thriller,szek]=1 -> shirt[black, szek-1]=1);
+constraint movie[thriller,1]=0;
 
 %The boy who is going to eat Crackers is exactly to the right of the boy who likes Comedy movies.
 constraint forall(szek in 1..db-1)(movie[comedy,szek]=1 -> snack[crackers, szek+1]=1);
