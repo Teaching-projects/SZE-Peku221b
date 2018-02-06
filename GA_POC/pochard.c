@@ -146,7 +146,7 @@ int Teszt7(struct gen egyed) {
     int sz;
     int oldest;
     int cosm;
-    for(sz=1;sz<SZEK;sz++){
+    for(sz=0;sz<SZEK;sz++){
         if(egyed.allel[AGE][sz]==HATVAN) oldest=sz;
         else if(egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN) cosm=sz;
     }
