@@ -27,10 +27,12 @@ array[Kertek, Noveny] of var TERMENY: termeszt;
 
 % +1 extra feltétel: egy embernek pontosan 1 kertje van(azaz minden tulaj különböző)
 constraint alldifferent(tulaj);
-constraint forall(k in Kertek, n1 in Noveny, n2 in n1..noveny-1)(termeszt[k, n1] != termeszt[k, n2+1]);
 
-% 2. Everybody grows exactly 4 different varieties
-%%constraint forall(k in Kertek, n in Noveny)(alldifferent(termeszt[k,n]));
+% 2. Everybody grows exactly 4 DIFFERENT varieties
+%constraint forall(k in Kertek)(alldifferent([termeszt[k,n] | n in Noveny]));
+%constraint forall(k in Kertek, n1 in Noveny, n2 in n1..noveny-1)(termeszt[k, n1] != termeszt[k, n2+1]);
+% There are no difference in permutations
+constraint forall(k in Kertek, n in 1..noveny-1)(termeszt[k,n] < termeszt[k,n+1]);
 
 % 3. Each variety is at least in one garden.
 constraint forall(t in TERMENY)(at_least(1, [termeszt[k, n] | k in Kertek, n in Noveny], t));
