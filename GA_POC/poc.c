@@ -321,7 +321,7 @@ int main(){
     for(i=0;i<POPMERET;i++) {
         do{
             tmp=kezdetiRandom();
-        } while(bennevanemar(populacio,i,tmp);
+        } while(bennevanemar(populacio,i,tmp));
         populacio[i]=tmp;
     }
 

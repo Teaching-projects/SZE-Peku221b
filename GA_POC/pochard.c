@@ -212,7 +212,7 @@ int Teszt12(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
     int egyed2= HanyadikSzek(egyed,NAME,MELISSA);
     
-	return !(egyed==egyed2-1);
+	return !(egyed1==egyed2-1);
 }
 
 int Teszt13(struct gen egyed){
