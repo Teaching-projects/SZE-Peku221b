@@ -4,7 +4,7 @@
 #define SZEK 4
 #define TULAJDONSAG 5
 #define POPMERET 1000
-#define MEGTART 10
+#define MEGTART 100
 
 #define SHIRT 0
     #define BLACK 00
@@ -216,14 +216,17 @@ struct gen kezdetiRandom(){
 			van[sz]=0;
 		}
 		for(sz=0;sz<SZEK;sz++){
-			db=rand()%(SZEK-sz-1)+1;
-			for(index=0;db!=0;index++){
+			db=rand()%(SZEK-sz);
+            index=0;
+            while(van[index]==1) index++;
+			for(;db!=0;index++){
 				if (van[index]==0){
 					db--; 
 				}
 			}
 			van[index]=1;
 			egyed.allel[t][sz]=t*10+index;
+            
 		}
 	}
 	egyed.megsert=hanyatSert(egyed);
@@ -289,8 +292,9 @@ struct gen Mutal(struct gen egyed){
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
 	struct gen egyed;
+    int hol=rand()%TULAJDONSAG;
 	for (t=0;t<TULAJDONSAG;t++){
-		if (t<TULAJDONSAG/2){
+		if (t<hol){
             for (sz=0;sz<SZEK;sz++){
                 egyed.allel[t][sz]=egyed1.allel[t][sz];
             }
@@ -304,13 +308,21 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
     return egyed;
 }
 
+int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
+    return 0;
+}
+
 int main(){
 
     // Kezdeti populacio inicializalasa
     struct gen populacio[POPMERET];
+    struct gen tmp;
     int i;
     for(i=0;i<POPMERET;i++) {
-        populacio[i]=kezdetiRandom();
+        do{
+            tmp=kezdetiRandom();
+        } while(bennevanemar(populacio,i,tmp);
+        populacio[i]=tmp;
     }
 
     struct gen temp[POPMERET*3];
@@ -345,20 +357,20 @@ int main(){
         }
 
         // Crossover 1.0
-        temp[k]=Keresztez(populacio[POPMERET-1],populacio[0]);
+        /*temp[k]=Keresztez(populacio[POPMERET-1],populacio[0]);
         k++;
         for (j=0;j<POPMERET-1;j++){
 			temp[k]=Keresztez(populacio[j],populacio[j+1]);
 			k++;
-		}
+		}*/
 
 		// Crossover 2.0
-        //   for (j=0;j<POPMERET;j++){
-        //   int x=rand()%POPMERET;
-        //   int y=rand()%POPMERET;
-        //   temp[k]=Keresztez(populacio[x],populacio[y]);
-        //   k++;
-        // }
+        for (j=0;j<POPMERET;j++){
+           int x=rand()%POPMERET;
+           int y=rand()%POPMERET;
+           temp[k]=Keresztez(populacio[x],populacio[y]);
+           k++;
+         }
 
 
         // Valasszuk ki, kik maradnak

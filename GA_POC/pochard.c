@@ -65,12 +65,15 @@ struct gen{
     int megsert;
 };
 
-/*
+
 //fuggveny a tesztekhez
 int HanyadikSzek(struct gen egyed,int property, int value){
-     return 0;
+    int sz;
+    for(sz=0;sz<SZEK;sz++)
+        if (egyed.allel[property][sz]==value) return sz;
+    return 0;
 }
-*/
+
 
 
 int Teszt1(struct gen egyed){
@@ -206,16 +209,10 @@ int Teszt11(struct gen egyed) {
 
 int Teszt12(struct gen egyed){
 	//Melissa is exactly to the right of the guest drinking Cosmopolitan.
-	int sz=0;
-	while (egyed.allel[COCKTAIL][sz]!=COSMOPOLITAN || sz!=SZEK){
-		sz++;
-	}
-	if (sz>=SZEK-1)
-	{ return 1;
-	} else {
-		if (egyed.allel[NAME][sz+1]!=MELISSA) return 1;
-			else return 0;
-		}
+	int egyed1=HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
+    int egyed2= HanyadikSzek(egyed,NAME,MELISSA);
+    
+	return !(egyed==egyed2-1);
 }
 
 int Teszt13(struct gen egyed){
