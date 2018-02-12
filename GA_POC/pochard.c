@@ -112,7 +112,7 @@ int Teszt2(struct gen egyed){
 
    return (egyed1==egyed2-1);
 
-
+}
 
 /*int Teszt3(struct gen egyed){
    //The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
@@ -426,7 +426,9 @@ struct gen kezdetiRandom(){
      return egyed;
      */
 
+
 }
+
 void egyedKiir(struct gen egyed){
     int sz,t;
     printf("\n");
@@ -481,12 +483,23 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     struct gen uj=egyed;
+    int t,sz;
     int cseret=rand()%TULAJDONSAG;
     int csere1sz=rand()%SZEK;
     int csere2sz=rand()%SZEK;
     while (csere1sz==csere2sz) {
         csere2sz=rand()%SZEK;
     }
+    /*for(t=0;t<TULAJDONSAG;t++){
+        for(sz=0;sz<SZEK;sz++){
+            while(egyed.allel[t][sz]==egyed.allel[cseret][csere2sz]){
+                csere2sz=rand()%SZEK;
+            }
+            while(egyed.allel[t][sz]==egyed.allel[cseret][csere1sz]){
+                csere1sz=rand()%SZEK;
+            }
+        }
+    }*/
     uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
     uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
     uj.megsert=hanyatSert(uj);
@@ -500,10 +513,19 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 		if (t<TULAJDONSAG/2){
             for (sz=0;sz<SZEK;sz++){
                 egyed.allel[t][sz]=egyed1.allel[t][sz];
+            //while(sz<SZEK && egyed.allel[t][sz]==egyed1.allel[t][sz]){
+            //    sz++;
+            //   }
+            //egyed.allel[t][sz]=egyed1.allel[t][sz];
+
             }
         } else {
 			for (sz=0;sz<SZEK;sz++){
                egyed.allel[t][sz]=egyed2.allel[t][sz];
+            //while(sz<SZEK && egyed.allel[t][sz]==egyed2.allel[t][sz]){
+            //    sz++;
+            //   }
+            //egyed.allel[t][sz]=egyed2.allel[t][sz];
 			}
 		}
 	}
@@ -585,4 +607,3 @@ int main(){
     }
     return 0;
 }
-
