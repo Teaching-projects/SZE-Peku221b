@@ -94,17 +94,6 @@ int Teszt1(struct gen egyed){
 	return (egyed1==egyed2-1);
 }
 
-
-/*int Teszt2(struct gen egyed){
-   //Diana is exactly to the left of the 50 years old woman.
-   int sz;
-    for(sz=1;sz<SZEK;sz++){
-        if(egyed.allel[NAME][sz]==DIANA || egyed.allel[AGE][sz+1]==OTVEN) return 0;
-        else return 1;
-    }
-}
-*/
-
 int Teszt2(struct gen egyed){
    //Diana is exactly to the left of the 50 years old woman.
    int egyed1=HanyadikSzek(egyed,NAME,DIANA);
@@ -114,15 +103,6 @@ int Teszt2(struct gen egyed){
 
 }
 
-/*int Teszt3(struct gen egyed){
-   //The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
-   int sz;
-    for(sz=1;sz<SZEK;sz++){
-        if(egyed.allel[NECKLACE][sz]==EMERALD || egyed.allel[DRESS][sz+1]==PURPLE) return 0;
-        else return 1;
-    }
-}
-*/
 int Teszt3(struct gen egyed){
    //The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress.
    int egyed1=HanyadikSzek(egyed,NECKLACE,EMERALD);
@@ -134,24 +114,13 @@ int Teszt3(struct gen egyed){
 
 int Teszt4(struct gen egyed){
    //The lady wearing the Pearl necklace donated the smallest amount.
-   int sz=0;
-    while (egyed.allel[NECKLACE][sz]==PEARL){
-        sz++; }
-    if(egyed.allel[DONATION][sz]==TIZK) return 0;
-    else return 1;
+   int egyed1=HanyadikSzek(egyed,NECKLACE,PEARL);
+   int egyed2= HanyadikSzek(egyed,DONATION,TIZK);
+
+   return (egyed1==egyed2);
 }
 
 int Teszt5(struct gen egyed){
-   //The guest drinking Martini is next to the guest who donated $ 10,000.
-   int sz=0;
-    while (egyed.allel[COCKTAIL][sz]==MARTINI){
-        sz++; }
-    if(egyed.allel[DONATION][sz-1]==TIZK) return 0;
-    else if (egyed.allel[DONATION][sz+1]==TIZK) return 0;
-    else return 1;
-}
-
-/*int Teszt5(struct gen egyed){
    //The guest drinking Martini is next to the guest who donated $ 10,000.
    int egyed1=HanyadikSzek(egyed,COCKTAIL,MARTINI);
    int egyed2= HanyadikSzek(egyed,DONATION,TIZK);
@@ -159,31 +128,15 @@ int Teszt5(struct gen egyed){
    return (egyed1==egyed2-1 || egyed1-1==egyed2);
 
 }
-*/
+
 
 int Teszt6(struct gen egyed){
     //The woman wearing the Turquoise necklace donated $ 30,000.
-    int sz=0;
-    while (egyed.allel[NECKLACE][sz]==TURQUOISE){
-        sz++; }
-    if(egyed.allel[DONATION][sz]==HARMINCK) return 0;
-    else return 1;
-}
+    int egyed1=HanyadikSzek(egyed,NECKLACE,TURQUOISE);
+    int egyed2= HanyadikSzek(egyed,DONATION,HARMINCK);
 
-/*int Teszt7(struct gen egyed) {
-    //The oldest woman is exactly to the right of the lady drinking Cosmopolitan.
-    int sz;
-    int oldest;
-    int cosm;
-    for(sz=0;sz<SZEK;sz++){
-        if(egyed.allel[AGE][sz]==HATVAN) oldest=sz;
-        else if(egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN) cosm=sz;
-    }
-    if(oldest-1==cosm) return 0;
-    else return 1;
+    return (egyed1==egyed2);
 }
-
-*/
 
 int Teszt7(struct gen egyed){
     //The oldest woman is exactly to the right of the lady drinking Cosmopolitan
@@ -193,18 +146,7 @@ int Teszt7(struct gen egyed){
     return !(egyed1==egyed2-1);
 }
 
-
 int Teszt8 (struct gen egyed) {
-    //The donator wearing the White dress is next to the woman who gave the biggest donation.
-    int sz=0;
-    while (egyed.allel[DRESS][sz]==WHITE){
-        sz++; }
-    if(egyed.allel[DONATION][sz-1]==OTVENK) return 0;
-    else if (egyed.allel[DONATION][sz+1]==OTVENK) return 0;
-    else return 1;
-}
-
-/*int Teszt8 (struct gen egyed) {
     //The donator wearing the White dress is next to the woman who gave the biggest donation.
     int egyed1=HanyadikSzek(egyed,DRESS,WHITE);
     int egyed2= HanyadikSzek(egyed,DONATION,OTVENK);
@@ -213,35 +155,16 @@ int Teszt8 (struct gen egyed) {
 
 }
 
-*/
-
 int Teszt9 (struct gen egyed) {
-    //The woman wearing the Red dress is somewhere between the woman that
-    //donated $ 20,000 and the woman that gave $ 40,000, in that order.
+    //The woman wearing the Red dress is somewhere between the woman that donated $ 20,000 and the woman that gave $ 40,000, in that order.
+    int egyed1=HanyadikSzek(egyed,DRESS,RED);
+    int egyed2= HanyadikSzek(egyed,DONATION,HUSZK);
+    int egyed3=HanyadikSzek(egyed,DONATION,NEGYVENK);
 
-    int huszk;
-    int negyvenk;
-    int red;
-    int sz;
-    for(sz=0;sz<SZEK;sz++){
-       if(egyed.allel[DONATION][sz]==HUSZK) huszk=sz;
-       if(egyed.allel[DONATION][sz]==NEGYVENK) negyvenk=sz;
-       if(egyed.allel[DRESS][sz]==RED) red=sz;
-    }
-    if(huszk<red && negyvenk>red) return 0;
-    else return 1;
+    return (egyed2<egyed1<egyed3);
 }
+
 int Teszt10(struct gen egyed){
-    //Lidia is next to the guest wearing the Black dress.
-    int sz=0;
-    while (egyed.allel[NAME][sz]==LIDIA){
-        sz++; }
-    if(egyed.allel[DRESS][sz-1]==BLACK) return 0;
-    else if (egyed.allel[DRESS][sz+1]==BLACK) return 0;
-    else return 1;
-}
-
-/*int Teszt10(struct gen egyed){
     //Lidia is next to the guest wearing the Black dress.
     int egyed1=HanyadikSzek(egyed,NAME,LIDIA);
     int egyed2= HanyadikSzek(egyed,DRESS,BLACK);
@@ -250,20 +173,12 @@ int Teszt10(struct gen egyed){
 
 }
 
-*/
-
 int Teszt11(struct gen egyed) {
     // Jane donated $ 20,000.
-    int sz=0;
-    while (egyed.allel[NAME][sz]!=JANE || sz!=SZEK){
-		sz++;
-	}
-	if (sz==SZEK)
-	{ return 1;
-	} else {
-		if (egyed.allel[DONATION][sz]==HUSZK)	return 0;
-			else return 1;
-		}
+    int egyed1=HanyadikSzek(egyed,NAME,JANE);
+    int egyed2= HanyadikSzek(egyed,DONATION,HUSZK);
+
+    return (egyed1==egyed2);
 }
 
 int Teszt12(struct gen egyed){
@@ -276,32 +191,11 @@ int Teszt12(struct gen egyed){
 
 int Teszt13(struct gen egyed){
 	//The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
-	int kek=SZEK;
-	int margarita=SZEK;
-    int sz;
-    for(sz=0;sz<SZEK; sz++){
-        if(egyed.allel[DRESS][sz]==BLUE)  kek=sz;
-        if(egyed.allel[COCKTAIL][sz]==MARGARITA) margarita=sz;
-    }
-    if (kek<margarita && kek!=SZEK && margarita!=SZEK) return 0;
-    else return 1;
-}
+	int egyed1=HanyadikSzek(egyed,DRESS,BLUE);
+    int egyed2= HanyadikSzek(egyed,COCKTAIL,MARGARITA);
 
-/*int Teszt14(struct gen egyed){
-	//The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
-	int sz=0;
-	while (egyed.allel[DONATION][sz]!=HUSZK || sz!=SZEK){
-		sz++;
-	}
-	if (sz>=SZEK-1)
-	{ return 1;
-	} else {
-		if (egyed.allel[COCKTAIL][sz+1]!=DAIQUIRI) return 1;
-			else return 0;
-		}
+	return (egyed1<egyed2);
 }
-
-*/
 
 int Teszt14(struct gen egyed){
 	//The guest that donated $ 20,000 is immediately before the guest drinking Daiquiri.
@@ -311,22 +205,6 @@ int Teszt14(struct gen egyed){
 	return (egyed1==egyed2-1);
 
 }
-
-
-/*int Teszt15(struct gen egyed){
-	//The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
-	int sz=0;
-	while (egyed.allel[AGE][sz]!=OTVEN || sz!=SZEK){
-		sz++;
-	}
-	if (sz==0 || sz==SZEK)
-		{ return 1;
-		} else {
-			if (egyed.allel[NECKLACE][sz-1]==PEARL) return 1;
-				else return 0;
-			}
-}
-*/
 
 int Teszt15(struct gen egyed){
 	//The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace.
@@ -339,29 +217,51 @@ int Teszt15(struct gen egyed){
 
 int Teszt16(struct gen egyed){
 	//Lidia is next to the woman drinking Cosmopolitan.
-	int sz=0;
-	while (egyed.allel[NAME][sz]!=LIDIA || sz!=SZEK){
-		sz++;
-	}
-	switch (sz)
-		{
-		case 0:
-			if (egyed.allel[COCKTAIL][1]==COSMOPOLITAN) return 0; else return 1;
-		break;
+	int egyed1=HanyadikSzek(egyed,NAME,LIDIA);
+    int egyed2= HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
 
-		case SZEK:
-			return 1;
-		break;
-
-		case (SZEK-1):
-			if (egyed.allel[COCKTAIL][SZEK-1]==COSMOPOLITAN) return 0; else return 1;
-		break;
-
-		default:
-			if (egyed.allel[COCKTAIL][sz-1]==COSMOPOLITAN || egyed.allel[COCKTAIL][sz+1]==COSMOPOLITAN) return 0; else return 1;
-	}
+	return !(egyed1==egyed2-1 || egyed1-1==egyed2);
 }
 
+int Teszt17(struct gen egyed){
+    //The lady wearing the Black dress is somewhere to the left of the lady who donated $ 40,000.
+    int egyed1=HanyadikSzek(egyed,DRESS,BLACK);
+    int egyed2= HanyadikSzek(egyed,DONATION,NEGYVENK);
+
+	return (egyed1<egyed2);
+}
+
+int Teszt18 (struct gen egyed){
+    //The 55 years old woman is wearing the Sapphire necklace.
+    int egyed1=HanyadikSzek(egyed,AGE,OTVEN);
+    int egyed2= HanyadikSzek(egyed,NECKLACE,SAPPHIRE);
+
+	return (egyed1==egyed2);
+}
+
+int Teszt19 (struct gen egyed){
+    //The 60 years old woman is somewhere to the right of the woman wearing the Black dress.
+    int egyed1=HanyadikSzek(egyed,AGE,HATVAN);
+    int egyed2= HanyadikSzek(egyed,DRESS,BLACK);
+
+	return (egyed1>egyed2);
+}
+
+int Teszt20(struct gen egyed){
+    //The lady drinking Manhattan is exactly to the right of the lady wearing the Red dress.
+    int egyed1=HanyadikSzek(egyed,COCKTAIL,MANHATTAN);
+    int egyed2=HanyadikSzek(egyed,DRESS,RED);
+
+	return !(egyed1==egyed2-1);
+}
+
+int Teszt21(struct gen egyed){
+    //The guest wearing the White dress is somewhere to the left of the guest wearing the Black dress.
+    int egyed1=HanyadikSzek(egyed,DRESS,WHITE);
+    int egyed2=HanyadikSzek(egyed,DRESS,BLACK);
+
+	return (egyed1<egyed2);
+}
 
 int hanyatSert(struct gen egyed){
     int sert=0;
