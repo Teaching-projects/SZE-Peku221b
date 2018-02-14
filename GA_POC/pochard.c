@@ -74,18 +74,6 @@ int HanyadikSzek(struct gen egyed,int property, int value){
     return 0;
 }
 
-
-
-/*int Teszt1(struct gen egyed){
-    //The woman who donated $ 30,000 is immediately before the youngest woman.
-    int sz;
-    for(sz=1;sz<SZEK;sz++){
-        if(egyed.allel[DONATION][sz]==HARMINCK || egyed.allel[AGE][sz+1]==NEGYVEN) return 0;
-        else return 1;
-    }
-}
-*/
-
 int Teszt1(struct gen egyed){
     //The woman who donated $ 30,000 is immediately before the youngest woman.
     int egyed1=HanyadikSzek(egyed,DONATION,HARMINCK);
@@ -161,7 +149,7 @@ int Teszt9 (struct gen egyed) {
     int egyed2= HanyadikSzek(egyed,DONATION,HUSZK);
     int egyed3=HanyadikSzek(egyed,DONATION,NEGYVENK);
 
-    return (egyed2<egyed1<egyed3);
+    return (egyed2<egyed1 && egyed1<egyed3);
 }
 
 int Teszt10(struct gen egyed){
@@ -281,13 +269,11 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt14(egyed);
     sert+=Teszt15(egyed);
     sert+=Teszt16(egyed);
-    /*
     sert+=Teszt17(egyed);
     sert+=Teszt18(egyed);
     sert+=Teszt19(egyed);
     sert+=Teszt20(egyed);
     sert+=Teszt21(egyed);
-    */
     return sert;
 
 }
@@ -313,19 +299,6 @@ struct gen kezdetiRandom(){
 	}
 	egyed.megsert=hanyatSert(egyed);
 	return egyed;
-
-     /*egyszerű random:
-      struct gen egyed;
-      int sz,t;
-      for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++){
-            egyed.allel[t][sz]=t*10+sz;
-        }
-	  }
-	 egyed.megsert=hanyatSert(egyed);
-     return egyed;
-     */
-
 
 }
 
@@ -356,13 +329,11 @@ void egyedKiir(struct gen egyed){
     if(Teszt14(egyed)==1) printf ("(14)");
     if(Teszt15(egyed)==1) printf ("(15)");
     if(Teszt16(egyed)==1) printf ("(16)");
-	/*
     if(Teszt17(egyed)==1) printf ("(17)");
     if(Teszt18(egyed)==1) printf ("(18)");
     if(Teszt19(egyed)==1) printf ("(19)");
     if(Teszt20(egyed)==1) printf ("(20)");
     if(Teszt21(egyed)==1) printf ("(21)");
-    */
     printf ("\n\n");
 }
 
@@ -383,23 +354,13 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     struct gen uj=egyed;
-    int t,sz;
     int cseret=rand()%TULAJDONSAG;
     int csere1sz=rand()%SZEK;
     int csere2sz=rand()%SZEK;
     while (csere1sz==csere2sz) {
         csere2sz=rand()%SZEK;
     }
-    /*for(t=0;t<TULAJDONSAG;t++){
-        for(sz=0;sz<SZEK;sz++){
-            while(egyed.allel[t][sz]==egyed.allel[cseret][csere2sz]){
-                csere2sz=rand()%SZEK;
-            }
-            while(egyed.allel[t][sz]==egyed.allel[cseret][csere1sz]){
-                csere1sz=rand()%SZEK;
-            }
-        }
-    }*/
+
     uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
     uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
     uj.megsert=hanyatSert(uj);
@@ -413,19 +374,10 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 		if (t<TULAJDONSAG/2){
             for (sz=0;sz<SZEK;sz++){
                 egyed.allel[t][sz]=egyed1.allel[t][sz];
-            //while(sz<SZEK && egyed.allel[t][sz]==egyed1.allel[t][sz]){
-            //    sz++;
-            //   }
-            //egyed.allel[t][sz]=egyed1.allel[t][sz];
-
             }
         } else {
 			for (sz=0;sz<SZEK;sz++){
                egyed.allel[t][sz]=egyed2.allel[t][sz];
-            //while(sz<SZEK && egyed.allel[t][sz]==egyed2.allel[t][sz]){
-            //    sz++;
-            //   }
-            //egyed.allel[t][sz]=egyed2.allel[t][sz];
 			}
 		}
 	}
@@ -447,14 +399,6 @@ int main(){
     int k;
     int j;
 
-    //struct gen megoldas;
-    //megoldas.allel[Name][0]=Joshua;
-    //...
-    // megoldas.allel={{Joshua,Dave, kdfjl,sdf},{black,red,...
-
-    //megoldas.megsert=hanyatSert(megoldas);
-    //egyedKiir(megoldas);
-
 
     for(i=0;populacio[0].megsert!=0;i++){
         printf("Generacio %2d: ",i);
@@ -472,14 +416,6 @@ int main(){
             temp[k]=Mutal(populacio[j]);
             k++;
         }
-
-        // Crossover 1.0
-        //temp[k]=Keresztez(populacio[POPMERET-1],populacio[0]);
-        //k++;
-        //for (j=0;j<POPMERET-1;j++){
-		//	temp[k]=Keresztez(populacio[j],populacio[j+1]);
-		//	k++;
-		//}
 
 		// Crossover 2.0
            for (j=0;j<POPMERET;j++){
