@@ -221,12 +221,12 @@ struct gen kezdetiRandom(){
             while(van[index]==1) index++;
 			for(;db!=0;index++){
 				if (van[index]==0){
-					db--; 
+					db--;
 				}
 			}
 			van[index]=1;
 			egyed.allel[t][sz]=t*10+index;
-            
+
 		}
 	}
 	egyed.megsert=hanyatSert(egyed);
@@ -313,6 +313,17 @@ int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
 }
 
 int main(){
+
+
+    //Jo megoldas tesztelese:
+    /*void TestGoodSolution(struct gen jomegoldas);
+        struct gen jomegoldas={"green","red","black","blue",
+                                "Joshua", "Ryan", "Nicholas", "Daniel",
+                                "horror", "comedy", "action", "thriller",
+                                "popcorn", "chips", "crackers", "cookies",
+                                "13", "12", "14", "11"};
+    egyedKiir(jomegoldas);
+    */
 
     // Kezdeti populacio inicializalasa
     struct gen populacio[POPMERET];
