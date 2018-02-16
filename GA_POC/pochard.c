@@ -388,16 +388,16 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 int main(){
 
     //Jo megoldas tesztelese:
-    /*void TestGoodSolution(struct gen jomegoldas);
+    /*void TestGoodSolution(struct gen jomegoldas);{
         struct gen jomegoldas={"black","blue","purple","red","white",
                                 "Carmen", "Diana", "Jane", "Lidia","Melissa",
                                 "10,000 $", "20,000 $", "30,000 $", "40,000 $","50,000 $",
                                 "cosmopolitan", "daiquiri", "manhattan", "margarita","martini",
                                 "emerald", "moonstone", "pearl", "sapphire","turquoise",
-                                "40","45","50","55","60"}
+                                "40","45","50","55","60"};
         egyedKiir(jomegoldas);
+    }
     */
-
 
     // Kezdeti populacio inicializalasa
     struct gen populacio[POPMERET];

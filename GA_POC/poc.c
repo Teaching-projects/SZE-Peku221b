@@ -316,13 +316,14 @@ int main(){
 
 
     //Jo megoldas tesztelese:
-    /*void TestGoodSolution(struct gen jomegoldas);
+    /*void TestGoodSolution(struct gen jomegoldas);{
         struct gen jomegoldas={"green","red","black","blue",
                                 "Joshua", "Ryan", "Nicholas", "Daniel",
                                 "horror", "comedy", "action", "thriller",
                                 "popcorn", "chips", "crackers", "cookies",
                                 "13", "12", "14", "11"};
     egyedKiir(jomegoldas);
+    }
     */
 
     // Kezdeti populacio inicializalasa
