@@ -44,10 +44,6 @@ const char *TULNEVEK[TULAJDONSAG][SZEK] = {
         {"chips", "cookies", "crackers", "popcorn"},
         {"11", "12", "13", "14"}
     };
-int type(int value) {
-     return value/10;
-}
-
 
 struct gen{
     int allel[TULAJDONSAG][SZEK];
@@ -161,13 +157,6 @@ int Teszt11 (struct gen egyed) {
 
 int Teszt12 (struct gen egyed) {
     //Nicholas is somewhere between Joshua and Daniel, in that order.
-	/*
-    *if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    *else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    *else if(egyed.allel[NAME][0]==JOSHUA && egyed.allel[NAME][1]==NICHOLAS && egyed.allel[NAME][2]==DANIEL) return 0;
-    *else if(egyed.allel[NAME][1]==JOSHUA && egyed.allel[NAME][2]==NICHOLAS && egyed.allel[NAME][3]==DANIEL) return 0;
-    *else return 1;
-    */
     int jos=SZEK;
 	int nic=SZEK;
 	int dan=SZEK;
@@ -203,7 +192,6 @@ int hanyatSert(struct gen egyed){
     sert+=Teszt11(egyed);
     sert+=Teszt12(egyed);
     sert+=Teszt13(egyed);
-    // ...
     return sert;
 }
 
@@ -337,11 +325,6 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
     return egyed;
 }
 
-int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
-    return 0;
-}
-
-
 void joMegoldasTeszt(){
     //Jo megoldas tesztelese:
     struct gen jomegoldas={
@@ -360,28 +343,15 @@ void joMegoldasTeszt(){
 void Megold(){
         // Kezdeti populacio inicializalasa
     struct gen populacio[POPMERET];
-    struct gen tmp;
     int i;
     for(i=0;i<POPMERET;i++) {
-        do{
-            tmp=kezdetiRandom();
-        } while(bennevanemar(populacio,i,tmp));
-        populacio[i]=tmp;
+            populacio[i]=kezdetiRandom();
     }
 
     struct gen temp[POPMERET*4];
     // Iteralasok
     int k;
     int j;
-
-    //struct gen megoldas;
-    //megoldas.allel[Name][0]=Joshua;
-    //...
-    // megoldas.allel={{Joshua,Dave, kdfjl,sdf},{black,red,...
-
-    //megoldas.megsert=hanyatSert(megoldas);
-    //egyedKiir(megoldas);
-
 
     for(i=0;populacio[0].megsert!=0;i++){
         printf("Generacio %2d: ",i);

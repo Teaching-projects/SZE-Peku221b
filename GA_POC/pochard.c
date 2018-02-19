@@ -56,9 +56,6 @@ const char *TULNEVEK[TULAJDONSAG][SZEK] = {
         {"emerald", "moonstone", "pearl", "sapphire","turquoise"},
         {"40","45","50","55","60"}
     };
-int type(int value) {
-     return value/10;
-}
 
 struct gen{
     int allel[TULAJDONSAG][SZEK];
@@ -390,9 +387,11 @@ struct gen Mutal(struct gen egyed){
         tmp=uj.allel[cseret][csere1sz];
         uj.allel[cseret][csere1sz]=uj.allel[cseret][csere2sz];
         uj.allel[cseret][csere2sz]=tmp;
-    return uj;
     }
+    uj.megsert=hanyatSert(uj);
+    return uj;
 }
+
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
@@ -427,19 +426,12 @@ void joMegoldasTeszt(){
     egyedKiir(jomegoldas);
 }
 
-int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
-    return 0;}
-
 void Megold(){
 
     struct gen populacio[POPMERET];
-    struct gen tmp;
-    int i;
+	int i;
     for(i=0;i<POPMERET;i++) {
-        do{
-            tmp=kezdetiRandom();
-        } while(bennevanemar(populacio,i,tmp));
-        populacio[i]=tmp;
+            populacio[i]=kezdetiRandom();
     }
 
     struct gen temp[POPMERET*4];
