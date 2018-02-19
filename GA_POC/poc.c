@@ -3,8 +3,8 @@
 
 #define SZEK 4
 #define TULAJDONSAG 5
-#define POPMERET 1000
-#define MEGTART 100
+#define POPMERET 100
+#define MEGTART 10
 
 #define SHIRT 0
     #define BLACK 00
@@ -284,10 +284,10 @@ void egyedKiir(struct gen egyed){
 }
 
 //Rendezés (növekvő)
-void Rendezes(struct gen populacio[]){
+void Rendezes(struct gen populacio[], int meret){
 	struct gen X;
     int i,j;
-	for (i=1;i<POPMERET;i++){
+	for (i=1;i<meret;i++){
  		X=populacio[i];
   		j=i-1;
   		while((j>=0) && (populacio[j].megsert>X.megsert)){
@@ -300,7 +300,7 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     struct gen uj=egyed;
-    int hanyatmutal=rand()%5+100;
+    int hanyatmutal=rand()%5+1;
     int i;
     int tmp;
     for(i=0;i<hanyatmutal;i++){
@@ -341,15 +341,16 @@ int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
     return 0;
 }
 
+
 void joMegoldasTeszt(){
     //Jo megoldas tesztelese:
     struct gen jomegoldas={
         .allel = {
-        GREEN,RED,BLACK,BLUE,
-        JOSHUA, RYAN, NICHOLAS, DANIEL,
-        HORROR, COMEDY, ACTION, THRILLER,
-        POPCORN, CHIPS, CRACKERS, COOKIES,
-        THIRTEEN, TWELVE, FOURTEEN, ELEVEN
+            {GREEN,RED,BLACK,BLUE},
+            {JOSHUA, RYAN, NICHOLAS, DANIEL},
+            {HORROR, COMEDY, ACTION, THRILLER},
+            {POPCORN, CHIPS, CRACKERS, COOKIES},
+            {THIRTEEN, TWELVE, FOURTEEN, ELEVEN}
         }
     };
     jomegoldas.megsert=hanyatSert(jomegoldas);
@@ -368,7 +369,7 @@ void Megold(){
         populacio[i]=tmp;
     }
 
-    struct gen temp[POPMERET*3];
+    struct gen temp[POPMERET*4];
     // Iteralasok
     int k;
     int j;
@@ -415,9 +416,17 @@ void Megold(){
            k++;
          }
 
+         // Crossover 2.0 a mutalt egyedeken
+        for (j=0;j<POPMERET;j++){
+           int x=rand()%POPMERET;
+           int y=rand()%POPMERET;
+           temp[k]=Keresztez(temp[x+POPMERET],temp[y+POPMERET]);
+           k++;
+         }
+
 
         // Valasszuk ki, kik maradnak
-        Rendezes(temp);
+        Rendezes(temp,4*POPMERET);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
         for (j=0; j<MEGTART;j++){
             populacio[j]=temp[j];
@@ -431,11 +440,14 @@ void Megold(){
 			}
 		}
     }
+
+    printf("******************************\n");
+    egyedKiir(populacio[0]);
 }
 
 int main(){
 
-    joMegoldasTeszt();    
-    //Megold();
+    //joMegoldasTeszt();    
+    Megold();
     return 0;
 }
