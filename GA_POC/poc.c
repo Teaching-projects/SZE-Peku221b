@@ -65,7 +65,7 @@ int Teszt2(struct gen egyed) {
     // The boy wearing the Black shirt is somewhere to the left of the youngest boy.
     int fekete, tizenegy;
     int sz;
-    for(sz=1;sz<SZEK; sz++){
+    for(sz=0;sz<SZEK; sz++){
         if(egyed.allel[AGE][sz]==ELEVEN)  tizenegy=sz;
         if(egyed.allel[SHIRT][sz]==BLACK) fekete=sz;
     }
@@ -341,21 +341,23 @@ int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
     return 0;
 }
 
-int main(){
-
-
+void joMegoldasTeszt(){
     //Jo megoldas tesztelese:
-    /*void TestGoodSolution(struct gen jomegoldas);{
-        struct gen jomegoldas={"green","red","black","blue",
-                                "Joshua", "Ryan", "Nicholas", "Daniel",
-                                "horror", "comedy", "action", "thriller",
-                                "popcorn", "chips", "crackers", "cookies",
-                                "13", "12", "14", "11"};
-    egyedKiir(jomegoldas);
-    }
-    */
+    struct gen jomegoldas={
+        .allel = {
+        GREEN,RED,BLACK,BLUE,
+        JOSHUA, RYAN, NICHOLAS, DANIEL,
+        HORROR, COMEDY, ACTION, THRILLER,
+        POPCORN, CHIPS, CRACKERS, COOKIES,
+        THIRTEEN, TWELVE, FOURTEEN, ELEVEN
+        }
+    };
+    jomegoldas.megsert=hanyatSert(jomegoldas);
+    egyedKiir(jomegoldas);    
+}
 
-    // Kezdeti populacio inicializalasa
+void Megold(){
+        // Kezdeti populacio inicializalasa
     struct gen populacio[POPMERET];
     struct gen tmp;
     int i;
@@ -429,5 +431,11 @@ int main(){
 			}
 		}
     }
+}
+
+int main(){
+
+    joMegoldasTeszt();    
+    //Megold();
     return 0;
 }
