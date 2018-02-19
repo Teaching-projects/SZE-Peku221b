@@ -209,6 +209,29 @@ int hanyatSert(struct gen egyed){
 
 struct gen kezdetiRandom(){
     struct gen egyed;
+    int t,sz;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			egyed.allel[t][sz]=t*10+sz;
+        }
+    }
+    int i;
+    int j;
+    int tmp;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(i=SZEK-1;i>=1;i--){
+            j=rand()%(i+1);
+            tmp=egyed.allel[t][i];
+            egyed.allel[t][i]=egyed.allel[t][j];
+            egyed.allel[t][j]=tmp;
+        }
+    }
+    egyed.megsert=hanyatSert(egyed);
+    return egyed;    
+}
+
+struct gen kezdetiRandom2(){
+    struct gen egyed;
     int sz,t,db,index;
     int van[SZEK];
     for (t=0;t<TULAJDONSAG;t++){
@@ -260,7 +283,7 @@ void egyedKiir(struct gen egyed){
     printf ("\n\n");
 }
 
- //Rendezés (növekvő)
+//Rendezés (növekvő)
 void Rendezes(struct gen populacio[]){
 	struct gen X;
     int i,j;
@@ -277,14 +300,20 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     struct gen uj=egyed;
-    int cseret=rand()%TULAJDONSAG;
-    int csere1sz=rand()%SZEK;
-    int csere2sz=rand()%SZEK;
-    while (csere1sz==csere2sz) {
-        csere2sz=rand()%SZEK;
+    int hanyatmutal=rand()%5+100;
+    int i;
+    int tmp;
+    for(i=0;i<hanyatmutal;i++){
+        int cseret=rand()%TULAJDONSAG;
+        int csere1sz=rand()%SZEK;
+        int csere2sz=rand()%SZEK;
+        while (csere1sz==csere2sz) {
+            csere2sz=rand()%SZEK;
+        }
+        tmp=uj.allel[cseret][csere1sz];
+        uj.allel[cseret][csere1sz]=uj.allel[cseret][csere2sz];
+        uj.allel[cseret][csere2sz]=tmp;
     }
-    uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
-    uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
     uj.megsert=hanyatSert(uj);
     return uj;
 }
