@@ -279,6 +279,29 @@ int hanyatSert(struct gen egyed){
 }
 
 struct gen kezdetiRandom(){
+    struct gen egyed;
+    int t,sz;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			egyed.allel[t][sz]=t*10+sz;
+        }
+    }
+    int i;
+    int j;
+    int tmp;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(i=SZEK-1;i>=1;i--){
+            j=rand()%(i+1);
+            tmp=egyed.allel[t][i];
+            egyed.allel[t][i]=egyed.allel[t][j];
+            egyed.allel[t][j]=tmp;
+        }
+    }
+    egyed.megsert=hanyatSert(egyed);
+    return egyed;
+}
+
+struct gen kezdetiRandom2(){
 	struct gen egyed;
     int sz,t,db,index;
     int van[SZEK];
@@ -338,10 +361,10 @@ void egyedKiir(struct gen egyed){
 }
 
  //Rendezés (növekvő)
-void Rendezes(struct gen populacio[]){
+void Rendezes(struct gen populacio[],int meret){
 	struct gen X;
     int i,j;
-	for (i=1;i<POPMERET;i++){
+	for (i=1;i<meret;i++){
  		X=populacio[i];
   		j=i-1;
   		while((j>=0) && (populacio[j].megsert>X.megsert)){
@@ -354,17 +377,21 @@ void Rendezes(struct gen populacio[]){
 
 struct gen Mutal(struct gen egyed){
     struct gen uj=egyed;
-    int cseret=rand()%TULAJDONSAG;
-    int csere1sz=rand()%SZEK;
-    int csere2sz=rand()%SZEK;
-    while (csere1sz==csere2sz) {
-        csere2sz=rand()%SZEK;
-    }
-
-    uj.allel[cseret][csere1sz]=egyed.allel[cseret][csere2sz];
-    uj.allel[cseret][csere2sz]=egyed.allel[cseret][csere1sz];
-    uj.megsert=hanyatSert(uj);
+    int hanyatmutal=rand()%5+1;
+    int i;
+    int tmp;
+    for(i=0;i<hanyatmutal;i++){
+        int cseret=rand()%TULAJDONSAG;
+        int csere1sz=rand()%SZEK;
+        int csere2sz=rand()%SZEK;
+        while (csere1sz==csere2sz) {
+            csere2sz=rand()%SZEK;
+        }
+        tmp=uj.allel[cseret][csere1sz];
+        uj.allel[cseret][csere1sz]=uj.allel[cseret][csere2sz];
+        uj.allel[cseret][csere2sz]=tmp;
     return uj;
+    }
 }
 
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
@@ -384,23 +411,44 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
     egyed.megsert=hanyatSert(egyed);
     return egyed;
 }
-
-int main(){
-
+void joMegoldasTeszt(){
     //Jo megoldas tesztelese:
-    /*void TestGoodSolution(struct gen jomegoldas);{
-        struct gen jomegoldas={"black","blue","purple","red","white",
-                                "Carmen", "Diana", "Jane", "Lidia","Melissa",
-                                "10,000 $", "20,000 $", "30,000 $", "40,000 $","50,000 $",
-                                "cosmopolitan", "daiquiri", "manhattan", "margarita","martini",
-                                "emerald", "moonstone", "pearl", "sapphire","turquoise",
-                                "40","45","50","55","60"};
-        egyedKiir(jomegoldas);
+    struct gen jomegoldas={
+        .allel = {
+            {BLACK, BLUE, PURPLE, RED, WHITE},
+            {CARMEN, DIANA, JANE, LIDIA, MELISSA},
+            {TIZK, HUSZK, HARMINCK, NEGYVENK, OTVENK},
+            {COSMOPOLITAN, DAIQUIRI, MANHATTAN, MARGARITA, MARTINI},
+            {EMERALD, MOONSTONE, PEARL, SAPPHIRE, TURQUOISE},
+            {NEGYVEN, NEGYVENOT, OTVEN, OTVENOT, HATVAN}
+        }
+    };
+    jomegoldas.megsert=hanyatSert(jomegoldas);
+    egyedKiir(jomegoldas);
+}
+
+int bennevanemar(struct gen egyedek[], int meddig, struct gen uj){
+    return 0;}
+
+void Megold(){
+
+    struct gen populacio[POPMERET];
+    struct gen tmp;
+    int i;
+    for(i=0;i<POPMERET;i++) {
+        do{
+            tmp=kezdetiRandom();
+        } while(bennevanemar(populacio,i,tmp));
+        populacio[i]=tmp;
     }
-    */
+
+    struct gen temp[POPMERET*4];
+    // Iteralasok
+    int k;
+    int j;
 
     // Kezdeti populacio inicializalasa
-    struct gen populacio[POPMERET];
+    /*struct gen populacio[POPMERET];
     int i;
     for(i=0;i<POPMERET;i++) {
         populacio[i]=kezdetiRandom();
@@ -409,7 +457,7 @@ int main(){
     struct gen temp[POPMERET*3];
     // Iteralasok
     int k;
-    int j;
+    int j;*/
 
 
     for(i=0;populacio[0].megsert!=0;i++){
@@ -433,13 +481,13 @@ int main(){
            for (j=0;j<POPMERET;j++){
            int x=rand()%POPMERET;
            int y=rand()%POPMERET;
-           temp[k]=Keresztez(populacio[x],populacio[y]);
+           temp[k]=Keresztez(temp[x+POPMERET],temp[y+POPMERET]);
            k++;
 		   }
 
 
         // Valasszuk ki, kik maradnak
-        Rendezes(temp);
+        Rendezes(temp,4*POPMERET);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
         for (j=0; j<MEGTART;j++){
             populacio[j]=temp[j];
@@ -453,5 +501,12 @@ int main(){
 			}
 		}
     }
+    printf("******************************\n");
+    egyedKiir(populacio[0]);
+}
+int main(){
+
+    //joMegoldasTeszt();
+    Megold();
     return 0;
 }
