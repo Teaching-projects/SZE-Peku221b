@@ -396,8 +396,9 @@ struct gen Mutal(struct gen egyed){
 struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 	int sz,t;
 	struct gen egyed;
+    int hol=rand()%TULAJDONSAG;
 	for (t=0;t<TULAJDONSAG;t++){
-		if (t<TULAJDONSAG/2){
+		if (t<hol){
             for (sz=0;sz<SZEK;sz++){
                 egyed.allel[t][sz]=egyed1.allel[t][sz];
             }
@@ -469,8 +470,14 @@ void Megold(){
             k++;
         }
 
-		// Crossover 2.0
-           for (j=0;j<POPMERET;j++){
+        for (j=0;j<POPMERET;j++){
+           int x=rand()%POPMERET;
+           int y=rand()%POPMERET;
+           temp[k]=Keresztez(populacio[x],populacio[y]);
+           k++;
+         }
+		// Crossover 2.0 mutaltakon
+        for (j=0;j<POPMERET;j++){
            int x=rand()%POPMERET;
            int y=rand()%POPMERET;
            temp[k]=Keresztez(temp[x+POPMERET],temp[y+POPMERET]);
