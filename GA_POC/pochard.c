@@ -76,7 +76,7 @@ int Teszt1(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,DONATION,HARMINCK);
     int egyed2= HanyadikSzek(egyed,AGE,NEGYVEN);
 
-	return (egyed1==egyed2-1);
+	return !(egyed1==egyed2-1);
 }
 
 int Teszt2(struct gen egyed){
@@ -84,7 +84,7 @@ int Teszt2(struct gen egyed){
    int egyed1=HanyadikSzek(egyed,NAME,DIANA);
    int egyed2= HanyadikSzek(egyed,AGE,OTVEN);
 
-   return (egyed1==egyed2-1);
+   return !(egyed1==egyed2-1);
 
 }
 
@@ -93,7 +93,7 @@ int Teszt3(struct gen egyed){
    int egyed1=HanyadikSzek(egyed,NECKLACE,EMERALD);
    int egyed2= HanyadikSzek(egyed,DRESS,PURPLE);
 
-   return (egyed1==egyed2-1);
+   return !(egyed1==egyed2-1);
 
 }
 
@@ -102,7 +102,7 @@ int Teszt4(struct gen egyed){
    int egyed1=HanyadikSzek(egyed,NECKLACE,PEARL);
    int egyed2= HanyadikSzek(egyed,DONATION,TIZK);
 
-   return (egyed1==egyed2);
+   return !(egyed1==egyed2);
 }
 
 int Teszt5(struct gen egyed){
@@ -110,7 +110,7 @@ int Teszt5(struct gen egyed){
    int egyed1=HanyadikSzek(egyed,COCKTAIL,MARTINI);
    int egyed2= HanyadikSzek(egyed,DONATION,TIZK);
 
-   return (egyed1==egyed2-1 || egyed1-1==egyed2);
+   return !(egyed1==egyed2-1 || egyed1-1==egyed2);
 
 }
 
@@ -120,7 +120,7 @@ int Teszt6(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,NECKLACE,TURQUOISE);
     int egyed2= HanyadikSzek(egyed,DONATION,HARMINCK);
 
-    return (egyed1==egyed2);
+    return !(egyed1==egyed2);
 }
 
 int Teszt7(struct gen egyed){
@@ -128,7 +128,7 @@ int Teszt7(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,AGE,HATVAN);
     int egyed2= HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
 
-    return !(egyed1==egyed2-1);
+    return (egyed1==egyed2-1);
 }
 
 int Teszt8 (struct gen egyed) {
@@ -136,7 +136,7 @@ int Teszt8 (struct gen egyed) {
     int egyed1=HanyadikSzek(egyed,DRESS,WHITE);
     int egyed2= HanyadikSzek(egyed,DONATION,OTVENK);
 
-    return (egyed1==egyed2-1 || egyed1-1==egyed2);
+    return !(egyed1==egyed2-1 || egyed1-1==egyed2);
 
 }
 
@@ -146,7 +146,7 @@ int Teszt9 (struct gen egyed) {
     int egyed2= HanyadikSzek(egyed,DONATION,HUSZK);
     int egyed3=HanyadikSzek(egyed,DONATION,NEGYVENK);
 
-    return (egyed2<egyed1 && egyed1<egyed3);
+    return !(egyed2<egyed1 && egyed1<egyed3);
 }
 
 int Teszt10(struct gen egyed){
@@ -154,7 +154,7 @@ int Teszt10(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,NAME,LIDIA);
     int egyed2= HanyadikSzek(egyed,DRESS,BLACK);
 
-    return (egyed1==egyed2-1 || egyed1-1==egyed2);
+    return !(egyed1==egyed2-1 || egyed1-1==egyed2);
 
 }
 
@@ -163,7 +163,7 @@ int Teszt11(struct gen egyed) {
     int egyed1=HanyadikSzek(egyed,NAME,JANE);
     int egyed2= HanyadikSzek(egyed,DONATION,HUSZK);
 
-    return (egyed1==egyed2);
+    return !(egyed1==egyed2);
 }
 
 int Teszt12(struct gen egyed){
@@ -171,7 +171,7 @@ int Teszt12(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
     int egyed2= HanyadikSzek(egyed,NAME,MELISSA);
 
-	return !(egyed1==egyed2-1);
+	return (egyed1==egyed2-1);
 }
 
 int Teszt13(struct gen egyed){
@@ -179,7 +179,7 @@ int Teszt13(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,DRESS,BLUE);
     int egyed2= HanyadikSzek(egyed,COCKTAIL,MARGARITA);
 
-	return (egyed1<egyed2);
+	return !(egyed1<egyed2);
 }
 
 int Teszt14(struct gen egyed){
@@ -187,7 +187,7 @@ int Teszt14(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,DONATION,HUSZK);
 	int egyed2=HanyadikSzek(egyed,COCKTAIL,DAIQUIRI);
 
-	return (egyed1==egyed2-1);
+	return !(egyed1==egyed2-1);
 
 }
 
@@ -196,7 +196,7 @@ int Teszt15(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,AGE,OTVEN);
     int egyed2= HanyadikSzek(egyed,NECKLACE,PEARL);
 
-	return !(egyed1==egyed2-1);
+	return (egyed1==egyed2-1);
 
 }
 
@@ -205,7 +205,7 @@ int Teszt16(struct gen egyed){
 	int egyed1=HanyadikSzek(egyed,NAME,LIDIA);
     int egyed2= HanyadikSzek(egyed,COCKTAIL,COSMOPOLITAN);
 
-	return !(egyed1==egyed2-1 || egyed1-1==egyed2);
+	return (egyed1==egyed2-1 || egyed1-1==egyed2);
 }
 
 int Teszt17(struct gen egyed){
@@ -213,7 +213,7 @@ int Teszt17(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,DRESS,BLACK);
     int egyed2= HanyadikSzek(egyed,DONATION,NEGYVENK);
 
-	return (egyed1<egyed2);
+	return !(egyed1<egyed2);
 }
 
 int Teszt18 (struct gen egyed){
@@ -221,7 +221,7 @@ int Teszt18 (struct gen egyed){
     int egyed1=HanyadikSzek(egyed,AGE,OTVEN);
     int egyed2= HanyadikSzek(egyed,NECKLACE,SAPPHIRE);
 
-	return (egyed1==egyed2);
+	return !(egyed1==egyed2);
 }
 
 int Teszt19 (struct gen egyed){
@@ -229,7 +229,7 @@ int Teszt19 (struct gen egyed){
     int egyed1=HanyadikSzek(egyed,AGE,HATVAN);
     int egyed2= HanyadikSzek(egyed,DRESS,BLACK);
 
-	return (egyed1>egyed2);
+	return !(egyed1>egyed2);
 }
 
 int Teszt20(struct gen egyed){
@@ -237,7 +237,7 @@ int Teszt20(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,COCKTAIL,MANHATTAN);
     int egyed2=HanyadikSzek(egyed,DRESS,RED);
 
-	return !(egyed1==egyed2-1);
+	return (egyed1==egyed2-1);
 }
 
 int Teszt21(struct gen egyed){
@@ -245,7 +245,7 @@ int Teszt21(struct gen egyed){
     int egyed1=HanyadikSzek(egyed,DRESS,WHITE);
     int egyed2=HanyadikSzek(egyed,DRESS,BLACK);
 
-	return (egyed1<egyed2);
+	return !(egyed1<egyed2);
 }
 
 int hanyatSert(struct gen egyed){
