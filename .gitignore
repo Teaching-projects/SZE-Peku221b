@@ -1,3 +1,13 @@
 *.out
 *.exe
 *.o
+
+# LaTeX temps
+*.toc
+*.log
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.ps
+*.spl
