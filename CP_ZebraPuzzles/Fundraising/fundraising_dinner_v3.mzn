@@ -1,5 +1,7 @@
 include "globals.mzn";
 
+%Verzió 3: a tulajdonságok változótömbök (bináris mátrix helyett)
+
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember/korlátozás van
 int: db = 5;
 set of int: PEOPLE = 1..db;
@@ -54,6 +56,8 @@ endif;
 constraint if kivesszuk[5]=1 then true else
   forall(p in 2..db)(age[p]=fourty <-> donation[p-1]=thirtythousand)
 endif;
+% Ez nem tiltja meg, hogy age[1]=fourty és donation[db]=thirtythousand
+% Következőkre hasonlóan
 
 %Diana is exactly to the left of the 50 years old woman.
 constraint if kivesszuk[6]=1 then true else
@@ -91,6 +95,7 @@ constraint if kivesszuk[12]=1 then true else
 endif;
 
 %The guest drinking Martini is next to the guest who donated $ 10,000.
+% zárójelezni!
 constraint if kivesszuk[13]=1 then true else
    forall(p in 2..db-1)(donation[p]=tenthousand -> cocktail[p-1]=martini xor cocktail[p+1]=martini) /\
    forall(p in 2..db-1)(cocktail[p]=martini -> donation[p-1]=tenthousand xor donation[p+1]=tenthousand) /\
@@ -101,6 +106,7 @@ constraint if kivesszuk[13]=1 then true else
 endif;
 
 %The donator wearing the White dress is next to the woman who gave the biggest donation.
+% zárójelezni!
 constraint if kivesszuk[14]=1 then true else
    forall(p in 2..db-1)(donation[p]=fiftythousand -> dress[p-1]=white xor dress[p+1]=white) /\
    forall(p in 2..db-1)(dress[p]=white -> donation[p-1]=fiftythousand xor donation[p+1]=fiftythousand) /\
@@ -111,6 +117,7 @@ constraint if kivesszuk[14]=1 then true else
 endif;
 
 %Lidia is next to the guest wearing the Black dress.
+% zárójelezni!
 constraint if kivesszuk[15]=1 then true else
    forall(p in 2..db-1)(name[p]=Lidia -> dress[p-1]=black xor dress[p+1]=black) /\
    forall(p in 2..db-1)(dress[p]=black -> name[p-1]=Lidia xor name[p+1]=Lidia) /\
@@ -122,18 +129,22 @@ endif;
 
 %Lidia is next to the woman drinking Cosmopolitan.
 constraint if kivesszuk[13]=1 then true else
-   forall(p in 2..db-1)(name[p]=Lidia -> cocktail[p-1]=cosmopolitan xor cocktail[p+1]=cosmopolitan) /\
-   forall(p in 2..db-1)(cocktail[p]=cosmopolitan -> name[p-1]=Lidia xor name[p+1]=Lidia) /\
-   name[1]=Lidia -> cocktail[2]=cosmopolitan /\
-   name[db]=Lidia -> cocktail[db-1]=cosmopolitan /\
-   cocktail[1]=cosmopolitan -> name[2]=Lidia /\
-   cocktail[db]=cosmopolitan -> name[db-1]=Lidia
+   forall(p in 2..db-1)(name[p]=Lidia -> (cocktail[p-1]=cosmopolitan xor cocktail[p+1]=cosmopolitan)) /\
+   forall(p in 2..db-1)(cocktail[p]=cosmopolitan -> (name[p-1]=Lidia xor name[p+1]=Lidia)) /\
+   (name[1]=Lidia -> cocktail[2]=cosmopolitan) /\
+   (name[db]=Lidia -> cocktail[db-1]=cosmopolitan) /\
+   (cocktail[1]=cosmopolitan -> name[2]=Lidia) /\
+   (cocktail[db]=cosmopolitan -> name[db-1]=Lidia)
 endif;
 
 %The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita.
 constraint if kivesszuk[17]=1 then true else
   forall(x in PEOPLE)(cocktail[x]=margarita -> count([dress[p] | p in 1..x-1], blue)=1)
 endif;
+% ezen még lehet javítani
+% visszafelé is igaz: a margarita-ivó valahol a kék ruhástól jobbra van
+% a verzió: felvenni a fordítottját
+% b verzió: minden a<b indexpárra: not (cocktail[a]=margarita /\ dress[b]=blue)
 
 %The lady wearing the Black dress is somewhere to the left of the lady who donated $ 40,000.
 constraint if kivesszuk[18]=1 then true else
@@ -155,6 +166,7 @@ constraint if kivesszuk[21]=1 then true else
   forall(x in PEOPLE)(donation[x]=fourtythousand -> count([dress[p] | p in 1..x-1], red)=1) /\
   forall(x in PEOPLE)(donation[x]=twentythousand -> count([dress[p] | p in x+1..db], red)=1)
 endif;
+% itt is a fordítottja nincs benne, ha megvan a vörös ruhás, akkor attól balra/jobbra kell lennie a $20k/40k-nak
 
 solve satisfy;
 
@@ -165,3 +177,4 @@ output [format(width,show(donation[p])) ++ "\t" | p in PEOPLE]++["\n"];
 output [format(width,show(cocktail[p])) ++ "\t" | p in PEOPLE]++["\n"];
 output [format(width,show(necklace[p])) ++ "\t" | p in PEOPLE]++["\n"];
 output [format(width,show(age[p])) ++ "\t" | p in PEOPLE]++["\n"];
+output [show(name[4]=Lidia -> (cocktail[4-1]=cosmopolitan xor cocktail[4+1]=cosmopolitan)) ++ "\n"];

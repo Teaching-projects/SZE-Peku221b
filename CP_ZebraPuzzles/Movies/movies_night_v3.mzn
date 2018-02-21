@@ -53,43 +53,52 @@ constraint if kivesszuk[5]=1 then true else
 endif;
 
 %Joshua likes Horror movies.
+% fordított is
 constraint if kivesszuk[6]=1 then true else
-  forall(szek in PEOPLE)(name[szek]=Joshua -> movie[szek]=horror)
+  forall(szek in PEOPLE)((name[szek]=Joshua) = (movie[szek]=horror))
 endif;
 
 %Daniel likes Thriller movies
+% fordított is
 constraint if kivesszuk[7]=1 then true else
   forall(szek in PEOPLE)(name[szek]=Daniel -> movie[szek]=thriller)
 endif;
 
 %The boy wearning the Black shirt is exactly to the left of the one who likes Thriller movies.
+% fordított is
 constraint if kivesszuk[8]=1 then true else
   forall(szek in 2..db)(movie[szek]=thriller -> shirt[szek-1]=black)
 endif;
 
 %The boy who is going to eat Crackers is exactly to the right of the boy who likes Comedy movies.
+% fordított is
+% szélsőket külön lekezelni
 constraint if kivesszuk[9]=1 then true else
   forall(szek in 1..db-1)(movie[szek]=comedy -> snack[szek+1]=crackers)
 endif;
 
 %The boy wearning the Black shirt is somewhere to the left of the youngest boy.
+% fordított is
 constraint if kivesszuk[10]=1 then true else
   forall(x in PEOPLE)(age[x]=eleven -> count([shirt[szek] | szek in 1..x-1], black)=1)
 endif;
 
 %The boy wearning the Red shirt is somewhere between the 13 years old boy and the one who likes Action movies, in that order.
+% fordítottak is
 constraint if kivesszuk[11]=1 then true else
   forall(x in PEOPLE)(movie[x]=action -> count([shirt[szek] | szek in 1..x-1], red)=1) /\
   forall(x in PEOPLE)(age[x]=thirteen -> count([shirt[szek] | szek in x+1..db], red)=1)
 endif;
 
 %The boy wearning the Red shirt is somewhere between the boy who is going to eat Popcorn and Nicholas, in that order.
+% fordítottak is
 constraint if kivesszuk[12]=1 then true else
   forall(x in PEOPLE)(name[x]=Nicholas -> count([shirt[szek] | szek in 1..x-1], red)=1) /\
   forall(x in PEOPLE)(snack[x]=popcorn -> count([shirt[szek] | szek in x+1..db], red)=1)
 endif;
 
 %Nicholas is somewhere between Joshua and Daniel, in that order.
+% fordítottak is
 constraint if kivesszuk[13]=1 then true else
    forall(x in PEOPLE)(name[x]=Daniel -> count([name[szek] | szek in 1..x-1], Nicholas)=1) /\
    forall(x in PEOPLE)(name[x]=Joshua -> count([name[szek] | szek in x+1..db], Nicholas)=1)
