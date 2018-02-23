@@ -1,6 +1,6 @@
 #include <stdio.h>
-
 #include "ga.h"
+
 
 /*
  * Feladatkivalasztas
@@ -12,8 +12,8 @@
 
 int main(){
 
-    // JoMegoldasTeszt();
+    //JoMegoldasTeszt();
     Megold();
-
     return 0;
 }
+
