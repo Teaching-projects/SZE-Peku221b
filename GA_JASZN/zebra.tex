@@ -34,7 +34,7 @@
 \chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % unassigned
     \todo{Par mondat az alapveto elgondolasrol, hogy melyik fejezetben mirol lesz szo}
 
-    \section{Kódszerkezet} % unassigned
+    \section{Kódszerkezet} % Dani
         \todo{Hogy van szervezve a kod, milyen fuggvenyek vannak,azok mikert fognak felelni roviden.}
 
     \section{Egyedreprezentáció és segédfüggvények} % unassigned
@@ -44,14 +44,24 @@
     \section{Evolúciós mechanizmusok} % unassigned
         \todo{esetleg par felvezeto szo, a kapcsolodo makrok megemlitese (popmeret, megtart)}
         
-        \subsection{Random új egyed generálás} % unassigned
+        \subsection{Random új egyed generálás} % Dani
             \todo{Milyen volt az elso valtozat, hogy lett fejlesztve}
             
         \subsection{Mutálás} % unassigned
             \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
             
-        \subsection{Keresztezés} % unassigned
-            \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
+        \subsection{Keresztezés} % Dani
+            
+            {Keresztezésből alapvetően két fajtát különböztetünk meg. Az egypontos és a kétpontos keresztezést. Az egypontos keresztezés esetében a kromoszómákat véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból újakat hozunk létre. \Aref{fig_keresztez-mukodes} ábra szemlélteti a függvény működésének a lényegét. A kétpontos keresztezés hasonlóan működik, csak ebben az esetben 2 ponton vágjuk el az allélt és a keletkezett 3 darabot fűzzük össze tetszőleges sorrendben. }
+            
+            {A mi esetünkben az egyedek allélja egy 2 dimenziós tömb, amelyen egypontos keresztezés került alkalmazásra. Itt 2 fajta választási lehetőség fordul elő. Vagy soronként vágunk vagy a tömböt szedjük ketté. Ebben az esetben az utóbbi eljárás került megírásra. A programok mindegyike egypontos keresztezést használ, ami a sorokat cseréli meg egy bizonyos ponton elvágva a tömböt. A program során 2 fajta keresztezés került kidolgozásra. Az első verzió egy fix ponton vágta el a tömböt és a 2 felét cserélte meg. A fix pont a számtani közepe a tulajdonságok számainak. Ezzel a módszerrel az a probléma, hogy a folytonos közepén való vágás nem illeszkedik bele a genetikus algoritmus randomitásába. Későbbiekben ez a módszer egy változó segítségével javítva lett azt biztosítva, hogy minden egyedpár különböző helyen legyen elválasztva.}
+            
+            {A program írása során két fajta keresztezés került kipróbálásra. \Aref{fig_keresztez-egyedvalasztas} ábrán látható crossover 1.0 is úgy lett kitalálva, hogy minden egyeden végezzen keresztezést, viszont az a hibája, hogy mindig 2 egymás mellett lévőn végzi el. Ez viszont nem bizonyult előnyösnek, mivel a populáció tömb rendezve volt így a legjobb egyedek egymás között keresztezve igen nagy eséllyel rosszabb egyedet adtak eredményképpen. \Aref{fig_keresztez-egyedvalasztas} ábrára visszautalva, ezt igen egyszerűen ki lehetett javítani azzal, hogy a populáció tömbből véletlenszerűen választunk ki 2 egyedet és azokon végez a program keresztezést. Ez a módszer lehetővé teszi a programnak azt is, hogy 2 egyforma egyedet válasszon ki, ezzel fenntartva a lehetőséget, hogy egy-egy egyed keresztezés nélkül kerüljön be a temp tömbbe. Az 1.0-ás változathoz képest jelentős eltérés, hogy ez a módszer nagy eséllyel hagy olyan egyedeket amiken nem végez keresztezést, mivel nem kerül kiválasztásra. Azonban ez a genetikus algoritmus jegyeit jobban mutatja, mivel 2 véletlenszerűen kiválasztott egyeden végez keresztezést egy véletlenszerűen választott pontban.}
+            
+            {A keresztezés POPMÉRET db alkalommal fut le, azonban a többi evolúciós algoritmushoz hasonlóan innen sem maradt ki a keresztezés a mutált egyedeken , ami szintén POPMÉRET db-szor fut le. Mivel a temp tömb 4*POPMÉRET méretű így a keresztezett egyedek pont a temp felét teszik ki végül, így ebben az algoritmusban is a keresztezés dominál.}
+        
+            \Abra{keresztez-mukodes}{A keresztezés mechanizmusa}{width=6cm}
+            \Abra{keresztez-egyedvalasztas}{Keresztezési módok kódja}{width=6cm}
 
         \subsection{Megold függvény} % unassigned
             \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
@@ -62,7 +72,7 @@
 \chapter{Tesztek} % unassigned
     \todo{Futtatasi eredmenyek, megoldasok megmutatasa, stb.}
 
-\chapter{Kód automatikus generálása} % unassigned
+\chapter{Kód automatikus generálása} % Dani
     \todo{Miert akarjuk}
     \todo{Hogy csinaltuk}
     \todo{pelda}
