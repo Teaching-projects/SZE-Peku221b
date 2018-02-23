@@ -76,5 +76,74 @@
 \appendix
 
 \chapter{Mintafejezet}
+    \section{Kep betoltese}
+        Kep betoltese a \texttt{Abra} makroval az alabbiak szerint. Az elso parameter a fajl neve, ebbol lesz egy fig\_fajlnev cimke, amit ref-ekhez lehet hasznalni. MAsodik parameter a kepalairas, a harmadik a meret.
+        \begin{verbatim}
+            \Aref{fig_zebra} abran bla bla.
+            \Abra{zebra}{Talalo kepalairas}{width=6cm}
+        \end{verbatim}
+
+        \Aref{fig_zebra} abran bla bla.
+        \Abra{zebra}{Talalo kepalairas}{width=6cm}
+
+
+    \section{Tablazatok}
+        Tablazatot a \texttt{Tablazat} makroval lehet csinalni az alabbiak szerint. Az elso parameter a cimke, ebbol lesz egy tab\_cimke cimke, amit ref-ekhez lehet hasznalni. MAsodik parameter a tablazat cime, a harmadik az oszlopok szerkezete (lasd tabular tutorial), az utolso maga a tablazat tartalma.
+        \begin{verbatim}
+            Ahogy az \aref{tab_cimke} tablazatban lathato, bla bla bla.
+            \Tablazat{cimke}{Tablazat cime}{r||cc|l}
+            {
+                Elso sor elso cella jobra igazitva & kozepre & kozepre & balra \\
+                \hline
+                Masodik sor & & yay & much wow\\
+                ize & bize & mize & meh... \\
+            }
+        \end{verbatim}
+
+
+
+        Ahogy az \aref{tab_cimke} tablazatban lathato, bla bla bla.
+        \Tablazat{cimke}{Tablazat cime}{r||cc|l}
+        {
+            Elso sor elso cella jobra igazitva & kozepre & kozepre & balra \\
+            \hline
+            Masodik sor & & yay & much wow\\
+            ize & bize & mize & meh... \\
+        }
+
+
+    \section{Forraskodok beemelese}
+        Forraskodot vagy a \texttt{Forraskod} makroval lehet betolteni a fajlbol, ahol az elso parameter a fajl neve, a masodik tovabbi opciok, pl hogy melyik sortol melyik sorig, stb. A masik lehetoseg, hogy a kodba keruljon be az alabbiak szerint:
+
+        \begin{verbatim}
+            \Forraskod{ize.c}{frame=single,lastline=4}
+        \end{verbatim}
+
+        \Forraskod{ize.c}{frame=single,lastline=4}
+
+        \begin{verbatim}
+            \begin{lstlisting}[frame=single, language=C]
+                printf("Hello world\n");
+                if(whatever){
+                    return 1;
+                } else do {
+                    tanuljmegindentalni();
+                } while (i<5);
+            \end{lstlisting}
+        \end{verbatim}
+        
+        \begin{lstlisting}[frame=single, language=C]
+            printf("Hello world\n");
+            if(whatever){
+                return 1;
+            } else do {
+                tanuljmegindentalni();
+            } while (i<5);
+        \end{lstlisting}
+
+
+
+
+    
 
 \end{document}
