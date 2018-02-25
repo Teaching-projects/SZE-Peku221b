@@ -11,7 +11,7 @@
 
 \tableofcontents
 
-\chapter{Bevezetés} % unassigned
+\chapter{Bevezetés} % Máté
     \todo{Absztrakt bovebben, szoveges tartalomjegyzek}
 
 \chapter{Zebra rejtvények} % Balázs
@@ -31,7 +31,7 @@
     \todo{Altalanos felepitesuk}
     \todo{Akar par szo arrol, mi mindenre alkalmaztak oket, hivatkozasok}
 
-\chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % unassigned
+\chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
     \todo{Par mondat az alapveto elgondolasrol, hogy melyik fejezetben mirol lesz szo}
 
     \section{Kódszerkezet} % Dani
@@ -47,20 +47,22 @@
 			
 			{A feladatspecifikus részek jól elkülöníthetők a programban. Itt generálható a feladatban szereplő adatokból a neki megfelelő makrók, hogy későbbiekben egyszerűen egy számként hivatkozhassunk az egyes egyedekre. A programban létrehozott egyedek kritériumoknak való megfelelését a fitnesz függvény értékeli ki. A mi esetünkben ez a \texttt{hanyatSert} elnevezést kapta. Minden Zebra típusú feladvány tartalmaz kritériumokat, amik egy egységes szabályrendszer segítségével leírhatók így akár egy Excel tábla segítségével is könnyen teszt generálható belőlük. Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.}
 
-    \section{Egyedreprezentáció és segédfüggvények} % unassigned
+    \section{Egyedreprezentáció és segédfüggvények} % Fruzsi
         \todo{Hogy reprezentaljuk az egyedet}
         \todo{egyedkiir, sorbarendez, ...}
 
-    \section{Evolúciós mechanizmusok} % unassigned
+    \section{Evolúciós mechanizmusok} % Fruzsi
         \todo{esetleg par felvezeto szo, a kapcsolodo makrok megemlitese (popmeret, megtart)}
         
         \subsection{Random új egyed generálás} % Dani
         
-        \Abra{random}{Random egyed generálási módszerek.}{width=12cm}
-        
-         {Az elso változat még csak feltöltötte az egyedet 0-3-ig a székeket minden tulajdonság estén.}
+         {A random új egyed generálása a \texttt{kezdetiRandom} függvényben játszott csak szerepet. Itt azonban különböző stádiumokon esett át a függvény. Ahogy a kód fejlődött úgy ez is mindig módosult. \Aref{fig_random} ábra bemutatja hogy a kód fejlődése során milyen működési mechanizmusokat használt a függvény. Az ábrán egy 5x5-ös méretű egyed szemlélteti a működésének lényegét.}
+         
+        \Abra{random}{Random egyed generálási módszerek.}{width=12cm}      
+           
+         {\Aref{fig_random} ábrán 1.0-val jelölt, azaz az első változat még csak feltöltötte az egyedben 0-4-ig a székeket minden tulajdonság estén. Tulajdonképpen ez is éppen annyira lehetséges megoldás, mintha valóban random generálnánk. A 2.0-ás és a 3.0-ás ábrák egyaránt megírásra kerültek azonban a 3.0-ás került végül bevezetésre, mivel annak a működése a legáttekinthetőbb. A 3.0 tulajdonképpen a Random 1.0-ból indul ki és azon végez "mutációkat", azaz cserélgeti az elemeit, ezzel egy véletlenszerű sorrendet generálva. Azonban a Random 2.0 működése is említésre méltó. Ez a random sorba megy 0-tól 4-ig a számokon és a helyüket (szék sorszáma) keresi meg tulajdonságonként. A hely keresést a "van" tömb használatával oldja meg az algoritmus. Minden iterációban generál egy random számot, ez a darab. A darab maximális értéke iterációnként egyre kisebb lesz. A kezdetben csak nullákból álló "van" tömbhöz minden egyes iterációban hozzáfűzünk egy-egy egyest a következőképpen: a darab szám eggyel csökken, ha a van tömbben 0-t találunk és változatlan marad, ha 1-est. Így tulajdonképpen a darab azt mutatja meg, hogy hányadik üres helyre szeretnénk berakni az éppen aktuális számot. A függvény addig megy amíg minden helyre 1-es nem került. Ez egy sor. Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.}
             
-        \subsection{Mutálás} % unassigned
+        \subsection{Mutálás} % Fruzsi
             \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
             
         \subsection{Keresztezés} % Dani
@@ -77,21 +79,30 @@
             
             {A keresztezés POPMÉRET db alkalommal fut le, azonban a többi evolúciós algoritmushoz hasonlóan innen sem maradt ki a keresztezés a mutált egyedeken , ami szintén POPMÉRET db-szor fut le. Mivel a temp tömb 4*POPMÉRET méretű így a keresztezett egyedek pont a temp felét teszik ki végül, így ebben az algoritmusban is a keresztezés dominál.}
 
-        \subsection{Megold függvény} % unassigned
+        \subsection{Megold függvény} % Fruzsi
             \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
 
-    \section{Egyedek kiértékelése} % unassigned
+    \section{Egyedek kiértékelése} % Máté
         \todo{Itt is szepen be lehet mutatni, hogy hogyan fejlodott, meg meg lehet mutatni mind az ot-hat tipusra egy peldat}
 
-\chapter{Tesztek} % unassigned
+\chapter{Tesztek} % Máté
     \todo{Futtatasi eredmenyek, megoldasok megmutatasa, stb.}
 
 \chapter{Kód automatikus generálása} % Dani
-    \todo{Miert akarjuk}
-    \todo{Hogy csinaltuk}
-    \todo{pelda}
+    {Az első program megírása után már felmerült az igény, hogy legyen valami ami legenerál bármilyen feladathoz egy kódot. Ez könnyedén megoldható, hiszen a program genetikus része minden ilyen fajta problémához egységesen kell, hogy működjön, így a generált kódokban a genetikus részt nem is kell módosítani csak a feladathoz tartozó adatokat kell átírni. Mivel a program 3 .c kiterjesztésű állományból áll, így a 2 genetikus vonatkozást tartalmazó program mindig fix maradhat és csak egy 3. a tesztet és a struktúrát tartalmazó .c kiterjesztésű fájlt kell cserélgetni, valamint ezt kell a main-be egyszerűen include művelettel beágyazni. A kód generálása azért egy hasznos dolog, mert így a genetikus algoritmusok bármelyik felhasználóhoz eljuthatnak, hiszen nem kell programozási ismeret hozzá. Csak ki kell tölteni a táblázatot, kiexportálni egy c fájlba, majd lefuttatni a main.c-t, természetesen a main.c-be nem szabad kifelejteni a kapott fájl beágyazását.}
+    
+    \Abra{generalas-egyed}{Egyedek megadása}{width=8cm}    
+    
+    {A kódgenerálás kivitelezésére a Microsoft Office Excel program tűnt a leginkább optimálisnak, hiszen ezzel a programmal a szöveg összefűzési műveletek és az input bevitele viszonylag egyszerűen megoldhatóak. \Aref{fig_generalas-egyed} és \Aref{fig_generalas-tesztek} ábrák a legelső program Excelbe történő bevitelét hivatottak szemléltetni. Azonban a táblázat úgy van megtervezve, hogy akár egy 20x20-as egyedmérettel és akár 250 teszttel is működőképes legyen. Maga a munkafüzet igen felhasználó barát. 4 lapból áll, amiből 2 lapvédelem alatt áll.}
+    {Az első lap az Adatok. Ide egészen egyszerűen csak be kell írni a tulajdonságokat és a különböző székeken lévő értékeket. Még csak azzal sem kell foglalkozni, hogy a székek vagy a tulajdonságok számát beírjuk, mivel a bevitt adatokhoz képest dinamikusan változnak ezek a számok is. Egyedül a POPMÉRET és a MEGTART értékeit lehet módosítani a makrók közül. Annyi kritérium van azonban a lappal kapcsolatban, hogy a szám adatokat szöveggel kell bevinni a program helyes futása érdekében (a program legenerálódik így is, csak a makrók nem lehetnek számok, így nem tudjuk futtatni majd).}
+    
+    \Abra{generalas-tesztek}{Tesztek megadása}{width=12cm}
+      
+    {A második lap a Tesztek nevet kapta. Ide maximum 250 darab tesztet lehet megadni, ami egy 20x20-as egyedhez elegendő is. A tesztek szöveges megadása nem kötelező. Anélkül is le lehet generálni a kódot. Ha valaki meg szeretné adni a teszt szövegét is annak nem kell X-et raknia a teszttípusok megfelelő négyzetébe. Amennyiben valaki eltekint a teszt szöveges megadásától annak be kell X-elnie az egyik oszlopot különben nem generálódik le a teszt. Ezeken felül a teszt típusától függően kötelező megadni 1, 2 vagy 3 egyed értékét. A tulajdonság fajtáját nem kell megnevezni, mivel azt egy függvény a bevitt érték alapján vissza tudja keresni a későbbiekhez. \Aref{fig_generalas-tesztek} ábrán láthatjuk ennek a felületnek a megjelenését. Azonban a lapon megjelenik még egy position elnevezésű oszlop is, amit csak a tőle ballra/jobbra, illetve konkrét pozíciót leíró függvények esetén kell használni.}
+    
+    {A harmadik lapot (Kódok) már lapvédelem védi. Ez a lap kizárólag segéd lapként szerepel a munkafüzetben. Azért van lapvédelem alatt, hogy a felhasználó bele kattintani se tudjon, mivel neki azzal semmi dolga nincs. Az kizárólag a tesztek kóddá való átírására szolgál. Az egész program végül az utolsó Program lapon áll össze. Egy szűrő segítségével a lapon csak a felhasználó szempontjából értékes adatok láthatóak. A program dinamikus változását úgy lehetett csak megoldani, hogy sok üres cellát iktasson közbe. Ezek azonban egy egyszerű szűréssel mind eltüntethetőek, szóval a felhasználók csak a programot látják. Ez a legenerált kód. Ezzel nincs más dolog már, mint kijelölni az egész látható területet (a felesleg el van rejtve) és beilleszteni egy .c kiterjesztésű fájlba. (Ami fontos a kimásolás előtt, hogy a lap tartalma frissítve legyen. Ez könnyedén elérhető, mert csak rá kell kattintani a szűrő ikonjára és minden módosítás nélkül le kell okézni.) Innen már a main.c-be amikor a felhasználó beírja include paranccsal a létrehozott .c kiterjesztésű fájl nevét akkor észlelni fogja a program és le is fut (ha nem nincs elírás a munkafüzetben).}
 
-\chapter{Összefoglalás} % unassigned
+\chapter{Összefoglalás} % Máté
     \todo{Mit csinaltunk roviden}
 
 \chapter*{Hivatkozások}

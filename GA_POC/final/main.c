@@ -2,13 +2,10 @@
 #include "ga.h"
 
 
-/*
- * Feladatkivalasztas
- */
 #include "movie.h"
-//#include "feladatok/fundraiser.h"
-//#include "feladatok/einstein.h"
-//#include "feladatok/mocsoknagykitenyesztett.h"
+//#include "fundraiser.h"
+//#include "einstein.h"
+//#include "mocsoknagykitenyesztett.h"
 
 int main(){
 
