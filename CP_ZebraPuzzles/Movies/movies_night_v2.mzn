@@ -1,8 +1,8 @@
 %Bemenő paraméter és segédhalmaz az indexeléshez: hány ember van
 int: db = 4;
 set of int: PEOPLE = 1..db;
-int: korlatozasok;
-array[1..korlatozasok] of int: kivesszuk;
+%int: korlatozasok;
+%array[1..korlatozasok] of int: kivesszuk;
 
 %Tulajdonságok
 enum NAMES = {Daniel, Joshua, Nicholas, Ryan};
@@ -35,9 +35,7 @@ constraint forall(p in PEOPLE)(sum(a in AGES)(age[a, p])=1);
 constraint forall(a in AGES)(sum(p in PEOPLE)(age[a, p])=1);
 
 %The 14 years old boy is at third position.
-constraint if kivesszuk[1]=1 then true else
-  age[fourteen,3]=1
-endif;
+constraint  age[fourteen,3]=1;
 
 %At first position is the boy wearning the Green shirt.
 constraint shirt[green,1]=1;
