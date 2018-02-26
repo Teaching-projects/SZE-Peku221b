@@ -12,7 +12,38 @@
 \tableofcontents
 
 \chapter{Bevezetés} % Máté
-    \todo{Absztrakt bovebben, szoveges tartalomjegyzek}
+	{A logikai rejtvény olyan feladvány, mely a matematika levezetési, bizonyítási területéről származik. Az ilyen jellegű fejtörők már a sumér társadalom emberét is foglalkoztatták. Logikai rejtvényt először Charles Lutwidge Dodgson angol író hozott létre. A logika játéka (The Game of Logic) című 1886-ban megjelent könyvében egy olyan játékot mutatott be, melyben kijelentések alapján kellett megerősíteni a következtetést. Az ilyesféle feladványokat nevezzük szillogizmusnak. Ezenkívül léteznek még teljesen non-verbális rejtvények:}
+	\begin{itemize}
+	\item Sudoku, melyben megadott szabályok szerint számjegyeket kell elhelyezni egy táblázatban,
+	\item Nonogram vagy grafilogika, mely úgy foglalja magába a dedukció használatát, hogy egy rács fekete-fehér négyzetekkel történő helyes kitöltése egy képet alkot,
+	\item Logikai labirintus, melyben a dedukció felhasználásával a labirintus szabályai kell kitalálni.
+	\end{itemize}
+
+	{Továbbá egy igen közkedvelt típus az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét, mivel állítólag ő találta fel kisfiúként. Számos különböző változata létezik, akad köztük olyan, melyet már az ’60-as években publikáltak. Gyakran állítják, hogy az emberiség csupán két százaléka képes megoldani az Einstein-rejtvényt. Ezek megoldása kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra:}
+	\begin{itemize}
+	\item Visszalépéses keresés, amikor egy fastruktúrát elképzelve a gyökérből kiindulva egy csúcsot keresünk
+	\item Korlátozási programozás, ahol a változók közötti kapcsolatokat korlátok formájában adjuk meg
+	\item A feladvány Prolog nyelven való megírása, ahol egy megadott logikai formuláról képes eldönteni, hogy logikai következménye-e formulák egy adott halmazának.
+	\end{itemize}
+
+	{A modern mérnöki alkalmazásokban, gépi tanulásban is egyre nagyobb népszerűségnek örvendő evolúciós algoritmusok is alkalmasak többek között ilyen jellegű kielégíthetőségi feladatok megoldására. Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely a biológiai evolúció mechanizmusára épül. Munkánk során egy genetikus algoritmus került kidolgozásra, és tesztelésre több példán. A genetikus algoritmus optimalizációs eljárás, ahol a lehetséges hipotéziseket az egyedek a hipotézis tér valamely részét pedig a populációk reprezentálják. A számítástechnikában és a mesterséges intelligenciában alkalmazott heurisztikus keresési technika az evolúciós biológiában ihletett technikák alkalmazásával: mutáció, szelekció, reprodukció és rekombináció.}
+
+	{Fontosabb felhasználási területek:}
+
+	\begin{itemize}
+	\item autóipari és mérnöki tervezés
+	\item robotika
+	\item biomimetikus találmányok
+	\item útvonalválasztás utazás vagy szállítmányozás során
+	\item titkosítás és kódtörés
+	\item értékesítés
+	\end{itemize}
+
+	{A genetikus algoritmusok minden egyes lépésben heurisztikák segítségével módosítják, vagy bővítik az aktuális populációt. Minden egyes lépésben képesek adni egy közelítést a megoldásra, amelynek a pontossága az idő teltével nő. A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek nagy számú teszteset futtatásának tapasztalai alapján.}
+
+	{Az empirikus vizsgálatok automatizálásának érdekében több rejtvényt elemezve az ezekben előforduló megkötések rendszerezve lettek. Egy olyan módszer került kidolgozásra, mely a feladat egy formális leírásából megoldó kód generálására képes. Az így keletkezett rendszerrel könnyedén vizsgálhatóvá váltak további feladatok, melyeken futtatott tesztek segítségével az algoritmus működése tovább javítható.}
+
+	{Dolgozatunkat elsősorban a Zebra rejtvények részletesebb bemutatásával kezdjük. Itt szó esik a történetéről, szerkezetéről, hogy miből állnak a fejtörők, illetve néhány részlet. Említésre kerül még a megoldhatóság eltérő lehetőségei, valamint az irodalomban megtalálható megoldó módszerek. Ezt követően az evolúciós algoritmusokat kívánjuk szemléltetni. Bemutatjuk történetüket és felépítésüket. Folytatásként betekintést nyújtunk arról, miképp lehet felhasználni az evolúciós algoritmusokat Zebra rejtvények megfejtésére. Ismertetjük a kódszerkezetet, a különféle egyedreprezentációkat és segédfüggvényeket, bemutatjuk az evolúciós mechanizmusokat, majd végül az egyedek kiértékeléséről esik szó. Ezt követően szemléltetjük a teszteket, azok megoldásait és futtatási eredményeit, valamint demonstráljuk kódunk automatikus generálásának elgondolását és kivitelezését. Végezetül összefoglaljuk, mit csináltunk célunk elérése érdekében.}
 
 \chapter{Zebra rejtvények} % Balázs
     \todo{Egy bevezeto mondat, + hogy melyik alfejezetben mi lesz}
