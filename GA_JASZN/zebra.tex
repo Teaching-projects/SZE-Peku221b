@@ -69,20 +69,106 @@
 
 \chapter{Zebra rejtvények} % Balázs
     \todo{Egy bevezeto mondat, + hogy melyik alfejezetben mi lesz}
+
+	A logikai feladványok egyik legnépszerűbb és legsajátosabb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. A 2.1es alfejezetben a történetük és szerkezetük kerül bemutatásra, a 2.2es alfejezetben a megoldhatóságukat, egyértelműségüket vizsgáljuk. A 2.3as alfejezetben pedig különböző megoldó módszerek kerülnek bemutatásra.
     
     \section{Történet és szerkezet} % Balázs
         \todo{Miert zebra, mikbol all a rejtveny, Einstein peldajabol reszlet akar}
 
+A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, melyről a logikai feladványoknak ez a típusa a nevét is kapta, hiszen az Einstein-példa egyik változatában a zebra tulajdonosának kiléte a fő kérdés. Úgy tartják, hogy Einstein ezeknek a feladványok az atyja, aki állítólag gyerekként találta ki a rejtvényt és azt vallotta róla, hogy az embereknek csupán 2 százaléka képes azt megoldani.
+
+Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését. Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, valamint az általa kedvelt ital, cigarettamárka és a háziállat, amit tart. Azonban egyik ház sajátosságait sem ismerjük kezdetben. Ekkor jönnek képbe az állítások. Einstein 15 állítást adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
+
+\Abra{Einstein-pelda}{Az Einstein-példa egyik változata}{width=7cm}
+
     \section{Megoldhatóság, egyértelműség} % Balázs
         \todo{Pici peldakon bemutatni, hogy ha rosszak a szabalyok, akkor lehet nincs megoldas, vagy ha keves a szabaly, akkor lehet tobb megoldas is van. Egy nagyon apro (3 szek, 2 tulajdonsag mondjuk) pelda kitalalasa es megoldasa par lepesben. }
 
+A zebra típusú rejtvények esetében rendkívül fontos az, hogy kellő mennyiségű állítás, megkötés álljon rendelkezésünkre, illetve az is elengedhetetlen, hogy ezek pontosak legyenek. Az alábbi rövid példák ezek fontosságára hívják fel a figyelmünket, valamint egy rövid, egyszerű feladat is megoldásra kerül.
+Példánkban adott 3 tanuló. Tudni szeretnénk, hogy az adott sorszámú tanulónak mi a neve, valamint az életkora.
+
+A megoldás a már korábban megismert állítások segítségével fejthető meg. Fontos azonban, hogy ezek pontos állítások legyenek és ne ütközzünk ellentmondásba, hiszen akkor nem tudunk jó megoldást találni. Például:
+\begin{itemize}
+\item Az 1. pozícióban lévő tanuló neve Peti.
+\item A 2. pozícióban lévő tanulótól balra lévő tanuló neve Réka.
+\end{itemize}
+
+Mint ahogy \Aref{fig_picipelda2} ábrán látható, ebben az esetben a két állításnak nem tudunk egyszerre eleget tenni, így nem kapunk megoldást.
+
+\Abra{picipelda2}{}{width=6cm}
+
+Az sem jó eset, ha túl kevés megkötést adunk meg, ekkor ugyanis több lehetséges megoldás is létezik:
+\begin{itemize}
+\item Az 1. pozícióban lévő tanuló neve Peti.
+\item A 20 éves tanuló a 25 és a 30 éves tanulók között helyezkedik el, de nem biztos, hogy ebben a sorrendben.
+\item A 20 éves tanulót Rékának hívják.
+\end{itemize}
+
+Ekkor  \Aref{fig_picipelda3} és \Aref{fig_picipelda4} ábrák szerinti megoldások mindegyike helyes lenne.
+
+\Abra{picipelda3}{}{width=6cm}
+\Abra{picipelda4}{}{width=6cm}
+
+
+Egy helyes példa és annak megoldása pár lépésben a következőképp néz ki:
+\begin{itemize}
+\item Az 1. pozícióban lévő tanuló neve Peti.
+\item A 20 éves tanuló a 25 és a 30 éves tanulók között helyezkedik el, de nem biztos, hogy ebben a sorrendben.
+\item A 20 éves tanulót Rékának hívják.
+\item A 30 éves tanuló neve Jani.
+\end{itemize}
+
+Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük. Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. A megoldást \Aref{fig_picipelda5} ábra mutatja.
+
+\Abra{picipelda5}{}{width=6cm}
+
     \section{Megoldó módszerek} % Balázs
         \todo{Irodalomban talalhato modszerek, 2 mondat roluk, hivatkozasok}
+
+A zebra rejtvények megoldására több különböző módszer is született. 
+Az egyik módszer a feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével. 
+A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
+További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg.
+
 
 \chapter{Evolúciós algoritmusok} % Balázs
     \todo{Tortenetuk, hivatkozasok}
     \todo{Altalanos felepitesuk}
     \todo{Akar par szo arrol, mi mindenre alkalmaztak oket, hivatkozasok}
+
+Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely az evolúció mechanizmusára épül. Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
+
+Az evolúciós, vagy más néven genetikus algoritmusok működési elvének alapja az evolúció darwini elméletén nyugszik, mely során a természetben a folyamatosan változó életkörülményekhez való alkalmazkodás a fő szempont. Az evolúciós algoritmusok esetében az optimalizáláskor mindvégig azonos feladat megoldását keressük.
+
+Az egyes egyedek reprezentációja során a kódolásához használt struktúra a kromoszóma vagy genotípus. Génkészletünket a genomok alkotják. Egy genom egy vagy két kromoszómából áll, a kromoszómák pedig génekből épülnek fel. A gén lehet egy bitsztring, alkothatják egész vagy valós számok vagy akár szimbólumok. A gén értékét az allél vagy génváltozat határozza meg.
+
+Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
+
+\Abra{GA-abra}{Az evolúciós algoritmus általános felépítése}{width=7cm}
+
+Mint ahogyan \Aref{fig_GA-abra} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. A rossz megoldásokon később viszonylag könnyen lehet javítani. 
+
+Az inicializációt követi a kiértékelés, mely során az evolúciós algoritmus a rátermettségi függvény alapján eldönti, hogy melyik megoldás mennyire jó. Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
+
+Az aránytalanságok elkerülése érdekében fontos szerepe van a rangsorolásnak, mivel nem optimális az, ha például néhány „túl jó” egyed hoz létre sok utódot, ugyanis hasonló egyedek keresztezésével nem jutunk előre.
+
+A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi értéke alapján válogatunk közöttük. Ilyen módszerek például a rulettkerék kiválasztás, versengő kiválasztás, valamint a levágó kiválasztás.
+
+A kiválasztást követi a keresztezés, melynek két fő fajtája az egy- illetve kétpontos keresztezés. Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
+
+\Abra{egypontos}{Az egypontos keresztezés}{width=7cm}
+
+\Abra{ketpontos}{A kétpontos keresztezés}{width=7cm}
+
+Keresztezés végezhető még egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
+
+A következő lépés a mutáció, melynek lényege, hogy bizonyos gének értékeit megváltoztatjuk. A direkt kódolással történő mutáció esetében a véletlenszerűen választott gén értékét véletlenszerűen módosítjuk. Ennek során csak egy gén értéke változik meg, ezért kis valószínűséggel mutálnak. A mutáció végrehajtható sorrendi kódolással is, mely során két véletlenszerűen választott gén kerül felcserélésre. De miért is van szükségünk mutációra? Egyrészt segít az eddig az egyedekben elő nem forduló, jó allélok felfedezésében, lehetővé teszi a populációból a generációk során kikerült, de valójában jó génértékek visszaállítását. Szerepe van továbbá a globális optimum környezetének megtalálásában, illetve a genetikai változatosság növelésében is.
+
+A leállási feltétel megvizsgálása előtt már csak egy fő lépés van hátra: a reprodukció. Az új gének a már eleve meglévő, illetve a keresztezés és mutáció során keletkezett átmeneti gének elemeiből jönnek létre. Léteznek úgynevezett kanonikus genetikus algoritmusok is, melyek teljesen leváltják az előző gént. Az újonnan keletkezett utódok számának alakulása befolyásolható, mégpedig úgy, hogy a rátermettség alapján eldöntjük, hogy a korábbi generáció utódai közül melyek íródjanak felül. Fontos szerepe van az elitizmusnak is, melynek lényege, hogy az előző generáció legrátermettebb egyedeit megtartjuk.
+
+A kilépési feltétel többféleképpen megadható. Kilépés történhet a generációk száma alapján vagy az időkorlát megadásával. Megadható továbbá a konvergencia vizsgálatával, például akkor, ha az utóbbi meghatározott számú generáció alatt nem sikerült javítani a legjobb egyedeken. Bizonyos esetekben egyértelműen eldönthető, hogy megtaláltuk-e a megoldást, például akkor, ha 0 hibapontos egyedet kaptunk.
+
+Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a számítógépes környezetben egyre nagyobb népszerűségnek örvendenek, de az üzleti szférában és az autógyártásban is alkalmazzák őket. Egyes cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor is támaszkodnak evolúciós algoritmusokra, de az autók festésének koordinációja is elvégezhető a segítségükkel. Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálásában is.
 
 \chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
 	Célunk az volt, hogy a Zebra típusú feladványokat olyan algoritmus felhasználásával oldjuk meg, mely nem csupán egy konkrét példa megoldására képes, hanem bármilyen, mi általunk megszabott feladatot meg tud oldani.
