@@ -14,7 +14,7 @@ compiler: gcc
 
 install: true
 
-script: gcc -Wall GA_POC/poc.c  #&& for i in `ls CP_POC/*.mzn`; do ./gecode $i; done;
+script: gcc -Wall GA_POC/poc.c  && gcc -Wall GA_POC/pochard.c #&& for i in `ls CP_POC/*.mzn`; do ./gecode $i; done;
 
 notifications:
   email:
