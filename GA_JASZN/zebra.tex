@@ -39,7 +39,7 @@
     A genetikus algoritmus optimalizációs eljárás, ahol a lehetséges hipotéziseket az egyedek a hipotézis tér valamely részét pedig a populációk reprezentálják.
     A számítástechnikában és a mesterséges intelligenciában alkalmazott heurisztikus keresési technika az evolúciós biológiában ihletett technikák alkalmazásával: mutáció, szelekció, reprodukció és rekombináció.
 
-	Fontosabb felhasználási területek:
+	\noindent{Fontosabb felhasználási területek:}
 
 	\begin{itemize}
         \item autóipari és mérnöki tervezés
@@ -85,7 +85,24 @@
     \todo{Akar par szo arrol, mi mindenre alkalmaztak oket, hivatkozasok}
 
 \chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
-    \todo{Par mondat az alapveto elgondolasrol, hogy melyik fejezetben mirol lesz szo}
+	Célunk az volt, hogy a Zebra típusú feladványokat olyan algoritmus felhasználásával oldjuk meg, mely nem csupán egy konkrét példa megoldására képes, hanem bármilyen, mi általunk megszabott feladatot meg tud oldani.
+    Erre legalkalmasabbnak az evolúciós algoritmusok feleltek meg.
+
+	{A 4.1 fejezetben a kódszerkezet kerül bemutatásra, hogy miképp van szervezve a kód, illetve a benne megtalálható függvényeknek mi a feladata.}
+
+	{Ezt követően a 4.2 fejezetben mutatjuk be az egyedreprezentációt és a kapcsolódó segédfüggvényeket.}
+
+	{Ezek után a 4.3 fejezetben részletezésre kerülnek az evolúciós mechanizmusok:}
+
+	\begin{itemize}
+	\item a véletlenszerű új egyed generálás
+	\item a mutálás
+	\item a keresztezés
+	\item  valamint a \texttt{Megold} függvény.
+	\end{itemize}
+
+	{Végül a 4.4 fejezetben az egyedek kiértékeléséről lesz szó.}
+
 
     \section{Kódszerkezet} % Dani
 			A kód alapvetően 2 logikai egységre szedhető szét.
@@ -197,10 +214,29 @@
             \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
 
     \section{Egyedek kiértékelése} % Máté
-        \todo{Itt is szepen be lehet mutatni, hogy hogyan fejlodott, meg meg lehet mutatni mind az ot-hat tipusra egy peldat}
+	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak. Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (\texttt{Teszt}) 0-át ad vissza értékül, különben pedig 1-et.
+
+	Az egyedek kiértékelésében fontos szerepet játszik az általunk beállított fitnesz függvény, a hanyatSert függvény.
+
+	\Forraskod{hanyatsert.c}{frame=single , lastline=10}
+
+	{A cél az, hogy a függvény 0 értéket adjon vissza, ami azonban csak akkor valósul meg, ha a program eleget tesz az összes teszt feltételének.}
+	Ellenkező esetben a függvény 0-nál nagyobb értéked ad vissza, attól függően hogy hány darab tesztet sértett meg.
+	Jelen esetben 13 teszt feltételének kell a programunknak szimultán megfelelnie.
+
+	
 
 \chapter{Tesztek} % Máté
-    \todo{Futtatasi eredmenyek, megoldasok megmutatasa, stb.}
+	A program futtatását követően figyelemmel lehet követni, hogy hány generáció született meg ahhoz ahhoz, hogy beteljesedjen az összes teszt feltétele.
+
+	\Abra{test-in-progress}{A program futás alatt}{width=6cm}
+
+	A precizitás az idő függvényében változik: az idő előrehaladtával egyre inkább közelít a jó megoldás felé, egészen addig, amíg a hanyatSert függvény 0-át nem ad vissza értékül.
+
+	\Abra{test-final-result}{Végeredmény}{width=6cm}
+
+	Figyelembe véve, hogy egy egyszerű példáról van szó, amely nem tartalmaz sok tulajdonságot és személyt, a program egy szempillantás alatt megoldja a feladatot.
+	Átlagosan 8 generáció születik meg a végeredényhez érve, valamint átlagosan mindössze 0.005 (!) másodperc alatt fut le hibátlanul.
 
 \chapter{Kód automatikus generálása} % Dani
     Az első program megírása után már felmerült az igény, hogy legyen valami ami legenerál bármilyen feladathoz egy kódot.
