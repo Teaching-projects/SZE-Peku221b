@@ -232,11 +232,69 @@ Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a
             Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.
 
     \section{Egyedreprezentáció és segédfüggvények} % Fruzsi
-        \todo{Hogy reprezentaljuk az egyedet}
-        \todo{egyedkiir, sorbarendez, ...}
+
+	
+			Az algoritmusban az egyedeket székek és tulajdonságok reprezentálják, és tekintve, hogy egy tulajdonság többféle értéket is felvehet, így egy egyed több allélból áll. Az egyed felírásához szükséges függvény az alábbi módon néz ki:
+
+	\begin{lstlisting}[frame=single, language=C]
+	struct gen{
+   	 int allel[TULAJDONSAG][SZEK];
+   	 int megsert;
+	\end{lstlisting}
+	}
+			N darab tulajdonságnál egy tulajdonság 0 és n-1 érték között vehetett értéket, ahol n a tulajdonság számát jelentette, és az allélok pedig 0 és m-1 között vehettek fel értéket, ahol az m az allél számát jelentette. Ez a fajta felírás az algoritmusban alkalmazva az alábbi 		módon nézett ki:
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[4][3]==0
+	\end{lstlisting}
+			
+	A fenti kódrészlet alapján lehetett visszakódolni, hogy az allél pontosan mit jelent. Az alábbi kódrészlet egy kezdetleges megoldást reprezentál, mely egy kisebb példánál nem, de egy nagyobb feladványnál annál inkább kellemetlenséget tud okozni, és visszafejtése nehézkes.
+	Egy olyan lehetőséget próbáltunk még ki, ami végül nem került megvalósításra, viszont úgy tette egyszerűbbé az egyedek megadását, hogy a makrokban megadott értékekről nem kellett tudnunk, hogy azok pontosan melyik tulajdonsághoz tartoznak. A teljes kód tehát a tulajdonság, és az előző verzióban is használatos számokból tevődik össze. A BLACK kódja így például 00. 
+	\begin{lstlisting}[frame=single, language=C]
+	#define SHIRT 0
+ 	#define BLACK 00
+    	#define BLUE 01
+	#define GREEN 02
+    	#define RED 03 
+	\end{lstlisting}
+			Mivel több tulajdonság is volt, így létrejöttek olyan kódok mint a 20; 33; 41 stb, melyek értékének visszafejtése időigényesnek bizonyult. Az interpretáció könnyítésére elkészült egy segédfüggvény, amely a kódok értékét elosztotta tízzel, így például a 41-es értékből az algoritmus visszakapta a 4 értéket, melyet a makróból kiolvasva azonosított. 
+Ezt használva, tehát nem volt szükség a fent bemutatott leírásra, hanem elég volt az alábbi módon megadni egy allélt:
+
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[type(Joshua)][0]==Joshua
+	\end{lstlisting}
+
+
+	Egy következő megoldás volt, melyet a legkönnyebb feladvány megoldásánál is használtunk, ugyanezen makrók igénybevétele. Itt tudván, hogy egyes allélok melyik tulajdonsághoz tartoznak, vagyis, hogy a Joshua a Name tulajdonsághoz tartozik és nem a Snackhez, egyszerűen fel lehetett írni az allélokat.
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[SHIRT][sz]==BLACK
+	\end{lstlisting}
+
+	Ezt a megoldást egy \texttt{HanyadikSzek} nevű segédfüggvény létrehozásával egyszerűsítettük a nehezebb feladványokhoz. Ebben a megoldásban nem volt szükség a teszteknél minden egyes egyednél ellenőrizni, hogy a megadott értéket veszi-e fel, mint az előző verzióknál. Itt elég volt megadni a feladvány által megadott tulajdonságot és annak értékét, majd a teszttől függően az egyedek között fennálló összefüggést ellenőrizni.
+	\begin{lstlisting}[frame=single, language=C]
+  	  int egyed1=HanyadikSzek(egyed,DONATION,HARMINCK);
+   	 int egyed2= HanyadikSzek(egyed,AGE,NEGYVEN);
+	
+		return !(egyed1==egyed2-1);
+	\end{lstlisting}
+
+
+	Az algoritmus finomhangolásához, és az ellenőrzések leegyszerűsítéséhez elkészült egy \texttt{TULNEVEK} nevezetű kétdimenziós, sztringekből álló tömb. Ezt a tömböt használta az \texttt{egyedKiir} függvény, mely, mint neve is indikálja, az egyedek kiírásáért volt felelős. Az ellenőrzésekhez elengedhetetlen volt egy olyan függvény létrehozása, mely vizsgálta, hogy egy egyed milyen kikötéseket sért meg. Ez a függvény a \texttt{hanyatSert} volt, melyet az \texttt{egyedKiir} használt fel. Ennek használata természetesen egy olyan feladatnál, ahol fennáll annak a lehetősége, hogy nincs megoldás nem tud mindig segíteni, viszont az algoritmus fejlesztésénél létrejött olyan funkció is, amely ezt ellenőrzi.
+Esetünkben viszont minden feladatnak volt megoldása, így a \texttt{hanyatSert} függvény segítségével ellenőrizni lehetett, hogy valóban egy kikötés nem teljesül-e, vagy az algoritmus megfelelő működéséhez szükséges paraméterezés nem megfelelő.
+
 
     \section{Evolúciós mechanizmusok} % Fruzsi
-        \todo{esetleg par felvezeto szo, a kapcsolodo makrok megemlitese (popmeret, megtart)}
+       		A genetikus algoritmusok az evolúció mintája alapján az abban megtalálható mechanizmusokat modellezik, melyek segítségével különböző, a feladatok megoldásához elengedhetetlen egyedek hozhatók létre.
+Ilyen mechanizmus a mutáció és a keresztezés, illetve itt kap jelentőséget az egyedek fitnesz értéke, amely gyakorlatilag a természetes kiválasztódást jelenti, így a szelekció alapját képezi. Ezek segítségével válik a populáció fejlődőképessé. 
+
+	A mutáció és a keresztezés az alappopuláció egyedein alkalmazva új egyedeket hoznak létre. Ennek méretét a \texttt{POPMÉRET} makro adja meg, mely pontosan 100 egyedet jelent. A mutálás és keresztezés futása előtt fontos, hogy ezek rendelkezésére álljon egy alappopuláció, melyen egy ciklus segítségével lefuthatnak. Ezt az alappopulációt a \texttt{kezdetiRandom} függvény képezi le, melyről a későbbiekben lesz szó.
+	A mutáció, keresztezés, és a mutáltak keresztezése a 4.2. ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 400 egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek. A tömbből a \texttt{MEGTART} makro segítségével az első 10, vagyis legjobb egyed kerül kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből. 
+	
+	Az egyedek fitnesz értékét vizsgáló függvény azok sikerességét figyeli, vagyis azt nézi, hogy hány kikötést nem sért meg az adott egyed futás során. Tehát minél többet megsért, annál rosszabb lesz a fitnesz értéke, és rendezés esetén annál hátrébb kerül, végső soron pedig kihull. 
+	
+	Arra való tekintettel viszont, hogy vannak olyan esetek amikor az algoritmus megragadhat egy lokális szélsőértékben, fontos a valószínűségi szabályok szerinti kiválasztás. Ezt a mutálás és a keresztezés biztosítja.
+A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a \texttt{POPMERET} makró is, hiszen ezek értéke jelentősen befolyásolhatja egy algoritmus futási idejét. Ezek értéke természetesen az adott feladványtól, feladványtípustól függ, így a minél nagyobb, vagy minél kisebb érték nem feltétlen jelent gyorsabb futásidőt.
+
+
         
         \subsection{Random új egyed generálás} % Dani
         
@@ -263,7 +321,14 @@ Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a
          Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.
             
         \subsection{Mutálás} % Fruzsi
-            \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
+           	 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. Tekintettel viszont arra, hogy így annak a lehetősége is fennáll, hogy rosszabb egyed jön létre, a mutálást kisebb gyakorisággal alkalmazzuk. 
+		A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
+		Azt figyelembe véve, hogy az egyedek alléljai kétdimenziós tömbből kerülnek kiválasztásra, a mutációt lehet végezni vagy a székek szerint, vagy a tulajdonságok szerint. Az algoritmusban a székek, vagyis oszlopok szerinti mutációt alkalmaztuk.
+	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve.
+	A 4.3.2-es ábrán látható a mutáció működési mechanizmusa.
+		Az algoritmus kezdeti státuszában a függvényben az egyed egyszer került mutálásra. Hogy a mutáció és ezzel együtt az egyedek is változatosabbak legyenek egy hanyatmutal nevű változó került bevezetésre. A változó 1 és 5 között vesz fel véletlenszerű módon értéket 		és aszerint fut le az egyed többszöri mutálását végző ciklus.
+	Az algoritmusban a mutáció a Megold függvényben kerül meghívásra \texttt{POPMERET} db alkalommal, vagyis 100 db mutált egyed kerül a TEMP tömbbe, így negyedét kitéve annak. Ugyanezen a 100 egyeden végez a keresztezés függvény újabb 100 egyedet létrehozva, melyek 		ugyancsak a temp tömbbe kerülnek.
+
             
         \subsection{Keresztezés} % Dani
             
@@ -297,7 +362,14 @@ Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a
             Mivel a temp tömb 4*POPMÉRET méretű így a keresztezett egyedek pont a temp felét teszik ki végül, így ebben az algoritmusban is a keresztezés dominál.
 
         \subsection{Megold függvény} % Fruzsi
-            \todo{Ugyanez. Milyen valtozatok voltak, vannak, részletesen bemutatva}
+            	A \texttt{Megold} függvényben gyakorlatilag a már eddig megismert függvények meghívása valósul meg.
+	A \texttt{Megold} függvényt az algoritmus kezdeti fázisában a  \texttt{main} függvény helyettesítette, amiben a kezdeti random populáció generálása, és a temp tömb\texttt{ POPMERET} értékének szerinti feltöltése történt. Utóbbinál a \texttt{ POPMERET} többszörös értékét volt szükséges megadni a mutáció és keresztezés miatt, melyek függvényhívása a mainben egy megadott ciklusérték szerint történt. A  \texttt{mainben} került továbbá meghívásra a rendezés függvény, mely a generált temp tömbön végzett rendezést. A legelső változatban még nem szerepelt, viszont a genetikus algoritmusok egyik alapvető elemeként hamar bekerült a rendezésbe az elit egyedek kiválasztására szolgáló kódrészlet, ami a \texttt{MEGTART} makró értékét használja.
+	Az algoritmus fejlesztése során egyre több függvény került a \texttt{Megold}, eredetileg \texttt{main} függvénybe. Így került bele az \texttt{egyedKiir} függvény is, mely igen fontos szerepet játszott az algoritmus működőképességének ellenőrzésekor.
+A \texttt{Megold} függvényben először is létre kellett hozni egy temp tömböt a kódban előforduló \texttt{ POPMERET} szerinti keresztezés és mutáció alapján. A \texttt{kezdetiRandom} függvény segítségével létrehoztunk 100 egyedet, mely a temp tömbbe bemásolásra került. 		Ugyanez történt a keresztezés és mutálás, illetve a már mutált egyedek keresztezésével kapott új egyedekkel is. 
+	A temp tömb ezután rendezésre kerül a fitneszérték alapján, és a \texttt{MEGTART}  makróban megadott számú egyed átmásolásra kerül a populáció tömbbe. A temp tömbből ezután a \texttt{MEGTART}  számmal kevesebb egyedből \texttt{ POPMERET}-\texttt{MEGTART}  darab egyed kerül kiválasztásra a fitneszérték alapján jobbra értékelt egyedekből és töltődik be a populáció tömbbe.
+A \texttt{Megold} függvény végén még egy olyan funkció került beépítésre, ami a megtalált megoldást az előtte generált populációktól jól láthatóan elválasztja.
+A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorolt függvények és a \texttt{Megold} függvénybe lettek átrakva.  A  \texttt{main} ennek ellenére továbbra is megmaradt, és a \texttt{Megold} függvényt hívja meg.
+
 
     \section{Egyedek kiértékelése} % Máté
 	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak. Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (\texttt{Teszt}) 0-át ad vissza értékül, különben pedig 1-et.
