@@ -1,8 +1,8 @@
 #ifndef GA_H
 #define GA_H
 
-#define POPMERET 1000
-#define MEGTART 50
+#define POPMERET 100
+#define MEGTART 15
 
 #include "feladatvalaszto.h"
 

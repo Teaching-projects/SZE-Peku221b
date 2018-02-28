@@ -2,8 +2,8 @@
 #include <stdio.h>
 int main(){
 
-    joMegoldasTeszt();
-    getchar();
+    //joMegoldasTeszt();
+    
     Megold();
     return 0;
 }
