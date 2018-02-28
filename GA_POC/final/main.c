@@ -1,15 +1,9 @@
-#include <stdio.h>
 #include "ga.h"
-
-
-#include "movie.h"
-//#include "fundraiser.h"
-//#include "einstein.h"
-//#include "mocsoknagykitenyesztett.h"
-
+#include <stdio.h>
 int main(){
 
-    //JoMegoldasTeszt();
+    joMegoldasTeszt();
+    getchar();
     Megold();
     return 0;
 }

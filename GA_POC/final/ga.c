@@ -1,15 +1,6 @@
+#include "ga.h"
 #include <stdio.h>
-#define SZEK 4
-#define TULAJDONSAG 5
-
-
-
-
-struct gen{
-    int allel[TULAJDONSAG][SZEK];
-    int megsert;
-}
-
+#include <stdlib.h>
 
 struct gen kezdetiRandom(){
     struct gen egyed;
