@@ -130,35 +130,17 @@ Az egyik módszer a feladvány megoldása Prolog nyelven kényszerfeltétel kiel
 A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
 További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg.
 
-Lucas Bordeaux a constraint és a satisfiability programmingról írtak összehasonlító elemzést 2006-ban megjelent publikációjukban\cite{Bordeaux:2006:PSC:1177352.1177354}
-
-Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
 
 Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
 
 Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
 
-Soricone Robert és Neville Melvin a 2004-ben megjelent cikkükben részletesebben vizsgálták a mutáció és keresztezés hatását a genetikus algoritmusokban\cite{Soricone:2004:CAG:1046191.1032304}
-
-Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak a Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
+Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak az ismert Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
 
 T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}
 
-Bui Thang N. és Nguyen ThanhVu H. 2006-os értekezésükben vizsgálják a gráfszínezési módszereket\cite{Bui:2006:AAG:1143997.1144001}
+Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával, evolúciós algoritmus segítségével\cite{Garrett:2005:GAS:1068009.1068333}
 
-Gizem Sungu és Betul Boz által 2015-ben kiadott tanulmány gráfszínezési problémákat vizsgál evolúciós algoritmusok segítségével.\cite{Sungu:2015:EAW:2739482.2768488}
-
-Jun Zhang, Henry S. H. Chung illetve Jinghui Zhong 2005-ben foglalkoztak részletesebben a mutáció és keresztezés hatásával áramkörök optimalizálásánál\cite{Zhang:2005:ACM:1068009.1068267}
-
-Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény által létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
-
-Robert E. Smith, B. A. Dike és S. A. Stegmann	1995-ös tanulmányukban elemezték a fitnesz függvényt és az öröklődést a genetikus algoritmusokban\cite{Smith:1995:FIG:315891.316014}   
-
-Lee K. Graham, Steffen Christensen illetve Franz Oppacher 2007-ben foglalkoztak az algoritmus fitnesz függvényének dinamikusságával, és annak a megoldásra való hatásával\cite{Graham:2007:SGA:1276958.1277243}
-
-Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}
-
-Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával\cite{Garrett:2005:GAS:1068009.1068333}
 
 
 \chapter{Evolúciós algoritmusok} % Balázs
@@ -173,6 +155,7 @@ Az evolúciós, vagy más néven genetikus algoritmusok működési elvének ala
 Az egyes egyedek reprezentációja során a kódolásához használt struktúra a kromoszóma vagy genotípus. Génkészletünket a genomok alkotják. Egy genom egy vagy két kromoszómából áll, a kromoszómák pedig génekből épülnek fel. A gén lehet egy bitsztring, alkothatják egész vagy valós számok vagy akár szimbólumok. A gén értékét az allél vagy génváltozat határozza meg.
 
 Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
+
 
 \Abra{GA-abra}{Az evolúciós algoritmus általános felépítése}{width=7cm}
 
@@ -199,6 +182,12 @@ A leállási feltétel megvizsgálása előtt már csak egy fő lépés van hát
 A kilépési feltétel többféleképpen megadható. Kilépés történhet a generációk száma alapján vagy az időkorlát megadásával. Megadható továbbá a konvergencia vizsgálatával, például akkor, ha az utóbbi meghatározott számú generáció alatt nem sikerült javítani a legjobb egyedeken. Bizonyos esetekben egyértelműen eldönthető, hogy megtaláltuk-e a megoldást, például akkor, ha 0 hibapontos egyedet kaptunk.
 
 Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a számítógépes környezetben egyre nagyobb népszerűségnek örvendenek, de az üzleti szférában és az autógyártásban is alkalmazzák őket. Egyes cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor is támaszkodnak evolúciós algoritmusokra, de az autók festésének koordinációja is elvégezhető a segítségükkel. Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálásában is.
+
+Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
+
+A genetikus algoritmusok természetesen nem csupán a logikai feladványok, hanem matematikai példák, problémák megoldásában is kiemelkedőek. Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
+
+
 
 \chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
 	Célunk az volt, hogy a Zebra típusú feladványokat olyan algoritmus felhasználásával oldjuk meg, mely nem csupán egy konkrét példa megoldására képes, hanem bármilyen, mi általunk megszabott feladatot meg tud oldani.
@@ -260,6 +249,11 @@ A programban létrehozott egyedek kritériumoknak való megfelelését a fitnesz
 A mi esetünkben ez a \texttt{hanyatSert} elnevezést kapta.
 Minden Zebra típusú feladvány tartalmaz kritériumokat, amik egy egységes szabályrendszer segítségével leírhatók így akár egy Excel tábla segítségével is könnyen teszt generálható belőlük.
 Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.
+
+
+Robert E. Smith, B. A. Dike és S. A. Stegmann	1995-ös tanulmányukban elemezték a fitnesz függvényt és az öröklődést a genetikus algoritmusokban\cite{Smith:1995:FIG:315891.316014}   
+
+Lee K. Graham, Steffen Christensen illetve Franz Oppacher 2007-ben foglalkoztak az algoritmus fitnesz függvényének dinamikusságával, és annak a megoldásra való hatásával\cite{Graham:2007:SGA:1276958.1277243}
 
     \section{Egyedreprezentáció és segédfüggvények} % Fruzsi
 
@@ -329,6 +323,8 @@ Ilyen mechanizmus a mutáció és a keresztezés, illetve itt kap jelentőséget
 	Arra való tekintettel viszont, hogy vannak olyan esetek amikor az algoritmus megragadhat egy lokális szélsőértékben, fontos a valószínűségi szabályok szerinti kiválasztás. Ezt a mutálás és a keresztezés biztosítja.
 A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a \texttt{POPMERET} makró is, hiszen ezek értéke jelentősen befolyásolhatja egy algoritmus futási idejét. Ezek értéke természetesen az adott feladványtól, feladványtípustól függ, így a minél nagyobb, vagy minél kisebb érték nem feltétlen jelent gyorsabb futásidőt.
 
+Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hatásaként létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
+
 
         
         \subsection{Random új egyed generálás} % Dani
@@ -376,6 +372,7 @@ A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a
 	
 	Az algoritmusban a mutáció a Megold függvényben kerül meghívásra és \texttt{POPMERET} alkalommal mutál egyedet, vagyis 100 db mutált egyed kerül a TEMP tömbbe, így negyedét kitéve annak.
 
+
             
         \subsection{Keresztezés} % Dani
             
@@ -407,6 +404,10 @@ A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a
             
             A keresztezés POPMÉRET db alkalommal fut le, azonban a többi evolúciós algoritmushoz hasonlóan innen sem maradt ki a keresztezés a mutált egyedeken , ami szintén POPMÉRET db-szor fut le.
             Mivel a temp tömb 4*POPMÉRET méretű így a keresztezett egyedek pont a temp felét teszik ki végül, így ebben az algoritmusban is a keresztezés dominál.
+
+Soricone Robert és Neville Melvin a 2004-ben megjelent cikkükben részletesebben vizsgálták a mutáció és keresztezés hatását a genetikus algoritmusokban\cite{Soricone:2004:CAG:1046191.1032304}
+Jun Zhang, Henry S. H. Chung illetve Jinghui Zhong 2005-ben foglalkoztak a mutáció és keresztezés hatásával áramkörök optimalizálásánál\cite{Zhang:2005:ACM:1068009.1068267}
+
 
         \subsection{Megold függvény} % Fruzsi
             	A \texttt{Megold} függvényben gyakorlatilag a már eddig megismert függvények meghívása valósul meg.
