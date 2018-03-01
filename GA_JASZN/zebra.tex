@@ -191,45 +191,45 @@ Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a
 
 
     \section{Kódszerkezet} % Dani
-			A kód alapvetően 2 logikai egységre szedhető szét.
-            Van egy egységes, genetikus kód rész és egy az adott feladatra vonatkozó specifikációkat tartalmazó rész.
-            Ez a genetikus algoritmusban három különböző részre jól elkülönítve látszik.
-            A genetikus rész 2 .c fájlban található egy main és egy a genetikus függvényeket tartalmazó állományban.
-            Így egy újabb példára való futtatás alkalmával elég csak a teszteket tartalmazó részt átírni.
-            
-			
-			A genetikus rész legfontosabb függvényeiről a későbbiekben még lesz szó, ezek a mutálás, random kezdőegyedek beállítása, valamint a keresztezés.
-            Azonban emellett más függvények is fontos szerepet játszanak az algoritmus lefutásában.
-            \Aref{fig_egyedkiir} ábrán látható megjelenítésért az \texttt{egyedKiir} függvény a felelős, amely az aktuálisan létrehozott populáció legjobb egyedét hivatott bemutatni a programot futtató felhasználó számára.
-            Majd végül kiírja a jó megoldást is.
-            A kódba bele van építve egy \texttt{joMegoldasTeszt} nevű függvény, ami nincs használatban és a main függvényben is ki van kommentezve.
-            Ez arra szolgál, hogy amikor újabb feladatot akarunk megoldani a programmal és ismerjük a megoldását, akkor esetleges futási hiba esetén ezzel le tudjuk ellenőrizni, hogy a tesztekkel van-e a gond és ha igen akkor melyikkel.
-			
-			\Abra{egyedkiir}{A program lefutása}{width=10cm}
-			
-			A main függvényben \texttt{joMegoldasTeszt} függvény mellett jelen van a \texttt{Megold} függvény is.
-            Ez a függvény felelős a feladatok megoldásáért.
-            A tesztek alapján beállítottunk egy fitnesz függvényt, mi esetünkben ezt \texttt{hanyatSert}nek nevezzük.
-            A program célja az, hogy a fitnesz értéke 0 legyen, ami akkor valósül meg, ha minden teszt feltételének eleget tesz a program.
-            Ez a program leállási feltétele.
-            A \texttt{Megold} függvény szerkezete igen egyszerű.
-            A POPMERET makróval a program elején beállíthatjuk mennyi egyedet szeretnénk létrehozni az alap populációba és a MEGTART makróval pedig beállíthatjuk mennyi legyen az elit egyedek száma, azaz mennyit tartsunk meg a legjobbak közül.
-            A ciklusba belépés előtt egy kezdeti populációt kell beállítani a programnak.
-            Ezt biztosítja nekünk a \texttt{kezdetiRandom} nevű függvény.
-            Majd ezután léphetünk be a ciklusba, ami a jó megoldásig ismétlődik.
-            A ciklus lényege, hogy feltöltsünk egy temp elnevezésű tömböt, ami minden egyes műveletet POPMERET darabszor hajt végre, majd ebből a már POPMERET*4 elemszámú tömbből egy sorba rendezést követően kiválasztunk MEGTART darab elit egyedet a rendezett tömb elejéről.
-            Ezt követően a továbbiakat úgy választjuk ki, hogy nagy eséllyel a jókat válasszuk, de adott legyen az esély a rosszabb egyedek beválogatására is, hiszen az evolúció során is mindig maradnak fent rosszabb egyedek is.
-            Így áll végül össze a populáció elnevezésű tömb ami ezt a POPMERET darab egyedet tartalmazza, amit később visszatöltünk a ciklusba.
-            \Aref{fig_temp} ábra is ezt a folyamatot hivatott egyszerűen szemléltetni. Jól látszik az ábrán a 4 művelet amiből a ciklus áll. Fontos azonban megjegyezni, hogy a populáció tömböt az első lefutásnál még a \texttt{kezdetiRandom}ból vesszük át teljes egészében és csak a ciklus későbbi lefutásánál töltjük fel a kiválasztott egyedekkel.
-			
-			\Abra{temp}{A megoldás lefutásának szemléltetése.}{width=10cm}
-			
-			A feladatspecifikus részek jól elkülöníthetők a programban.
-            Itt generálható a feladatban szereplő adatokból a neki megfelelő makrók, hogy későbbiekben egyszerűen egy számként hivatkozhassunk az egyes egyedekre.
-            A programban létrehozott egyedek kritériumoknak való megfelelését a fitnesz függvény értékeli ki.
-            A mi esetünkben ez a \texttt{hanyatSert} elnevezést kapta.
-            Minden Zebra típusú feladvány tartalmaz kritériumokat, amik egy egységes szabályrendszer segítségével leírhatók így akár egy Excel tábla segítségével is könnyen teszt generálható belőlük.
-            Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.
+		A kód alapvetően 2 logikai egységre szedhető szét.
+		Van egy egységes, genetikus kód rész és egy az adott feladatra vonatkozó specifikációkat tartalmazó rész.
+		Ez a genetikus algoritmusban három különböző részre jól elkülönítve látszik.
+		A genetikus rész 2 .c fájlban található egy main és egy a genetikus függvényeket tartalmazó állományban.
+		Így egy újabb példára való futtatás alkalmával elég csak a teszteket tartalmazó részt átírni.
+		
+		
+		A genetikus rész legfontosabb függvényeiről a későbbiekben még lesz szó, ezek a mutálás, random kezdőegyedek beállítása, valamint a keresztezés.
+		Azonban emellett más függvények is fontos szerepet játszanak az algoritmus lefutásában.
+		\Aref{fig_egyedkiir} ábrán látható megjelenítésért az \texttt{egyedKiir} függvény a felelős, amely az aktuálisan létrehozott populáció legjobb egyedét hivatott bemutatni a programot futtató felhasználó számára.
+		Majd végül kiírja a jó megoldást is.
+		A kódba bele van építve egy \texttt{joMegoldasTeszt} nevű függvény, ami nincs használatban és a main függvényben is ki van kommentezve.
+		Ez arra szolgál, hogy amikor újabb feladatot akarunk megoldani a programmal és ismerjük a megoldását, akkor esetleges futási hiba esetén ezzel le tudjuk ellenőrizni, hogy a tesztekkel van-e a gond és ha igen akkor melyikkel.
+		
+		\Abra{egyedkiir}{A program lefutása}{width=16cm}
+		
+		A main függvényben \texttt{joMegoldasTeszt} függvény mellett jelen van a \texttt{Megold} függvény is.
+		Ez a függvény felelős a feladatok megoldásáért.
+		A tesztek alapján beállítottunk egy fitnesz függvényt, mi esetünkben ezt \texttt{hanyatSert}nek nevezzük.
+		A program célja az, hogy a fitnesz értéke 0 legyen, ami akkor valósül meg, ha minden teszt feltételének eleget tesz a program.
+		Ez a program leállási feltétele.
+		A \texttt{Megold} függvény szerkezete igen egyszerű.
+		A POPMERET makróval a program elején beállíthatjuk mennyi egyedet szeretnénk létrehozni az alap populációba és a MEGTART makróval pedig beállíthatjuk mennyi legyen az elit egyedek száma, azaz mennyit tartsunk meg a legjobbak közül.
+		A ciklusba belépés előtt egy kezdeti populációt kell beállítani a programnak.
+		Ezt biztosítja nekünk a \texttt{kezdetiRandom} nevű függvény.
+		Majd ezután léphetünk be a ciklusba, ami a jó megoldásig ismétlődik.
+		A ciklus lényege, hogy feltöltsünk egy temp elnevezésű tömböt, ami minden egyes műveletet POPMERET darabszor hajt végre, majd ebből a már POPMERET*4 elemszámú tömbből egy sorba rendezést követően kiválasztunk MEGTART darab elit egyedet a rendezett tömb elejéről.
+		Ezt követően a továbbiakat úgy választjuk ki, hogy nagy eséllyel a jókat válasszuk, de adott legyen az esély a rosszabb egyedek beválogatására is, hiszen az evolúció során is mindig maradnak fent rosszabb egyedek is.
+		Így áll végül össze a populáció elnevezésű tömb ami ezt a POPMERET darab egyedet tartalmazza, amit később visszatöltünk a ciklusba.
+		\Aref{fig_temp} ábra is ezt a folyamatot hivatott egyszerűen szemléltetni. Jól látszik az ábrán a 4 művelet amiből a ciklus áll. Fontos azonban megjegyezni, hogy a populáció tömböt az első lefutásnál még a \texttt{kezdetiRandom}ból vesszük át teljes egészében és csak a ciklus későbbi lefutásánál töltjük fel a kiválasztott egyedekkel.
+
+\Abra{temp}{A megoldás lefutásának szemléltetése.}{width=12cm}
+
+A feladatspecifikus részek jól elkülöníthetők a programban.
+Itt generálható a feladatban szereplő adatokból a neki megfelelő makrók, hogy későbbiekben egyszerűen egy számként hivatkozhassunk az egyes egyedekre.
+A programban létrehozott egyedek kritériumoknak való megfelelését a fitnesz függvény értékeli ki.
+A mi esetünkben ez a \texttt{hanyatSert} elnevezést kapta.
+Minden Zebra típusú feladvány tartalmaz kritériumokat, amik egy egységes szabályrendszer segítségével leírhatók így akár egy Excel tábla segítségével is könnyen teszt generálható belőlük.
+Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.
 
     \section{Egyedreprezentáció és segédfüggvények} % Fruzsi
 
@@ -299,27 +299,31 @@ A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a
         
         \subsection{Random új egyed generálás} % Dani
         
-         A random új egyed generálása a \texttt{kezdetiRandom} függvényben játszott csak szerepet.
-         Itt azonban különböző stádiumokon esett át a függvény. Ahogy a kód fejlődött úgy ez is mindig módosult.
-         \Aref{fig_random} ábra bemutatja hogy a kód fejlődése során milyen működési mechanizmusokat használt a függvény.
-         Az ábrán egy 5x5-ös méretű egyed szemlélteti a működésének lényegét.
-         
-        \Abra{random}{Random egyed generálási módszerek.}{width=12cm}      
-           
-         \Aref{fig_random} ábrán 1.0-val jelölt, azaz az első változat még csak feltöltötte az egyedben 0-4-ig a székeket minden tulajdonság estén.
-         Tulajdonképpen ez is éppen annyira lehetséges megoldás, mintha valóban random generálnánk.
-         A 2.0-ás és a 3.0-ás ábrák egyaránt megírásra kerültek azonban a 3.0-ás került végül bevezetésre, mivel annak a működése a legáttekinthetőbb.
-         A 3.0 tulajdonképpen a Random 1.0-ból indul ki és azon végez "mutációkat", azaz cserélgeti az elemeit, ezzel egy véletlenszerű sorrendet generálva.
-         Azonban a Random 2.0 működése is említésre méltó.
-         Ez a random sorba megy 0-tól 4-ig a számokon és a helyüket (szék sorszáma) keresi meg tulajdonságonként.
-         A hely keresést a "van" tömb használatával oldja meg az algoritmus.
-         Minden iterációban generál egy random számot, ez a darab.
-         A darab maximális értéke iterációnként egyre kisebb lesz.
-         A kezdetben csak nullákból álló "van" tömbhöz minden egyes iterációban hozzáfűzünk egy-egy egyest a következőképpen: a darab szám eggyel csökken, ha a van tömbben 0-t találunk és változatlan marad, ha 1-est.
-         Így tulajdonképpen a darab azt mutatja meg, hogy hányadik üres helyre szeretnénk berakni az éppen aktuális számot.
-         A függvény addig megy amíg minden helyre 1-es nem került.
-         Ez egy sor.
-         Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.
+        A random új egyed generálása a \texttt{kezdetiRandom} függvényben játszott csak szerepet.
+        Itt azonban különböző stádiumokon esett át a függvény. Ahogy a kód fejlődött úgy ez is mindig módosult.
+        \Aref{fig_random1} és \aref{fig_random2} ábra bemutatja hogy a kód fejlődése során milyen működési mechanizmusokat használt a függvény.
+        Az ábrán egy 5x5-ös méretű egyed szemlélteti a működésének lényegét.
+        
+        \Abra{random1}{Random egyed generálása segéd tömbbel.}{width=8cm}      
+        
+        Az első változat még csak feltöltötte az egyedben 0-4-ig a székeket minden tulajdonság estén.
+        Ezt a megoldást is randomizálásnak nevezhetjük , mert tulajdonképpen ez is éppen annyira lehetséges megoldás, mintha valóban random generálnánk a számokat.
+        \Aref{fig_random1} és \aref{fig_random2} ábra egyaránt megírásra kerültek azonban a második verzió (a cserélgetéses) került végül bevezetésre, mivel annak a működése a legáttekinthetőbb.
+        Ez a verzió tulajdonképpen a legelső random generálási módszerből indul ki (amikor csak sorba beírjuk a számokat) és azon végez "mutációkat", azaz cserélgeti az elemeit, ezzel egy véletlenszerű sorrendet generálva.
+        
+        \Abra{random2}{Random egyed generálása cserélgetéssel.}{width=8cm} 
+        
+        Azonban a kódban szerepet nem játszó (segéd tömbös) random
+        működése is említésre méltó.
+        Ez a random sorba megy 0-tól 4-ig a számokon és a helyüket (szék sorszáma) keresi meg tulajdonságonként.
+        A hely keresést a "van" tömb használatával oldja meg az algoritmus.
+        Minden iterációban generál egy random számot, ez a darab.
+        A darab maximális értéke iterációnként egyre kisebb lesz.
+        A kezdetben csak nullákból álló "van" tömbhöz minden egyes iterációban hozzáfűzünk egy-egy egyest a következőképpen: a darab szám eggyel csökken, ha a van tömbben 0-t találunk és változatlan marad, ha 1-est.
+        Így tulajdonképpen a darab azt mutatja meg, hogy hányadik üres helyre szeretnénk berakni az éppen aktuális számot.
+        A függvény addig megy amíg minden helyre 1-es nem került.
+        Ez egy sor.
+        Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.
             
         \subsection{Mutálás} % Fruzsi
            		 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. Tekintettel viszont arra, hogy így annak a lehetősége is fennáll, hogy rosszabb egyed jön létre, a mutálást kisebb gyakorisággal alkalmazzuk. 
@@ -462,6 +466,43 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 
 
 \appendix
+
+\chapter{Genetikus algoritmusok generálása}
+\section{Adatok megadása}
+\Aref{fig_fuggelek1} ábra szemlélteti a megadás formátumát. Az egyedeket egy 20x20-as táblázat segítségével adhatunk meg.
+Ez ahhoz fontos, hogy a makrók később automatikusan generálódjanak és ne kelljen később hozzányúlni.
+A székek számozásával valamint a TULAJDONSAG és SZEK makrók beállításával nem kell foglalkozni, hiszen azok kitöltése automatikusan történik.
+A módosítható makróértékékek piros betűszínnel vannak jelezve.
+Tehát a POPMERET és a MEGTART bármikor módosítható.
+
+\Abra{fuggelek1}{Egyedek megadása}{width=12cm}	
+
+\section{Tesztek kitöltése}
+
+\Aref{fig_fuggelek2} ábra szemlélteti a tesztek megadásának menetét.
+A tesztek megadása során a szöveges megadás elhanyagolható, azonban annak segítségével a program automatikusan ki tudja tölteni a tesztek fajtájára vonatkozó részt.
+A kényelmesség érdekében csak az értékeket kell megadni a tesztek során, a tulajdonság típusát már a program is vissza tudja keresni így az elhagyható.
+
+\Abra{fuggelek2}{Tesztek megadása}{width=12cm}
+
+\section{Tesztek generálása}
+
+\Aref{fig_fuggelek3} ábra szemlélteti a tesztek megadásának menetét.
+Ez a rész a felhasználó szempontjából lényegtelen hiszen itt minden a bevitt adatok alapján változik dinamikusan.
+A kód generálása típusonként egységes mivel csak a benne szereplő értékeket tudjuk változtatni másik fajta teszt nem szerepelhet.
+
+\Abra{fuggelek3}{Tesztek generálása automatikusan}{width=12cm}
+
+\section{A kész kód}
+
+\Aref{fig_fuggelek5} ábrán látható, hogy itt már minden automatikusan generálódik a felhasználó dolga csak a szűrés frissítése és a kimásolás.
+
+\Aref{fig_fuggelek5} ábra mutatja, hogy egy 15x15-ös, 213 tesztes program esetén a programunk több, mint 1358 sorosra is elnyúlhat.
+Egy ekkora program megírása nem kevés időt venne igénybe.
+Ez a táblázat segít abban, hogy akár ekkora példákat is pusztán az adatok és a tesztek beírásával is könnyedén meg lehessen oldani.
+
+\Abra{fuggelek4}{A kód generálásának automatikussága}{width=12cm}
+\Abra{fuggelek5}{Nagy példák is kezelhetőek}{width=12cm}
 
 \chapter{Mintafejezet}
     \section{Kep betoltese}
