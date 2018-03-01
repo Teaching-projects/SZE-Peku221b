@@ -1,4 +1,4 @@
-\documentclass[12ppt,a4paper,oneside]{report}
+\documentclass[12pt,a4paper,oneside]{report}
 
 \usepackage{makrok}
 
@@ -129,6 +129,36 @@ A zebra rejtvények megoldására több különböző módszer is született.
 Az egyik módszer a feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével. 
 A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
 További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg.
+
+Lucas Bordeaux a constraint és a satisfiability programmingról írtak összehasonlító elemzést 2006-ban megjelent publikációjukban\cite{Bordeaux:2006:PSC:1177352.1177354}
+
+Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
+
+Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
+
+Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
+
+Soricone Robert és Neville Melvin a 2004-ben megjelent cikkükben részletesebben vizsgálták a mutáció és keresztezés hatását a genetikus algoritmusokban\cite{Soricone:2004:CAG:1046191.1032304}
+
+Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak a Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
+
+T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}
+
+Bui Thang N. és Nguyen ThanhVu H. 2006-os értekezésükben vizsgálják a gráfszínezési módszereket\cite{Bui:2006:AAG:1143997.1144001}
+
+Gizem Sungu és Betul Boz által 2015-ben kiadott tanulmány gráfszínezési problémákat vizsgál evolúciós algoritmusok segítségével.\cite{Sungu:2015:EAW:2739482.2768488}
+
+Jun Zhang, Henry S. H. Chung illetve Jinghui Zhong 2005-ben foglalkoztak részletesebben a mutáció és keresztezés hatásával áramkörök optimalizálásánál\cite{Zhang:2005:ACM:1068009.1068267}
+
+Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény által létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
+
+Robert E. Smith, B. A. Dike és S. A. Stegmann	1995-ös tanulmányukban elemezték a fitnesz függvényt és az öröklődést a genetikus algoritmusokban\cite{Smith:1995:FIG:315891.316014}   
+
+Lee K. Graham, Steffen Christensen illetve Franz Oppacher 2007-ben foglalkoztak az algoritmus fitnesz függvényének dinamikusságával, és annak a megoldásra való hatásával\cite{Graham:2007:SGA:1276958.1277243}
+
+Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}
+
+Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával\cite{Garrett:2005:GAS:1068009.1068333}
 
 
 \chapter{Evolúciós algoritmusok} % Balázs
@@ -331,7 +361,7 @@ A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a
 	
 	A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció  \Aref{fig_szomszed} ábrán, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
 
-	\Abra{szomszed}{A szomszédos mutáció működése egyszerűsítve}{width=10cm}
+   \Abra{szomszed}{A szomszédos mutáció működése egyszerűsítve}{width=10cm}
 		
 	Azt figyelembe véve, hogy az egyedek alléljai kétdimenziós tömbből kerülnek kiválasztásra, a mutációt lehet végezni vagy a székek szerint, vagy a tulajdonságok szerint. Az algoritmusban a székek, vagyis oszlopok szerinti mutációt alkalmaztuk.
 	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve, mint ahogyan azt  \Aref{fig_mutalvegl1} ábra mutatja.
@@ -504,104 +534,6 @@ Ez a táblázat segít abban, hogy akár ekkora példákat is pusztán az adatok
 \Abra{fuggelek4}{A kód generálásának automatikussága}{width=12cm}
 \Abra{fuggelek5}{Nagy példák is kezelhetőek}{width=12cm}
 
-\chapter{Mintafejezet}
-    \section{Kep betoltese}
-        Kep betoltese a \texttt{Abra} makroval az alabbiak szerint. Az elso parameter a fajl neve, ebbol lesz egy fig\_fajlnev cimke, amit ref-ekhez lehet hasznalni. MAsodik parameter a kepalairas, a harmadik a meret.
-        \begin{verbatim}
-            \Aref{fig_zebra} abran bla bla.
-            \Abra{zebra}{Talalo kepalairas}{width=6cm}
-        \end{verbatim}
 
-        \Aref{fig_zebra} abran bla bla.
-        \Abra{zebra}{Talalo kepalairas}{width=6cm}
-
-
-    \section{Tablazatok}
-        Tablazatot a \texttt{Tablazat} makroval lehet csinalni az alabbiak szerint. Az elso parameter a cimke, ebbol lesz egy tab\_cimke cimke, amit ref-ekhez lehet hasznalni. MAsodik parameter a tablazat cime, a harmadik az oszlopok szerkezete (lasd tabular tutorial), az utolso maga a tablazat tartalma.
-        \begin{verbatim}
-            Ahogy az \aref{tab_cimke} tablazatban lathato, bla bla bla.
-            \Tablazat{cimke}{Tablazat cime}{r||cc|l}
-            {
-                Elso sor elso cella jobra igazitva & kozepre & kozepre & balra \\
-                \hline
-                Masodik sor & & yay & much wow\\
-                ize & bize & mize & meh... \\
-            }
-        \end{verbatim}
-
-
-
-        Ahogy az \aref{tab_cimke} tablazatban lathato, bla bla bla.
-        \Tablazat{cimke}{Tablazat cime}{r||cc|l}
-        {
-            Elso sor elso cella jobra igazitva & kozepre & kozepre & balra \\
-            \hline
-            Masodik sor & & yay & much wow\\
-            ize & bize & mize & meh... \\
-        }
-
-
-    \section{Forraskodok beemelese}
-        Forraskodot vagy a \texttt{Forraskod} makroval lehet betolteni a fajlbol, ahol az elso parameter a fajl neve, a masodik tovabbi opciok, pl hogy melyik sortol melyik sorig, stb. A masik lehetoseg, hogy a kodba keruljon be az alabbiak szerint:
-
-        \begin{verbatim}
-            \Forraskod{ize.c}{frame=single,lastline=4}
-        \end{verbatim}
-
-        \Forraskod{ize.c}{frame=single,lastline=4}
-
-        \begin{verbatim}
-            \begin{lstlisting}[frame=single, language=C]
-                printf("Hello world\n");
-                if(whatever){
-                    return 1;
-                } else do {
-                    tanuljmegindentalni();
-                } while (i<5);
-            \end{lstlisting}
-        \end{verbatim}
-        
-        \begin{lstlisting}[frame=single, language=C]
-            printf("Hello world\n");
-            if(whatever){
-                return 1;
-            } else do {
-                tanuljmegindentalni();
-            } while (i<5);
-        \end{lstlisting}
-
-    \section{Hivatkozások}
-
-    Mainemelis és Ronson publikáltak egy szuper módszert amivel, sakfjlsdkfjalskjf\cite{MAINEMELIS200681}.
-
-  Lucas Bordeaux a constraint és a satisfiability programmingról írtak összehasonlító elemzést 2006-ban megjelent publikációjukban\cite{Bordeaux:2006:PSC:1177352.1177354}
-
-Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
-
-Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
-
-Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
-
-Soricone Robert és Neville Melvin a 2004-ben megjelent cikkükben részletesebben vizsgálták a mutáció és keresztezés hatását a genetikus algoritmusokban\cite{Soricone:2004:CAG:1046191.1032304}
-
-Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak a Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
-
-T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}
-
-Bui Thang N. és Nguyen ThanhVu H. 2006-os értekezésükben vizsgálják a gráfszínezési módszereket\cite{Bui:2006:AAG:1143997.1144001}
-
-Gizem Sungu és Betul Boz által 2015-ben kiadott tanulmány gráfszínezési problémákat vizsgál evolúciós algoritmusok segítségével.\cite{Sungu:2015:EAW:2739482.2768488}
-
-Jun Zhang, Henry S. H. Chung illetve Jinghui Zhong 2005-ben foglalkoztak részletesebben a mutáció és keresztezés hatásával áramkörök optimalizálásánál\cite{Zhang:2005:ACM:1068009.1068267}
-
-Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény által létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
-
-Robert E. Smith, B. A. Dike és S. A. Stegmann	1995-ös tanulmányukban elemezték a fitnesz függvényt és az öröklődést a genetikus algoritmusokban\cite{Smith:1995:FIG:315891.316014}   
-
-Lee K. Graham, Steffen Christensen illetve Franz Oppacher 2007-ben foglalkoztak az algoritmus fitnesz függvényének dinamikusságával, és annak a megoldásra való hatásával\cite{Graham:2007:SGA:1276958.1277243}
-
-Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}
-
-Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával\cite{Garrett:2005:GAS:1068009.1068333}
 
 \end{document}
