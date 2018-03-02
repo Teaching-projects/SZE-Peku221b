@@ -463,8 +463,8 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 
     \section{Egyedek kiértékelése} % Máté
 	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak.
-	Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (\texttt{Teszt}) 0-át ad vissza értékül, különben pedig 1-et.
-	
+	Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (Teszt) 0-át ad vissza értékül, különben pedig 1-et.
+		
 	Az egyedek kiértékelése a teszteknek való megfeleltetést jelenti.
 	A tesztek gyors megírása érdekében lett bevezetve a \texttt{hanyadikSzek} függvény is, ami a gyors megírhatóságot biztosítja.
 	A zebra típusú tesztek 6 féle képpen írhatóak le, azaz adott 6 szókapcsolat amelyek egyikének szerepelnie kell minden megadott zebra tesztben.
@@ -491,6 +491,8 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 		Ez csak egy tágabb mozgásterű teszt.
 		Például: Eszter valahol Judit jobb oldalán ül.
 	\end{itemize}
+
+	\Forraskod{tesztek.c}{frame=single , lastline=19}
 	
 	Ezekből a tesztekből bármennyi lehet és mindegyike egy 1-es vagy egy 0-ás értékkel tér vissza.
 	Itt jön képbe a fitnesz (mi esetünkben \texttt{hanyatSert}) függvény.
@@ -498,9 +500,7 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 	Ez az érték mindig azt mutatja mennyi tesztet sértett meg az adott egyed, amire futtatva lett.
 	A 0-ás érték azt jelenti, hogy az algoritmus megtalálta a megoldást, azaz 0 db tesztet sért meg a program.
 	A szám amit a függvény ad minél magasabb annál több tesztet sért meg az egyed és annál kisebb a rátermettsége.
-	Mindezek mellett nem csak a megsértet tesztek számát kapjuk vissza, hanem azt is hogy konkrétan melyik teszteket sértette meg a program.
-
-	\Forraskod{hanyatsert.c}{frame=single , lastline=10}	
+	Mindezek mellett nem csak a megsértet tesztek számát kapjuk vissza, hanem azt is hogy konkrétan melyik teszteket sértette meg a program.	
 
 \chapter{Empírikus vizsgálatok} % Máté
     Az elkészült programot több feladaton teszteltük, ebben a fejezetben az úgynevezett \emph{Fundraiser} példa futási eredményeit, és az azokbol levont következtetéseket mutatjuk be.
