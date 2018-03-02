@@ -503,7 +503,13 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 	\Forraskod{hanyatsert.c}{frame=single , lastline=10}	
 
 \chapter{Empírikus vizsgálatok} % Máté
-	A program futásakor mindig az aktuális generáció legjobb egyedét mutatja meg, valamint azt, hogy az hány megkötést sért meg, illetve pontosan melyikeket, ahogy az  \aref{fig_test-example} ábrán látható.
+    Az elkészült programot több feladaton teszteltük, ebben a fejezetben az úgynevezett \emph{Fundraiser} példa futási eredményeit, és az azokbol levont következtetéseket mutatjuk be.
+    Ez a példa emberi szemmel nézve a legnehezebb feladatok közé tartozik, 5 személynek 5 különböző tulajdonságát kell meghatározni 21 megkötés alapján.
+    A példa pontos adatai \aref{fundraiser} függelékben találhatók.
+
+    A futtatásokat egy Intel Core i5-7200U processzorral és 8 GB RAM-mal rendelkező gépen végeztük, Windows 10 Pro operációs rendszeren.
+
+	A program futásakor mindig az aktuális generáció legjobb egyedét mutatja meg, valamint azt, hogy az hány megkötést sért meg, illetve pontosan melyikeket, ahogy az  \aref{fig_test-in-progress} ábrán látható.
 
 	\Abra{test-in-progress}{A program a futás kezdetekor}{width=14cm}
 
@@ -511,14 +517,13 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
     A program akkor áll le, ha a generáció legjobb egyede egyetlen korlátozást sem sért meg.
 
 	A futási sebességet több tényező is befolyásolhatja:
-
 	\begin{itemize}
         \item feladat nehézsége, még precízebben a feladat mérete, vagyis a tulajdonságok és a betölthető pozíciók száma,
         \item a megadott megkötések száma és jellege
         \item az algoritmus paraméterei, mint a populáció és a megtartott egyedek száma
 	\end{itemize}
 
-	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, valamint az megoldás megtalálásához szükséges generációk száma a populáció és a megtartott egyedek számának különböző értéjei mellett.
+	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, valamint az megoldás megtalálásához szükséges generációk száma a populáció és a megtartott egyedek számának különböző értékei mellett.
 	Az utolsó oszlopban a megoldás megtalálásáig megvizsgált egyedek száma is fel van tüntetve. 
 	Az adatok futási idő szerinti növekvő sorrendbe vannak rendezve, és jól látszik, hogy ez erősen korrelál a megvizsgált egyedek számával. 
 
@@ -576,8 +581,17 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
     Ez könnyedén elérhető, mert csak rá kell kattintani a szűrő ikonjára és minden módosítás nélkül le kell okézni.)
     Innen már a main.c-be amikor a felhasználó beírja include paranccsal a létrehozott .c kiterjesztésű fájl nevét akkor észlelni fogja a program és le is fut (ha nem nincs elírás a munkafüzetben).
 
-\chapter{Összefoglalás} % Máté
-    \todo{Mit csinaltunk roviden}
+\chapter{Összefoglalás és jövőbeni tervek} % Máté
+    Dolgozatunkban a logikai feladványok egy elterjedt fajtáját, a Zebra rejtvényeket vizsgáltuk.
+    Ismertettük ezen fejtörők sajátosságait, valamint a megoldásuk lehetséges módszereit.
+    Munkánk eredménye egy evolúciós algoriotmuson alapuló módszer, mely a úgy keresi a logikai feladvány, mint kielégíthetőségi probléma megoldását, hogy az egyedek fitnessz értéke a megsértett korlátozások számával egyezik meg.
+    Az általunk implementált módszer addig készít új generációkat, míg a legjobb egyed fitnessz értéke 0 nem lesz, azaz a fejtörő hibátlan megoldását meg nem találtuk.
+    A kidolgozott módszert C nyelven implementáltuk, s több tesztfuttatást végeztünk, melyek alapján meghatároztuk az evolúciós algoritmus paramétereinek ideális értékeit.
+    Annak érdekében, hogy a módszert könnyebben tesztelhessük különböző példákon, elkészítettünk egy táblázatot, mely a feladat korlátozásainak rendszerezett megadása után képes az annak megoldásához szükséges forráskódot generálni.
+
+    Az összegyűjtött tapasztalatok alapján a jövőben tervezzük a módszer sok feladaton történő tesztelését, valamint ehhez nagy méretű példák generálását.
+    A módszer alkalmazásának könnyítése érdekében az elkészült programot úgy kívánjuk továbbfejleszteni, hogy a struktúrált formában megadott feladatokat képes legyen beolvasni, és hozzájuk a kiértékelést dinamikusan elvégezni.
+    Végezetül további mutációs és keresztezési módszerek hatékonyságát vizsgáljuk meg a nagy méretű generált példákon a továbbfejlesztett szoftver segítségével.
 
 \clearpage
 \addcontentsline{toc}{chapter}{Irodalomjegyzék}
@@ -624,6 +638,8 @@ Ez a táblázat segít abban, hogy akár ekkora példákat is pusztán az adatok
 \Abra{fuggelek4}{A kód generálásának automatikussága}{width=12cm}
 \Abra{fuggelek5}{Nagy példák is kezelhetőek}{width=12cm}
 
-
+\chapter{Az empírikus vizsgálatokhoz használt feladat}
+\label{fundraiser}
+\todo{ide beletenni a fundraiser leirasat. CSak egy lista a property-krol, illetve azok lehetseges ertekeirol, valamint a megkotesek}
 
 \end{document}
