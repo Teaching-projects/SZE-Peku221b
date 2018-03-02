@@ -472,23 +472,44 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 
 	\Forraskod{hanyatsert.c}{frame=single , lastline=10}
 
-	{A cél az, hogy a függvény 0 értéket adjon vissza, ami azonban csak akkor valósul meg, ha a program eleget tesz az összes teszt feltételének.}
+	A cél az, hogy a függvény 0 értéket adjon vissza, ami azonban csak akkor valósul meg, ha a program eleget tesz az összes teszt feltételének.
 	Ellenkező esetben a függvény 0-nál nagyobb értéked ad vissza, attól függően hogy hány darab tesztet sértett meg.
 	Jelen esetben 13 teszt feltételének kell a programunknak szimultán megfelelnie.
 
 	
 
 \chapter{Empírikus vizsgálatok} % Máté
-	A program futtatását követően figyelemmel lehet követni, hogy hány generáció született meg ahhoz ahhoz, hogy beteljesedjen az összes teszt feltétele.
+	A program futásakor egymás után születnek újabb és újabb generációk. Fontos megjegyezni, hogy adott populáción belül mindig a legjobb egyedek maradnak meg, melyek majd az aktuális generációt fogják alkotni.
 
-	\Abra{test-in-progress}{A program futás alatt}{width=6cm}
+	\Abra{test-in-progress}{A program a futás kezdetekor}{width=14cm}
 
-	A precizitás az idő függvényében változik: az idő előrehaladtával egyre inkább közelít a jó megoldás felé, egészen addig, amíg a hanyatSert függvény 0-át nem ad vissza értékül.
+	\Aref{fig_test-example} ábra demonstrálja, hogyan is néz ki egy generáció: a feladványban szereplő tulajdonságok rendezetten fel vannak sorolva.
+	Ez mindig úgy alakul, hogy minél kevesebb feltételt sértsen meg, illetve egyri inkább közeledjen a jó megoldás felé.
+	A tulajdonságok alatt levő számsorozat azt szimbolizálja, hogy a program futás közben mennyi tesztet sért meg, a zárójelben levők pedig hogy konkrétan melyikeket.
+	A cél akkor teljesül be, ha ez a szám 0-val egyenlő.
 
-	\Abra{test-final-result}{Végeredmény}{width=6cm}
+	\Abra{test-example}{Példa egy generációra}{width=14cm}
 
-	Figyelembe véve, hogy egy egyszerű példáról van szó, amely nem tartalmaz sok tulajdonságot és személyt, a program egy szempillantás alatt megoldja a feladatot.
-	Átlagosan 8 generáció születik meg a végeredényhez érve, valamint átlagosan mindössze 0.005 (!) másodperc alatt fut le hibátlanul.
+	A futási sebességet több tényező is befolyásolja:
+
+	\begin{itemize}
+	\item feladat nehézsége, még precízebben a feladat mérete, vagyis a tulajdonságok és a betölthető pozíciók száma,
+	\item valamint a populáció és a megtartott egyedek száma
+	\end{itemize}
+
+	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, ha esetenként megváltoztatjuk a populáció és a megtartott egyedek számát.
+	Emelett megfigyelhető, hogy hány darab generáció volt szükséges a jó megoldás eljutásához, és hogy összesen mennyi egyed született meg.
+	Az adatok növekvő sorrend szerinti rendezést követnek a program lefutási idejének alapján.
+
+
+	\Abra{results}{Futási eredmények különböző paraméterek esetén}{width=13cm}
+
+	
+
+
+	
+
+	
 
 \chapter{Kód automatikus generálása} % Dani
     Az első program megírása után már felmerült az igény, hogy legyen valami ami legenerál bármilyen feladathoz egy kódot.
