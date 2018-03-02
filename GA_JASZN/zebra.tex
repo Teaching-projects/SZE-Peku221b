@@ -475,30 +475,28 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 	
 
 \chapter{Empírikus vizsgálatok} % Máté
-	A program futásakor egymás után születnek újabb és újabb generációk. Fontos megjegyezni, hogy adott populáción belül mindig a legjobb egyedek maradnak meg, melyek majd az aktuális generációt fogják alkotni.
+	A program futásakor mindig az aktuális generáció legjobb egyedét mutatja meg, valamint azt, hogy az hány megkötést sért meg, illetve pontosan melyikeket, ahogy az  \aref{fig_test-example} ábrán látható.
 
 	\Abra{test-in-progress}{A program a futás kezdetekor}{width=14cm}
 
-	\Aref{fig_test-example} ábra demonstrálja, hogyan is néz ki egy generáció: a feladványban szereplő tulajdonságok rendezetten fel vannak sorolva.
-	Ez mindig úgy alakul, hogy minél kevesebb feltételt sértsen meg, illetve egyri inkább közeledjen a jó megoldás felé.
-	A tulajdonságok alatt levő számsorozat azt szimbolizálja, hogy a program futás közben mennyi tesztet sért meg, a zárójelben levők pedig hogy konkrétan melyikeket.
-	A cél akkor teljesül be, ha ez a szám 0-val egyenlő.
+	Az elitizmusnak köszönhetően garantált, hogy a későbbi generációkban sosem romlik a legjobb egyed.
+    A program akkor áll le, ha a generáció legjobb egyede egyetlen korlátozást sem sért meg.
 
-	\Abra{test-example}{Példa egy generációra}{width=14cm}
-
-	A futási sebességet több tényező is befolyásolja:
+	A futási sebességet több tényező is befolyásolhatja:
 
 	\begin{itemize}
-	\item feladat nehézsége, még precízebben a feladat mérete, vagyis a tulajdonságok és a betölthető pozíciók száma,
-	\item valamint a populáció és a megtartott egyedek száma
+        \item feladat nehézsége, még precízebben a feladat mérete, vagyis a tulajdonságok és a betölthető pozíciók száma,
+        \item a megadott megkötések száma és jellege
+        \item az algoritmus paraméterei, mint a populáció és a megtartott egyedek száma
 	\end{itemize}
 
-	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, ha esetenként megváltoztatjuk a populáció és a megtartott egyedek számát.
-	Emelett megfigyelhető, hogy hány darab generáció volt szükséges a jó megoldás eljutásához, és hogy összesen mennyi egyed született meg.
-	Az adatok növekvő sorrend szerinti rendezést követnek a program lefutási idejének alapján.
-
+	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, valamint az megoldás megtalálásához szükséges generációk száma a populáció és a megtartott egyedek számának különböző értéjei mellett.
+	Az utolsó oszlopban a megoldás megtalálásáig megvizsgált egyedek száma is fel van tüntetve. 
+	Az adatok futási idő szerinti növekvő sorrendbe vannak rendezve, és jól látszik, hogy ez erősen korrelál a megvizsgált egyedek számával. 
 
 	\Abra{results}{Futási eredmények különböző paraméterek esetén}{width=13cm}
+
+    
 
 	
 
