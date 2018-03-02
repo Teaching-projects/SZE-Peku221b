@@ -1,0 +1,699 @@
+\documentclass[12pt,a4paper,twoside, openright]{report}
+
+\usepackage{makrok}
+
+\author{Szili Dániel, Schöffer Fruzsina, Tóth Sándor Balázs, Varga Máté\\Mérnök Informatikus BSc, I. évfolyam\\\ \\Témavezető: Dr. Hegyháti Máté\\Széchenyi István Egyetem, Informatika Tanszék}
+\title{Zebra típusú logikai rejtvények megoldása\\evolúciós algoritmussal}
+
+\begin{document}
+
+\maketitle
+
+
+    \chapter*{Kivonat}
+
+    
+    A logikai feladványok már a sumér társadalom emberét is foglalkoztatták, manapság viszont szerteágazó típusaival még nagyobb népszerűségnek örvendenek. Egy igen közkedvelt típus az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét. Ezek megoldása  kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra, mint például a visszalépéses keresés, korlátozási programozás vagy a feladvány Prolog nyelven való megírása.
+
+A modern mérnöki alkalmazásokban, gépi tanulásban is egyre nagyobb népszerűségnek örvendő evolúciós algoritmusok is alkalmasak többek között ilyen jellegű kielégíthetőségi feladatok megoldására. Munkánk során egy ilyen algoritmus került kidolgozásra, és tesztelésre több példán. A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek nagy számú teszteset futtatásának tapasztalai alapján.
+
+Az empirikus vizsgálatok automatizálásának érdekében több rejtvényt elemezve az ezekben előforduló megkötések rendszerezve lettek. Egy olyan módszer került kidolgozásra, mely a feladat egy formális leírásából megoldó kód generálására képes. Az így keletkezett rendszerrel könnyedén vizsgálhatóvá váltak további feladatok, melyeken futtatott tesztek segítségével az algoritmus működése tovább javítható.
+
+\textbf{Kulcsszavak}: logikai rejtvény, evolúciós algoritmusok, genetikus algoritmus, feladvány
+
+
+
+
+\tableofcontents
+
+\chapter{Bevezetés} % Máté
+	A logikai rejtvény olyan feladvány, mely a matematika levezetési, bizonyítási területéről származik.
+    Az ilyen jellegű fejtörők már a sumér társadalom emberét is foglalkoztatták. Logikai rejtvényt először Charles Lutwidge Dodgson\footnote{Írói álnevén Lewis Carroll} angol író publikált.
+    A logika játéka (The Game of Logic) című 1886-ban megjelent könyvében egy olyan játékot mutatott be, melyben kijelentések alapján kellett megerősíteni a következtetést\cite{thegameoflogic}.
+    Néhány, napjainkban is népszerű non-verbális rejtvény:
+	\begin{description}
+        \item[Sudoku] melyben megadott szabályok szerint számjegyeket kell elhelyezni egy táblázatban
+        \item[Nonogram] vagy grafilogika, melyben helyes dedukcióval egy rácsot kell fekete-fehér négyzetekkel kitölteni, ami egy képet alkot
+        \item[Logikai labirintus] melyben a dedukció felhasználásával a labirintus szabályait kell kitalálni.
+	\end{description}
+
+	Egy igen közkedvelt típus továbbá az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét, mivel állítólag ő találta fel kisfiúként.
+    Számos különböző változata létezik, akad köztük olyan, melyet már az ’60-as években publikáltak.
+    Gyakran állítják, hogy az emberiség csupán két százaléka képes megoldani az Einstein-rejtvényt.
+    Ezek megoldása kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra, mint például a korlátprogramozás, visszalépéses keresések, vagy a feladvány logikai programozás alapon történő megközelítése.
+
+	A modern mérnöki alkalmazásokban, gépi tanulásban is egyre nagyobb népszerűségnek örvendő evolúciós algoritmusok is alkalmasak többek között ilyen jellegű kielégíthetőségi feladatok megoldására.
+    Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely a biológiai evolúció mechanizmusára épül.
+    A genetikus algoritmus optimalizációs eljárás, ahol a lehetséges hipotéziseket az egyedek, a hipotézis tér valamely részét pedig a populációk reprezentálják.
+    Az algoritmus megegyezik a számítástechnikában és a mesterséges intelligenciában alkalmazott heurisztikus keresési technikákkal, ami kiegészül még az evolúciós biológiában ihletett technikák alkalmazásával: mutáció, szelekció, reprodukció és rekombináció.
+
+	\noindent{Fontosabb felhasználási területei:}
+
+	\begin{itemize}
+        \item autóipari és mérnöki tervezés
+        \item robotika
+        \item biomimetikus találmányok
+        \item útvonalválasztás utazás vagy szállítmányozás során
+        \item titkosítás és kódtörés
+        \item értékesítés
+	\end{itemize}
+
+    
+    Munkánk során egy genetikus algoritmust dolgoztunk ki, és teszteltük több példán.
+    A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek több teszteset futtatásának tapasztalai alapján.
+
+	Az empirikus vizsgálatok automatizálásának érdekében több rejtvényt elemezve az ezekben előforduló megkötések rendszerezve lettek.
+    Egy olyan módszer került kidolgozásra, mely a feladat egy formális leírásából megoldó kód generálására képes.
+    Az így keletkezett rendszerrel könnyedén vizsgálhatóvá váltak további feladatok, melyeken futtatott tesztek segítségével az algoritmus működése tovább javítható.
+
+	Dolgozatunkat a Zebra rejtvények részletesebb bemutatásával kezdjük.
+    Szó esik a történetéről, szerkezetéről, és hogy milyen részekből épül fel.
+    Említésre kerülnek még a megoldhatóság eltérő lehetőségei, valamint az irodalomban megtalálható megoldó módszerek.
+    Ezt követően bemutatjuk az evolúciós algoritmusokat, azok történetét, főbb műküdési elveit.
+    Folytatásként betekintést nyújtunk arról, miképp alkalmaztunk evolúciós algoritmust Zebra rejtvények megfejtésére.
+    Ismertetjük a kódszerkezetet, az egyedreprezentációt és segédfüggvényeket, bemutatjuk az evolúciós mechanizmusokat, majd végül az egyedek kiértékeléséről esik szó.
+    Ezt követően futtatási eredményeket mutatunk be, valamint demonstráljuk kódunk automatikus generálásának elgondolását és kivitelezését.
+    Végezetül összefoglaljuk munkánk eredményeit.
+
+\chapter{Zebra rejtvények} % Balázs
+
+A logikai feladványok egyik legnépszerűbb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. 
+A 2.1 alfejezetben a történetük és szerkezetük kerül bemutatásra, a 2.2 alfejezetben a megoldhatóságukat, egyértelműségüket vizsgáljuk.
+A 2.3 alfejezetben pedig különböző megoldó módszerek kerülnek bemutatásra.
+    
+    \section{Történet és szerkezet} % Balázs
+
+A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, melyről a logikai feladványoknak ez a fajtája a nevét is kapta, hiszen az Einstein-példa egyik változatában a zebra tulajdonosának kiléte a fő kérdés. 
+Úgy tartják, hogy Einstein ezeknek a feladványok az atyja, aki állítólag gyerekként találta ki a rejtvényt és azt vallotta róla, hogy az embereknek csupán 2 százaléka képes azt megoldani.
+
+Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését.
+Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, foglalkozása, valamint az általa kedvelt ital és a háziállat, amit tart. 
+Azonban egyik ház sajátosságait sem ismerjük kezdetben. 
+Einstein állításokat adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. 
+Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
+
+\Abra{Einstein-pelda}{Az Einstein-példa}{width=18cm}
+
+
+    \section{Megoldhatóság, egyértelműség} % Balázs
+
+A zebra típusú rejtvények esetében rendkívül fontos az, hogy kellő mennyiségű állítás, megkötés álljon rendelkezésünkre, illetve az is elengedhetetlen, hogy ezek pontosak legyenek. 
+Az alábbi rövid példák ezek fontosságára hívják fel a figyelmünket, valamint egy rövid, egyszerű feladat is megoldásra kerül.
+Példánkban adott 3 tanuló. 
+Tudni szeretnénk, hogy az adott sorszámú tanulónak mi a neve, valamint az életkora.
+
+A megoldás a már korábban megismert állítások segítségével fejthető meg. 
+Fontos azonban, hogy ezek pontos állítások legyenek és ne ütközzünk ellentmondásba, hiszen akkor nem tudunk jó megoldást találni. 
+Például:
+\begin{itemize}
+\item Az 1.\ pozícióban lévő tanuló neve Peti.
+\item A 2.\ pozícióban lévő tanulótól balra lévő tanuló neve Réka.
+\end{itemize}
+
+Mint ahogy \aref{fig_picipelda2} ábrán látható, ebben az esetben a két állításnak nem tudunk egyszerre eleget tenni, így nem kapunk megoldást.
+
+\Abra{picipelda2}{}{width=6cm}
+
+Az sem jó eset, ha túl kevés megkötést adunk meg, ekkor ugyanis több lehetséges megoldás is létezik:
+\begin{itemize}
+\item Az 1. pozícióban lévő tanuló neve Peti.
+\item A 20 éves tanuló a 25 és a 30 éves tanulók között helyezkedik el, de nem biztos, hogy ebben a sorrendben.
+\item A 20 éves tanulót Rékának hívják.
+\end{itemize}
+
+Ekkor  \aref{fig_picipelda3} és \aref{fig_picipelda4} ábrák szerinti megoldások mindegyike helyes lenne.
+
+\Abra{picipelda3}{}{width=6cm}
+
+\Abra{picipelda4}{}{width=6cm}
+
+
+Egy helyes példa és annak megoldása pár lépésben a következőképp néz ki:
+\begin{itemize}
+\item Az 1. pozícióban lévő tanuló neve Peti.
+\item A 20 éves tanuló a 25 és a 30 éves tanulók között helyezkedik el, de nem biztos, hogy ebben a sorrendben.
+\item A 20 éves tanulót Rékának hívják.
+\item A 30 éves tanuló neve Jani.
+\end{itemize}
+
+Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. 
+Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3.\ pozícióban foglalhat helyet. 
+Az ő életkorának a 4.\ állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük.
+Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. 
+A megoldást \aref{fig_picipelda5} ábra mutatja.
+\Abra{picipelda5}{}{width=6cm}
+
+    \section{Megoldó módszerek} % Balázs
+Logikai feladványok matematikai eszközökkel történő automatizált megoldását már többen vizsgálták az irodalomban. Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak az ismert Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}.
+T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}.
+Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával, evolúciós algoritmus segítségével\cite{Garrett:2005:GAS:1068009.1068333}.
+
+
+A zebra rejtvények megoldására is már több különböző módszer is született. 
+Az egyik ilyen az Einstein-feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével.
+Ekkor a program számára a feladat ismertetéséhez 25 változó kerül bevezetésre, melyek a házakhoz tartozó tulajdonságokat jelölik. 
+A rendszer ennek segítségével találja meg a megoldást.
+A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
+További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg. 
+Ez a megoldó módszerek közül az egyik leggyorsabb, mivel minden alkalommal a korlátozásnak leginkább eleget tevő változó kerül kiválasztásra, így jelentősen csökkenthető a keresési idő.
+Salvati és társai ilyen megoldások hatékonyságát vizsgálta\cite{osszehasonlito}.
+
+
+
+
+
+\chapter{Evolúciós algoritmusok} % Balázs
+
+Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely az evolúció mechanizmusára épül. 
+Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. 
+Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. 
+Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
+Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
+
+Az evolúciós, vagy más néven genetikus algoritmusok működési elvének alapja az evolúció darwini elméletén nyugszik, mely során a természetben a folyamatosan változó életkörülményekhez való alkalmazkodás a fő szempont. 
+Az evolúciós algoritmusok esetében az optimalizáláskor mindvégig azonos feladat megoldását keressük.
+
+Az egyes egyedek reprezentációja során a kódolásához használt struktúra a kromoszóma vagy genotípus. 
+Génkészletünket a genomok alkotják. 
+Egy genom egy vagy két kromoszómából áll, a kromoszómák pedig génekből épülnek fel. 
+A gén lehet egy bitsztring, alkothatják egész vagy valós számok vagy akár szimbólumok. 
+A gén értékét az allél vagy génváltozat határozza meg.
+
+Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. 
+Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. 
+Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
+
+\Abra{GA-felepites}{Az evolúciós algoritmus általános felépítése}{width=11cm}
+
+Mint ahogyan \aref{fig_GA-felepites} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. 
+Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. 
+A rossz megoldásokon később viszonylag könnyen lehet javítani. 
+
+Az inicializációt követi a kiértékelés, mely során az evolúciós algoritmus a rátermettségi függvény alapján eldönti, hogy melyik megoldás mennyire jó.
+Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. 
+Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
+
+Az aránytalanságok elkerülése érdekében fontos szerepe van a rangsorolásnak, mivel nem előnyös az, ha például néhány „túl jó” egyed hoz létre sok utódot, ugyanis hasonló egyedek keresztezésével nem jutunk előre.
+
+A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi értéke alapján válogatunk közöttük. 
+Ilyen módszerek például a rulettkerék kiválasztás, versengő kiválasztás, valamint a levágó kiválasztás.
+
+A kiválasztást követi a keresztezés, melynek két elterjedt fajtája példáulaz egy- illetve kétpontos keresztezés. 
+Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. 
+Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
+
+\Abra{egypontos}{Az egypontos keresztezés}{width=10cm}
+
+\Abra{ketpontos}{A kétpontos keresztezés}{width=10cm}
+
+Keresztezés végezhető még például egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
+
+A következő lépés a mutáció, melynek lényege, hogy bizonyos gének értékeit megváltoztatjuk. 
+A direkt kódolással történő mutáció esetében a véletlenszerűen választott gén értékét véletlenszerűen módosítjuk. 
+Ennek során csak egy gén értéke változik meg, ezért kis valószínűséggel mutálnak. 
+A mutáció végrehajtható sorrendi kódolással is, mely során két véletlenszerűen választott gén kerül felcserélésre. 
+De miért is van szükségünk mutációra? 
+Egyrészt segít az eddig az egyedekben elő nem forduló, jó allélok felfedezésében, lehetővé teszi a populációból a generációk során kikerült, de valójában jó génértékek visszaállítását. 
+Szerepe van továbbá a globális optimum környezetének megtalálásában, illetve a genetikai változatosság növelésében is.
+
+A leállási feltétel megvizsgálása előtt már csak egy fő lépés van hátra: a reprodukció. 
+Az új gének a már eleve meglévő, illetve a keresztezés és mutáció során keletkezett átmeneti gének elemeiből jönnek létre.
+Léteznek úgynevezett kanonikus genetikus algoritmusok is, melyek teljesen leváltják az előző gént. 
+Az újonnan keletkezett utódok számának alakulása befolyásolható, mégpedig úgy, hogy a rátermettség alapján eldöntjük, hogy a korábbi generáció utódai közül melyek íródjanak felül. 
+Fontos szerepe van az elitizmusnak is, melynek lényege, hogy az előző generáció legrátermettebb egyedeit megtartjuk.
+
+A kilépési feltétel többféleképpen megadható. Kilépés történhet a generációk száma alapján vagy az időkorlát megadásával. Megadható továbbá a konvergencia vizsgálatával, például akkor, ha az utóbbi meghatározott számú generáció alatt nem sikerült javítani a legjobb egyedeken. Bizonyos esetekben egyértelműen eldönthető, hogy megtaláltuk-e a megoldást, például akkor, ha 0 hibapontos egyedet kaptunk.
+
+Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és egyre nagyobb népszerűségnek örvendenek.
+Alkalmazzák például az üzleti szférában cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor, az autóiparban az autók festésének koordinációjára, vagy mezőgazdasági termelés optimalizálásában is.
+Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
+Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
+Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
+
+
+\chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
+	Célunk az volt, hogy a Zebra típusú feladványokat olyan algoritmus felhasználásával oldjuk meg, mely nem csupán egy konkrét példa megoldására képes, hanem bármilyen, mi általunk megszabott feladatot meg tud oldani.
+    Ezen céloknak az evolúciós algoritmusok tökéletesen megfeleltek.
+
+    Az általunk kidolgozott módszert C nyelven implementáltuk, GitHub-on verziókezeltük, és a Travis-CI eszköz segítségével ellenőriztük a kód szintaktikai helyességét automatikusan.
+
+	A 4.1.\ fejezetben az általunk elkészített és implementált módszer kódszerkezete kerül bemutatásra.
+    Ezt követően a 4.2.\ fejezetben mutatjuk be az egyedreprezentációt és a kapcsolódó segédfüggvényeket.
+	Ezek után a 4.3.\ fejezetben részletezésre kerülnek az evolúciós mechanizmusok:
+
+	\begin{itemize}
+        \item a véletlenszerű új egyed generálás
+        \item a mutálás
+        \item a keresztezés
+        \item  valamint a populációk menedzselése
+	\end{itemize}
+
+	Végül a 4.4 fejezetben az egyedek kiértékeléséről lesz szó.
+
+
+    \section{Kódszerkezet} % Dani
+		A kód alapvetően 2 logikai egységre szedhető szét.
+		Van egy egységes, genetikus kód rész és egy, az adott feladatra vonatkozó specifikációkat tartalmazó rész.
+		Ez a genetikus algoritmusban három különböző részre jól elkülönítve látszik.
+		A genetikus rész kettő .c fájlban található egy main és egy a genetikus függvényeket tartalmazó állományban.
+		Így egy újabb példára való futtatás alkalmával elég csak a teszteket tartalmazó részt átírni.
+		
+		
+		A genetikus rész legfontosabb függvényeiről a későbbiekben még lesz szó, ezek a mutálás, random kezdőegyedek beállítása, valamint a keresztezés.
+		Azonban emellett más függvények is fontos szerepet játszanak az algoritmus lefutásában.
+		\Aref{fig_egyedkiir} ábrán látható megjelenítésért az \texttt{egyedKiir} függvény a felelős, amely az aktuálisan létrehozott populáció legjobb egyedét hivatott bemutatni a programot futtató felhasználó számára.
+		Majd végül kiírja a jó megoldást is.
+		A kódba bele van építve egy \texttt{joMegoldasTeszt} nevű függvény, ami nincs használatban és a main függvényben is ki van kommentezve.
+		Ez arra szolgál, hogy amikor újabb feladatot akarunk megoldani a programmal, és ismerjük a megoldását, akkor esetleges futási hiba esetén ezzel le tudjuk ellenőrizni, hogy a megkötések implementálásában van-e hiba és ha igen akkor melyikben.
+		
+		\Abra{egyedkiir}{A program lefutása}{width=16cm}
+		
+		A main függvényben \texttt{joMegoldasTeszt} függvény mellett jelen van a \texttt{Megold} függvény is.
+		Ez a függvény felelős a feladatok megoldásáért.
+		A tesztek alapján beállítottunk egy fitnesz függvényt, mi esetünkben ezt \texttt{hanyatSert}nek nevezzük.
+		A program célja az, hogy a fitnesz értéke 0 legyen, ami akkor valósül meg, ha minden teszt feltételének eleget tesz a program.
+		Ez a program leállási feltétele.
+		A \texttt{Megold} függvény szerkezete igen egyszerű.
+		A POPMERET makróval a program elején beállíthatjuk mennyi egyedet szeretnénk létrehozni az alap populációba és a MEGTART makróval pedig beállíthatjuk mennyi legyen az elit egyedek száma, azaz mennyit tartsunk meg a legjobbak közül.
+		A ciklusba belépés előtt egy kezdeti populációt kell beállítani a programnak.
+		Ezt biztosítja nekünk a \texttt{kezdetiRandom} nevű függvény.
+		Majd ezután léphetünk be a ciklusba, ami a jó megoldásig ismétlődik.
+		A ciklus lényege, hogy feltöltsünk egy temp elnevezésű tömböt, ami minden egyes műveletet POPMERET darabszor hajt végre, majd ebből a már POPMERET*4 elemszámú tömbből egy sorba rendezést követően kiválasztunk MEGTART darab elit egyedet a rendezett tömb elejéről.
+		Ezt követően a továbbiakat úgy választjuk ki, hogy nagy eséllyel a jókat válasszuk, de adott legyen az esély a rosszabb egyedek beválogatására is, hiszen az evolúció során is mindig maradnak fent rosszabb egyedek is.
+		Így áll végül össze a populáció elnevezésű tömb ami ezt a POPMERET darab egyedet tartalmazza, amit később visszatöltünk a ciklusba.
+		\Aref{fig_temp} ábra is ezt a folyamatot hivatott egyszerűen szemléltetni. Jól látszik az ábrán a 4 művelet amiből a ciklus áll. Fontos azonban megjegyezni, hogy a populáció tömböt az első lefutásnál még a \texttt{kezdetiRandom}ból vesszük át teljes egészében és csak a ciklus későbbi lefutásánál töltjük fel a kiválasztott egyedekkel.
+
+\Abra{temp}{A megoldás lefutásának szemléltetése.}{width=12cm}
+
+A feladatspecifikus részek jól elkülöníthetők a programban.
+Itt generálható a feladatban szereplő adatokból a neki megfelelő makrók, hogy későbbiekben egyszerűen egy számként hivatkozhassunk az egyes egyedekre.
+A programban létrehozott egyedek kritériumoknak való megfelelését a fitnesz függvény értékeli ki.
+A mi esetünkben ez a \texttt{hanyatSert} elnevezést kapta.
+Minden Zebra típusú feladvány tartalmaz kritériumokat, amik egy egységes szabályrendszer segítségével leírhatók így akár egy Excel tábla segítségével is könnyen teszt generálható belőlük.
+Ezeket a teszteket (kritériumokat) fűzi össze a \texttt{hanyatSert} függvény és értékeli ki az egyedek rátermettségét.
+
+
+Robert E. Smith, B. A. Dike és S. A. Stegmann	1995-ös tanulmányukban elemezték a fitnesz függvényt és az öröklődést a genetikus algoritmusokban\cite{Smith:1995:FIG:315891.316014}   
+
+Lee K. Graham, Steffen Christensen illetve Franz Oppacher 2007-ben foglalkoztak az algoritmus fitnesz függvényének dinamikusságával, és annak a megoldásra való hatásával\cite{Graham:2007:SGA:1276958.1277243}
+
+    \section{Egyedreprezentáció és segédfüggvények} % Fruzsi
+
+	
+			Az algoritmusban az egyedeket székek és tulajdonságok reprezentálják, és tekintve, hogy egy tulajdonság többféle értéket is felvehet, így egy egyed több allélból áll. Az egyed felírásához szükséges függvény az alábbi módon néz ki:
+
+	\begin{lstlisting}[frame=single, language=C]
+	struct gen{
+   	 int allel[TULAJDONSAG][SZEK];
+   	 int megsert;
+   	 }
+	\end{lstlisting}
+	
+			N darab tulajdonságnál egy tulajdonság 0 és n-1 érték között vehetet fel értéket, ahol n a tulajdonság számát jelenti, és az allélok pedig 0 és m-1 között vehetnek fel értéket, ahol az m az allél számát jelenti. Ez a fajta felírás az algoritmusban alkalmazva az alábbi 		módon néz ki:
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[4][3]==0
+	\end{lstlisting}
+			
+	A fenti kódrészlet alapján lehet visszakódolni, hogy az allél pontosan mit jelent, melyik tulajdonságra mutat. Az említett kódrészlet egy kezdetleges megoldást reprezentál, mely egy kisebb példánál nem, de egy nagyobb feladványnál annál inkább kellemetlenséget tud okozni, és visszafejtése időigényes.
+	Egy olyan lehetőséget próbáltunk még ki, ami végül nem került megvalósításra, viszont úgy tette egyszerűbbé az egyedek megadását, hogy a makrókban megadott értékekről nem kellett tudnunk,  azok pontosan melyik tulajdonsághoz tartoznak. A teljes kód tehát a tulajdonság, és az előző verzióban is használatos számokból tevődik össze. A BLACK kódja így például 00. 
+	\begin{lstlisting}[frame=single, language=C]
+	#define SHIRT 0
+ 	#define BLACK 00
+    	#define BLUE 01
+	#define GREEN 02
+    	#define RED 03 
+	\end{lstlisting}
+			Mivel több tulajdonság is adott egy feladatban, így létrejöttek olyan kódok mint a 20; 33; 41 stb, melyek értékének visszafejtése időigényesnek bizonyult. Az interpretáció könnyítésére elkészült egy segédfüggvény, amely a kódok értékét elosztotta tízzel, így például a 41-es értékből az algoritmus visszakapta a 4 értéket, melyet a makróból kiolvasva azonosított. 
+Ezt használva, tehát nem nincs szükség a fent bemutatott leírásra, hanem elég az alábbi módon megadni egy allélt:
+
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[type(Joshua)][0]==Joshua
+	\end{lstlisting}
+
+
+	A fent taglalt tesztíráshoz szükséges módszer a végleges változatba nem került bele, viszont ugyanezen makrókat felhasználva egy új módszer került bevezetésre. Itt tudván, hogy egyes allélok melyik tulajdonsághoz tartoznak, vagyis, hogy a Black a Color tulajdonsághoz tartozik és nem a Snackhez, egyszerűen fel lehet írni az allélokat. Ez a verzió végül egyetlen feladvány megoldásánál lett alkalmazva.
+	\begin{lstlisting}[frame=single, language=C]
+	egyed.allel[SHIRT][sz]==BLACK
+	\end{lstlisting}
+
+	A fent bemutatott megoldás alkalmasnak bizonyult a továbbfejlesztésre, így egy olyan verzió készült el, ami a későbbiekben automatizálva is lett. Egy \texttt{HanyadikSzek} nevű segédfüggvény létrehozásával fejlesztettük további feladványokhoz. Ebben a megoldásban nem volt szükség a teszteknél minden egyes egyednél ellenőrizni, hogy a megadott értéket veszi-e fel, mint az előző verzióknál, elég volt csupán megadni a feladvány által előírt tulajdonságot és annak értékét, majd a teszttől függően az egyedek között fennálló összefüggést ellenőrizni.
+	\begin{lstlisting}[frame=single, language=C]
+  	  int egyed1=HanyadikSzek(egyed,DONATION,HARMINCK);
+   	  int egyed2= HanyadikSzek(egyed,AGE,NEGYVEN);
+	
+	  return !(egyed1==egyed2-1);
+	\end{lstlisting}
+
+
+	Az algoritmus finomhangolásához, és az ellenőrzések leegyszerűsítéséhez elkészült egy \texttt{TULNEVEK} nevezetű kétdimenziós, sztringekből álló tömb. Ezt a tömböt használja az \texttt{egyedKiir} függvény, mely, mint neve is indikálja, az egyedek kiírásáért volt felelős. Az ellenőrzésekhez elengedhetetlen volt egy olyan függvény létrehozása, mely vizsgálta, hogy egy egyed milyen kikötéseket sért meg. Ez a függvény a \texttt{hanyatSert}, melyet az \texttt{egyedKiir} használ.
+
+	Az  \texttt{egyedKiir} függvénybe beágyazva található a \texttt{hanyatSert} függvény. Az előbbi funkciója a generált egyedek közül legjobb, vagyis a legkevesebb tesztet megsértő egyed megjelenításe, a \texttt{hanyatSert} függvény által adott adatok alapján. Ezek a függvények, bár funkcionalitásukban alapvetően az algoritmusok részét képezik, mégis feladatspecifikusak a feladatonként változó tesztek és gének miatt.
+
+	Ezek használata természetesen egy olyan feladatnál, ahol fennáll annak a lehetősége, hogy nincs megoldás nem tud mindig segíteni, viszont az algoritmus fejlesztésénél elkészült egy olyan funkció is, amely ezt ellenőrzi és kiszűri.
+Vizsgált feladataink mindegyike rendelkezik megoldással, így a \texttt{hanyatSert} függvény segítségével ellenőrizni lehet, hogy valóban egy kikötés nem teljesül-e, vagy az algoritmus megfelelő működéséhez szükséges paraméterezés nem megfelelő.
+
+
+    \section{Evolúciós mechanizmusok} % Fruzsi
+       		A genetikus algoritmusok az evolúció mintája alapján az abban megtalálható mechanizmusokat modellezik, melyek segítségével különböző, a feladatok megoldásához elengedhetetlen egyedek hozhatók létre.
+Ilyen mechanizmus a mutáció és a keresztezés, illetve itt kap jelentőséget az egyedek fitnesz értéke, amely gyakorlatilag a természetes kiválasztódást jelenti, így a szelekció alapját képezi. Ezek segítségével válik a populáció fejlődőképessé. 
+
+	A mutáció és a keresztezés az alappopuláció egyedein alkalmazva új egyedeket hoznak létre. Ezek futása előtt fontos, hogy rendelkezésükre álljon egy alappopuláció, melyen egy ciklus segítségével lefuthatnak. Ezt az alappopulációt a\texttt{kezdetiRandom} függvény képezi le a \texttt{POPMERET} makróban szereplő érték alapján, mely az egyedek számát adja meg.
+	A mutáció, keresztezés, és a mutáltak keresztezése \aref{fig_temp} ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 4-szer \texttt{POPMERET} egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek.
+    A tömbből a \texttt{MEGTART} makró által megadott darabszámú egyed, vagyis a legjobb egyedek kerülnek kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből.
+    A következő generáció \texttt{POPMERET}-\texttt{MEGTART} egyede véletlenszerűen kerül kiválasztásra a rendezett egyedlista első feléből, preferálva a lista elején szereplő jobb egyedeket.
+	
+	Az egyedek fitnesz értékét vizsgáló függvény azok sikerességét figyeli, vagyis azt nézi, hogy hány kikötést nem sért meg az adott egyed futás során. Tehát minél többet megsért, annál rosszabb lesz a fitnesz értéke, és rendezés esetén annál hátrébb kerül, végső soron pedig kihull, hiszen a futáson nem tud javítani.
+	
+	
+A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a \texttt{POPMERET} makró is, hiszen ezek értéke jelentősen befolyásolhatja egy algoritmus futási idejét. Ezek értéke természetesen az adott feladványtól, feladványtípustól függ, így a minél nagyobb, vagy minél kisebb érték nem feltétlen jelent gyorsabb futásidőt.
+
+Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hatásaként létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
+
+
+        
+        \subsection{Véletlenszerű új egyed generálás} % Dani
+        
+        A random új egyed generálása a \texttt{kezdetiRandom} függvényben játszott csak szerepet.
+        Itt azonban különböző stádiumokon esett át a függvény. Ahogy a kód fejlődött úgy ez is mindig módosult.
+        \Aref{fig_random1} és \aref{fig_random2} ábra bemutatja hogy a kód fejlődése során milyen működési mechanizmusokat használt a függvény.
+        Az ábrán egy 5x5-ös méretű egyed szemlélteti a működésének lényegét.
+        
+        \Abra{random1}{Random egyed generálása segéd tömbbel.}{width=8cm}      
+        
+        Az első változat még csak feltöltötte az egyedben 0-4-ig a székeket minden tulajdonság estén.
+        Ezt a megoldást is randomizálásnak nevezhetjük , mert tulajdonképpen ez is éppen annyira lehetséges megoldás, mintha valóban random generálnánk a számokat.
+        \Aref{fig_random1} és \aref{fig_random2} ábra egyaránt megírásra kerültek azonban a második verzió (a cserélgetéses) került végül bevezetésre, mivel annak a működése a legáttekinthetőbb.
+        Ez a verzió tulajdonképpen a legelső random generálási módszerből indul ki (amikor csak sorba beírjuk a számokat) és azon végez "mutációkat", azaz cserélgeti az elemeit, ezzel egy véletlenszerű sorrendet generálva.
+        
+        \Abra{random2}{Random egyed generálása cserélgetéssel.}{width=8cm} 
+        
+        Azonban a kódban szerepet nem játszó (segéd tömbös) random
+        működése is említésre méltó.
+        Ez a random sorba megy 0-tól 4-ig a számokon és a helyüket (szék sorszáma) keresi meg tulajdonságonként.
+        A hely keresést a "van" tömb használatával oldja meg az algoritmus.
+        Minden iterációban generál egy random számot, ez a darab.
+        A darab maximális értéke iterációnként egyre kisebb lesz.
+        A kezdetben csak nullákból álló "van" tömbhöz minden egyes iterációban hozzáfűzünk egy-egy egyest a következőképpen: a darab szám eggyel csökken, ha a van tömbben 0-t találunk és változatlan marad, ha 1-est.
+        Így tulajdonképpen a darab azt mutatja meg, hogy hányadik üres helyre szeretnénk berakni az éppen aktuális számot.
+        A függvény addig megy amíg minden helyre 1-es nem került.
+        Ez egy sor.
+        Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.
+            
+        \subsection{Mutálás} % Fruzsi
+           		 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. 
+		
+	
+	A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció  \aref{fig_szomszed} ábrán, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
+
+   \Abra{szomszed}{A szomszédos mutáció működése egyszerűsítve}{width=10cm}
+		
+	A vizsgált feladat speciális allélszerkezetéből adódóan figyelni kellett arra, hogy a csere minden esetben az azonos tulajdonsághoz tartozó értékek között történjen.
+	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve, mint ahogyan azt  \aref{fig_mutalvegl1} ábra mutatja.
+	
+	\Abra{mutalvegl1}{A mutáció működése}{width=10cm}
+		
+	Az algoritmus kezdeti státuszában a függvényben az egyed egyszer került mutálásra. Hogy a mutáció és ezzel együtt az egyedek is változatosabbak legyenek egy \texttt{hanyatmutal} nevű változó került bevezetésre. A változó 1 és 5 között vesz fel véletlenszerű módon értéket, 		és aszerint fut le az egyed többszöri mutálását végző ciklus.
+	
+	Az algoritmusban a mutáció a Megold függvényben kerül meghívásra és \texttt{POPMERET} alkalommal mutál egyedet, vagyis \texttt{POPMERET} db mutált egyed kerül a TEMP tömbbe, így negyedét kitéve annak.
+
+
+            
+        \subsection{Keresztezés} % Dani
+            
+            Keresztezésből alapvetően két fajtát különböztetünk meg.
+            Az egypontos és a kétpontos keresztezést.
+            Az egypontos keresztezés esetében a kromoszómákat véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból újakat hozunk létre.
+            A kétpontos keresztezés hasonlóan működik, csak ebben az esetben 2 ponton vágjuk el az allélt és a keletkezett 3 darabot fűzzük össze tetszőleges sorrendben.
+                        
+            A mi esetünkben az egyedek allélja egy 2 dimenziós tömb, amelyen egypontos keresztezés került alkalmazásra.
+            Figyelni kellett azonban arra, hogy csak az egyes sorok, vagyis tulajdonságok határánál vágjon a keresztező algoritmus, különben helytelen megoldást reprezentáló egyedet generált volna.
+            A programok mindegyike egypontos keresztezést használ, ami a sorokat cseréli meg egy bizonyos ponton elvágva a tömböt.
+            \Aref{fig_keresztez-mukodes} ábra szemlélteti a függvény működésének a lényegét.
+            A program során 2 fajta keresztezés került kidolgozásra.
+            Az első verzió egy fix ponton vágta el a tömböt és a 2 felét cserélte meg.
+            A fix pont a számtani közepe a tulajdonságok számainak. Ezzel a módszerrel az a probléma, hogy a folytonos közepén való vágás nem illeszkedik bele a genetikus algoritmus randomitásába. Későbbiekben ez a módszer egy változó segítségével javítva lett azt biztosítva, hogy minden egyedpár különböző helyen legyen elválasztva.
+            
+            \Abra{keresztez-mukodes}{A keresztezés mechanizmusa}{width=12cm}
+                     
+            A program írása során két fajta keresztezés került kipróbálásra.
+            A crossover 1.0 is úgy lett kitalálva, hogy minden egyeden végezzen keresztezést, viszont az a hibája, hogy mindig 2 egymás mellett lévőn végzi el.
+            Ez viszont nem bizonyult előnyösnek, mivel a populáció tömb rendezve volt így a legjobb egyedek egymás között keresztezve igen nagy eséllyel rosszabb egyedet adtak eredményképpen.
+            Ezt igen egyszerűen ki lehetett javítani azzal, hogy a populáció tömbből véletlenszerűen választunk ki 2 egyedet és azokon végez a program keresztezést.
+            Ez a módszer lehetővé teszi a programnak azt is, hogy 2 egyforma egyedet válasszon ki, ezzel fenntartva a lehetőséget, hogy egy-egy egyed keresztezés nélkül kerüljön be a temp tömbbe.
+            Az 1.0-ás változathoz képest jelentős eltérés, hogy ez a módszer nagy eséllyel hagy olyan egyedeket amiken nem végez keresztezést, mivel nem kerül kiválasztásra.
+            Azonban ez a genetikus algoritmus jegyeit jobban mutatja, mivel 2 véletlenszerűen kiválasztott egyeden végez keresztezést egy véletlenszerűen választott pontban.
+            
+            \Forraskod{keresztezes.c}{frame=single , lastline=14}   
+            
+            A keresztezés POPMÉRET db alkalommal fut le, azonban a többi evolúciós algoritmushoz hasonlóan innen sem maradt ki a keresztezés a mutált egyedeken , ami szintén POPMÉRET db-szor fut le.
+            Mivel a temp tömb 4*POPMÉRET méretű így a keresztezett egyedek pont a temp felét teszik ki végül, így ebben az algoritmusban is a keresztezés dominál.
+
+Soricone Robert és Neville Melvin a 2004-ben megjelent cikkükben részletesebben vizsgálták a mutáció és keresztezés hatását a genetikus algoritmusokban\cite{Soricone:2004:CAG:1046191.1032304}
+Jun Zhang, Henry S. H. Chung illetve Jinghui Zhong 2005-ben foglalkoztak a mutáció és keresztezés hatásával áramkörök optimalizálásánál\cite{Zhang:2005:ACM:1068009.1068267}
+
+
+        \subsection{Megold függvény} % Fruzsi
+            	A \texttt{Megold} függvényben gyakorlatilag a már eddig megismert függvények meghívása valósul meg.
+	
+	A \texttt{Megold} függvényt az algoritmus kezdeti fázisában a  \texttt{main} függvény helyettesítette, amiben a kezdeti random populáció generálása, és a temp tömb\texttt{ POPMERET} értékének szerinti feltöltése történt. Utóbbinál a \texttt{ POPMERET} többszörös értékét volt szükséges megadni a mutáció és keresztezés betöltendő egyedei miatt, melyek függvényhívása a mainben egy megadott ciklusérték szerint történt. A  \texttt{mainben} került továbbá meghívásra a \texttt{rendezés} függvény, mely a temp tömbön végzett rendezést. A legelső változatban még nem szerepelt, viszont a genetikus algoritmusok egyik alapvető elemeként hamar bekerült a rendezésbe az elit egyedek kiválasztására szolgáló kódrészlet, ami a \texttt{MEGTART} makró értékét használja.
+
+	Az algoritmus fejlesztése során egyre több függvény került a \texttt{Megold}, eredetileg \texttt{main} függvénybe. Így került bele az \texttt{egyedKiir} függvény is, mely igen fontos szerepet játszott az algoritmus működőképességének ellenőrzésekor.
+A \texttt{Megold} függvényben először is létre kellett hozni egy temp tömböt a kódban előforduló \texttt{ POPMERET} szerinti keresztezés és mutáció alapján. A \texttt{kezdetiRandom} függvény segítségével létrehoztunk \texttt{ POPMERET} egyedet, mely a temp tömbbe bemásolásra került. 		Ugyanez történt a keresztezés és mutálás, illetve a már mutált egyedek keresztezésével kapott új egyedekkel is. 
+	
+A temp tömb ezután rendezésre kerül a fitneszérték alapján, és a \texttt{MEGTART}  makróban megadott számú egyed átmásolásra kerül a populáció tömbbe. A temp tömbből ezután a \texttt{MEGTART} makró értékével kevesebb egyedből \texttt{ POPMERET}-\texttt{MEGTART}  egyed kerül kiválasztásra a fitneszérték alapján jobbra értékelt egyedekből és töltődik be a populáció tömbbe.
+
+A \texttt{Megold} függvény végén még egy olyan funkció került beépítésre, ami a megtalált megoldást az előtte generált populációktól jól láthatóan elválasztja, így könnyen kiértékelhető az algoritmus által adott eredmény.
+A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorolt függvények és a \texttt{Megold} függvénybe lettek átrakva.  A  \texttt{main} ennek ellenére továbbra is megmaradt, és alapesetben \texttt{Megold} függvényt hívja meg. Megtalálható benne még a \texttt{joMegoldasTeszt} függvény is, mely meghívva a jó megoldást írja ki. Ennek akkor van nagyobb jelentősége, ha az algoritmus belátható időn belül nem talál megoldást. Amennyiben a feladvány rendelkezik megoldással, az bevitelre és a \texttt{joMegoldasTeszt} függvénnyel meghívásra kerül. A függvény a tesztek helyességét a bevitt megoldáson ellenőrzi, ami alapján el lehet dönteni, hogy valóban a tesztekkel van-e a probléma, vagy az algoritmus paraméterezése nem megfelelő.
+
+\begin{lstlisting}[frame=single, language=C]
+	int main(){
+
+    	//joMegoldasTeszt();
+    
+   	 Megold();
+  	 return 0;
+	}
+
+	\end{lstlisting}
+
+
+    \section{Egyedek kiértékelése} % Máté
+	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak.
+	Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (Teszt) 0-át ad vissza értékül, különben pedig 1-et.
+		
+	Az egyedek kiértékelése a teszteknek való megfeleltetést jelenti.
+	A tesztek gyors megírása érdekében lett bevezetve a \texttt{hanyadikSzek} függvény is, ami a gyors megírhatóságot biztosítja.
+	A zebra típusú tesztek 6 féle képpen írhatóak le, azaz adott 6 szókapcsolat amelyek egyikének szerepelnie kell minden megadott zebra tesztben.
+	Így a teszteket a következő 6 csoportba sorolhatjuk be:
+	\begin{itemize}
+		\item \texttt{One of the ends} (az egyik szélén) típusú tesztek esetén egy megadott értékről azt tudjuk, hogy a hozzá tartozó tulajdonságon belül ez az érték vagy a 0. vagy a SZEK-1. helyen kell, hogy legyen.
+		Például: Eszter az egyik szélén ül.
+		\item \texttt{Position} tesztek mindig fix értékeket tartalmaznak.
+		Ezen tesztek leírása a legegyszerűbb hiszen itt meg van adva, hogy melyik tulajdonság melyik székén mi található.
+		Például: A fehér pólós a 4. széken ül.
+		\item \texttt{Likes} (kedvel) típusú tesztek esetén azt tudjuk, hogy egy bizonyos tulajdonságú ember szeret valamit enni, csinálni stb.
+		Például: A kék pólós fiú a rock zenét kedveli.
+		\item \texttt{Between} (között) teszteknek van a legtöbb paramétere.
+		Itt a teszt 3 tulajdonságot használ fel. A köztes emberét, illetve a tőle jobbra, valamint balra ülő tulajdonságait.
+		Ez a típusú teszt feltétele, hogy sorrendben adjuk meg az adatokat.
+		Tehát ezek a tesztek mindig tartalmaznak egy -ebben a sorrendben- kiegészítést.
+		Például: Judit a piros pólós és a 20 éves ember között ül, ebben a sorrendben.
+		\item  \texttt{Exactly to the} (pontosan a..) típusú tesztek esetén az adott ember mellett ülő tulajdonságáról lehet megtudni valamit.
+		Az ilyen típusú tesztekben meg kell adni, hogy pontosan a jobb vagy a bal oldalán ülő tulajdonságáról van-e szó.
+		Például: Aki a rock zenét kedveli az pontosan a 22 éves ember jobb oldalán ül.
+		\item  \texttt{Somewhere to the} (valahol a..) típusú tesztek esetén az adott ember mellett valahol jobbra vagy balra ülő tulajdonságáról lehet megtudni valamit.
+		Itt az előzőtől eltérően nem tudjuk, hogy pontosan mellette van-e csak hogy a székének a száma nagyobb-e vagy kisebb.
+		Persze ez még nem zárja ki, hogy nem ülhet pontosan mellette.
+		Ez csak egy tágabb mozgásterű teszt.
+		Például: Eszter valahol Judit jobb oldalán ül.
+	\end{itemize}
+
+	\Forraskod{tesztek.c}{frame=single , lastline=19}
+	
+	Ezekből a tesztekből bármennyi lehet és mindegyike egy 1-es vagy egy 0-ás értékkel tér vissza.
+	Itt jön képbe a fitnesz (mi esetünkben \texttt{hanyatSert}) függvény.
+	Ez összesíti számunkra, hogy összességében milyen az egyes egyedek rátermettsége.
+	Ez az érték mindig azt mutatja mennyi tesztet sértett meg az adott egyed, amire futtatva lett.
+	A 0-ás érték azt jelenti, hogy az algoritmus megtalálta a megoldást, azaz 0 db tesztet sért meg a program.
+	A szám amit a függvény ad minél magasabb annál több tesztet sért meg az egyed és annál kisebb a rátermettsége.
+	Mindezek mellett nem csak a megsértet tesztek számát kapjuk vissza, hanem azt is hogy konkrétan melyik teszteket sértette meg a program.	
+
+\chapter{Empírikus vizsgálatok} % Máté
+    Az elkészült programot több feladaton teszteltük, ebben a fejezetben az úgynevezett \emph{Fundraiser} példa futási eredményeit, és az azokbol levont következtetéseket mutatjuk be.
+    Ez a példa emberi szemmel nézve a legnehezebb feladatok közé tartozik, 5 személynek 5 különböző tulajdonságát kell meghatározni 21 megkötés alapján.
+    A példa pontos adatai \aref{fundraiser} függelékben találhatók.
+
+    A futtatásokat egy Intel Core i5-7200U processzorral és 8 GB RAM-mal rendelkező gépen végeztük, Windows 10 Pro operációs rendszeren.
+
+	A program futásakor mindig az aktuális generáció legjobb egyedét mutatja meg, valamint azt, hogy az hány megkötést sért meg, illetve pontosan melyikeket, ahogy az  \aref{fig_test-in-progress} ábrán látható.
+
+	\Abra{test-in-progress}{A program a futás kezdetekor}{width=14cm}
+
+	Az elitizmusnak köszönhetően garantált, hogy a későbbi generációkban sosem romlik a legjobb egyed.
+    A program akkor áll le, ha a generáció legjobb egyede egyetlen korlátozást sem sért meg.
+
+	A futási sebességet több tényező is befolyásolhatja:
+	\begin{itemize}
+        \item feladat nehézsége, még precízebben a feladat mérete, vagyis a tulajdonságok és a betölthető pozíciók száma,
+        \item a megadott megkötések száma és jellege
+        \item az algoritmus paraméterei, mint a populáció és a megtartott egyedek száma
+	\end{itemize}
+
+	\Aref{fig_results} ábra mutatja be, hogy miként változik meg a futási sebesség, valamint az megoldás megtalálásához szükséges generációk száma a populáció és a megtartott egyedek számának különböző értékei mellett.
+	Az utolsó oszlopban a megoldás megtalálásáig megvizsgált egyedek száma is fel van tüntetve. 
+	Az adatok futási idő szerinti növekvő sorrendbe vannak rendezve, és jól látszik, hogy ez erősen korrelál a megvizsgált egyedek számával. 
+
+	\Abra{results}{Futási eredmények különböző paraméterek esetén}{width=13cm}
+
+    
+
+	
+
+
+	
+
+	
+
+\chapter{Kód automatikus generálása} % Dani
+    Az első program megírása után már felmerült az igény, hogy legyen valami ami legenerál bármilyen feladathoz egy kódot.
+    Ez könnyedén megoldható, hiszen a program genetikus része minden ilyen fajta problémához egységesen kell, hogy működjön, így a generált kódokban a genetikus részt nem is kell módosítani csak a feladathoz tartozó adatokat kell átírni.
+    Mivel a program 3 .c kiterjesztésű állományból áll, így a 2 genetikus vonatkozást tartalmazó program mindig fix maradhat és csak egy 3. a tesztet és a struktúrát tartalmazó .c kiterjesztésű fájlt kell cserélgetni, valamint ezt kell a main-be egyszerűen include művelettel beágyazni.
+    A kód generálása azért egy hasznos dolog, mert így a genetikus algoritmusok bármelyik felhasználóhoz eljuthatnak, hiszen nem kell programozási ismeret hozzá.
+    Csak ki kell tölteni a táblázatot, kiexportálni egy c fájlba, majd lefuttatni a main.c-t, természetesen a main.c-be nem szabad kifelejteni a kapott fájl beágyazását.
+    
+    \Abra{generalas-egyed}{Egyedek megadása}{width=8cm}    
+    
+    A kódgenerálás kivitelezésére a Microsoft Office Excel program tűnt a leginkább optimálisnak, hiszen ezzel a programmal a szöveg összefűzési műveletek és az input bevitele viszonylag egyszerűen megoldhatóak.
+    \Aref{fig_generalas-egyed} és \aref{fig_generalas-tesztek} ábrák a legelső program Excelbe történő bevitelét hivatottak szemléltetni.
+    Azonban a táblázat úgy van megtervezve, hogy akár egy 20x20-as egyedmérettel és akár 250 teszttel is működőképes legyen.
+    Maga a munkafüzet igen felhasználó barát. 4 lapból áll, amiből 2 lapvédelem alatt áll.
+    Az első lap az Adatok.
+    Ide egészen egyszerűen csak be kell írni a tulajdonságokat és a különböző székeken lévő értékeket.
+    Még csak azzal sem kell foglalkozni, hogy a székek vagy a tulajdonságok számát beírjuk, mivel a bevitt adatokhoz képest dinamikusan változnak ezek a számok is.
+    Egyedül a POPMÉRET és a MEGTART értékeit lehet módosítani a makrók közül.
+    Annyi kritérium van azonban a lappal kapcsolatban, hogy a szám adatokat szöveggel kell bevinni a program helyes futása érdekében (a program legenerálódik így is, csak a makrók nem lehetnek számok, így nem tudjuk futtatni majd).
+
+    
+    \Abra{generalas-tesztek}{Tesztek megadása}{width=12cm}
+      
+    A második lap a Tesztek nevet kapta. Ide maximum 250 darab tesztet lehet megadni, ami egy 20x20-as egyedhez elegendő is.
+    A tesztek szöveges megadása nem kötelező.
+    Anélkül is le lehet generálni a kódot.
+    Ha valaki meg szeretné adni a teszt szövegét is annak nem kell X-et raknia a teszttípusok megfelelő négyzetébe.
+    Amennyiben valaki eltekint a teszt szöveges megadásától annak be kell X-elnie az egyik oszlopot különben nem generálódik le a teszt.
+    Ezeken felül a teszt típusától függően kötelező megadni 1, 2 vagy 3 egyed értékét.
+    A tulajdonság fajtáját nem kell megnevezni, mivel azt egy függvény a bevitt érték alapján vissza tudja keresni a későbbiekhez.
+    \Aref{fig_generalas-tesztek} ábrán láthatjuk ennek a felületnek a megjelenését.
+    Azonban a lapon megjelenik még egy position elnevezésű oszlop is, amit csak a tőle ballra/jobbra, illetve konkrét pozíciót leíró függvények esetén kell használni.
+    
+    A harmadik lapot (Kódok) már lapvédelem védi.
+    Ez a lap kizárólag segéd lapként szerepel a munkafüzetben.
+    Azért van lapvédelem alatt, hogy a felhasználó bele kattintani se tudjon, mivel neki azzal semmi dolga nincs. Az kizárólag a tesztek kóddá való átírására szolgál.
+    Az egész program végül az utolsó Program lapon áll össze.
+    Egy szűrő segítségével a lapon csak a felhasználó szempontjából értékes adatok láthatóak.
+    A program dinamikus változását úgy lehetett csak megoldani, hogy sok üres cellát iktasson közbe.
+    Ezek azonban egy egyszerű szűréssel mind eltüntethetőek, szóval a felhasználók csak a programot látják. Ez a legenerált kód.
+    Ezzel nincs más dolog már, mint kijelölni az egész látható területet (a felesleg el van rejtve) és beilleszteni egy .c kiterjesztésű fájlba. (Ami fontos a kimásolás előtt, hogy a lap tartalma frissítve legyen.
+    Ez könnyedén elérhető, mert csak rá kell kattintani a szűrő ikonjára és minden módosítás nélkül le kell okézni.)
+    Innen már a main.c-be amikor a felhasználó beírja include paranccsal a létrehozott .c kiterjesztésű fájl nevét akkor észlelni fogja a program és le is fut (ha nem nincs elírás a munkafüzetben).
+
+\chapter{Összefoglalás és jövőbeni tervek} % Máté
+    Dolgozatunkban a logikai feladványok egy elterjedt fajtáját, a Zebra rejtvényeket vizsgáltuk.
+    Ismertettük ezen fejtörők sajátosságait, valamint a megoldásuk lehetséges módszereit.
+    Munkánk eredménye egy evolúciós algoriotmuson alapuló módszer, mely a úgy keresi a logikai feladvány, mint kielégíthetőségi probléma megoldását, hogy az egyedek fitnessz értéke a megsértett korlátozások számával egyezik meg.
+    Az általunk implementált módszer addig készít új generációkat, míg a legjobb egyed fitnessz értéke 0 nem lesz, azaz a fejtörő hibátlan megoldását meg nem találtuk.
+    A kidolgozott módszert C nyelven implementáltuk, s több tesztfuttatást végeztünk, melyek alapján meghatároztuk az evolúciós algoritmus paramétereinek ideális értékeit.
+    Annak érdekében, hogy a módszert könnyebben tesztelhessük különböző példákon, elkészítettünk egy táblázatot, mely a feladat korlátozásainak rendszerezett megadása után képes az annak megoldásához szükséges forráskódot generálni.
+
+    Az összegyűjtött tapasztalatok alapján a jövőben tervezzük a módszer sok feladaton történő tesztelését, valamint ehhez nagy méretű példák generálását.
+    A módszer alkalmazásának könnyítése érdekében az elkészült programot úgy kívánjuk továbbfejleszteni, hogy a struktúrált formában megadott feladatokat képes legyen beolvasni, és hozzájuk a kiértékelést dinamikusan elvégezni.
+    Végezetül további mutációs és keresztezési módszerek hatékonyságát vizsgáljuk meg a nagy méretű generált példákon a továbbfejlesztett szoftver segítségével.
+
+\clearpage
+\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+\bibliographystyle{plain}
+\bibliography{zebra}
+
+
+\appendix
+
+\chapter{Kódgeneráló táblázat}
+\section*{Adatok megadása}
+\Aref{fig_fuggelek1} ábra szemlélteti a megadás formátumát. Az egyedeket egy 20x20-as táblázat segítségével adhatunk meg.
+Ez ahhoz fontos, hogy a makrók később automatikusan generálódjanak és ne kelljen később hozzányúlni.
+A székek számozásával valamint a TULAJDONSAG és SZEK makrók beállításával nem kell foglalkozni, hiszen azok kitöltése automatikusan történik.
+A módosítható makróértékékek piros betűszínnel vannak jelezve.
+Tehát a POPMERET és a MEGTART bármikor módosítható.
+
+\Abra{fuggelek1}{Egyedek megadása}{width=12cm}	
+
+\section*{Tesztek kitöltése}
+
+\Aref{fig_fuggelek2} ábra szemlélteti a tesztek megadásának menetét.
+A tesztek megadása során a szöveges megadás elhanyagolható, azonban annak segítségével a program automatikusan ki tudja tölteni a tesztek fajtájára vonatkozó részt.
+A kényelmesség érdekében csak az értékeket kell megadni a tesztek során, a tulajdonság típusát már a program is vissza tudja keresni így az elhagyható.
+
+\Abra{fuggelek2}{Tesztek megadása}{width=12cm}
+
+\section*{Tesztek generálása}
+
+\Aref{fig_fuggelek3} ábra szemlélteti a tesztek megadásának menetét.
+Ez a rész a felhasználó szempontjából lényegtelen hiszen itt minden a bevitt adatok alapján változik dinamikusan.
+A kód generálása típusonként egységes mivel csak a benne szereplő értékeket tudjuk változtatni másik fajta teszt nem szerepelhet.
+
+\Abra{fuggelek3}{Tesztek generálása automatikusan}{width=12cm}
+
+\section*{A kész kód}
+
+\Aref{fig_fuggelek5} ábrán látható, hogy itt már minden automatikusan generálódik a felhasználó dolga csak a szűrés frissítése és a kimásolás.
+
+\Aref{fig_fuggelek5} ábra mutatja, hogy egy 15x15-ös, 213 tesztes program esetén a programunk több, mint 1358 sorosra is elnyúlhat.
+Egy ekkora program megírása nem kevés időt venne igénybe.
+Ez a táblázat segít abban, hogy akár ekkora példákat is pusztán az adatok és a tesztek beírásával is könnyedén meg lehessen oldani.
+
+\Abra{fuggelek4}{A kód generálásának automatikussága}{width=12cm}
+\Abra{fuggelek5}{Nagy példák is kezelhetőek}{width=12cm}
+
+\chapter{Az empírikus vizsgálatokhoz használt feladat}
+\label{fundraiser}
+
+	Feladat neve: Fundraiser
+
+\section*{Tulajdonságok és értékeik}
+	\begin{description}
+	\item [Dress] [ Black | Blue | Purple | Red | White ]
+	\item [Name] [ Carmen | Diana| Jane | Lidia | Melissa ]
+	\item [Donation] [ 10.000 dollars | 20.000 dollars | 30.000 dollars | 40.000 dollars | 50.000 dollars ]
+	\item [Coctail] [ Cosmopolitan | Daiquiri | Manhattan | Margarita | Martini ]
+	\item [Necklace] [ Emerald | Moonstone | Pearl | Sapphire | Turquoise ]
+	\item [Age] [ 40 | 45 | 50 | 55 | 60 ]
+
+	\end{description}
+
+\section*{Megkötések}
+
+	\begin{itemize}
+	\item The woman who donated 30,000 dollars is immediately before the youngest woman. 
+	\item Diana is exactly to the left of the 50 years old woman. 
+	\item The donator wearing the Emerald necklace is exactly to the left of the donator wearing the Purple dress. 
+	\item The lady wearing the Pearl necklace donated the smallest amount. 
+	\item The guest drinking Martini is next to the guest who donated 10,000 dollars. 
+	\item The woman wearing the Turquoise necklace donated 30,000 dollars. 
+	\item The oldest woman is exactly to the right of the lady drinking Cosmopolitan. 
+	\item The donator wearing the White dress is next to the woman who gave the biggest donation. 
+	\item The woman wearing the Red dress is somewhere between the woman that donated $ 20,000 and the woman that gave $ 40,000, in that order. 
+	\item Lidia is next to the guest wearing the Black dress. 
+	\item Jane donated 20,000 dollars. 
+	\item Melissa is exactly to the right of the guest drinking Cosmopolitan. 
+	\item The lady wearing the Blue dress is somewhere to the left of the lady drinking Margarita. 
+	\item The guest that donated 20,000 dollars is immediately before the guest drinking Daiquiri. 
+	\item The 50 years old woman is exactly to the right of the woman wearing the Pearl necklace. 
+	\item Lidia is next to the woman drinking Cosmopolitan. 
+	\item The lady wearing the Black dress is somewhere to the left of the lady who donated 40,000 dollars. 
+	\item The 55 years old woman is wearing the Sapphire necklace. 
+	\item The 60 years old woman is somewhere to the right of the woman wearing the Black dress. 
+	\item The lady drinking Manhattan is exactly to the right of the lady wearing the Red dress. 
+	\item The guest wearing the White dress is somewhere to the left of the guest wearing the Black dress.
+	\end{itemize}
+
+\end{document}

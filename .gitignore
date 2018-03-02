@@ -1,1 +1,16 @@
 *.out
+*.exe
+*.o
+
+# LaTeX temps
+*.toc
+*.log
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.ps
+*.spl
+GA_POC/geany_run_script.bat
+
+*.synctex.tar.gz
