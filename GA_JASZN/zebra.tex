@@ -13,33 +13,26 @@
 
 \chapter{Bevezetés} % Máté
 	A logikai rejtvény olyan feladvány, mely a matematika levezetési, bizonyítási területéről származik.
-    Az ilyen jellegű fejtörők már a sumér társadalom emberét is foglalkoztatták. Logikai rejtvényt először Charles Lutwidge Dodgson angol író publikált.
-    A logika játéka (The Game of Logic) című 1886-ban megjelent könyvében egy olyan játékot mutatott be, melyben kijelentések alapján kellett megerősíteni a következtetést.
-    Az ilyesféle feladványokat nevezzük szillogizmusnak.
-    Ezenkívül léteznek még teljesen non-verbális rejtvények:
-	\begin{itemize}
-        \item Sudoku, melyben megadott szabályok szerint számjegyeket kell elhelyezni egy táblázatban,
-        \item Nonogram vagy grafilogika, mely úgy foglalja magába a dedukció használatát, hogy egy rács fekete-fehér négyzetekkel történő helyes kitöltése egy képet alkot,
-        \item Logikai labirintus, melyben a dedukció felhasználásával a labirintus szabályai kell kitalálni.
-	\end{itemize}
+    Az ilyen jellegű fejtörők már a sumér társadalom emberét is foglalkoztatták. Logikai rejtvényt először Charles Lutwidge Dodgson\footnote{Írói álnevén Lewis Carroll} angol író publikált.
+    A logika játéka (The Game of Logic) című 1886-ban megjelent könyvében egy olyan játékot mutatott be, melyben kijelentések alapján kellett megerősíteni a következtetést\cite{thegameoflogic}.
+    Néhány, napjainkban is népszerű non-verbális rejtvény:
+	\begin{description}
+        \item[Sudoku] melyben megadott szabályok szerint számjegyeket kell elhelyezni egy táblázatban
+        \item[Nonogram] vagy grafilogika, melyben helyes dedukcióval egy rácsot kell fekete-fehér négyzetekkel kitölteni, ami egy képet alkot
+        \item[Logikai labirintus] melyben a dedukció felhasználásával a labirintus szabályait kell kitalálni.
+	\end{description}
 
-	Továbbá egy igen közkedvelt típus az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét, mivel állítólag ő találta fel kisfiúként.
+	Egy igen közkedvelt típus továbbá az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét, mivel állítólag ő találta fel kisfiúként.
     Számos különböző változata létezik, akad köztük olyan, melyet már az ’60-as években publikáltak.
     Gyakran állítják, hogy az emberiség csupán két százaléka képes megoldani az Einstein-rejtvényt.
-    Ezek megoldása kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra:
-	\begin{itemize}
-        \item Visszalépéses keresés, amikor egy fastruktúrát elképzelve a gyökérből kiindulva egy csúcsot keresünk
-        \item Korlátozási programozás, ahol a változók közötti kapcsolatokat korlátok formájában adjuk meg
-        \item A feladvány Prolog nyelven való megírása, ahol egy megadott logikai formuláról képes eldönteni, hogy logikai következménye-e formulák egy adott halmazának.
-	\end{itemize}
+    Ezek megoldása kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra, mint például a korlátprogramozás, visszalépéses keresések, vagy a feladvány logikai programozás alapon történő megközelítése.
 
 	A modern mérnöki alkalmazásokban, gépi tanulásban is egyre nagyobb népszerűségnek örvendő evolúciós algoritmusok is alkalmasak többek között ilyen jellegű kielégíthetőségi feladatok megoldására.
     Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely a biológiai evolúció mechanizmusára épül.
-    Munkánk során egy genetikus algoritmus került kidolgozásra, és tesztelésre több példán.
-    A genetikus algoritmus optimalizációs eljárás, ahol a lehetséges hipotéziseket az egyedek a hipotézis tér valamely részét pedig a populációk reprezentálják.
+    A genetikus algoritmus optimalizációs eljárás, ahol a lehetséges hipotéziseket az egyedek, a hipotézis tér valamely részét pedig a populációk reprezentálják.
     Az algoritmus megegyezik a számítástechnikában és a mesterséges intelligenciában alkalmazott heurisztikus keresési technikákkal, ami kiegészül még az evolúciós biológiában ihletett technikák alkalmazásával: mutáció, szelekció, reprodukció és rekombináció.
 
-	\noindent{Fontosabb felhasználási területek:}
+	\noindent{Fontosabb felhasználási területei:}
 
 	\begin{itemize}
         \item autóipari és mérnöki tervezés
@@ -50,9 +43,9 @@
         \item értékesítés
 	\end{itemize}
 
-	A genetikus algoritmusok minden egyes lépésben heurisztikák segítségével módosítják, vagy bővítik az aktuális populációt.
-    Minden egyes lépésben képesek adni egy közelítést a megoldásra, amelynek a pontossága az idő teltével nő.
-    A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek nagy számú teszteset futtatásának tapasztalai alapján.
+    
+    Munkánk során egy genetikus algoritmust dolgoztunk ki, és teszteltük több példán.
+    A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek több teszteset futtatásának tapasztalai alapján.
 
 	Az empirikus vizsgálatok automatizálásának érdekében több rejtvényt elemezve az ezekben előforduló megkötések rendszerezve lettek.
     Egy olyan módszer került kidolgozásra, mely a feladat egy formális leírásából megoldó kód generálására képes.
@@ -145,11 +138,6 @@ A zebra feladványok megoldhatók visszalépéses keresés segítségével is, a
 További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg. 
 Ez a megoldó módszerek közül az egyik leggyorsabb, mivel minden alkalommal a korlátozásnak leginkább eleget tevő változó kerül kiválasztásra, így jelentősen csökkenthető a keresési idő.
 
-
-Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
-
-Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
-
 Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak az ismert Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
 
 T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}
@@ -226,6 +214,8 @@ Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálás
 Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
 
 A genetikus algoritmusok természetesen nem csupán a logikai feladványok, hanem matematikai példák, problémák megoldásában is kiemelkedőek. Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
+Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
+Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
 
 
 
