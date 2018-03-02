@@ -68,32 +68,41 @@
     Végezetül összefoglaljuk munkánk eredményeit.
 
 \chapter{Zebra rejtvények} % Balázs
-    \todo{Egy bevezeto mondat, + hogy melyik alfejezetben mi lesz}
 
-	A logikai feladványok egyik legnépszerűbb és legsajátosabb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. A 2.1es alfejezetben a történetük és szerkezetük kerül bemutatásra, a 2.2es alfejezetben a megoldhatóságukat, egyértelműségüket vizsgáljuk. A 2.3as alfejezetben pedig különböző megoldó módszerek kerülnek bemutatásra.
+A logikai feladványok egyik legnépszerűbb és legsajátosabb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. 
+A 2.1 alfejezetben a történetük és szerkezetük kerül bemutatásra, a 2.2 alfejezetben a megoldhatóságukat, egyértelműségüket vizsgáljuk.
+A 2.3 alfejezetben pedig különböző megoldó módszerek kerülnek bemutatásra.
     
     \section{Történet és szerkezet} % Balázs
-        \todo{Miert zebra, mikbol all a rejtveny, Einstein peldajabol reszlet akar}
 
-A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, melyről a logikai feladványoknak ez a típusa a nevét is kapta, hiszen az Einstein-példa egyik változatában a zebra tulajdonosának kiléte a fő kérdés. Úgy tartják, hogy Einstein ezeknek a feladványok az atyja, aki állítólag gyerekként találta ki a rejtvényt és azt vallotta róla, hogy az embereknek csupán 2 százaléka képes azt megoldani.
+A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, melyről a logikai feladványoknak ez a fajtája a nevét is kapta, hiszen az Einstein-példa egyik változatában a zebra tulajdonosának kiléte a fő kérdés. 
+Úgy tartják, hogy Einstein ezeknek a feladványok az atyja, aki állítólag gyerekként találta ki a rejtvényt és azt vallotta róla, hogy az embereknek csupán 2 százaléka képes azt megoldani.
 
-Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését. Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, valamint az általa kedvelt ital, cigarettamárka és a háziállat, amit tart. Azonban egyik ház sajátosságait sem ismerjük kezdetben. Ekkor jönnek képbe az állítások. Einstein 15 állítást adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
+Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését.
+Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, valamint az általa kedvelt ital, cigarettamárka és a háziállat, amit tart. 
+Azonban egyik ház sajátosságait sem ismerjük kezdetben. 
+Ekkor jönnek képbe az állítások. Einstein állításokat adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. 
+Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
 
-\Abra{Einstein-pelda}{Az Einstein-példa egyik változata}{width=7cm}
+\Abra{Einstein-pelda}{Az Einstein-példa egyik változata}{width=12cm}
+
 
     \section{Megoldhatóság, egyértelműség} % Balázs
-        \todo{Pici peldakon bemutatni, hogy ha rosszak a szabalyok, akkor lehet nincs megoldas, vagy ha keves a szabaly, akkor lehet tobb megoldas is van. Egy nagyon apro (3 szek, 2 tulajdonsag mondjuk) pelda kitalalasa es megoldasa par lepesben. }
 
-A zebra típusú rejtvények esetében rendkívül fontos az, hogy kellő mennyiségű állítás, megkötés álljon rendelkezésünkre, illetve az is elengedhetetlen, hogy ezek pontosak legyenek. Az alábbi rövid példák ezek fontosságára hívják fel a figyelmünket, valamint egy rövid, egyszerű feladat is megoldásra kerül.
-Példánkban adott 3 tanuló. Tudni szeretnénk, hogy az adott sorszámú tanulónak mi a neve, valamint az életkora.
+A zebra típusú rejtvények esetében rendkívül fontos az, hogy kellő mennyiségű állítás, megkötés álljon rendelkezésünkre, illetve az is elengedhetetlen, hogy ezek pontosak legyenek. 
+Az alábbi rövid példák ezek fontosságára hívják fel a figyelmünket, valamint egy rövid, egyszerű feladat is megoldásra kerül.
+Példánkban adott 3 tanuló. 
+Tudni szeretnénk, hogy az adott sorszámú tanulónak mi a neve, valamint az életkora.
 
-A megoldás a már korábban megismert állítások segítségével fejthető meg. Fontos azonban, hogy ezek pontos állítások legyenek és ne ütközzünk ellentmondásba, hiszen akkor nem tudunk jó megoldást találni. Például:
+A megoldás a már korábban megismert állítások segítségével fejthető meg. 
+Fontos azonban, hogy ezek pontos állítások legyenek és ne ütközzünk ellentmondásba, hiszen akkor nem tudunk jó megoldást találni. 
+Például:
 \begin{itemize}
 \item Az 1. pozícióban lévő tanuló neve Peti.
 \item A 2. pozícióban lévő tanulótól balra lévő tanuló neve Réka.
 \end{itemize}
 
-Mint ahogy \Aref{fig_picipelda2} ábrán látható, ebben az esetben a két állításnak nem tudunk egyszerre eleget tenni, így nem kapunk megoldást.
+Mint ahogy \aref{fig_picipelda2} ábrán látható, ebben az esetben a két állításnak nem tudunk egyszerre eleget tenni, így nem kapunk megoldást.
 
 \Abra{picipelda2}{}{width=6cm}
 
@@ -104,9 +113,10 @@ Az sem jó eset, ha túl kevés megkötést adunk meg, ekkor ugyanis több lehet
 \item A 20 éves tanulót Rékának hívják.
 \end{itemize}
 
-Ekkor  \Aref{fig_picipelda3} és \Aref{fig_picipelda4} ábrák szerinti megoldások mindegyike helyes lenne.
+Ekkor  \aref{fig_picipelda3} és \aref{fig_picipelda4} ábrák szerinti megoldások mindegyike helyes lenne.
 
 \Abra{picipelda3}{}{width=6cm}
+
 \Abra{picipelda4}{}{width=6cm}
 
 
@@ -118,12 +128,10 @@ Egy helyes példa és annak megoldása pár lépésben a következőképp néz k
 \item A 30 éves tanuló neve Jani.
 \end{itemize}
 
-Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük. Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. A megoldást \Aref{fig_picipelda5} ábra mutatja.
-
+Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük. Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. A megoldást \aref{fig_picipelda5} ábra mutatja.
 \Abra{picipelda5}{}{width=6cm}
 
     \section{Megoldó módszerek} % Balázs
-        \todo{Irodalomban talalhato modszerek, 2 mondat roluk, hivatkozasok}
 
 A zebra rejtvények megoldására több különböző módszer is született. 
 Az egyik módszer a feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével. 
@@ -144,9 +152,6 @@ Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simie
 
 
 \chapter{Evolúciós algoritmusok} % Balázs
-    \todo{Tortenetuk, hivatkozasok}
-    \todo{Altalanos felepitesuk}
-    \todo{Akar par szo arrol, mi mindenre alkalmaztak oket, hivatkozasok}
 
 Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely az evolúció mechanizmusára épül. Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
 
@@ -156,10 +161,9 @@ Az egyes egyedek reprezentációja során a kódolásához használt struktúra 
 
 Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
 
+\Abra{GA-felepites}{Az evolúciós algoritmus általános felépítése}{width=12cm}
 
-\Abra{GA-abra}{Az evolúciós algoritmus általános felépítése}{width=7cm}
-
-Mint ahogyan \Aref{fig_GA-abra} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. A rossz megoldásokon később viszonylag könnyen lehet javítani. 
+Mint ahogyan \aref{fig_GA-felepites} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. A rossz megoldásokon később viszonylag könnyen lehet javítani. 
 
 Az inicializációt követi a kiértékelés, mely során az evolúciós algoritmus a rátermettségi függvény alapján eldönti, hogy melyik megoldás mennyire jó. Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
 
@@ -169,9 +173,10 @@ A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi érték
 
 A kiválasztást követi a keresztezés, melynek két fő fajtája az egy- illetve kétpontos keresztezés. Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
 
-\Abra{egypontos}{Az egypontos keresztezés}{width=7cm}
+\Abra{egypontos}{Az egypontos keresztezés}{width=10cm}
 
-\Abra{ketpontos}{A kétpontos keresztezés}{width=7cm}
+\Abra{ketpontos}{A kétpontos keresztezés}{width=10cm}
+
 
 Keresztezés végezhető még egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
 
@@ -316,7 +321,7 @@ Vizsgált feladataink mindegyike rendelkezik megoldással, így a \texttt{hanyat
 Ilyen mechanizmus a mutáció és a keresztezés, illetve itt kap jelentőséget az egyedek fitnesz értéke, amely gyakorlatilag a természetes kiválasztódást jelenti, így a szelekció alapját képezi. Ezek segítségével válik a populáció fejlődőképessé. 
 
 	A mutáció és a keresztezés az alappopuláció egyedein alkalmazva új egyedeket hoznak létre. Ezek futása előtt fontos, hogy rendelkezésükre álljon egy alappopuláció, melyen egy ciklus segítségével lefuthatnak. Ezt az alappopulációt a\texttt{kezdetiRandom} függvény képezi le a \texttt{POPMERET} makróban szereplő érték alapján, mely az egyedek számát adja meg.
-	A mutáció, keresztezés, és a mutáltak keresztezése \Aref{fig_temp} ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 400 egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek. A tömbből a \texttt{MEGTART} makró által megadott darabszámú egyed, vagyis a legjobb egyedek kerülnek kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből. 
+	A mutáció, keresztezés, és a mutáltak keresztezése \aref{fig_temp} ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 400 egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek. A tömbből a \texttt{MEGTART} makró által megadott darabszámú egyed, vagyis a legjobb egyedek kerülnek kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből. 
 	
 	Az egyedek fitnesz értékét vizsgáló függvény azok sikerességét figyeli, vagyis azt nézi, hogy hány kikötést nem sért meg az adott egyed futás során. Tehát minél többet megsért, annál rosszabb lesz a fitnesz értéke, és rendezés esetén annál hátrébb kerül, végső soron pedig kihull, hiszen a futáson nem tud javítani.
 	
@@ -359,12 +364,12 @@ Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hat
            		 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. Tekintettel viszont arra, hogy így annak a lehetősége is fennáll, hogy rosszabb egyed jön létre, a mutálást kisebb gyakorisággal alkalmazzuk. 
 		
 	
-	A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció  \Aref{fig_szomszed} ábrán, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
+	A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció  \aref{fig_szomszed} ábrán, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
 
    \Abra{szomszed}{A szomszédos mutáció működése egyszerűsítve}{width=10cm}
 		
 	Azt figyelembe véve, hogy az egyedek alléljai kétdimenziós tömbből kerülnek kiválasztásra, a mutációt lehet végezni vagy a székek szerint, vagy a tulajdonságok szerint. Az algoritmusban a székek, vagyis oszlopok szerinti mutációt alkalmaztuk.
-	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve, mint ahogyan azt  \Aref{fig_mutalvegl1} ábra mutatja.
+	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve, mint ahogyan azt  \aref{fig_mutalvegl1} ábra mutatja.
 	
 	\Abra{mutalvegl1}{A mutáció működése}{width=10cm}
 		
@@ -469,7 +474,7 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
     \Abra{generalas-egyed}{Egyedek megadása}{width=8cm}    
     
     A kódgenerálás kivitelezésére a Microsoft Office Excel program tűnt a leginkább optimálisnak, hiszen ezzel a programmal a szöveg összefűzési műveletek és az input bevitele viszonylag egyszerűen megoldhatóak.
-    \Aref{fig_generalas-egyed} és \Aref{fig_generalas-tesztek} ábrák a legelső program Excelbe történő bevitelét hivatottak szemléltetni.
+    \Aref{fig_generalas-egyed} és \aref{fig_generalas-tesztek} ábrák a legelső program Excelbe történő bevitelét hivatottak szemléltetni.
     Azonban a táblázat úgy van megtervezve, hogy akár egy 20x20-as egyedmérettel és akár 250 teszttel is működőképes legyen.
     Maga a munkafüzet igen felhasználó barát. 4 lapból áll, amiből 2 lapvédelem alatt áll.
     Az első lap az Adatok.
