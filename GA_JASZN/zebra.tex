@@ -1,13 +1,28 @@
-\documentclass[12pt,a4paper,oneside]{report}
+\documentclass[12pt,a4paper,twoside, openright]{report}
 
 \usepackage{makrok}
 
-\author{Szili Dániel, Schöffer Fruzsina, Tóth Sándor Balázs, Varga Máté\\\ \\Témavezető: Dr. Hegyháti Máté}
-\title{Zebra típusú logikai rejtvények megoldása evolúciós algoritmussal}
+\author{Szili Dániel, Schöffer Fruzsina, Tóth Sándor Balázs, Varga Máté\\Mérnök Informatikus BSc, I. évfolyam\\\ \\Témavezető: Dr. Hegyháti Máté\\Széchenyi István Egyetem, Informatika Tanszék}
+\title{Zebra típusú logikai rejtvények megoldása\\evolúciós algoritmussal}
 
 \begin{document}
 
 \maketitle
+
+
+    \chapter*{Kivonat}
+
+    
+    A logikai feladványok már a sumér társadalom emberét is foglalkoztatták, manapság viszont szerteágazó típusaival még nagyobb népszerűségnek örvendenek. Egy igen közkedvelt típus az úgynevezett zebra feladvány, mely Albert Einstein híres rejtvényéről kapta nevét. Ezek megoldása  kutatott területnek számít, több különböző matematikai és informatikai megoldás is került már publikálásra, mint például a visszalépéses keresés, korlátozási programozás vagy a feladvány Prolog nyelven való megírása.
+
+A modern mérnöki alkalmazásokban, gépi tanulásban is egyre nagyobb népszerűségnek örvendő evolúciós algoritmusok is alkalmasak többek között ilyen jellegű kielégíthetőségi feladatok megoldására. Munkánk során egy ilyen algoritmus került kidolgozásra, és tesztelésre több példán. A futási idő csökkentése érdekében az algoritmus különböző paraméterei finomhangolásra kerültek nagy számú teszteset futtatásának tapasztalai alapján.
+
+Az empirikus vizsgálatok automatizálásának érdekében több rejtvényt elemezve az ezekben előforduló megkötések rendszerezve lettek. Egy olyan módszer került kidolgozásra, mely a feladat egy formális leírásából megoldó kód generálására képes. Az így keletkezett rendszerrel könnyedén vizsgálhatóvá váltak további feladatok, melyeken futtatott tesztek segítségével az algoritmus működése tovább javítható.
+
+\textbf{Kulcsszavak}: logikai rejtvény, evolúciós algoritmusok, genetikus algoritmus, feladvány
+
+
+
 
 \tableofcontents
 
@@ -168,7 +183,7 @@ Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megold�
 Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. 
 Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
 
-\Abra{GA-felepites}{Az evolúciós algoritmus általános felépítése}{width=12cm}
+\Abra{GA-felepites}{Az evolúciós algoritmus általános felépítése}{width=11cm}
 
 Mint ahogyan \aref{fig_GA-felepites} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. 
 Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. 
@@ -343,11 +358,13 @@ Vizsgált feladataink mindegyike rendelkezik megoldással, így a \texttt{hanyat
 Ilyen mechanizmus a mutáció és a keresztezés, illetve itt kap jelentőséget az egyedek fitnesz értéke, amely gyakorlatilag a természetes kiválasztódást jelenti, így a szelekció alapját képezi. Ezek segítségével válik a populáció fejlődőképessé. 
 
 	A mutáció és a keresztezés az alappopuláció egyedein alkalmazva új egyedeket hoznak létre. Ezek futása előtt fontos, hogy rendelkezésükre álljon egy alappopuláció, melyen egy ciklus segítségével lefuthatnak. Ezt az alappopulációt a\texttt{kezdetiRandom} függvény képezi le a \texttt{POPMERET} makróban szereplő érték alapján, mely az egyedek számát adja meg.
-	A mutáció, keresztezés, és a mutáltak keresztezése \aref{fig_temp} ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 400 egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek. A tömbből a \texttt{MEGTART} makró által megadott darabszámú egyed, vagyis a legjobb egyedek kerülnek kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből. 
+	A mutáció, keresztezés, és a mutáltak keresztezése \aref{fig_temp} ábrán látható módon egyenként \texttt{POPMERET} egyedet hoz létre, melyek egy temp nevű tömbbe kerülnek betöltésre az alappopulációval együtt. Ez mindösszesen 4-szer \texttt{POPMERET} egyedet jelent, melyek ezután a fitneszértékük alapján rendezésre kerülnek.
+    A tömbből a \texttt{MEGTART} makró által megadott darabszámú egyed, vagyis a legjobb egyedek kerülnek kiválasztásra determinisztikus módon, így megvalósul az elitizmus. Ennek segítségével a biztosan jó gének nem kerülnek kizárásra a keresési térből.
+    A következő generáció \texttt{POPMERET}-\texttt{MEGTART} egyede véletlenszerűen kerül kiválasztásra a rendezett egyedlista első feléből, preferálva a lista elején szereplő jobb egyedeket.
 	
 	Az egyedek fitnesz értékét vizsgáló függvény azok sikerességét figyeli, vagyis azt nézi, hogy hány kikötést nem sért meg az adott egyed futás során. Tehát minél többet megsért, annál rosszabb lesz a fitnesz értéke, és rendezés esetén annál hátrébb kerül, végső soron pedig kihull, hiszen a futáson nem tud javítani.
 	
-	Arra való tekintettel viszont, hogy vannak olyan esetek amikor az algoritmus megragadhat egy lokális szélsőértékben, fontos a valószínűségi szabályok szerinti kiválasztás. Ezt a mutálás és a keresztezés biztosítja.
+	
 A genetikus algoritmusokban nagy szerepet játszik mind a \texttt{MEGTART} és a \texttt{POPMERET} makró is, hiszen ezek értéke jelentősen befolyásolhatja egy algoritmus futási idejét. Ezek értéke természetesen az adott feladványtól, feladványtípustól függ, így a minél nagyobb, vagy minél kisebb érték nem feltétlen jelent gyorsabb futásidőt.
 
 Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hatásaként létrejövő monotonitást és annak elkerülését, továbbá az egyedek diverzitásának megtartását vizsgálták\cite{Legg:2005:FUD:1068009.1068216}
@@ -383,21 +400,21 @@ Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hat
         Ezt minden tulajdonságra megismételve kaphatjuk meg a random egyedet.
             
         \subsection{Mutálás} % Fruzsi
-           		 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. Tekintettel viszont arra, hogy így annak a lehetősége is fennáll, hogy rosszabb egyed jön létre, a mutálást kisebb gyakorisággal alkalmazzuk. 
+           		 A mutáció az egyedek paramétereit véletlenszerűen változtatja meg, így olyan egyedeket is létre tud hozni, melyek a keresztezésnél alapvetően nem biztos, hogy létrejönnének. Így képes lehet az eljárást kimozdítani egy lokális szélsőértékből és tovább tud fejlődni a 		populáció. 
 		
 	
 	A genetikus algoritmusokban alapvetően többféle mutációt alkalmazhatunk. Ilyen például a szomszédsági mutáció  \aref{fig_szomszed} ábrán, amikor két pontot kiválasztunk, majd az ezek között levő pontok sorrendjén módosítunk. Ez a fajta mutáció alapvetően nagyobb feladványoknál hasznosabb, 		mivel nagyobb módosítást, így nagyobb mutációt is jelent. Az általunk feldolgozott feladványok nem rendelkeznek akkora allélmennyiséggel, ami ennek a mutációtípusnak a használatát megkövetelné, így az algoritmusban egy egyszerű sorrendi mutációt alkalmaztunk. Ez 		egyszerűen megfogalmazva véletlenszerű módon választ ki két pontot, melyeket megcserél.
 
    \Abra{szomszed}{A szomszédos mutáció működése egyszerűsítve}{width=10cm}
 		
-	Azt figyelembe véve, hogy az egyedek alléljai kétdimenziós tömbből kerülnek kiválasztásra, a mutációt lehet végezni vagy a székek szerint, vagy a tulajdonságok szerint. Az algoritmusban a székek, vagyis oszlopok szerinti mutációt alkalmaztuk.
+	A vizsgált feladat speciális allélszerkezetéből adódóan figyelni kellett arra, hogy a csere minden esetben az azonos tulajdonsághoz tartozó értékek között történjen.
 	Ebből kifolyólag egy-egy darab szék a \texttt{csere1sz} és \texttt{csere2sz} változók segítségével kiválasztásra kerül, ahol egy while ciklussal ellenőrizzük, hogy ugyanaz a kettő ne kerüljön kiválasztásra. A székek kiválasztása után a \texttt{cseret} változó segítségével véletlenszerűen kerül kiválasztásra a módosítandó tulajdonság. A kiválasztott székek és a tulajdonság metszetében kijelölt allélok lesznek felcserélve, mint ahogyan azt  \aref{fig_mutalvegl1} ábra mutatja.
 	
 	\Abra{mutalvegl1}{A mutáció működése}{width=10cm}
 		
-	Az algoritmus kezdeti státuszában a függvényben az egyed egyszer került mutálásra. Hogy a mutáció és ezzel együtt az egyedek is változatosabbak legyenek egy \texttt{hanyatmutal} nevű változó került bevezetésre. A változó 1 és 5 között vesz fel véletlenszerű módon értéket 		és aszerint fut le az egyed többszöri mutálását végző ciklus.
+	Az algoritmus kezdeti státuszában a függvényben az egyed egyszer került mutálásra. Hogy a mutáció és ezzel együtt az egyedek is változatosabbak legyenek egy \texttt{hanyatmutal} nevű változó került bevezetésre. A változó 1 és 5 között vesz fel véletlenszerű módon értéket, 		és aszerint fut le az egyed többszöri mutálását végző ciklus.
 	
-	Az algoritmusban a mutáció a Megold függvényben kerül meghívásra és \texttt{POPMERET} alkalommal mutál egyedet, vagyis 100 db mutált egyed kerül a TEMP tömbbe, így negyedét kitéve annak.
+	Az algoritmusban a mutáció a Megold függvényben kerül meghívásra és \texttt{POPMERET} alkalommal mutál egyedet, vagyis \texttt{POPMERET} db mutált egyed kerül a TEMP tömbbe, így negyedét kitéve annak.
 
 
             
@@ -409,8 +426,7 @@ Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hat
             A kétpontos keresztezés hasonlóan működik, csak ebben az esetben 2 ponton vágjuk el az allélt és a keletkezett 3 darabot fűzzük össze tetszőleges sorrendben.
                         
             A mi esetünkben az egyedek allélja egy 2 dimenziós tömb, amelyen egypontos keresztezés került alkalmazásra.
-            Itt 2 fajta választási lehetőség fordul elő. Vagy soronként vágunk vagy a tömb sorait vágjuk ketté.
-            Ebben az esetben az utóbbi eljárás került megírásra.
+            Figyelni kellett azonban arra, hogy csak az egyes sorok, vagyis tulajdonságok határánál vágjon a keresztező algoritmus, különben helytelen megoldást reprezentáló egyedet generált volna.
             A programok mindegyike egypontos keresztezést használ, ami a sorokat cseréli meg egy bizonyos ponton elvágva a tömböt.
             \Aref{fig_keresztez-mukodes} ábra szemlélteti a függvény működésének a lényegét.
             A program során 2 fajta keresztezés került kidolgozásra.
@@ -643,18 +659,18 @@ Ez a táblázat segít abban, hogy akár ekkora példákat is pusztán az adatok
 
 	Feladat neve: Fundraiser
 
-	Tulajdonságok és értékeik:
-	\begin{itemize}
-	\item Dress [ Black | Blue | Purple | Red | White ]
-	\item Name [ Carmen | Diana| Jane | Lidia | Melissa ]
-	\item Donation [ 10.000 dollars | 20.000 dollars | 30.000 dollars | 40.000 dollars | 50.000 dollars ]
-	\item Coctail [ Cosmopolitan | Daiquiri | Manhattan | Margarita | Martini ]
-	\item Necklace [ Emerald | Moonstone | Pearl | Sapphire | Turquoise ]
-	\item Age [ 40 | 45 | 50 | 55 | 60 ]
+\section*{Tulajdonságok és értékeik}
+	\begin{description}
+	\item [Dress] [ Black | Blue | Purple | Red | White ]
+	\item [Name] [ Carmen | Diana| Jane | Lidia | Melissa ]
+	\item [Donation] [ 10.000 dollars | 20.000 dollars | 30.000 dollars | 40.000 dollars | 50.000 dollars ]
+	\item [Coctail] [ Cosmopolitan | Daiquiri | Manhattan | Margarita | Martini ]
+	\item [Necklace] [ Emerald | Moonstone | Pearl | Sapphire | Turquoise ]
+	\item [Age] [ 40 | 45 | 50 | 55 | 60 ]
 
-	\end{itemize}
+	\end{description}
 
-	Megkötések:
+\section*{Megkötések}
 
 	\begin{itemize}
 	\item The woman who donated 30,000 dollars is immediately before the youngest woman. 
