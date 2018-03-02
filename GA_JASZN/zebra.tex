@@ -52,17 +52,17 @@
     Az így keletkezett rendszerrel könnyedén vizsgálhatóvá váltak további feladatok, melyeken futtatott tesztek segítségével az algoritmus működése tovább javítható.
 
 	Dolgozatunkat a Zebra rejtvények részletesebb bemutatásával kezdjük.
-    Itt szó esik a történetéről, szerkezetéről, hogy miből állnak a fejtörők, illetve néhány részlet.
-    Említésre kerül még a megoldhatóság eltérő lehetőségei, valamint az irodalomban megtalálható megoldó módszerek. Ezt követően az evolúciós algoritmusokat fogjuk szemléltetni.
-    Bemutatjuk történetüket és felépítésüket.
-    Folytatásként betekintést nyújtunk arról, miképp lehet felhasználni az evolúciós algoritmusokat Zebra rejtvények megfejtésére.
+    Szó esik a történetéről, szerkezetéről, és hogy milyen részekből épül fel.
+    Említésre kerülnek még a megoldhatóság eltérő lehetőségei, valamint az irodalomban megtalálható megoldó módszerek.
+    Ezt követően bemutatjuk az evolúciós algoritmusokat, azok történetét, főbb műküdési elveit.
+    Folytatásként betekintést nyújtunk arról, miképp alkalmaztunk evolúciós algoritmust Zebra rejtvények megfejtésére.
     Ismertetjük a kódszerkezetet, az egyedreprezentációt és segédfüggvényeket, bemutatjuk az evolúciós mechanizmusokat, majd végül az egyedek kiértékeléséről esik szó.
-    Ezt követően szemléltetjük a teszteket, azok megoldásait és futtatási eredményeit, valamint demonstráljuk kódunk automatikus generálásának elgondolását és kivitelezését.
+    Ezt követően futtatási eredményeket mutatunk be, valamint demonstráljuk kódunk automatikus generálásának elgondolását és kivitelezését.
     Végezetül összefoglaljuk munkánk eredményeit.
 
 \chapter{Zebra rejtvények} % Balázs
 
-A logikai feladványok egyik legnépszerűbb és legsajátosabb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. 
+A logikai feladványok egyik legnépszerűbb fajtáját képezik az úgynevezett zebra típusú rejtvények, melyek különböző logikai következtetések segítségével oldhatók meg. 
 A 2.1 alfejezetben a történetük és szerkezetük kerül bemutatásra, a 2.2 alfejezetben a megoldhatóságukat, egyértelműségüket vizsgáljuk.
 A 2.3 alfejezetben pedig különböző megoldó módszerek kerülnek bemutatásra.
     
@@ -74,7 +74,7 @@ A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, mely
 Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését.
 Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, foglalkozása, valamint az általa kedvelt ital és a háziállat, amit tart. 
 Azonban egyik ház sajátosságait sem ismerjük kezdetben. 
-Ekkor jönnek képbe az állítások. Einstein állításokat adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. 
+Einstein állításokat adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. 
 Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
 
 \Abra{Einstein-pelda}{Az Einstein-példa}{width=18cm}
@@ -91,8 +91,8 @@ A megoldás a már korábban megismert állítások segítségével fejthető me
 Fontos azonban, hogy ezek pontos állítások legyenek és ne ütközzünk ellentmondásba, hiszen akkor nem tudunk jó megoldást találni. 
 Például:
 \begin{itemize}
-\item Az 1. pozícióban lévő tanuló neve Peti.
-\item A 2. pozícióban lévő tanulótól balra lévő tanuló neve Réka.
+\item Az 1.\ pozícióban lévő tanuló neve Peti.
+\item A 2.\ pozícióban lévő tanulótól balra lévő tanuló neve Réka.
 \end{itemize}
 
 Mint ahogy \aref{fig_picipelda2} ábrán látható, ebben az esetben a két állításnak nem tudunk egyszerre eleget tenni, így nem kapunk megoldást.
@@ -122,27 +122,28 @@ Egy helyes példa és annak megoldása pár lépésben a következőképp néz k
 \end{itemize}
 
 Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. 
-Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. 
-Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük.
+Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3.\ pozícióban foglalhat helyet. 
+Az ő életkorának a 4.\ állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük.
 Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. 
 A megoldást \aref{fig_picipelda5} ábra mutatja.
 \Abra{picipelda5}{}{width=6cm}
 
     \section{Megoldó módszerek} % Balázs
+Logikai feladványok matematikai eszközökkel történő automatizált megoldását már többen vizsgálták az irodalomban. Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak az ismert Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}.
+T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}.
+Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával, evolúciós algoritmus segítségével\cite{Garrett:2005:GAS:1068009.1068333}.
 
-A zebra rejtvények megoldására több különböző módszer is született. 
+
+A zebra rejtvények megoldására is már több különböző módszer is született. 
 Az egyik ilyen az Einstein-feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével.
 Ekkor a program számára a feladat ismertetéséhez 25 változó kerül bevezetésre, melyek a házakhoz tartozó tulajdonságokat jelölik. 
 A rendszer ennek segítségével találja meg a megoldást.
 A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
 További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg. 
 Ez a megoldó módszerek közül az egyik leggyorsabb, mivel minden alkalommal a korlátozásnak leginkább eleget tevő változó kerül kiválasztásra, így jelentősen csökkenthető a keresési idő.
+Salvati és társai ilyen megoldások hatékonyságát vizsgálta\cite{osszehasonlito}.
 
-Merelo-Guervós, Castillo, Esparcia-Alcázar és García 2013-mas értekezésükben heurisztikus megoldási módszereket vizsgáltak az ismert Mastermind logikai feladaton\cite{Merelo-Guervos:2013:IES:2463372.2463473}
 
-T W Jerardi	1987-ben megjelent cikkjében egy Smullyan feladvány megoldását a prolog nyelvével vizsgálja\cite{Jerardi:1987:PPL:24714.24722}
-
-Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simien 2005-ben foglalkoztak az úgynevezett ,,Sailor assignment" feladvány megoldásával, evolúciós algoritmus segítségével\cite{Garrett:2005:GAS:1068009.1068333}
 
 
 
@@ -152,6 +153,7 @@ Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, ame
 Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. 
 Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. 
 Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
+Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
 
 Az evolúciós, vagy más néven genetikus algoritmusok működési elvének alapja az evolúció darwini elméletén nyugszik, mely során a természetben a folyamatosan változó életkörülményekhez való alkalmazkodás a fő szempont. 
 Az evolúciós algoritmusok esetében az optimalizáláskor mindvégig azonos feladat megoldását keressük.
@@ -176,12 +178,12 @@ Az inicializációt követi a kiértékelés, mely során az evolúciós algorit
 Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. 
 Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
 
-Az aránytalanságok elkerülése érdekében fontos szerepe van a rangsorolásnak, mivel nem optimális az, ha például néhány „túl jó” egyed hoz létre sok utódot, ugyanis hasonló egyedek keresztezésével nem jutunk előre.
+Az aránytalanságok elkerülése érdekében fontos szerepe van a rangsorolásnak, mivel nem előnyös az, ha például néhány „túl jó” egyed hoz létre sok utódot, ugyanis hasonló egyedek keresztezésével nem jutunk előre.
 
 A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi értéke alapján válogatunk közöttük. 
 Ilyen módszerek például a rulettkerék kiválasztás, versengő kiválasztás, valamint a levágó kiválasztás.
 
-A kiválasztást követi a keresztezés, melynek két fő fajtája az egy- illetve kétpontos keresztezés. 
+A kiválasztást követi a keresztezés, melynek két elterjedt fajtája példáulaz egy- illetve kétpontos keresztezés. 
 Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. 
 Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
 
@@ -189,7 +191,7 @@ Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy 
 
 \Abra{ketpontos}{A kétpontos keresztezés}{width=10cm}
 
-Keresztezés végezhető még egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
+Keresztezés végezhető még például egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
 
 A következő lépés a mutáció, melynek lényege, hogy bizonyos gének értékeit megváltoztatjuk. 
 A direkt kódolással történő mutáció esetében a véletlenszerűen választott gén értékét véletlenszerűen módosítjuk. 
@@ -207,44 +209,38 @@ Fontos szerepe van az elitizmusnak is, melynek lényege, hogy az előző generá
 
 A kilépési feltétel többféleképpen megadható. Kilépés történhet a generációk száma alapján vagy az időkorlát megadásával. Megadható továbbá a konvergencia vizsgálatával, például akkor, ha az utóbbi meghatározott számú generáció alatt nem sikerült javítani a legjobb egyedeken. Bizonyos esetekben egyértelműen eldönthető, hogy megtaláltuk-e a megoldást, például akkor, ha 0 hibapontos egyedet kaptunk.
 
-Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a számítógépes környezetben egyre nagyobb népszerűségnek örvendenek, de az üzleti szférában és az autógyártásban is alkalmazzák őket. 
-Egyes cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor is támaszkodnak evolúciós algoritmusokra, de az autók festésének koordinációja is elvégezhető a segítségükkel. 
-Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálásában is.
-
-Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
-
-A genetikus algoritmusok természetesen nem csupán a logikai feladványok, hanem matematikai példák, problémák megoldásában is kiemelkedőek. Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
+Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és egyre nagyobb népszerűségnek örvendenek.
+Alkalmazzák például az üzleti szférában cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor, az autóiparban az autók festésének koordinációjára, vagy mezőgazdasági termelés optimalizálásában is.
+Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
 Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
 Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak a genetikus algoritmusok mindennapos alkalmazását tesztelték a munkahelyi beosztások elkészítésében\cite{Brezulianu:2009:GAA:1644993.1645085}
 
 
-
-
 \chapter{Evolúciós algoritmus Zebra rejtvények megfejtésére} % Máté
 	Célunk az volt, hogy a Zebra típusú feladványokat olyan algoritmus felhasználásával oldjuk meg, mely nem csupán egy konkrét példa megoldására képes, hanem bármilyen, mi általunk megszabott feladatot meg tud oldani.
-    Erre legalkalmasabbnak az evolúciós algoritmusok feleltek meg.
+    Ezen céloknak az evolúciós algoritmusok tökéletesen megfeleltek.
 
-	{A 4.1 fejezetben a kódszerkezet kerül bemutatásra, hogy miképp van szervezve a kód, illetve a benne megtalálható függvényeknek mi a feladata.}
+    Az általunk kidolgozott módszert C nyelven implementáltuk, GitHub-on verziókezeltük, és a Travis-CI eszköz segítségével ellenőriztük a kód szintaktikai helyességét automatikusan.
 
-	{Ezt követően a 4.2 fejezetben mutatjuk be az egyedreprezentációt és a kapcsolódó segédfüggvényeket.}
-
-	{Ezek után a 4.3 fejezetben részletezésre kerülnek az evolúciós mechanizmusok:}
+	A 4.1.\ fejezetben az általunk elkészített és implementált módszer kódszerkezete kerül bemutatásra.
+    Ezt követően a 4.2.\ fejezetben mutatjuk be az egyedreprezentációt és a kapcsolódó segédfüggvényeket.
+	Ezek után a 4.3.\ fejezetben részletezésre kerülnek az evolúciós mechanizmusok:
 
 	\begin{itemize}
-	\item a véletlenszerű új egyed generálás
-	\item a mutálás
-	\item a keresztezés
-	\item  valamint a \texttt{Megold} függvény.
+        \item a véletlenszerű új egyed generálás
+        \item a mutálás
+        \item a keresztezés
+        \item  valamint a populációk menedzselése
 	\end{itemize}
 
-	{Végül a 4.4 fejezetben az egyedek kiértékeléséről lesz szó.}
+	Végül a 4.4 fejezetben az egyedek kiértékeléséről lesz szó.
 
 
     \section{Kódszerkezet} % Dani
 		A kód alapvetően 2 logikai egységre szedhető szét.
-		Van egy egységes, genetikus kód rész és egy az adott feladatra vonatkozó specifikációkat tartalmazó rész.
+		Van egy egységes, genetikus kód rész és egy, az adott feladatra vonatkozó specifikációkat tartalmazó rész.
 		Ez a genetikus algoritmusban három különböző részre jól elkülönítve látszik.
-		A genetikus rész 2 .c fájlban található egy main és egy a genetikus függvényeket tartalmazó állományban.
+		A genetikus rész kettő .c fájlban található egy main és egy a genetikus függvényeket tartalmazó állományban.
 		Így egy újabb példára való futtatás alkalmával elég csak a teszteket tartalmazó részt átírni.
 		
 		
@@ -253,7 +249,7 @@ Adrian Brezulianu Monica Fira és Lucian Fira 2009-es tanulmányukban ugyancsak 
 		\Aref{fig_egyedkiir} ábrán látható megjelenítésért az \texttt{egyedKiir} függvény a felelős, amely az aktuálisan létrehozott populáció legjobb egyedét hivatott bemutatni a programot futtató felhasználó számára.
 		Majd végül kiírja a jó megoldást is.
 		A kódba bele van építve egy \texttt{joMegoldasTeszt} nevű függvény, ami nincs használatban és a main függvényben is ki van kommentezve.
-		Ez arra szolgál, hogy amikor újabb feladatot akarunk megoldani a programmal és ismerjük a megoldását, akkor esetleges futási hiba esetén ezzel le tudjuk ellenőrizni, hogy a tesztekkel van-e a gond és ha igen akkor melyikkel.
+		Ez arra szolgál, hogy amikor újabb feladatot akarunk megoldani a programmal, és ismerjük a megoldását, akkor esetleges futási hiba esetén ezzel le tudjuk ellenőrizni, hogy a megkötések implementálásában van-e hiba és ha igen akkor melyikben.
 		
 		\Abra{egyedkiir}{A program lefutása}{width=16cm}
 		
