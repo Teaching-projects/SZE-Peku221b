@@ -332,7 +332,7 @@ Shane Legg és Marcus Hutter 2005-ös értekezésükben a fitnesz függvény hat
 
 
         
-        \subsection{Random új egyed generálás} % Dani
+        \subsection{Véletlenszerű új egyed generálás} % Dani
         
         A random új egyed generálása a \texttt{kezdetiRandom} függvényben játszott csak szerepet.
         Itt azonban különböző stádiumokon esett át a függvény. Ahogy a kód fejlődött úgy ez is mindig módosult.
@@ -452,7 +452,7 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 
 	
 
-\chapter{Tesztek} % Máté
+\chapter{Empírikus vizsgálatok} % Máté
 	A program futtatását követően figyelemmel lehet követni, hogy hány generáció született meg ahhoz ahhoz, hogy beteljesedjen az összes teszt feltétele.
 
 	\Abra{test-in-progress}{A program futás alatt}{width=6cm}
@@ -510,16 +510,16 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 \chapter{Összefoglalás} % Máté
     \todo{Mit csinaltunk roviden}
 
-\chapter*{Hivatkozások}
-\addcontentsline{toc}{chapter}{Hivatkozások}
+\clearpage
+\addcontentsline{toc}{chapter}{Irodalomjegyzék}
 \bibliographystyle{plain}
 \bibliography{zebra}
 
 
 \appendix
 
-\chapter{Genetikus algoritmusok generálása}
-\section{Adatok megadása}
+\chapter{Kódgeneráló táblázat}
+\section*{Adatok megadása}
 \Aref{fig_fuggelek1} ábra szemlélteti a megadás formátumát. Az egyedeket egy 20x20-as táblázat segítségével adhatunk meg.
 Ez ahhoz fontos, hogy a makrók később automatikusan generálódjanak és ne kelljen később hozzányúlni.
 A székek számozásával valamint a TULAJDONSAG és SZEK makrók beállításával nem kell foglalkozni, hiszen azok kitöltése automatikusan történik.
@@ -528,7 +528,7 @@ Tehát a POPMERET és a MEGTART bármikor módosítható.
 
 \Abra{fuggelek1}{Egyedek megadása}{width=12cm}	
 
-\section{Tesztek kitöltése}
+\section*{Tesztek kitöltése}
 
 \Aref{fig_fuggelek2} ábra szemlélteti a tesztek megadásának menetét.
 A tesztek megadása során a szöveges megadás elhanyagolható, azonban annak segítségével a program automatikusan ki tudja tölteni a tesztek fajtájára vonatkozó részt.
@@ -536,7 +536,7 @@ A kényelmesség érdekében csak az értékeket kell megadni a tesztek során, 
 
 \Abra{fuggelek2}{Tesztek megadása}{width=12cm}
 
-\section{Tesztek generálása}
+\section*{Tesztek generálása}
 
 \Aref{fig_fuggelek3} ábra szemlélteti a tesztek megadásának menetét.
 Ez a rész a felhasználó szempontjából lényegtelen hiszen itt minden a bevitt adatok alapján változik dinamikusan.
@@ -544,7 +544,7 @@ A kód generálása típusonként egységes mivel csak a benne szereplő érték
 
 \Abra{fuggelek3}{Tesztek generálása automatikusan}{width=12cm}
 
-\section{A kész kód}
+\section*{A kész kód}
 
 \Aref{fig_fuggelek5} ábrán látható, hogy itt már minden automatikusan generálódik a felhasználó dolga csak a szűrés frissítése és a kimásolás.
 
