@@ -462,17 +462,45 @@ A  \texttt{main} függvényből a fejlesztés során kikerültek a fent felsorol
 
 
     \section{Egyedek kiértékelése} % Máté
-	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak. Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (\texttt{Teszt}) 0-át ad vissza értékül, különben pedig 1-et.
-
-	Az egyedek kiértékelésében fontos szerepet játszik az általunk beállított fitnesz függvény, a hanyatSert függvény.
-
-	\Forraskod{hanyatsert.c}{frame=single , lastline=10}
-
-	A cél az, hogy a függvény 0 értéket adjon vissza, ami azonban csak akkor valósul meg, ha a program eleget tesz az összes teszt feltételének.
-	Ellenkező esetben a függvény 0-nál nagyobb értéked ad vissza, attól függően hogy hány darab tesztet sértett meg.
-	Jelen esetben 13 teszt feltételének kell a programunknak szimultán megfelelnie.
-
+	A Zebra típusú feladványokban szereplő állítások több típusra bonthatóak.
+	Ebből kifolyólag a tesztek felépítése nem egységes, de a cél közös: ha egy adott tulajdonsággal rendelkező személy a megszabott feltételek alapján a megfelelő pozícióban van (mi esetünkben: széken ül), akkor a függvény (\texttt{Teszt}) 0-át ad vissza értékül, különben pedig 1-et.
 	
+	Az egyedek kiértékelése a teszteknek való megfeleltetést jelenti.
+	A tesztek gyors megírása érdekében lett bevezetve a \texttt{hanyadikSzek} függvény is, ami a gyors megírhatóságot biztosítja.
+	A zebra típusú tesztek 6 féle képpen írhatóak le, azaz adott 6 szókapcsolat amelyek egyikének szerepelnie kell minden megadott zebra tesztben.
+	Így a teszteket a következő 6 csoportba sorolhatjuk be:
+	\begin{itemize}
+		\item \texttt{One of the ends} (az egyik szélén) típusú tesztek esetén egy megadott értékről azt tudjuk, hogy a hozzá tartozó tulajdonságon belül ez az érték vagy a 0. vagy a SZEK-1. helyen kell, hogy legyen.
+		Például: Eszter az egyik szélén ül.
+		\item \texttt{Position} tesztek mindig fix értékeket tartalmaznak.
+		Ezen tesztek leírása a legegyszerűbb hiszen itt meg van adva, hogy melyik tulajdonság melyik székén mi található.
+		Például: A fehér pólós a 4. széken ül.
+		\item \texttt{Likes} (kedvel) típusú tesztek esetén azt tudjuk, hogy egy bizonyos tulajdonságú ember szeret valamit enni, csinálni stb.
+		Például: A kék pólós fiú a rock zenét kedveli.
+		\item \texttt{Between} (között) teszteknek van a legtöbb paramétere.
+		Itt a teszt 3 tulajdonságot használ fel. A köztes emberét, illetve a tőle jobbra, valamint balra ülő tulajdonságait.
+		Ez a típusú teszt feltétele, hogy sorrendben adjuk meg az adatokat.
+		Tehát ezek a tesztek mindig tartalmaznak egy -ebben a sorrendben- kiegészítést.
+		Például: Judit a piros pólós és a 20 éves ember között ül, ebben a sorrendben.
+		\item  \texttt{Exactly to the} (pontosan a..) típusú tesztek esetén az adott ember mellett ülő tulajdonságáról lehet megtudni valamit.
+		Az ilyen típusú tesztekben meg kell adni, hogy pontosan a jobb vagy a bal oldalán ülő tulajdonságáról van-e szó.
+		Például: Aki a rock zenét kedveli az pontosan a 22 éves ember jobb oldalán ül.
+		\item  \texttt{Somewhere to the} (valahol a..) típusú tesztek esetén az adott ember mellett valahol jobbra vagy balra ülő tulajdonságáról lehet megtudni valamit.
+		Itt az előzőtől eltérően nem tudjuk, hogy pontosan mellette van-e csak hogy a székének a száma nagyobb-e vagy kisebb.
+		Persze ez még nem zárja ki, hogy nem ülhet pontosan mellette.
+		Ez csak egy tágabb mozgásterű teszt.
+		Például: Eszter valahol Judit jobb oldalán ül.
+	\end{itemize}
+	
+	Ezekből a tesztekből bármennyi lehet és mindegyike egy 1-es vagy egy 0-ás értékkel tér vissza.
+	Itt jön képbe a fitnesz (mi esetünkben \texttt{hanyatSert}) függvény.
+	Ez összesíti számunkra, hogy összességében milyen az egyes egyedek rátermettsége.
+	Ez az érték mindig azt mutatja mennyi tesztet sértett meg az adott egyed, amire futtatva lett.
+	A 0-ás érték azt jelenti, hogy az algoritmus megtalálta a megoldást, azaz 0 db tesztet sért meg a program.
+	A szám amit a függvény ad minél magasabb annál több tesztet sért meg az egyed és annál kisebb a rátermettsége.
+	Mindezek mellett nem csak a megsértet tesztek számát kapjuk vissza, hanem azt is hogy konkrétan melyik teszteket sértette meg a program.
+
+	\Forraskod{hanyatsert.c}{frame=single , lastline=10}	
 
 \chapter{Empírikus vizsgálatok} % Máté
 	A program futásakor mindig az aktuális generáció legjobb egyedét mutatja meg, valamint azt, hogy az hány megkötést sért meg, illetve pontosan melyikeket, ahogy az  \aref{fig_test-example} ábrán látható.
