@@ -79,12 +79,12 @@ A leghíresebb zebra típusú rejtvény Albert Einstein nevéhez fűződik, mely
 Úgy tartják, hogy Einstein ezeknek a feladványok az atyja, aki állítólag gyerekként találta ki a rejtvényt és azt vallotta róla, hogy az embereknek csupán 2 százaléka képes azt megoldani.
 
 Ez a példa kiválóan alkalmas arra, hogy reprezentálja az ehhez hasonló feladványok felépítését.
-Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, valamint az általa kedvelt ital, cigarettamárka és a háziállat, amit tart. 
+Adott 5 ház egy sorban. Minden háznak 5 sajátossága ismert: a ház színe, a tulajdonos nemzetisége, foglalkozása, valamint az általa kedvelt ital és a háziállat, amit tart. 
 Azonban egyik ház sajátosságait sem ismerjük kezdetben. 
 Ekkor jönnek képbe az állítások. Einstein állításokat adott meg a feladványához, melyek segítségével egyértelműen meghatározható mind az 5 ház összes tulajdonsága. 
 Ehhez csupán logikus következtetésekre van szükségünk, és lépésről lépésre megoldható a rejtvény.
 
-\Abra{Einstein-pelda}{Az Einstein-példa egyik változata}{width=12cm}
+\Abra{Einstein-pelda}{Az Einstein-példa}{width=18cm}
 
 
     \section{Megoldhatóság, egyértelműség} % Balázs
@@ -128,15 +128,22 @@ Egy helyes példa és annak megoldása pár lépésben a következőképp néz k
 \item A 30 éves tanuló neve Jani.
 \end{itemize}
 
-Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük. Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. A megoldást \aref{fig_picipelda5} ábra mutatja.
+Az első 3 állításból egyértelműen látszik, hogy hol helyezkedik el Peti és a 20 éves tanuló, illetve kiderül, hogy a 20 éves diák Réka. 
+Ezt követően pedig könnyedén kikövetkeztethető a feladat megoldása, ugyanis Jani már csak a 3. pozícióban foglalhat helyet. 
+Az ő életkorának a 4. állítás alapján történő beírása után pedig látszik, hogy Peti a 25 éves tanuló, így a táblázatot hiánytalanul kitölthetjük.
+Ehhez csupán kellő mennyiségű egymásnak ellent nem mondó, helyes állítás szükséges. 
+A megoldást \aref{fig_picipelda5} ábra mutatja.
 \Abra{picipelda5}{}{width=6cm}
 
     \section{Megoldó módszerek} % Balázs
 
 A zebra rejtvények megoldására több különböző módszer is született. 
-Az egyik módszer a feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével. 
+Az egyik ilyen az Einstein-feladvány megoldása Prolog nyelven kényszerfeltétel kielégítési modul segítségével.
+Ekkor a program számára a feladat ismertetéséhez 25 változó kerül bevezetésre, melyek a házakhoz tartozó tulajdonságokat jelölik. 
+A rendszer ennek segítségével találja meg a megoldást.
 A zebra feladványok megoldhatók visszalépéses keresés segítségével is, amikor a keresési teret úgy kell elképzelni, mint egy fastruktúrát, ahol a gyökértől kiindulva egy csúcsot keresünk.
-További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg.
+További megoldási lehetőség az úgynevezett korlát logikai programozás, ahol a feladvány, mint korlátkielégítési probléma jelenik meg. 
+Ez a megoldó módszerek közül az egyik leggyorsabb, mivel minden alkalommal a korlátozásnak leginkább eleget tevő változó kerül kiválasztásra, így jelentősen csökkenthető a keresési idő.
 
 
 Raghavjee és Pillay 2010-es publikációjukban foglalkoztak a genetikus algoritmus mindennapi problémamegoldó képességével, egy iskolai órarend beosztása formájában\cite{Raghavjee:2010:IGA:1899503.1899555}
@@ -153,44 +160,73 @@ Deon Garrett	, Joseph Vannucci, Rodrigo Silva, Dipankar Dasgupta és James Simie
 
 \chapter{Evolúciós algoritmusok} % Balázs
 
-Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely az evolúció mechanizmusára épül. Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
+Az evolúciós algoritmus olyan számítógépes problémamegoldó rendszer, amely az evolúció mechanizmusára épül. 
+Az evolúciós algoritmusokat John Holland dolgozta ki tanítványaival a Michigani Egyetemen az 1960as- 70es években. 
+Céljuk a különböző evolúciós jelenségek (szelekció, adaptáció) formális felírása, elemzése, illetve ezeknek a jelenségeknek a számítástechnikai környezetben történő alkalmazása volt. 
+Később ezeket az algoritmusokat mások optimalizációs célokra kezdték el használni.
 
-Az evolúciós, vagy más néven genetikus algoritmusok működési elvének alapja az evolúció darwini elméletén nyugszik, mely során a természetben a folyamatosan változó életkörülményekhez való alkalmazkodás a fő szempont. Az evolúciós algoritmusok esetében az optimalizáláskor mindvégig azonos feladat megoldását keressük.
+Az evolúciós, vagy más néven genetikus algoritmusok működési elvének alapja az evolúció darwini elméletén nyugszik, mely során a természetben a folyamatosan változó életkörülményekhez való alkalmazkodás a fő szempont. 
+Az evolúciós algoritmusok esetében az optimalizáláskor mindvégig azonos feladat megoldását keressük.
 
-Az egyes egyedek reprezentációja során a kódolásához használt struktúra a kromoszóma vagy genotípus. Génkészletünket a genomok alkotják. Egy genom egy vagy két kromoszómából áll, a kromoszómák pedig génekből épülnek fel. A gén lehet egy bitsztring, alkothatják egész vagy valós számok vagy akár szimbólumok. A gén értékét az allél vagy génváltozat határozza meg.
+Az egyes egyedek reprezentációja során a kódolásához használt struktúra a kromoszóma vagy genotípus. 
+Génkészletünket a genomok alkotják. 
+Egy genom egy vagy két kromoszómából áll, a kromoszómák pedig génekből épülnek fel. 
+A gén lehet egy bitsztring, alkothatják egész vagy valós számok vagy akár szimbólumok. 
+A gén értékét az allél vagy génváltozat határozza meg.
 
-Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
+Az evolúciós algoritmusok esetében az egyedek, vagyis a különböző megoldások készletét populációnak nevezzük. 
+Egy populáción belül az ismétlés megengedett, bár nem feltétlenül ajánlott. 
+Az elemek száma, vagyis a populáció mérete a feladat sajátosságaitól függ, általában 50-100 egyedet tartalmaz.
 
 \Abra{GA-felepites}{Az evolúciós algoritmus általános felépítése}{width=12cm}
 
-Mint ahogyan \aref{fig_GA-felepites} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. A rossz megoldásokon később viszonylag könnyen lehet javítani. 
+Mint ahogyan \aref{fig_GA-felepites} ábra is mutatja, az indítást követően az első fő lépés az inicializáció, mely során feltöltjük a populációnkat egyedekkel, melyeket előállíthatunk véletlenszerűen vagy heurisztikus módszerekkel. 
+Múltbéli tapasztalatainkra hagyatkozva készíthetünk egyre jobb egyedeket. 
+A rossz megoldásokon később viszonylag könnyen lehet javítani. 
 
-Az inicializációt követi a kiértékelés, mely során az evolúciós algoritmus a rátermettségi függvény alapján eldönti, hogy melyik megoldás mennyire jó. Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
+Az inicializációt követi a kiértékelés, mely során az evolúciós algoritmus a rátermettségi függvény alapján eldönti, hogy melyik megoldás mennyire jó.
+Ennek a függvénynek az értékét az úgynevezett célfüggvény segítségével állítjuk elő, amely az optimális probléma megoldásának értékét jelenti. 
+Ritkább esetekben előfordulhat, hogy a két függvény értéke megegyezik.
 
 Az aránytalanságok elkerülése érdekében fontos szerepe van a rangsorolásnak, mivel nem optimális az, ha például néhány „túl jó” egyed hoz létre sok utódot, ugyanis hasonló egyedek keresztezésével nem jutunk előre.
 
-A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi értéke alapján válogatunk közöttük. Ilyen módszerek például a rulettkerék kiválasztás, versengő kiválasztás, valamint a levágó kiválasztás.
+A 3. fő lépés a kiválasztás, mely során az egyedek rátermettségi értéke alapján válogatunk közöttük. 
+Ilyen módszerek például a rulettkerék kiválasztás, versengő kiválasztás, valamint a levágó kiválasztás.
 
-A kiválasztást követi a keresztezés, melynek két fő fajtája az egy- illetve kétpontos keresztezés. Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
+A kiválasztást követi a keresztezés, melynek két fő fajtája az egy- illetve kétpontos keresztezés. 
+Az előbbi esetében a kromoszómákat egy véletlenszerűen választott helyen kettévágjuk, majd a felcserélt fél-kromoszómákból új egyedeket hozunk létre. 
+Kétpontos keresztezés esetében hasonló módon járunk el, ekkor azonban egy helyett két vágási pont is kiválasztásra kerül.
 
 \Abra{egypontos}{Az egypontos keresztezés}{width=10cm}
 
 \Abra{ketpontos}{A kétpontos keresztezés}{width=10cm}
 
-
 Keresztezés végezhető még egyenletes keresztezés, direkt kódolás, illetve sorrendi kódolás segítségével is.
 
-A következő lépés a mutáció, melynek lényege, hogy bizonyos gének értékeit megváltoztatjuk. A direkt kódolással történő mutáció esetében a véletlenszerűen választott gén értékét véletlenszerűen módosítjuk. Ennek során csak egy gén értéke változik meg, ezért kis valószínűséggel mutálnak. A mutáció végrehajtható sorrendi kódolással is, mely során két véletlenszerűen választott gén kerül felcserélésre. De miért is van szükségünk mutációra? Egyrészt segít az eddig az egyedekben elő nem forduló, jó allélok felfedezésében, lehetővé teszi a populációból a generációk során kikerült, de valójában jó génértékek visszaállítását. Szerepe van továbbá a globális optimum környezetének megtalálásában, illetve a genetikai változatosság növelésében is.
+A következő lépés a mutáció, melynek lényege, hogy bizonyos gének értékeit megváltoztatjuk. 
+A direkt kódolással történő mutáció esetében a véletlenszerűen választott gén értékét véletlenszerűen módosítjuk. 
+Ennek során csak egy gén értéke változik meg, ezért kis valószínűséggel mutálnak. 
+A mutáció végrehajtható sorrendi kódolással is, mely során két véletlenszerűen választott gén kerül felcserélésre. 
+De miért is van szükségünk mutációra? 
+Egyrészt segít az eddig az egyedekben elő nem forduló, jó allélok felfedezésében, lehetővé teszi a populációból a generációk során kikerült, de valójában jó génértékek visszaállítását. 
+Szerepe van továbbá a globális optimum környezetének megtalálásában, illetve a genetikai változatosság növelésében is.
 
-A leállási feltétel megvizsgálása előtt már csak egy fő lépés van hátra: a reprodukció. Az új gének a már eleve meglévő, illetve a keresztezés és mutáció során keletkezett átmeneti gének elemeiből jönnek létre. Léteznek úgynevezett kanonikus genetikus algoritmusok is, melyek teljesen leváltják az előző gént. Az újonnan keletkezett utódok számának alakulása befolyásolható, mégpedig úgy, hogy a rátermettség alapján eldöntjük, hogy a korábbi generáció utódai közül melyek íródjanak felül. Fontos szerepe van az elitizmusnak is, melynek lényege, hogy az előző generáció legrátermettebb egyedeit megtartjuk.
+A leállási feltétel megvizsgálása előtt már csak egy fő lépés van hátra: a reprodukció. 
+Az új gének a már eleve meglévő, illetve a keresztezés és mutáció során keletkezett átmeneti gének elemeiből jönnek létre.
+Léteznek úgynevezett kanonikus genetikus algoritmusok is, melyek teljesen leváltják az előző gént. 
+Az újonnan keletkezett utódok számának alakulása befolyásolható, mégpedig úgy, hogy a rátermettség alapján eldöntjük, hogy a korábbi generáció utódai közül melyek íródjanak felül. 
+Fontos szerepe van az elitizmusnak is, melynek lényege, hogy az előző generáció legrátermettebb egyedeit megtartjuk.
 
 A kilépési feltétel többféleképpen megadható. Kilépés történhet a generációk száma alapján vagy az időkorlát megadásával. Megadható továbbá a konvergencia vizsgálatával, például akkor, ha az utóbbi meghatározott számú generáció alatt nem sikerült javítani a legjobb egyedeken. Bizonyos esetekben egyértelműen eldönthető, hogy megtaláltuk-e a megoldást, például akkor, ha 0 hibapontos egyedet kaptunk.
 
-Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a számítógépes környezetben egyre nagyobb népszerűségnek örvendenek, de az üzleti szférában és az autógyártásban is alkalmazzák őket. Egyes cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor is támaszkodnak evolúciós algoritmusokra, de az autók festésének koordinációja is elvégezhető a segítségükkel. Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálásában is.
+Az evolúciós algoritmusok rendkívül széles körben felhasználhatóak és a számítógépes környezetben egyre nagyobb népszerűségnek örvendenek, de az üzleti szférában és az autógyártásban is alkalmazzák őket. 
+Egyes cégek a beszerzési és értékesítésre vonatkozó döntések meghozatalakor is támaszkodnak evolúciós algoritmusokra, de az autók festésének koordinációja is elvégezhető a segítségükkel. 
+Genetikus algoritmusokat használnak a mezőgazdasági termelés optimalizálásában is.
 
 Goodman 2012-es értekezése a genetikus algoritmusokba való bevezetést és azok egyszerű megértését segíti\cite{Goodman:2012:IGA:2330784.2330911}
 
 A genetikus algoritmusok természetesen nem csupán a logikai feladványok, hanem matematikai példák, problémák megoldásában is kiemelkedőek. Sami Khuri, Tim Walters és Yanti Sugono már 2000-ben kutatta genetikus algoritmus segítségével a gráfok, és gráfok széleinek színezését\cite{Khuri:2000:GGA:335603.335880}, míg Gizem Sungu és Betul Boz 2015-ben adtak ki tanulmányt gráfszínezési problémákat vizsgáló evolúciós algoritmusok módszeréről\cite{Sungu:2015:EAW:2739482.2768488}.
+
 
 
 
