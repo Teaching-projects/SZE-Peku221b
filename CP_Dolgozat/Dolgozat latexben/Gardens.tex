@@ -1,0 +1,310 @@
+\documentclass[12pt,a4paper,twoside, openright]{report}
+
+\usepackage{makrok}
+
+\author{Papp Ádám, Sós Nikolett\\Mérnök Informatikus BSc, I. évfolyam\\\ \\Témavezető: Ősz Olivér, doktorandusz\\Széchenyi István Egyetem,GIVK, Informatika Tanszék}
+\title{Logikai feladványok megoldása \\korlátprogramozással}
+
+\begin{document}
+
+\maketitle
+
+
+    \chapter*{Kivonat}
+
+ A vizsgált feladatok az „Einstein fejtörője” néven ismert logikai feladvány, és annak különböző változatai. Ezekben a feladatokban adottak bizonyos személyek vagy objektumok, ezeknek néhány tulajdonságuk, melyek adott értékeket vehetnek fel. A feladatok hasonlítanak a szakirodalomban hozzárendelési feladatként ismert feladatosztályhoz, azzal a különbséggel, hogy nem az optimális hozzárendelést keressük egy adott szempont szerint, hanem speciális korlátozások vannak megadva a hozzárendelésre, és olyan megoldást keresünk, ami ezeket a feltételeket kielégíti. Míg a hozzárendelési feladatok megoldására a szakirodalomban léteznek hatékony algoritmusok, a logikai feladványok, különösen a korlátozások leírása valamilyen általánosabb modellezési módszert igényel.
+
+Az általunk választott módszer a korlátprogramozás (constraint programming), ami egy modellezési és egy megoldási módszertan is egyben. Az utóbbi néhány évben egyre elterjedtebbé vált a korlátprogramozás használata különböző optimalizálási és kielégíthetőségi feladatok megoldásában.
+
+Munkánk során megvizsgáltuk a logikai feladványok szerkezetét, összegyűjtöttük a korlátozások fajtáit. Különböző módokon modelleztük a korlátozásokat, és összehasonlítottuk őket megoldási teljesítmény szempontjából. Többféle megoldó szoftver teljesítményét is összevetettük egymással, és azonosítottuk, hogy az egyes megoldók hatékonyságát hogyan befolyásolta a használt modellezési módszer.
+
+\textbf{Kulcsszavak}: logikai fejtörők, korlátprogramozás, hozzárendelési feladat
+
+
+
+
+\tableofcontents
+
+\chapter{Bevezetés} 
+	Dolgozatunkban az „Einstein-féle” fejtörőkként ismertté vált logikai feladványok megoldásával foglalkozunk. A feladványok modellezéséhez használt korlátprogramozási módszert és a MiniZinc nyelvet az 1.1. alfejezetben mutatjuk be. A vizsgált feladatok bemutatása az 1.2. alfejezetben olvasható. A 2. fejezetben példákon szemléltetjük a feladatok néhány lehetséges modellezését és ismertetjük az összehasonlító tesztek eredményeit. A 3. fejezetben pedig a redundáns megkötések kiszűrésére vonatkozó eredmények találhatók.
+
+	\section{Korlátprogramozás bemutatása} 
+
+		A feladatunkat úgynevezett korlátprogramozással oldottuk meg. Ennek a módszernek a legkorábbi verziója – a Sketchpad – 1963-ra tehető és Ivan Sutherland nevéhez fűződik\cite{sketchpad}. Az 1980-as évektől egyre keresettebb lett, és mivel a logikai programozást szerették volna kiterjeszteni, így sok helyen korlát-logikai programozásként hivatkoznak rá. Az első praktikus verziókat – amiket üzleti célokra alkottak és már eladásra is bocsájtottak – az 1990-es években készítették. 
+		A projektünkben a MiniZinc nevű grafikus szerkesztő programot használtuk – magát a nyelvet is így hívják –, aminek a fordítója az mzn2fzn, amely FlatZinc-re fordítja a MiniZinc modellt. Ezt a legtöbb megoldó által támogatott formátumú fájlt adja tovább a megoldónak, ami végül kiadja a megoldást. Az egyik legnépszerűbb megoldó a Gecode, melynek fő alkotója Christian Schulte\cite{gecode}. A munkát 2002-ben kezdték meg, 2005 decemberében adták ki az első verziót, és onnantól kezdve több évben is aranyérmes lett az Association for Constraint Programming által rendezett versenyeken. A Gecode-on kívül más megoldókkal is képes együttműködni a MiniZinc, ilyen például a Gurobi, a Chuffed és a CBC.
+		A megoldók általános működését legkönnyebben egy feladaton keresztül lehet szemléltetni. A feladványt a szakirodalomban „négyszín tételként” szokták említeni. Adottak bizonyos országok és ezeket úgy kell kiszínezni adott számú színnel, hogy a szomszédos területek ne legyenek azonosak.
+		A modell elején megadjuk hány színt szeretnénk használni és külön megjegyezzük, hogy a megoldás során is ezeket vegyék fel az egységek. A szomszédsági mátrixot – ami egyben a feltételek listája is itt esetünkben – kikötésekben adjuk meg. A legprimitívebb mód erre az, hogy leírjuk páronként a szomszédokat, amiknek más és más értéket kell felvenniük, azaz két egymás mellett lévő rész nem lehet egyenlő tulajdonságú. 
+		
+		\Abra{terkepszinezes}{}{width=6cm}
+		\Abra{szinezes}{}{width=6cm}
+	
+		
+		A megoldó úgy dolgozik, hogy kiválaszt egy változót – a példában egy országot – és beállítja egy lehetséges értékre – színre. Ezután a korlátozások alapján következtetve csökkenti a többi változó lehetséges értékkészletét. Ezt a műveletet propagációnak nevezzük. A példában ez azt jelenti, hogy a szomszédos területeknél kizárja azt a lehetőséget, amit már felhasználtunk, így már csak a megmaradt színekből választhat.
+		Ha a propagáció során egy változó lehetséges értékkészlete üressé válik, akkor a megoldó visszavonja a legutolsó értékadást, és az adott értéket kizárja a változó értékkészletéből, mert ellentmondáshoz vezet. Ezután egy másik értéket ad neki, vagy egy új változót választ ki.
+		Amikor minden változónak sikerült értéket adni, akkor az egy lehetséges megoldása a feladatnak. Természetesen nem csak egy megoldás létezhet, ha például a piros és a fekete színt felcseréljük egymással, akkor az már másik megoldásnak fog számítani. Ha több megoldásra vagyunk kíváncsiak, folytathatjuk a keresést az utolsó értékadás visszavonásával. A korlátprogramozásnak ez egy hatalmas előnye más módszerekhez képest, hogy az összes lehetséges megoldást kiadja nekünk, nem pedig csak egyet.
+		A módszer optimalizálásra is használható, ahol a megoldások értékét egy célfüggvény adja meg. A keresés során egy további korlátozást kell figyelembe venni: hogy a megoldás értéke az eddig megtalált megoldásoknál jobb legyen.
+		
+    
+    \section{Logikai feladványok bemutatása} 
+		A címben lévő logika szóról az első érdemleges információnk Arisztotelésztől származik. Fontos megjegyezni, hogy nem tartotta külön tudománynak, csupán egy eszközként tekintett rá más szakirányokhoz. Szerinte ennek az elsajátítása ugyanannyira nem „tudatos”, mint az anyanyelv megtanulása.\cite{logic}
+		A összes vizsgált feladatunk a logikára épül, ezért is kapták a „logikai feladvány” nevet. Mi részletesebben az „Einstein-féle” esetekkel\cite{logicpuzzles} dolgoztunk. Ezekben a feladatokban adottak személyek és hozzájuk több személyes tulajdonság vagy tárgy, melyek mindegyike csak egy bizonyos emberhez tartozik, de hogy melyik kihez, annak a meghatározása maga a feladat. A feladvány megad néhány állítást a személyekről és tulajdonságaikról, melyekből levezethető a helyes hozzárendelés.
+		A leghíresebb feladata a következő. Adva van öt különböző színű ház egymás mellett, melyekben más és más nemzetiségű lakó él. Mind az öt ház tulajdonosa egy bizonyos italt iszik, egy bizonyos márkájú cigarettát vesz, és egy adott háziállata van. Mindegyik tulajdonos más háziállatot tart, más márkájú cigarettát szív, és más italt fogyaszt. A mi dolgunk, hogy kitaláljuk a kikötések alapján, hogy mi a helyes megoldás. 
+		A hozzárendelési feladatok nagyon hasonlítanak az általunk vizsgált feladatokhoz, de sok dologban el is térnek tőlük. Az egyik talán legszembetűnőbb különbség, hogy ezek a modellek optimalizálásra lettek kitalálva, ahol valamilyen célfüggvény segítségével a legjobb megoldást keressük a sok lehetőségből. A kikötések itt egyáltalán nem szerepelnek, minden hozzárendelés egy lehetőség, maximum csak azt szabják meg, hogy nem lehet mindent mindenhez hozzárendelni. A legismertebb ilyen modell a magyar módszer\cite{magyarmodszer}.
+		Ilyen feladatra példa a gép-hozzárendelési feladat. Adott meghatározott számú gép és ugyanannyi független munka. Bármelyik gép bármelyik munkát képes elvégezni. Ismertek a gépek adott munkákra vonatkozó költségei. A feladat az, hogy minden géphez rendeljünk pontosan egy munkát úgy, hogy az összköltség minimális legyen. 
+		Einstein feladatát egyes források szerint az emberiség csupán 2 százaléka képes megoldani, ami nem tudományosan alátámasztott adat, de azt mindenképpen kifejezi, hogy bizony jó logikára van szükség hozzá. Ez is bizonyítja, hogy egyes feladatoknál ahhoz, hogy megkapjuk az eredményt sok időt és energiát kell belefektetni a munkába. Éppen ezért vizsgáltuk azt, hogy hogyan lehet az ilyen feladványok megoldását számítógépes segítséggel meghatározni.
+		
+\chapter{Feladatok modellezése korlátprogramozással}
+
+	\section{Gardens feladatmegoldás} 
+		A munkánk során részletesen bizonyos előre „legyártott” feladatokat vizsgáltunk. Az első ilyen neve „Gardens”, azaz „Kertek”, amit az Einstein-féle logikai feladványokhoz sorolnak\cite{gardens}.
+		Adott 5 barát, akiknek a kertjei egymás mellett helyezkednek el. Ezeken a területeken 12-féle növényből termesztenek 4-et fejenként. Azt is tudjuk, hogy ezekből a terményekből 4 gyümölcs, 4 zöldség és 4 virág van. Azt, hogy ki melyik kertben dolgozik és azt, hogy mit tartalmaznak ezek, azt kikötések sora után tudjuk csak meg, aminek a végeredményét az alábbi kép szemlélteti. 
+		
+		\Abra{gardens}{}{width=6cm}
+		
+			\subsection{Bináris mátrix}
+				Előszőr is az általunk használt parancsokat mutatnám be a kikötések fajtái alapján a megoldásunk első verzióján. Itt bináris mátrix segítségével dolgoztunk, azaz, ha megtalálható valami a kertben, akkor a helyére 1-est, ha nem akkor 0-át raktunk a táblázatba. A tulajokat egy külön tömbben tároljuk, melyeket összekötöttünk a kertekkel.
+				
+				\Abra{mtx}{}{width=6cm}
+				
+				A legfontosabb, hogy minden utasítást „constraint”-el kell kezdeni. A szó maga is nagyon 
+				jól szemlélteti, hogy amit mögé írunk, azt úgymond „kikényszerítjük”, hogy tartsa be a 
+				munka során.
+				Első dolgunk a változók deklarálása, méretének megadása és a tömbök létrehozása volt. 
+				Első kettőt az „int” és „set of int”, utóbbit az „array” kulcsszóval tettük meg, ami után 
+				megadtuk a tömb méretét, és azt, hogy milyen értékeket vegyenek fel az elemei.
+				
+				%kód
+				
+				A képeken is jól látszik, hogy Zick például csak virágokat termel, míg Hank-nél vagy 
+				Sam-nél mind három fajta termény megtalálható, tehát nagyon különbözőek a kertek. 
+				Direkt ezekre az esetekre használtuk programunk során az „alldifferent”-et, ami kifejezi, 
+				hogy mint a kertek, mint a tulajok csak és kizárólag egyszer szerepelnek és eltérnek 
+				egymástól.
+				
+				%kód
+				
+				A leírásban sok olyan kikötés szerepel, ami kijelenti, hogy mi hányszor szerepel. Ennek három speciális esetét különböztettük meg. Az első mikor konkrétan megadják, hogy melyik kertben vagy melyik tulaj termeszti/nem termeszti az adott dolgot, de eme módon akár a tulajt is megadhatják.  Ilyenkor egyszerűen csak megadjuk az adott cella értékét.
+				
+				%kód
+				
+				A második mikor csak annyit tudunk, hogy az adott növényt hányszor termeljük. Ilyen 
+				esetekben azt az előnyt használtuk ki, hogy mivel a táblázatunkban számok vannak, így 
+				lehet sima összeadás műveletet használni, így ilyenkor a sorösszegeket adtuk meg neki.
+				
+				%kód
+				
+				A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában 
+				még jobban hangsúlyozza az állítást. Ilyen esetekben az „exactly”-t használtuk, aminek 
+				konkrét felépítési kritériuma van.
+				
+				%kód
+				
+				Végül, de nem utolsó sorban van még egy kikötési formánk, de ez nem volt elég hatékony 
+				megoldás, melyről a következő alfejezetben lesz szó.
+				
+				%kód
+				
+			\subsection{Where helyett implikáció}
+				Ha a „forall”-on belül olyan „where” feltétellel szűrünk, ami a változók értéke alapján szűri a korlátozást, akkor amíg nincs meghatározva ezen változók értéke, addig ezek a korlátozások nem vesznek részt a propagációban sem. Az előbbi kikötést, miszerint csak a Paulhoz tartozó kertre kell teljesülnie, hogy a zöldségek száma 3, implikációra cseréltük.
+				
+				%kód
+				
+				Ez a leírás javította a megoldó hatékonyságát, ahogy az a 3. fejezetben bemutatott futási 
+				eredményekből is látszik, így a további modellekben már csak ezt a fajta megfogalmazást 
+				használtuk. 
+				
+			\subsection{Tulaj hozzárendelési mátrix}
+				A harmadik verzióban már a meglévő termény mátrix mellé felvettünk még egyet a tulaj-
+				kert kapcsolatokhoz. Az új mátrixot szintén egyesekkel és nullákkal töltöttük fel.
+				
+			\Abra{kerttulajmtx}{}{width=6cm}
+				
+				A kikötések felépítésében itt nincs változás, tehát nem sok különbség van a két változat 
+				között.
+			\subsection{Termény halmazok}
+				 A következő ötletünk az volt, hogy a kétdimenziós tömb helyett halmazokkal 
+				reprezentáljuk a megoldást.
+				
+				%kód
+				
+				A tulajokat csak egy egyszerű tömbben tároltuk itt el, mint az első két változatban. 
+				Két fontos új kifejezés is megjelent a kikötésekben ennél a munkánál. Az első a „card” nevű függvény, ami megadja a részhalmaz elemszámát.
+				
+				%kód
+				
+				Ehhez a „card”-hoz használtunk még helyenként az „intersect” függvényt is, ami két 
+				halmaz metszetét állítja elő.
+				
+				%kód
+				
+				A másik újdonság az "array union", ami a tömbben tárolt halmazok unióját képezi.
+				
+			\subsection{Integer mátrix}
+				A Kertek utolsó verziójában ismét visszatértünk a mátrixos megoldáshoz, ám itt már nem bináris értékekkel töltöttük fel, hanem konkrétan a terményekkel. Az első dimenzió maradt a kertek halmaza, de a második dimenzió már nem az összes terményen megy végig, hanem a 4 termesztett növényen, és nem bináris értékekkel történik a hozzárendelés, hanem 4 növénytípus „enum”-ként való megadásával. Egy másik fontos változtatás volt, hogy itt mivel nem tudtunk sorösszegeket számolni, így a „count”-ot kellett használnunk. 
+				
+				%kód
+				
+				Egy plusz kikötést kellett még írnunk ehhez a változathoz, az egy megoldás megtartása érdekében. Le kellett fixálnunk a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen. Ennek a módszernek pontos szemléltetése a 15. ábrán látható.
+				
+				%kód
+				
+			\subsection{Kimenet formázása}
+				A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
+				
+				%kód
+				\Abra{output}{}{width=6cm}
+				
+				Ötből három változatban az adatokat külső fájlban tároltuk, így például, ha csak a növények neveit szeretnénk módosítani, nem kell az egész programunkat átírni hanem csak az adatfájlt. Ez a módszer is egy jó megoldás, ha munkát szeretnénk spórolni később.
+				
+		\section{Zebra feladatok}
+			A bevezetőben bemutatott Einstein-féle úgynevezett Zebra Puzzle-típusú fejtörők\cite{zebra} modellezése és megoldása tette ki kutatási tevékenységünk nagy részét. Célunk az volt, hogy minél több féle adatszerkezettel és esetleg egy adatszerkezethez is minél több féle módon leírható korlátozásokat készítsünk. A könnyebb kezelhetőség illetve az átláthatóság érdekében a korlátozásokat felépítésük alapján kategorizáltuk, így az ugyan más tartalmú, de hasonló logikai felépítésű kifejezések megírásakor jelentős mennyiségű időt takaríthattunk meg.
+			A következőkben részletesen bemutatjuk ezen példák megoldására készített modelleket. A két példa, amelyekkel részletesen foglalkoztunk a „Movies Night” névre hallgató „könnyű” nehézségi szintű és a „Fundraising Dinner” nevű „nagyon nehéz” nehézségű voltak. Továbbá mindegyikhez két különböző adatszerkezeti megvalósítást, illetve ezeken belül további kétféle korlátozás-leírási módot használtunk.
+			
+			\subsection{Movies példa bináris mátrixszal}
+				Lássuk is az első 4x5-ös nagyságú példát: adott 4 barát, akik moziba mennek egyik este. A moziban egymás mellé ülnek le. Mindegyikük azon felül, hogy hányadik széken ül, 5 tulajdonsággal jellemezhető: 
+					1.	Milyen színű inget visel: fekete, kék, zöld, piros
+					2.	Keresztnév: Daniel, Joshua, Nicholas, Ryan
+					3.	Milyen típusú film a kedvence: akció, vígjáték, horror, thriller
+					4.	Nassolnivaló: chips, süti, cracker, popcorn
+					5.	Életkor: 11, 12, 13 és 14 éves
+				Ahhoz, hogy megtudjuk, melyik széken ki ül és milyen tulajdonságokkal rendelkezik, a rendelkezésünkre áll 13 állítás, amelyeket modellezésünk során korlátozásokként(constraint) kezeltünk.
+				Az első verziójú modell esetében a 4 fiú adatainak tárolására tulajdonságtípusonként egy-egy bináris értékeket tartalmazó 2 dimenziós mátrixot deklaráltunk(18. ábra).
+				
+				%kód
+				
+				A MiniZinc nyelv sajátosságait kihasználva a sorok indexelésére egy-egy felsorol(enum) típusú tömböt használtunk. Ennek a megoldás kiíratásánál illetve a korlátozások megfogalmazásánál lesz különös szerepe. Ebből következik, hogy a mátrix sorai az egyes tulajdonságok konkrét értékeit az oszlopai pedig sorrendben a fiúk moziban elfoglalt helyét jelölik. Amelynek indexelésére pedig szintén a leíró nyelv sajátossága miatt egy {1..4} értékkészletű segédhalmazt használtunk, ahogy az a fenti ábrán is látható. Vegyünk egy példát: amennyiben a movie mátrix 3. sorának és 1. oszlopának metszetében az 1-es érték szerepel(movie[horror, 1]=1) azt jelenti, hogy az első helyen ülő fiúnak a horrorfilm a kedvence.
+				Belátható, hogy mivel egy tulajdonság kategóriából minden fiúhoz(egész pontosan ülőhelyhez, mivel még nem tudjuk, ki hol ül) pontosan egy értéket rendelünk hozzá, ezért az összes bináris mátrix sor- és oszlopösszegének egyenlőnek kell lennie 1-gyel. Ezt hivatottak biztosítani az alábbi korlátok(19. ábra).
+				
+				%kód
+				
+				A forall biztosítja, hogy minden sorra(ill. oszlopra) teljesüljön az, hogy a sum függvény visszatérési értéke(amely az oszlopot ill. sort összegzi) 1.
+				Ezek után következhetett a 13 korlátozás megfogalmazása. Ezen példa esetében 6 különböző típusú korlátozást azonosítottunk, amelyek esetében a kifejezések szerkezete változatlan csak az adatok(egész pontosan az indexelés) változik.
+				Az I. típusnál konkrétan megmondják, hogy mely pozícióban milyen tulajdonságú ember ül(20. ábra).
+				
+				%kód
+				
+				A II. típus hasonló az elsőhöz, de itt a széksor valamelyik széléről nyilatkozunk(21. ábra). Itt kihasználjuk, hogy bináris mátrixszal dolgozunk, ezért két elem összege 1 kell, hogy legyen, miszerint vagy az egyik szélen vagy a másikon ülhet Joshua.
+				
+				%kód
+				
+				A III. típusú korlátozás két tulajdonságot kapcsol össze egymással(22. ábra).
+				
+				%kód
+				
+				A IV. típus valamely tulajdonságú személy mellett közvetlenül balra(illetve jobbra) ülő emberről állít valamit(23. ábra). Itt viszont ki kell kötnünk, hogy az első helyen(tehát a bal szélen) nem ülhet a thriller kedvelő, mivel az ő bal oldalán már nem ülhet senki. A korlátozás megfogalmazásánál ez esetben az implikációs operátort(->) használtuk, amely kimondja, hogy ha megtaláltuk a thrillerkedvelőt, akkor fekete inges ül mellette(igaz állításból csak igaz következhet), egyéb esetben nem történik semmi.(hamis állításból bármi következik). Ennek kiváltására használtunk egy továbbfejlesztett korlátozás-leírási mód esetén tisztán relációs operátorokat(24. ábra).
+				
+				%kód
+				%kód
+				
+				Az V. típusnál adott ember valamely tulajdonságú ember mellett balra (ill. jobbra) tetszőleges pozícióban foglal helyet (25. ábra). A második verzióban szintén relációs operátort (kisebb-egyenlő) használtunk az implikáció kiváltására (26. ábra).
+				
+				%kód
+				%kód
+				
+				A VI. típusnál egy ember valamely két másik között tetszőleges pozícióban foglal helyet(27. ábra). Ebben az esetben viszont a logikai operátor relációsra cseréléséhez két részre kellett bontanunk az állítást(28. ábra).
+				
+				%kód
+				%kód
+				
+				A kimenet képzése a nyelvnek megfelelő szintaktikával valósult meg(29. ábra).
+				
+				%kód
+				
+				A format függvény pusztán esztétikai formázást, a show karakterlánccá konvertálást, a fix függvény pedig a változók értékének „stabilizálását” végzi. A where záradékban pedig azt vizsgáljuk, hogy a bináris mátrixban hol található 1-es érték, mert csak azokat az értékeket íratjuk ki.
+				
+			\subsection{Fundraising Dinner példa változó tömbökkel}
+				
+				Az eddigiekben részletezett bináris mátrix mellett egy másik, ettől merőben eltérő adatszerkezettel rendelkező implementációt is készítettünk. Ezt a második, 5x6-os méretű feladatunkon, a „Fundraising Dinner” címűn keresztül fogjuk bemutatni. Néhány szó magáról a feladatról: a leírás szerint 5 jómódú hölgy egy jótékonysági vacsorán vesz részt. Egy egyenes asztalnál, egymás mellett foglalnak helyet és mindegyikük 6 féle tulajdonsággal jellemezhető:
+					1.	keresztnév
+					2.	viselt ruha színe
+					3.	nyakláncukon található drágakő típusa
+					4.	életkoruk
+					5.	fogyasztott koktéljuk
+					6.	adakozott pénzmennyiség dollárban
+				Ennél az adatstruktúránál tulajdonságkategóriánként egy-egy felsorol(enum) típusú egydimenziós tömböt készítettünk, amelyet a már említett segédhalmazzal indexeltünk(30. ábra).
+				
+				%kód
+				
+				Itt a tárolt értékek már a konkrét tulajdonságok neveit vehetik fel, sorrendjük pedig meghatározza, hogy melyik széken ülő emberre mi jellemző. Egy tömbön belül az értékek egyediségét az alldifferent globális constraint biztosítja(31. ábra).
+				
+				%kód
+				
+				A korábban már részletezett korlátozástípusokat a következőképpen modelleztük jelen adatstruktúra esetében. Az I. illetve II. típusú kikötés ebben a példában nem fordult ugyan elő, de modellezése hasonló módon történik, mint a „Movies” példa esetén. A III.(32 ábra) és IV.(33. ábra) típus esetén egyféle leírási mód választható csak.
+				
+				%kód
+				
+				A IV. típusú korlátozás leírását is az ekvivalencia operátor(<->) használatával valósítottuk meg. Azokat az eseteket, amelyeknél az említett személyek valamely szélén ülnek a széksornak, itt külön kell kezelni, mivel ekkor egyértelmű egymáshoz viszonyított helyzetük. Másrészt pedig így elkerülhetjük a tömbök bejárása során a 
+				kiindexelést. 
+				
+				
+				%kód
+				
+				Az V. típust pedig a 34. ábrán látható módon, az implikáció operátor segítségével modelleztük. B változat esetében pedig az indexekkel való bejárásnál fogalmaztunk meg egy apróbb szabályt(35. ábra).
+				
+				%kód
+				%kód
+				
+				A VI. korlátozástípusnál szintén kétféle modellt készítettünk, az A változatnál logikai 
+				operátorral és a később részletesen taglalt visszafelé következtetés módszerével. B 
+				verziónál viszont a count függvény segítségével számoljuk meg.
+				
+				%kód
+				%kód
+				
+				Ezen felül ennél a feladatnál azonosítottunk egy újfajta korlátozást, amely egy objektum valamely oldaláról nyilatkozik, viszont nem rögzíti, hogy melyikről. Ezeknél egy korábban bevezetett új elemet, az úgy nevezett visszafelé következtetést is használtuk. Az alábbi példát megvizsgálva észrevehetjük, hogy abból, hogy Lidia a Cosmopolitant ivó mellett ül, viszont következik az is hogy a Cosmopolitan fogyasztó mellett – üljön ő bárhol is- valamely oldalon kell helyet foglalnia Lidia-nak. Ehhez az xor azaz a kizáró vagy operátort hívtuk segítségül. A széksor széleit a IV. típusnál részletezett okok miatt ismét külön kezeltük.
+				
+				%kód
+				
+				Az eredmény kiíratásánál itt kihasználtuk azt, hogy a tömb elemeit nem kell vizsgálnunk, hanem sorrendben, vizsgálat nélkül kiírathatóak.
+				
+				%kód
+				
+		\section{Teszteredmények}
+			A kiválasztott példák különféle módokon történő modellezésének végeztével, az így rendelkezésünkre álló modelleket átfogó teszteknek vetettük alá. Érdeklődésünk középpontjában az állt, hogy a különböző nehézségű példák, illetve az elérő módon modellezett korlátozások miként befolyásolják a megoldók hatékonyságát.
+			A korábbi fejezetben már vázolt „Gardens” nevű példa elkészülte után, ezzel kezdtük a tesztelést. Ekkor a MiniZinc IDE és a Gecode megoldó két verzióját is összevetettük egymással.
+			
+			\Abra{futasidok1}{}{width=6cm}
+			
+			A 40. ábra tartalmazza a futási eredményeket milliszekundumban(ms) mérve. Megoldóként ez esetben a Gecode-ot használtuk. Az átlagot mindegyik esetben 6 futtatás eredményéből számoltuk. Az adatokból több következetés is levonható.
+			Egyrészről, a 2.1.6-os verzió minden esetben valamivel lassabban oldotta meg példáinkat, így kimondhatjuk, hogy készítői láthatóan javítottak termékükön és optimalizálták a hatékonyságát.
+			A második szembetűnő jelenség, miszerint az első általunk készített alapmodell, még meglehetősen nyersnek bizonyult megoldhatóság szempontjából is. A futási eredmények jó okot szolgáltatnak a forall függvény where záradékában döntési alapként felhasznált, értékkel még nem feltétlenül rendelkező változók használatának kerülésére. 
+			Harmadrészt pedig jól látható, hogy az olyan speciális, nem „Einstein-típusú” logikai feladvány esetében, mint amilyen a „Gardens” is, nem szerencsés a tömböket használó adatreprezentáció választása. Részben a lassú megoldáskeresés, részben pedig a bonyolult megvalósítás miatt sem.
+			A bináris mátrixok illetve halmazok használata között jelentős futásidőbeli eltérés nem volt. Főként annak tükrében, hogy az újabb verziónál teljesen azonos volt az átlagos futásidő mindkét modelltípus esetében. Ám a régebbi verzió esetében is csak nagyon kis mértékben bizonyultak hatékonyabbnak a bináris mátrixos adatstruktúrák.
+			A következőkben a Zebra vagy Einstein-típusú logikai fejtörők hatékonyságának 
+			összehasonlítása következik. Jelen esetben 2 példa állt rendelkezésünkre: A „Movies 
+			Night” mint 4x5-ös nagyságú könnyebb és a „Fundraising Dinner”, mint 5x6-os nehezebb 
+			feladat. Megoldóként továbbra is a Gecode-ot használtuk, és az átlagszámítási módszer 
+			is azonos volt az előzőekben ismertetetthez.
+			
+			\Abra{futasidok2}{}{width=6cm}
+			
+			Amint az a 41. ábrán látható a „Fundraising Dinner” feladat esetében hosszabb futásidőket tapasztaltunk, mint a „Movies Night” esetében, amely a példa összetettebb mivoltát tekintve nem meglepő. Az viszont már jóval szembetűnőbb, hogy az eltérés nagyon kicsi, ami jelzi, hogy megoldónk egy nagyobb és nehezebb, több hozzárendeléssel dolgozó feladat esetében is képes a futásidőket abszolút alacsony szinten tartani. Ez komoly érv amellett mikor eszközt választunk a hasonló típusú feladatok megoldásához. Más modellezési technikákhoz képest a korlátprogramozás esetében nem a feladat összetettségének mértékében nőnek a futásidők, hanem annál jelentősen lassabban, és ez a futásidő növekedés is csak a hozzárendelések számának jelentős növelésekor mutatkozik meg igazán. 
+			Emellett azt tapasztaltuk, hogy a jóval gyakoribb Einstein alkotta Zebra Puzzle-ök modellezésekor sokkal célszerűbb egy tömböket használó adatstruktúrát megvalósítani. Mind a modellezés során a könnyebb kezelhetőség, mind pedig a jóval rövidebb futásidők szempontjából sokkal optimálisabb, ha ezt az adatreprezentációt részesítjük előnyben.
+			Összegzésként, a végső konzekvenciákat levonva: a korlátprogramozás a kifejezetten rövid megoldási és futásidőket figyelembe véve, egy borzasztóan hatékony eszköz az általunk vizsgált logikai fejtörők, mint speciális hozzárendelési feladatok modellezéséhez. A gyakori és sokak által ismert Einstein-féle feladatok esetében válasszuk a felsorol típussal indexelt tömbök használatát. Viszont az olyan nem hétköznapi példáknál – amilyen esetünkben a „Gardens” is volt – ahol nem beszélhetünk a klasszikus egy-az-egyhez hozzárendelésről már más a helyzet. Ez esetben javasolt valamilyen halmazokkal dolgozó adatszerkezet, esetleg bináris mátrixok deklarációja az maximális hatékonyság elérése érdekében.
+	
+	\chapter{Redundáns megkötések megkeresése}
+		A példák korlátozásainak modellezése során felmerült bennünk annak lehetősége, hogy redundáns kifejezések fordulhatnak elő a feladatokban, azaz vannak olyan megkötések vagy megkötés-halmazok, amelyek elhagyása esetén továbbra is egyetlen, az eredeti feladatkiírásnak megfelelő megoldást találunk. Kutatásunk utolsó szakaszában célunk ezek megkeresése, továbbá annak meghatározása volt, hogy elhagyásuk miképpen befolyásolja, vagy befolyásolja-e egyáltalán a különböző megoldók futási illetve megoldási idejét.
+		Mivel megoldóink gyorsasága már a korábbiakban bebizonyosodott, ezért jó eséllyel gondolhattunk arra, hogy amennyiben egy vagy több korlátozást eltávolítunk abban az esetben rövid idő alatt meg tudjuk határozni, hogy továbbra is egyértelmű-e az eredmény. A feladatok jellegéből adódóan egyértelműnek azt az esetet tekintettük, amikor a program lefutása után csak egy megoldást találtunk, amely az eredeti – minden kikötést tartalmazó – feladatkiírásnak is megfelel. Módszerünk a következő volt: minden kikötést egy elágazásban helyeztünk el a 42. ábrán látható módon.
+		
+		%kód
+		
+		A „kivesszuk” egy, a korlátozások számával egyező elemszámú bináris értékeket tartalmazó tömb. Amennyiben a tömb adott indexű eleme 1 értéket tartalmaz, akkor a korlátozás a konkrét kifejezés értéke helyett egyszerűen igaz értéket vesz fel, így a kifejezést figyelmen kívül hagyjuk. Amennyiben viszont az adott sorszámú elem 0 értékű, akkor a különben ágban elhelyezett, a feladatleírásnak megfelelően modellezett kifejezést kezeljük korlátozásként.
+		Ezen elvet követve mindegyik korlátozást egy a x. ábrához hasonló vezérlési szerkezetbe ágyaztunk. A "kivesszuk” tömböt pedig a könnyebb szerkeszthetőség érdekében nem a modellen belül definiáltuk, hanem értékét külön fájl(ok)ból olvastuk be. Mivel egyes példák nagy mennyiségű kikötést tartalmaznak és ebből következően rengeteg féle kombinációban tudnánk ezeket elhagyni, így igyekeztük ezeket a teszteket valamilyen szinten automatizálni. Az adatfájlokat (amelyekben a "kivesszuk” tömböt definiáltuk) egy C Sharp programmal generáltuk oly módon, hogy első körben mindegyikben a tömbnek pontosan egy eleme lesz 1 értékű, így értelemszerűen a korlátozások darabszámával egyező adatfájl keletkezett. Ezeket parancssorból a modellel együtt parancssorból futtattuk és feljegyeztük azokat a sorszámokat, amelyek esetén egyértelmű eredmény született. Második körben az imént említett C Sharp program segítségével legeneráltuk ezen összegyűjtött sorszámok összes létező, 2 tagból álló kombinációját, majd újabb parancssoros futtatás következett. Megint feljegyeztük az eredményeket és ezt ismételtük mindaddig, amíg a sorszámok értékkészlete le nem szűkült teljesen. A kapott eredmények meglepőek voltak.
+		Még egy olyan kicsi és gyenge nehézségű, kevés kikötésből álló példánál is, mint amilyen a „Movies Night”, relatíve jelentős mennyiségű kikötés elhagyása esetén is teljesült, hogy az egyetlen kapott megoldás megegyezett a kiindulási feladat megoldásával. Ez esetben az összes 13-ból önmagában 3 korlátozás is redundánsnak bizonyult. Ezekből pedig 3 olyan különböző 2 tagból álló kombináció volt alkotható, amelyek egy időben is elhagyhatóak. Ezen számok a nagyobb példák esetében még tovább nőttek. Az általunk feldolgozott példák esetében a redundáns kikötések eloszlásait a 3. táblázat tartalmazza.
+		
+		\Abra{elhagyhato}{}{width=6cm}
+		
+		Az adatokból kitűnik, hogy azon korlátozások közül, amelyek önmagukban elhagyhatóak, nem választhatunk ki tetszőleges kombinációban 2-t vagy többet. Azaz már meg kellett válogatnunk, hogy pontosan melyek együttes elhagyása ad egyértelmű eredményt. Tehát például ha két kifejezés külön-külön elhagyható, az korántsem jeleni azt, hogy ezek egyszerre is elhagyhatók. Vegyünk egy konkrét példát: a „Fundraising dinner” esetében az elhagyható korlátozásokból(7) alkotható összes 2 tagú kombináció száma 21, de ezek közül csak 15 ilyen pár felelt meg a kitételeknek. Jellemzően minél több kifejezést szeretnénk egy időben feleslegessé minősíteni, annál inkább szűkül a választási spektrumunk, annál kevesebb kombináció jöhet számításba. Egy idő után elértük azt a küszöbértéket, amelynél több kifejezés nem hagyható el egyszerre. Ez jellemzően az összes kikötés számának 15-23%-a volt.
+		A fentiek továbbá azt is jelentik, hogy a feladat megalkotói jelentős redundanciával dolgoztak a kikötések meghatározásánál. Ám ezt megállapítani a klasszikus módszerrel, miszerint egyszerűen kevesebb korlátozással kiírt példát akarunk megoldani papíron, sokszor egy átlagos képességű embernek nem lehetséges vagy túlságosan hosszú ideig tart. Esetünkben viszont egzakt matematikai-logikai modellekkel leírt korlátozásokat a számítógéppel oldattuk meg, amely értelemszerűen az emberénél jóval nagyobb számítási kapacitással rendelkezik. Így a nem feltétlenül szükséges kifejezések felderítése viszonylag rövid idő alatt, egyszerű eszközökkel kivitelezhető volt. Ez felhasználható a feladványok készítésekor a minél nehezebb feladatok eléréséhez, melyekben minden információt fel kell használni a megoldás során.
+		Futásidők tekintetében a módosítatlan, teljes feladathoz képest a kihagyásoknál jelentős változás sem a parancssoros sem a grafikus felületről történő futtatás során nem történt, bár egyes esetekben kis mértékben a futásidők megnőttek. A megoldók hatékonyságáról ismét megbizonyosodhattunk, mivel kevesebb korlát, így a megoldáskeresés során kevesebb támpont esetén is komoly gyorsasággal adtak eredményt. 
+		
+	\chapter{Összefoglalás}
+	
+		Munkánk során az „Einstein-féle” logikai feladványok szerkezetét és lehetséges megoldásukat vizsgáltuk. A feladatok általános modellezése végett megismerkedtünk a korlátprogramozás módszereivel. A feladatokat többféle módon modelleztük, és megvizsgáltuk az egyes modellek megoldási hatékonyságát. Ez után azt vizsgáltuk, hogy hogyan lehet kiszűrni a redundáns megkötéseket, amik elhagyásával még egyértelműen megoldható marad a feladat.
+			
+\clearpage
+\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+\bibliographystyle{plain}
+\bibliography{gardens}				
+				
+\end{document}				

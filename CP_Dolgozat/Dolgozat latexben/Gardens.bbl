@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{gardens}
+
+
+\bibitem{zebra}
+
+
+\bibitem{logicpuzzles}
+C.~Browne.
+\newblock In computational intelligence in games.
+\newblock 2013.
+\newblock Deductive search for logic puzzles.
+
+\bibitem{magyarmodszer}
+H.~W. Kuhn.
+\newblock The hungarian method for the assignment problem.
+\newblock pages 83--97, 1955.
+\newblock Naval Research Logistics.
+
+\bibitem{logic}
+L.~I. Perlovsky.
+\newblock The mind vs. logic: Aristotle and zadeh.
+\newblock pages 30--33, 2007.
+\newblock Critical Review.
+
+\bibitem{gecode}
+Tack~G. Schulte, C. and M.~Z. Lagerkvist.
+\newblock Modeling and programming with gecode.
+\newblock 2010.
+\newblock Christian and Tack, Guido and Lagerkvist, Mikael.
+
+\bibitem{sketchpad}
+Sutherland.
+\newblock Sketchpad a man-machine graphical communication system.
+\newblock 1964.
+\newblock Transactions of the Society for Computer Simulation.
+
+\end{thebibliography}
