@@ -25,7 +25,7 @@ struct positionrule {
 
 int testAtTheEnd(struct onepersonrule attheend[3]){
     int i, position, megsert=0;
-    for (i=0;i<5;i++){
+    for (i=0;i<3;i++){
         position=hanyasSzek(attheend[i].first.property, attheend[i].first.value);
         if (position>0 && position<SZEK-1) megsert++;
     }
@@ -92,12 +92,12 @@ int testSomewhereBetween (struct threepersonrule between[3]){
 }
 
 int fitness(){
-    megsert+=testSomewhereBetween;
-    megsert+=testExactlyToTheLeft;
-    megsert+=testExactlyToTheRight;
-    megsert+=testPosition;
-    megsert+=testSameperson;
-    megsert+=testSomewhereToTheLeft;
+    megsert+=testSomewhereBetween(*kozott);
+    megsert+=testExactlyToTheLeft(*balpont);
+    megsert+=testExactlyToTheRight(*jobbpont);
+    megsert+=testPosition(*pozicio);
+    megsert+=testSameperson(*ugyanaz);
+    megsert+=testSomewhereToTheLeft(*balvhol);
     megsert+=testAtTheEnd(*vegen);
     return megsert;
 }
@@ -126,7 +126,7 @@ int main() {
 	{
 		{ AGE,ELEVEN,SHIRT,BLACK };
 	};
-	struct positionrule *poz = new struct positionrule[1];
+	struct positionrule *pozicio = new struct positionrule[1];
 	*poz = struct positionrule position[2] =
 	{
 		{ AGE,FOURTEEN,3 },
@@ -139,7 +139,7 @@ int main() {
 		{ SNACK,POPCORN,SHIRT,RED,NAME,NICHOLAS },
 		{ NAME,JOSHUA,NAME,NICHOLAS,NAME,DANIEL }
 	};
-	struct twopersonrule *ugyan = new struct twopersonrule[2];
+	struct twopersonrule *ugyanaz = new struct twopersonrule[2];
 	*ugyan = struct twopersonrule sameperson[2] =
 	{
 		{ NAME,JOSHUA,MOVIE,HORROR },
