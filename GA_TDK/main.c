@@ -12,26 +12,133 @@ struct twopersonrule {
     struct person second;
 };
 
-int testAtTheEnd(struct onepersonrule attheend[5]){
+struct twopersonrule {
+    struct person first;
+    struct person second;
+    struct person third;
+};
+
+struct positionrule {
+    struct person first;
+    int hely;
+};
+
+int testAtTheEnd(struct onepersonrule attheend[3]){
     int i, position, megsert=0;
     for (i=0;i<5;i++){
         position=hanyasSzek(attheend[i].first.property, attheend[i].first.value);
         if (position>0 && position<SZEK-1) megsert++;
-    return megesert;
-        
+    return megsert;
+}
 
+int testExactlyToTheLeft(struct twopersonrule exactlyleft[1]){
+    int i, position1, position2, megsert=0;
+    for (i=0;i<1;i++){
+        position1=hanyasSzek(exactlyleft[i].first.property, exactlyleft[i].first.value);
+        position2=hanyasSzek(exactlyleft[i].second.property, exactlyleft[i].second.value);
+        if !(position1==position2-1) megsert++;
+    return megsert;
+    }
+}
+
+int testExactlyToTheRight(struct twopersonrule exactlyright[1]){
+    int i, position1, position2, megsert=0;
+    for (i=0;i<1;i++){
+        position1=hanyasSzek(exactlyright[i].first.property, exactlyright[i].first.value);
+        position2=hanyasSzek(exactlyright[i].second.property, exactlyright[i].second.value);
+        if !(position2==position1-1) megsert++;
+    return megsert;
+    }
+}
+
+int testSomewhereToTheLeft(struct twopersonrule somewhereleft[1]){
+    int i, position1, position2, megsert=0;
+    for (i=0;i<1;i++){
+        position1=hanyasSzek(somewhereleft[i].first.property, somewhereleft[i].first.value);
+        position2=hanyasSzek(somewhereleft[i].second.property, somewhereleft[i].second.value);
+        if !(position1<position2) megsert++;
+    return megsert;
+    }
+}
+
+int testSameperson (struct twopersonrule sameperson[2]){
+    int i, position1, position2, megsert=0;
+    for (i=0;i<2;i++){
+        position1=hanyasSzek(sameperson[i].first.property, sameperson[i].first.value);
+        position2=hanyasSzek(sameperson[i].second.property, sameperson[i].second.value);
+        if !(position1=position2) megsert++;
+    return megsert;
+    }
+}
+
+int testPosition (struct positionrule position[2]){
+    int i, megsert=0;
+    for (i=0;i<2;i++){
+        if !(hely=hanyasSzek(attheend[i].first.property, attheend[i].first.value)) megsert++;
+    return megsert;
+    }
+}
+
+int testSomewhereBetween (struct threepersonrule between[3]){
+    int i, position1, position2, position3, megsert=0;
+      for (i=0;i<3;i++){
+        position1=hanyasSzek(between[i].first.property, between[i].first.value);
+        position2=hanyasSzek(between[i].second.property, between[i].second.value);
+        position3=hanyasSzek(between[i].third.property, between[i].third.value);
+        if !(position2<position1 && position1<position3) megsert++;
+    return megsert;
+    }
+}
+
+int fitness(){
+    megsert+=testSomewhereBetween;
+    megsert+=testExactlyToTheLeft;
+    megsert+=testExactlyToTheRight;
+    megsert+=testPosition;
+    megsert+=testSameperson;
+    megsert+=testSomewhereToTheLeft;
+    megsert+=testAtTheEnd;
+    return megsert;
 }
 
 int main() {
-    struct onepersonrule attheend[5];
-    struct twopersonrule exactlytotheleft[7];
-    struct twopersonrule sameperson[4] =
+    struct onepersonrule attheend[3] =
     {
-        {1, 2, 3, 6},
-        {
+        {NAME,JOSHUA},
+        {SNACK,COOKIES},
+        {MOVIE,THRILLER}
+
+    };
+    struct twopersonrule exactlyleft[1] =
+    {
+        {MOVIE,THRILLER,SHIRT,BLACK};
+    };
+    struct twopersonrule exactlyright[1] =
+    {
+        {MOVIE,COMEDY,SNACK,CRACKERS};
+    };
+    struct twopersonrule somewhereleft[1] =
+    {
+        {AGE,ELEVEN,SHIRT,BLACK};
+    };
+    struct positionrule position[2] =
+    {
+        {AGE,FOURTEEN,3},
+        {SHIRT,GREEN,1}
+    };
+    struct threepersonrule between[3] =
+    {
+        {AGE,THIRTEEN,SHIRT,RED,MOVIE,ACTION},
+        {SNACK,POPCORN,SHIRT,RED,NAME,NICHOLAS},
+        {NAME,JOSHUA,NAME,NICHOLAS,NAME,DANIEL}
+    };
+    struct twopersonrule sameperson[2] =
+    {
+        {NAME,JOSHUA,MOVIE,HORROR},
+        {NAME,DANIEL,MOVIE,THRILLER}
     };
 
 
 }
 
-    
+
