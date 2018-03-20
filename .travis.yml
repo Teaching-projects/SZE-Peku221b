@@ -14,7 +14,10 @@ before_install:
 
 install: true
 
-script: gcc -Wall GA_POC/poc.c  && gcc -Wall GA_POC/pochard.c && cd GA_JASZN && pdflatex zebra.tex
+script: gcc -Wall GA_POC/poc.c \
+&& gcc -Wall GA_POC/pochard.c \
+&& cd GA_JASZN && pdflatex zebra.tex && cd .. \
+&& cd GA_TDK/poc/dynmem && g++ -Wall main.cpp cd ../../../ 
 
 notifications:
   email:
