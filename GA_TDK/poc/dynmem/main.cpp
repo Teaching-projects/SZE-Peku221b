@@ -114,7 +114,17 @@ int main() {
 	struct twopersonrule *balpont = new struct twopersonrule[1];
 	*balpont = struct twopersonrule exactlyleft[1] =
 	{
-		{ MOVIE,THRILLER,SHIRT,BLACK };
+		{ int fajl[32];
+        std::string line_;
+        ifstream file_("fajl.txt");
+        if(file_.is_open()){
+            getline(file_,line_);
+            file_.close();
+        }
+    else
+    exit(EXIT_FAILURE);
+    std::cin.get();
+        };
 	};
 	struct twopersonrule *jobbpont = new struct twopersonrule[1];
 	*jobbpont = struct twopersonrule exactlyright[1] =
