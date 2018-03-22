@@ -105,9 +105,9 @@ int fitness(){
 int main() {
     struct onepersonrule *vegen = new struct onepersonrule[3];
     struct onepersonrule attheend[3];
-//    attheend[0] = {NAME,JOSHUA};
-//    attheend[1] = {SNACK,COOKIES};
-//    attheend[2] = {MOVIE,THRILLER};
+	attheend[0] = {NAME,JOSHUA};
+	attheend[1] = {SNACK,COOKIES};
+	attheend[2] = {MOVIE,THRILLER};
     attheend =
     {
         {NAME,JOSHUA},
@@ -143,34 +143,52 @@ int main() {
         };
     };
     struct twopersonrule *jobbpont = new struct twopersonrule[1];
-    *jobbpont = struct twopersonrule exactlyright[1] =
+	struct twopersonrule exactlyright[1];
+	exactlyright[0] = {MOVIE,COMEDY,SNACK,CRACKERS};
+	exactlyright = 
     {
-        { MOVIE,COMEDY,SNACK,CRACKERS };
+        { MOVIE,COMEDY,SNACK,CRACKERS }
     };
+	jobbpont = exactlyright;
     struct twopersonrule *balvhol = new struct twopersonrule[1];
-    *balvhol = struct twopersonrule somewhereleft[1] =
+	struct twopersonrule somewhereleft[1];
+	somewhereleft[0] = { AGE,ELEVEN,SHIRT,BLACK };
+	somewhereleft =
     {
-        { AGE,ELEVEN,SHIRT,BLACK };
+        { AGE,ELEVEN,SHIRT,BLACK }
     };
+	balpont = somewhereleft;
     struct positionrule *pozicio = new struct positionrule[1];
-    *poz = struct positionrule position[2] =
+	struct positionrule position[2];
+	position[0] = {AGE,FOURTEEN,3};
+	position[1] = {SHIRT,GREEN,1};
     {
         { AGE,FOURTEEN,3 },
         { SHIRT,GREEN,1 }
     };
+	pozicio = position;
     struct threepersonrule *kozott = new struct threepersonrule[3];
-    *kozott = struct threepersonrule between[3] =
+	struct threepersonrule between[3];
+	between[0] = {AGE,THIRTEEN,SHIRT,RED,MOVIE,ACTION};
+	between[1] = {SNACK,POPCORN,SHIRT,RED,NAME,NICHOLAS};
+	between[2] = {NAME,JOSHUA,NAME,NICHOLAS,NAME,DANIEL};
+	between =
     {
         { AGE,THIRTEEN,SHIRT,RED,MOVIE,ACTION },
         { SNACK,POPCORN,SHIRT,RED,NAME,NICHOLAS },
         { NAME,JOSHUA,NAME,NICHOLAS,NAME,DANIEL }
     };
+	kozott = between;
     struct twopersonrule *ugyanaz = new struct twopersonrule[2];
-    *ugyan = struct twopersonrule sameperson[2] =
-    {
+	struct twopersonrule sameperson[2];
+	sameperson[0] = {NAME,JOSHUA,MOVIE,HORROR};
+	sameperson[1] = {NAME,DANIEL,MOVIE,THRILLER};
+	sameperson =
+	{
         { NAME,JOSHUA,MOVIE,HORROR },
         { NAME,DANIEL,MOVIE,THRILLER }
     };
+	ugyan = sameperson;
     fitness();
 
 }
