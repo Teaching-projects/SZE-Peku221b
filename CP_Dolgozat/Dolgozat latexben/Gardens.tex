@@ -53,9 +53,9 @@
     A megoldók általános működését legkönnyebben egy feladaton keresztül lehet szemléltetni.
     A feladványt a szakirodalomban „négyszín tételként” szokták említeni.
     Adottak bizonyos országok és ezeket úgy kell kiszínezni adott számú színnel, hogy a szomszédos területek ne legyenek azonosak.
-    A modell elején megadjuk hány színt szeretnénk használni és külön megjegyezzük, hogy a megoldás során is ezeket vegyék fel az egységek.
-    A szomszédsági mátrixot – ami egyben a feltételek listája is itt esetünkben – kikötésekben adjuk meg.
-    A legprimitívebb mód erre az, hogy leírjuk páronként a szomszédokat, amiknek más és más értéket kell felvenniük, azaz két egymás mellett lévő rész nem lehet egyenlő tulajdonságú.
+    A modell elején megadjuk a használt színek számát és külön ki van emelve, hogy a megoldás során is ezeket vegyék fel az egységek.
+    A szomszédsági mátrixot – ami egyben a feltételek listája is itt esetünkben – kikötések van megadva.
+    A legprimitívebb mód erre az, hogy a szomszédok meg vannak adva páronként, amiknek más és más értéket kell felvenniük, azaz két egymás mellett lévő rész nem lehet egyenlő tulajdonságú.
 
     \Abra{terkepszinezes}{}{width=6cm}
     \Abra{szinezes}{}{width=6cm}
@@ -63,11 +63,11 @@
     A megoldó úgy dolgozik, hogy kiválaszt egy változót – a példában egy országot – és beállítja egy lehetséges értékre – színre.
     Ezután a korlátozások alapján következtetve csökkenti a többi változó lehetséges értékkészletét.
     Ezt a műveletet propagációnak nevezzük.
-    A példában ez azt jelenti, hogy a szomszédos területeknél kizárja azt a lehetőséget, amit már felhasználtunk, így már csak a megmaradt színekből választhat.
+    A példában ez azt jelenti, hogy a szomszédos területeknél kizárja azt a lehetőséget, amit már felhasznált, így már csak a megmaradt színekből választhat.
     Ha a propagáció során egy változó lehetséges értékkészlete üressé válik, akkor a megoldó visszavonja a legutolsó értékadást, és az adott értéket kizárja a változó értékkészletéből, mert ellentmondáshoz vezet.
     Ezután egy másik értéket ad neki, vagy egy új változót választ ki.
     Amikor minden változónak sikerült értéket adni, akkor az egy lehetséges megoldása a feladatnak.
-    Természetesen nem csak egy megoldás létezhet, ha például a piros és a fekete színt felcseréljük egymással, akkor az már másik megoldásnak fog számítani.
+    Természetesen nem csak egy megoldás létezhet, ha például a piros és a fekete szín fel van cserélve egymással, akkor az már másik megoldásnak fog számítani.
     Ha több megoldásra vagyunk kíváncsiak, folytathatjuk a keresést az utolsó értékadás visszavonásával.
     A korlátprogramozásnak ez egy hatalmas előnye más módszerekhez képest, hogy az összes lehetséges megoldást kiadja nekünk, nem pedig csak egyet.
     A módszer optimalizálásra is használható, ahol a megoldások értékét egy célfüggvény adja meg.
@@ -121,12 +121,12 @@
 
     Először is az általunk használt parancsokat mutatnám be a kikötések fajtái alapján a megoldásunk első verzióján.
     Itt bináris mátrix segítségével dolgoztunk, azaz, ha megtalálható valami a kertben, akkor a helyére 1-est, ha nem akkor 0-át raktunk a táblázatba.
-    A tulajokat egy külön tömbben tároljuk, melyeket összekötöttünk a kertekkel.
+    A tulajok egy külön tömbben vannak tárolva, melyeket összekötöttünk a kertekkel.
 
     \Abra{mtx}{}{width=6cm}
 
     A legfontosabb, hogy minden utasítást „constraint”-el kell kezdeni.
-    A szó maga is nagyon jól szemlélteti, hogy amit mögé írunk, azt úgymond „kikényszerítjük”, hogy tartsa be a munka során.
+    A szó maga is nagyon jól szemlélteti, hogy ami mögé van írva, azt úgymond „kikényszerítjük”, hogy tartsa be a munka során.
     Első dolgunk a változók deklarálása, méretének megadása és a tömbök létrehozása volt.
 
     Első kettőt az „int” és „set of int”, utóbbit az „array” kulcsszóval tettük meg, ami után megadtuk a tömb méretét, és azt, hogy milyen értékeket vegyenek fel az elemei.
@@ -136,7 +136,7 @@
     A képeken is jól látszik, hogy Zick például csak virágokat termel, míg Hank-nél vagy 
     Sam-nél mind három fajta termény megtalálható, tehát nagyon különbözőek a kertek.
 
-    Direkt ezekre az esetekre használtuk programunk során az „alldifferent”-et, ami kifejezi, hogy mint a kertek, mint a tulajok csak és kizárólag egyszer szerepelnek és eltérnek egymástól.
+    Direkt ezekre az esetekre áll rendelkezésünkre az „alldifferent”, ami kifejezi, hogy mint a kertek, mint a tulajok csak és kizárólag egyszer szerepelnek és eltérnek egymástól.
 
     %kód
 
@@ -153,11 +153,11 @@
     %kód
 
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
-    Ilyen esetekben az „exactly”-t használtuk, aminek konkrét felépítési kritériuma van.
+    Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
 
     %kód
 
-    Végül, de nem utolsó sorban van még egy kikötési formánk, de ez nem volt elég hatékony megoldás, melyről a következő alfejezetben lesz szó.
+    Végül, de nem utolsó sorban van még egy kikötési forma amit használtunk, de ez nem volt elég hatékony megoldás, melyről a következő alfejezetben lesz szó.
 
     %kód
 
@@ -175,7 +175,7 @@
 \subsection{Tulaj hozzárendelési mátrix}
 
     A harmadik verzióban már a meglévő termény mátrix mellé felvettünk még egyet a tulaj-kert kapcsolatokhoz.
-    Az új mátrixot szintén egyesekkel és nullákkal töltöttük fel.
+    Az új mátrix szintén egyesekkel és nullákkal lett feltöltve.
 
     \Abra{kerttulajmtx}{}{width=6cm}
 
@@ -210,7 +210,7 @@
     %kód
 
     Egy plusz kikötést kellett még írnunk ehhez a változathoz, az egy megoldás megtartása érdekében.
-    Le kellett fixálnunk a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
+    Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
     Ennek a módszernek pontos szemléltetése a 15.ábrán látható.
 
     %kód
@@ -222,7 +222,7 @@
     %kód
     \Abra{output}{}{width=6cm}
 
-    Ötből három változatban az adatokat külső fájlban tároltuk, így például, ha csak a növények neveit szeretnénk módosítani, nem kell az egész programunkat átírni hanem csak az adatfájlt.
+    Ötből három változatban az adatokat külső fájlban vannak tárolva, így például, ha csak a növények neveit szeretnénk módosítani, nem kell az egész programot átírni hanem csak az adatfájlt.
     Ez a módszer is egy jó megoldás, ha munkát szeretnénk spórolni később.
 
 \section{Zebra feladatok}
