@@ -145,12 +145,12 @@
     Az első mikor konkrétan megadják, hogy melyik kertben vagy melyik tulaj termeszti/nem termeszti az adott dolgot, de eme módon akár a tulajt is megadhatják.
     Ilyenkor egyszerűen csak megadjuk az adott cella értékét.
 
-    $$ J[i,j]=x $$
+    $$ termeszt[12,3]=0 $$
 
     A második mikor csak annyit tudunk, hogy az adott növényt hányszor termeljük.
     Ilyen esetekben azt az előnyt használtuk ki, hogy mivel a táblázatunkban számok vannak, így lehet sima összeadás műveletet használni, így ilyenkor a sorösszegeket adtuk meg neki.
 
-    $$ \sum^{k\in K} J[1,k] =1 $$
+    $$ \sum^{k\in Kertek} termeszt[1,k] =1 $$
 
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
     Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
@@ -159,14 +159,14 @@
 
     Végül, de nem utolsó sorban van még egy kikötési forma amit használtunk, de ez nem volt elég hatékony megoldás, melyről a következő alfejezetben lesz szó.
 
-    $$ \forall t\in T \wedge I[t] =4 :\sum^{z\in Z} J[z,t] =3 $$
+    $$ \forall t\in Tulaj \wedge tulaj[t] =4 :\sum^{z\in Zoldsegek} termyeszt[z,t] =3 $$
 
 \subsection{Where helyett implikáció}
 
     Ha a „forall”-on belül olyan „where” feltétellel szűrünk, ami a változók értéke alapján szűri a korlátozást, akkor amíg nincs meghatározva ezen változók értéke, addig ezek a korlátozások nem vesznek részt a propagációban sem.
     Az előbbi kikötést, miszerint csak a Paulhoz tartozó kertre kell teljesülnie, hogy a zöldségek száma 3, implikációra cseréltük.
 
-    $$ \forall t\in T : I[t]=4 \rightarrow \sum^{z\in Z} J[z,t] =3 $$
+    $$ \forall t\in Tulaj : tulaj[t]=4 \rightarrow \sum^{z\in Zoldsegek} J[z,t] =3 $$
 
     Ez a leírás javította a megoldó hatékonyságát, ahogy az a 3. fejezetben bemutatott futási eredményekből is látszik, így a további modellekben már csak ezt a fajta megfogalmazást 
     használtuk.
@@ -192,15 +192,15 @@
     Két fontos új kifejezés is megjelent a kikötésekben ennél a munkánál.
     Az első a „card” nevű függvény, ami megadja a részhalmaz elemszámát.
 
-    $$ \forall k \in K: \mid J \mid [k] =3 $$
+    $$ \forall k \in Kertek: \mid termeszt \mid [k] =3 $$
 
     Ehhez a „card”-hoz használtunk még helyenként az „intersect” függvényt is, ami két halmaz metszetét állítja elő.
 
-    $$ \forall t \in T: I[t]=4 \rightarrow \mid Z \cap J[t] =3 \mid $$
+    $$ \forall t \in Tulaj: I[t]=4 \rightarrow \mid Zoldsegek \cap termeszt[t] =3 \mid $$
 
     A másik újdonság az "array union", ami a tömbben tárolt halmazok unióját képezi.
     
-    $$ \mid \textdollar J= \textdollar L \mid $$
+    $$ \mid \textdollar termeszt= \textdollar termenyek \mid $$
 
 \subsection{Integer mátrix}
 
@@ -215,7 +215,7 @@
     Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
     Ennek a módszernek pontos szemléltetése a 15.ábrán látható.
 
-    $$ \forall k \in K \wedge n \in 1..N : J[k,n] < J[k,n+1] $$
+    $$ \forall k \in Kertek \wedge n \in 1..Noveny : termeszt[k,n] < tulaj[k,n+1] $$
 \subsection{Kimenet formázása}
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
@@ -258,20 +258,20 @@
     Belátható, hogy mivel egy tulajdonság kategóriából minden fiúhoz(egész pontosan ülőhelyhez, mivel még nem tudjuk, ki hol ül) pontosan egy értéket rendelünk hozzá, ezért az összes bináris mátrix sor- és oszlopösszegének egyenlőnek kell lennie 1-gyel.
     Ezt hivatottak biztosítani az alábbi korlátok(19. ábra).
 
-    $$ \forall p \in P :  \sum^{n\in N} A[n,p] =1 $$
-    $$ \forall n \in N :  \sum^{p\in P} A[n,p] =1 $$
+    $$ \forall p \in People :  \sum^{n\in N} name[n,p] =1 $$
+    $$ \forall n \in Names :  \sum^{p\in P} name[n,p] =1 $$
 
     A forall biztosítja, hogy minden sorra(ill. oszlopra) teljesüljön az, hogy a sum függvény visszatérési értéke(amely az oszlopot ill. sort összegzi) 1.
     Ezek után következhetett a 13 korlátozás megfogalmazása.
     Ezen példa esetében 6 különböző típusú korlátozást azonosítottunk, amelyek esetében a kifejezések szerkezete változatlan csak az adatok(egész pontosan az indexelés) változik.
     Az I. típusnál konkrétan megmondják, hogy mely pozícióban milyen tulajdonságú ember ül(20. ábra).
 
-    $$ B[fourteen,3]=1 $$
+    $$ age[fourteen,3]=1 $$
 
     A II. típus hasonló az elsőhöz, de itt a széksor valamelyik széléről nyilatkozunk(21. ábra).
     Itt kihasználjuk, hogy bináris mátrixszal dolgozunk, ezért két elem összege 1 kell, hogy legyen, miszerint vagy az egyik szélen vagy a másikon ülhet Joshua.
 
-    $$ A[Joshua,1] + B[Joshua,db] =1 $$
+    $$ name[Joshua,1] + age[Joshua,db] =1 $$
 
     A III. típusú korlátozás két tulajdonságot kapcsol össze egymással(22. ábra).
 
