@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.3.15)  16 MAR 2018 13:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.3.15)  26 MAR 2018 14:44
 entering extended mode
 **./Gardens.tex
 (Gardens.tex
@@ -737,21 +737,21 @@ pdfTeX warning: pdflatex.exe: pop empty color page stack 0
 
 ]
 1. fejezet.
-<Kepek/terkepszinezes.jpg, id=126, 251.7405pt x 157.7895pt>
+[7]
+<Kepek/terkepszinezes.jpg, id=134, 251.7405pt x 157.7895pt>
 File: Kepek/terkepszinezes.jpg Graphic file (type jpg)
 <use Kepek/terkepszinezes.jpg>
-Package pdftex.def Info: Kepek/terkepszinezes.jpg  used on input line 38. on in
-put line 38.
+Package pdftex.def Info: Kepek/terkepszinezes.jpg  used on input line 60. on in
+put line 60.
 Package pdftex.def Info: Requested size: 170.71652pt x 107.0041pt on input line
- 38.
-[7]
+ 60.
 <Kepek/szinezes.jpg, id=135, 327.02174pt x 497.4585pt>
 File: Kepek/szinezes.jpg Graphic file (type jpg)
 <use Kepek/szinezes.jpg>
-Package pdftex.def Info: Kepek/szinezes.jpg  used on input line 39. on input li
-ne 39.
+Package pdftex.def Info: Kepek/szinezes.jpg  used on input line 61. on input li
+ne 61.
 Package pdftex.def Info: Requested size: 170.71652pt x 259.68945pt on input lin
-e 39.
+e 61.
  [8 <./Kepek/terkepszinezes.jpg> <./Kepek/szinezes.jpg>] [9] [10
 
 ]
@@ -759,86 +759,99 @@ e 39.
 <Kepek/gardens.jpg, id=157, 715.17188pt x 487.06969pt>
 File: Kepek/gardens.jpg Graphic file (type jpg)
 <use Kepek/gardens.jpg>
-Package pdftex.def Info: Kepek/gardens.jpg  used on input line 62. on input lin
-e 62.
+Package pdftex.def Info: Kepek/gardens.jpg  used on input line 118. on input li
+ne 118.
 Package pdftex.def Info: Requested size: 170.71652pt x 116.26738pt on input lin
-e 62.
+e 118.
 <Kepek/mtx.jpg, id=158, 307.1475pt x 335.45325pt>
 File: Kepek/mtx.jpg Graphic file (type jpg)
 <use Kepek/mtx.jpg>
-Package pdftex.def Info: Kepek/mtx.jpg  used on input line 67. on input line 67
-.
+Package pdftex.def Info: Kepek/mtx.jpg  used on input line 126. on input line 1
+26.
 Package pdftex.def Info: Requested size: 170.71652pt x 186.45003pt on input lin
-e 67.
+e 126.
 [11 <./Kepek/gardens.jpg>] [12 <./Kepek/mtx.jpg>]
-<Kepek/kerttulajmtx.jpg, id=171, 404.712pt x 157.18726pt>
+<Kepek/kerttulajmtx.jpg, id=176, 404.712pt x 157.18726pt>
 File: Kepek/kerttulajmtx.jpg Graphic file (type jpg)
 <use Kepek/kerttulajmtx.jpg>
-Package pdftex.def Info: Kepek/kerttulajmtx.jpg  used on input line 120. on inp
-ut line 120.
+Package pdftex.def Info: Kepek/kerttulajmtx.jpg  used on input line 180. on inp
+ut line 180.
 Package pdftex.def Info: Requested size: 170.71652pt x 66.306pt on input line 1
-20.
+80.
  [13 <./Kepek/kerttulajmtx.jpg>]
-<Kepek/output.jpg, id=178, 267.399pt x 106.59825pt>
+
+LaTeX Warning: Command \textdollar invalid in math mode on input line 203.
+
+
+LaTeX Warning: Command \textdollar invalid in math mode on input line 203.
+
+<Kepek/output.jpg, id=184, 267.399pt x 106.59825pt>
 File: Kepek/output.jpg Graphic file (type jpg)
 <use Kepek/output.jpg>
-Package pdftex.def Info: Kepek/output.jpg  used on input line 155. on input lin
-e 155.
+Package pdftex.def Info: Kepek/output.jpg  used on input line 224. on input lin
+e 224.
 Package pdftex.def Info: Requested size: 170.71652pt x 68.05672pt on input line
- 155.
- [14 <./Kepek/output.jpg>] [15] [16]
-<Kepek/futasidok1.jpg, id=194, 302.3295pt x 183.68625pt>
+ 224.
+
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+ [14 <./Kepek/output.jpg>]
+Underfull \vbox (badness 2237) has occurred while \output is active []
+
+ [15]
+[16] [17]
+<Kepek/futasidok1.jpg, id=204, 302.3295pt x 183.68625pt>
 File: Kepek/futasidok1.jpg Graphic file (type jpg)
 <use Kepek/futasidok1.jpg>
-Package pdftex.def Info: Kepek/futasidok1.jpg  used on input line 266. on input
- line 266.
+Package pdftex.def Info: Kepek/futasidok1.jpg  used on input line 376. on input
+ line 376.
 Package pdftex.def Info: Requested size: 170.71652pt x 103.72124pt on input lin
-e 266.
-<Kepek/futasidok2.jpg, id=195, 337.86224pt x 215.00325pt>
+e 376.
+<Kepek/futasidok2.jpg, id=205, 337.86224pt x 215.00325pt>
 File: Kepek/futasidok2.jpg Graphic file (type jpg)
 <use Kepek/futasidok2.jpg>
-Package pdftex.def Info: Kepek/futasidok2.jpg  used on input line 279. on input
- line 279.
+Package pdftex.def Info: Kepek/futasidok2.jpg  used on input line 399. on input
+ line 399.
 Package pdftex.def Info: Requested size: 170.71652pt x 108.63646pt on input lin
-e 279.
- [17 <./Kepek/futasidok1.jpg>] [18 <./Kepek/futasidok2.jpg>]
-3. fejezet.
-[19
+e 399.
+ [18 <./Kepek/futasidok1.jpg>] [19 <./Kepek/futasidok2.jpg>] [20
 
 ]
-<Kepek/elhagyhato.jpg, id=211, 513.41812pt x 313.17pt>
+3. fejezet.
+[21]
+<Kepek/elhagyhato.jpg, id=225, 513.41812pt x 313.17pt>
 File: Kepek/elhagyhato.jpg Graphic file (type jpg)
 <use Kepek/elhagyhato.jpg>
-Package pdftex.def Info: Kepek/elhagyhato.jpg  used on input line 295. on input
- line 295.
+Package pdftex.def Info: Kepek/elhagyhato.jpg  used on input line 440. on input
+ line 440.
 Package pdftex.def Info: Requested size: 170.71652pt x 104.1301pt on input line
- 295.
- [20 <./Kepek/elhagyhato.jpg>] [21] [22
+ 440.
+ [22 <./Kepek/elhagyhato.jpg>] [23] [24
 
 ]
 4. fejezet.
-[23] (Gardens.bbl [24
+[25] (Gardens.bbl [26
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
- [25]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 470.
+ [27]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 470.
  (Gardens.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 470.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 470.
 Package rerunfilecheck Info: File `Gardens.out' has not changed.
 (rerunfilecheck)             Checksum: 016FBCC9C3E587A1A514A80F82CBEC18;1374.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 470.
  ) 
 Here is how much of TeX's memory you used:
- 8482 strings out of 493312
- 124835 string characters out of 3138890
+ 8484 strings out of 493312
+ 125155 string characters out of 3138890
  230359 words of memory out of 3000000
  11843 multiletter control sequences out of 15000+200000
  17830 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,6n,29p,1354b,381s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 35i,6n,29p,372b,381s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\SósNiki\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi6
 00\ecbx1440.pk> <C:\Users\SósNiki\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkn
 appen\ec\dpi600\ecbx1728.pk> <C:\Users\SósNiki\AppData\Local\MiKTeX\2.9\fonts\
@@ -847,10 +860,15 @@ eX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk> <C:\Users\SósNiki\AppDa
 ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\S
 ósNiki\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk
 > <C:\Users\SósNiki\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
-0\ecrm2074.pk>
-Output written on Gardens.pdf (25 pages, 760694 bytes).
+0\ecrm2074.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex1
+0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Gardens.pdf (27 pages, 821524 bytes).
 PDF statistics:
- 578 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
+ 611 PDF objects out of 1000 (max. 8388607)
+ 64 named destinations out of 1000 (max. 500000)
  190 words of extra memory for PDF output out of 10000 (max. 10000000)
 
