@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.3.15)  26 MAR 2018 15:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.3.15)  26 MAR 2018 19:50
 entering extended mode
 **./Gardens.tex
 (Gardens.tex
@@ -779,12 +779,6 @@ ut line 180.
 Package pdftex.def Info: Requested size: 170.71652pt x 66.306pt on input line 1
 80.
  [13 <./Kepek/kerttulajmtx.jpg>]
-
-LaTeX Warning: Command \textdollar invalid in math mode on input line 203.
-
-
-LaTeX Warning: Command \textdollar invalid in math mode on input line 203.
-
 <Kepek/output.jpg, id=184, 267.399pt x 106.59825pt>
 File: Kepek/output.jpg Graphic file (type jpg)
 <use Kepek/output.jpg>
@@ -792,40 +786,45 @@ Package pdftex.def Info: Kepek/output.jpg  used on input line 224. on input lin
 e 224.
 Package pdftex.def Info: Requested size: 170.71652pt x 68.05672pt on input line
  224.
+ [14 <./Kepek/output.jpg>] [15] [16] [17]
+Overfull \hbox (40.53972pt too wide) detected at line 366
+\OMS/cmsy/m/n/12 8\OML/cmm/m/it/12 p \OMS/cmsy/m/n/12 2 \OT1/cmr/m/n/12 2\OML/c
+mm/m/it/12 ::db \OMS/cmsy/m/n/12   \OT1/cmr/m/n/12 1 : (\OML/cmm/m/it/12 name\O
+T1/cmr/m/n/12 [\OML/cmm/m/it/12 p\OT1/cmr/m/n/12 ] = \OML/cmm/m/it/12 Lidia \OM
+S/cmsy/m/n/12 ! \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 coctail\OT1/cmr/m/n/12 [\OML/
+cmm/m/it/12 p \OMS/cmsy/m/n/12   \OT1/cmr/m/n/12 1] = \OML/cmm/m/it/12 cosmopol
+itan \OMS/cmsy/m/n/12  \OML/cmm/m/it/12 coctail\OT1/cmr/m/n/12 [\OML/cmm/m/it/
+12 p \OT1/cmr/m/n/12 + 1] = \OML/cmm/m/it/12 cosmopolitan\OT1/cmr/m/n/12 ))\OMS
+/cmsy/m/n/12 ^
+ []
 
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
- [14 <./Kepek/output.jpg>]
-Underfull \vbox (badness 2237) has occurred while \output is active []
-
- [15]
-[16] [17]
-<Kepek/futasidok1.jpg, id=204, 302.3295pt x 183.68625pt>
+<Kepek/futasidok1.jpg, id=205, 302.3295pt x 183.68625pt>
 File: Kepek/futasidok1.jpg Graphic file (type jpg)
 <use Kepek/futasidok1.jpg>
-Package pdftex.def Info: Kepek/futasidok1.jpg  used on input line 376. on input
- line 376.
+Package pdftex.def Info: Kepek/futasidok1.jpg  used on input line 384. on input
+ line 384.
 Package pdftex.def Info: Requested size: 170.71652pt x 103.72124pt on input lin
-e 376.
-<Kepek/futasidok2.jpg, id=205, 337.86224pt x 215.00325pt>
+e 384.
+[18]
+<Kepek/futasidok2.jpg, id=210, 337.86224pt x 215.00325pt>
 File: Kepek/futasidok2.jpg Graphic file (type jpg)
 <use Kepek/futasidok2.jpg>
-Package pdftex.def Info: Kepek/futasidok2.jpg  used on input line 399. on input
- line 399.
+Package pdftex.def Info: Kepek/futasidok2.jpg  used on input line 407. on input
+ line 407.
 Package pdftex.def Info: Requested size: 170.71652pt x 108.63646pt on input lin
-e 399.
- [18 <./Kepek/futasidok1.jpg>] [19 <./Kepek/futasidok2.jpg>] [20
+e 407.
+ [19 <./Kepek/futasidok1.jpg> <./Kepek/futasidok2.jpg>] [20]
+3. fejezet.
+[21
 
 ]
-3. fejezet.
-[21]
-<Kepek/elhagyhato.jpg, id=225, 513.41812pt x 313.17pt>
+<Kepek/elhagyhato.jpg, id=226, 513.41812pt x 313.17pt>
 File: Kepek/elhagyhato.jpg Graphic file (type jpg)
 <use Kepek/elhagyhato.jpg>
-Package pdftex.def Info: Kepek/elhagyhato.jpg  used on input line 440. on input
- line 440.
+Package pdftex.def Info: Kepek/elhagyhato.jpg  used on input line 448. on input
+ line 448.
 Package pdftex.def Info: Requested size: 170.71652pt x 104.1301pt on input line
- 440.
+ 448.
  [22 <./Kepek/elhagyhato.jpg>] [23] [24
 
 ]
@@ -834,15 +833,15 @@ Package pdftex.def Info: Requested size: 170.71652pt x 104.1301pt on input line
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 470.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 478.
  [27]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 470.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 478.
  (Gardens.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 470.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 470.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 478.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 478.
 Package rerunfilecheck Info: File `Gardens.out' has not changed.
 (rerunfilecheck)             Checksum: 016FBCC9C3E587A1A514A80F82CBEC18;1374.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 470.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 478.
  ) 
 Here is how much of TeX's memory you used:
  8484 strings out of 493312
@@ -864,11 +863,12 @@ ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\S
 0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C
 :/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on Gardens.pdf (27 pages, 823521 bytes).
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb>
+Output written on Gardens.pdf (27 pages, 836884 bytes).
 PDF statistics:
- 611 PDF objects out of 1000 (max. 8388607)
+ 615 PDF objects out of 1000 (max. 8388607)
  64 named destinations out of 1000 (max. 500000)
  190 words of extra memory for PDF output out of 10000 (max. 10000000)
 

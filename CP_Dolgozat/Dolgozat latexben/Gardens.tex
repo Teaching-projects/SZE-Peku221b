@@ -200,7 +200,7 @@
 
     A másik újdonság az "array union", ami a tömbben tárolt halmazok unióját képezi.
     
-    $$ \mid \textdollar termeszt= \textdollar termenyek \mid $$
+    %$$ \mid \textdollar termeszt= \textdollar termenyek \mid $$
 
 \subsection{Integer mátrix}
 
@@ -215,7 +215,7 @@
     Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
     Ennek a módszernek pontos szemléltetése a 15.ábrán látható.
 
-    $$ \forall k \in Kertek \wedge n \in 1..Noveny : termeszt[k,n] < tulaj[k,n+1] $$
+    $$ \forall k \in Kertek, n \in 1..Noveny : termeszt[k,n] < tulaj[k,n+1] $$
 \subsection{Kimenet formázása}
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
@@ -275,27 +275,31 @@
 
     A III. típusú korlátozás két tulajdonságot kapcsol össze egymással(22. ábra).
 
-    %kód
+    $$ \forall szek \in People : name[Joshua,szek] = movie[horror,szek] $$
 
     A IV. típus valamely tulajdonságú személy mellett közvetlenül balra(illetve jobbra) ülő emberről állít valamit(23. ábra).
     Itt viszont ki kell kötnünk, hogy az első helyen(tehát a bal szélen) nem ülhet a thriller kedvelő, mivel az ő bal oldalán már nem ülhet senki.
     A korlátozás megfogalmazásánál ez esetben az implikációs operátort(->) használtuk, amely kimondja, hogy ha megtaláltuk a thrillerkedvelőt, akkor fekete inges ül mellette(igaz állításból csak igaz következhet), egyéb esetben nem történik semmi.(hamis állításból bármi következik).
     Ennek kiváltására használtunk egy továbbfejlesztett korlátozás-leírási mód esetén tisztán relációs operátorokat(24. ábra).
 
-    %kód
-    %kód
+    $$ movie[thiller,1]=0 $$
+    $$ \forall szek \in 2..db : movie[thriller,szek]=1 \rightarrow shirt[black,szek]=1 $$
+    $$ \forall szek\in 2..db : (movie[thriller,szek]=1) = (shirt[black,szek]=1) $$
 
     Az V. típusnál adott ember valamely tulajdonságú ember mellett balra (ill. jobbra) tetszőleges pozícióban foglal helyet (25. ábra).
     A második verzióban szintén relációs operátort (kisebb-egyenlő) használtunk az implikáció kiváltására (26. ábra).
 
-    %kód
-    %kód
+    $$ \forall x \in People : (age[eleven,x]=1) \rightarrow (\sum^{ szek \in 1..x-1 } shirt[black,szek]=1) $$
+    $$ \forall x \in People : age[eleven,x] <= \sum^{szek \in 1..x-1} shirt[black,szek] $$
 
     A VI. típusnál egy ember valamely két másik között tetszőleges pozícióban foglal helyet(27. ábra).
     Ebben az esetben viszont a logikai operátor relációsra cseréléséhez két részre kellett bontanunk az állítást(28. ábra).
 
-    %kód
-    %kód
+   $$ \forall x,y \in People : (age[thirteen,x]=1 \wedge movie[action,y]=1) $$
+   $$\rightarrow (\sum^{szek\in x+1..y-1} shirt[red,szek]=1) $$
+    
+   $$ \forall x \in People: movie[action,x] <= \sum^{szek\in 1..x-1} shirt[red,szek] $$
+   $$ \forall x \in People: age[thirteen,x] <= \sum^{szek\in x+1..db} shirt[red,szek] $$
 
     A kimenet képzése a nyelvnek megfelelő szintaktikával valósult meg(29. ábra).
 
@@ -329,22 +333,21 @@
     Az I. illetve II. típusú kikötés ebben a példában nem fordult ugyan elő, de modellezése hasonló módon történik, mint a „Movies” példa esetén.
     A III.(32 ábra) és IV.(33. ábra) típus esetén egyféle leírási mód választható csak.
 
-    %kód
+    $$ \forall p \in People : name[p]=Jane \leftrightarrow donation[p]=twentythousand $$
 
     A IV. típusú korlátozás leírását is az ekvivalencia operátor(<->) használatával valósítottuk meg.
     Azokat az eseteket, amelyeknél az említett személyek valamely szélén ülnek a széksornak, itt külön kell kezelni, mivel ekkor egyértelmű egymáshoz viszonyított helyzetük.
     Másrészt pedig így elkerülhetjük a tömbök bejárása során a 
     kiindexelést.
 
-
-
-    %kód
+	$$ \forall p \in 1..db-1 : coctail[p]=cosmopolitan \leftrightarrow age[p+1]=sixty$$ 
+	$$ \wedge coctail[db] != cosmopolitan \wedge age[1] != sixty $$
 
     Az V. típust pedig a 34. ábrán látható módon, az implikáció operátor segítségével modelleztük.
     B változat esetében pedig az indexekkel való bejárásnál fogalmaztunk meg egy apróbb szabályt(35. ábra).
 
     %kód
-    %kód
+    $$ \forall a,b \in People \wedge a<b : !(coctail[a] =margarita \wedge dress[b]=blue) $$
 
     A VI. korlátozástípusnál szintén kétféle modellt készítettünk, az A változatnál logikai 
     operátorral és a később részletesen taglalt visszafelé következtetés módszerével.
@@ -360,7 +363,12 @@
     Ehhez az xor azaz a kizáró vagy operátort hívtuk segítségül.
     A széksor széleit a IV. típusnál részletezett okok miatt ismét külön kezeltük.
 
-    %kód
+    $$ \forall p \in 2..db-1: (name[p]=Lidia \rightarrow (coctail[p-1]=cosmopolitan \oplus coctail[p+1]=cosmopolitan)) \wedge $$
+    	$$\forall p \in 2..db-1 : (coctail[p]=cosmopolitan \rightarrow (name[p-1]=Lidia \oplus name[p+1]=Lidia)) \wedge$$
+    	$$(name[1]=Lidia \rightarrow coctail[2]=cosmopolitan) \wedge$$
+    	$$(name[db]=Lidia \rightarrow coctail[db-1]=cosmopolitan) \wedge$$
+    	$$(coctail[1]= cosmopolitan \rightarrow name[Lidia]) \wedge$$
+    	$$(coctail[db]=cosmopolitan \rightarrow name[db-1]=Lidia) $$
 
     Az eredmény kiíratásánál itt kihasználtuk azt, hogy a tömb elemeit nem kell vizsgálnunk, hanem sorrendben, vizsgálat nélkül kiírathatóak.
 
