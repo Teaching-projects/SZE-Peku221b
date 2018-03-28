@@ -1,7 +1,31 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+#define SZEK 4
+#define TULAJDONSAG 5
+#define POPMERET 100
+#define MEGTART 10
+
+
+const char *TULNEVEK[TULAJDONSAG][SZEK] = {
+        {"black","blue","green","red"},
+        {"Daniel", "Joshua", "Nicholas", "Ryan"},
+        {"action", "comedy", "horror", "thriller"},
+        {"chips", "cookies", "crackers", "popcorn"},
+        {"11", "12", "13", "14"}
+    };
+
+
 struct person {
         int property;
         int value;
 };
+struct gen{
+    int allel[TULAJDONSAG][SZEK];
+    int megsert;
+};
+
 
 struct onepersonrule {
     struct person first;
@@ -22,6 +46,14 @@ struct positionrule {
     struct person first;
     int hely;
 };
+
+
+int hanyasSzek(struct gen egyed,int property, int value){
+    int sz;
+    for(sz=0;sz<SZEK;sz++)
+        if (egyed.allel[property][sz]==value) return sz;
+    return 0;
+}
 
 int testAtTheEnd(struct onepersonrule attheend[3]){
     int i, position, megsert=0;
@@ -91,6 +123,7 @@ int testSomewhereBetween (struct threepersonrule between[3]){
     return megsert;
 }
 
+
 int fitness(){
     megsert+=testSomewhereBetween(*kozott);
     megsert+=testExactlyToTheLeft(*balpont);
@@ -102,12 +135,158 @@ int fitness(){
     return megsert;
 }
 
+struct gen kezdetiRandom(){
+    struct gen egyed;
+    int t,sz;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			egyed.allel[t][sz]=t*10+sz;
+        }
+    }
+    int i;
+    int j;
+    int tmp;
+    for (t=0;t<TULAJDONSAG;t++){
+		for(i=SZEK-1;i>=1;i--){
+            j=rand()%(i+1);
+            tmp=egyed.allel[t][i];
+            egyed.allel[t][i]=egyed.allel[t][j];
+            egyed.allel[t][j]=tmp;
+        }
+    }
+    egyed.megsert=fitness();
+    return egyed;
+}
+
+struct gen kezdetiRandom2(){
+    struct gen egyed;
+    int sz,t,db,index;
+    int van[SZEK];
+    for (t=0;t<TULAJDONSAG;t++){
+		for(sz=0;sz<SZEK;sz++){
+			van[sz]=0;
+		}
+		for(sz=0;sz<SZEK;sz++){
+			db=rand()%(SZEK-sz);
+            index=0;
+            while(van[index]==1) index++;
+			for(;db!=0;index++){
+				if (van[index]==0){
+					db--;
+				}
+			}
+			van[index]=1;
+			egyed.allel[t][sz]=t*10+index;
+
+		}
+	}
+	egyed.megsert=fitness();
+	return egyed;
+}
+
+void egyedKiir(struct gen egyed){
+    int sz,t;
+    cout << ("\n");
+    for(t=0;t<TULAJDONSAG;t++){
+        cout<< ("|");
+        for(sz=0;sz<SZEK;sz++){
+            cout << (TULNEVEK[t][egyed.allel[t][sz]]);
+        }
+        cout << ("|\n");
+    }
+    cout << ("\n\n");
+}
+
+//Rendezés (növekvõ)
+void Rendezes(struct gen populacio[], int meret){
+	struct gen X;
+    int i,j;
+	for (i=1;i<meret;i++){
+ 		X=populacio[i];
+  		j=i-1;
+  		while((j>=0) && (populacio[j].megsert>X.megsert)){
+  			populacio[j+1]=populacio[j];
+  			j=j-1;
+  		}
+        populacio[j+1]=X;
+	}
+}
+
+struct gen Mutal(struct gen egyed){
+    struct gen uj=egyed;
+    int hanyatmutal=rand()%5+1;
+    int i;
+    int tmp;
+    for(i=0;i<hanyatmutal;i++){
+        int cseret=rand()%TULAJDONSAG;
+        int csere1sz=rand()%SZEK;
+        int csere2sz=rand()%SZEK;
+        while (csere1sz==csere2sz) {
+            csere2sz=rand()%SZEK;
+        }
+        tmp=uj.allel[cseret][csere1sz];
+        uj.allel[cseret][csere1sz]=uj.allel[cseret][csere2sz];
+        uj.allel[cseret][csere2sz]=tmp;
+    }
+    uj.megsert=fitness();
+    return uj;
+}
+
+struct gen Keresztez(struct gen egyed1, struct gen egyed2){
+	int sz,t;
+	struct gen egyed;
+    int hol=rand()%TULAJDONSAG;
+	for (t=0;t<TULAJDONSAG;t++){
+		if (t<hol){
+            for (sz=0;sz<SZEK;sz++){
+                egyed.allel[t][sz]=egyed1.allel[t][sz];
+            }
+        } else {
+			for (sz=0;sz<SZEK;sz++){
+               egyed.allel[t][sz]=egyed2.allel[t][sz];
+			}
+		}
+	}
+    egyed.megsert=fitness();
+    return egyed;
+}
+
 int main() {
+        struct gen populacio[POPMERET];
+    int i;
+    for(i=0;i<POPMERET;i++) {
+            populacio[i]=kezdetiRandom();
+    }
+    struct gen temp[POPMERET*4];
+    int k;
+    int j;
+
+    for(i=0;populacio[0].megsert!=0;i++){
+        printf("Generacio %2d: ",i);
+        egyedKiir(populacio[0]);
+        k=0;
+        for (j=0;j<POPMERET; j++){
+            temp[k]=populacio[j];
+            k++;
+        }
+        for (j=0;j<POPMERET; j++){
+            temp[k]=Mutal(populacio[j]);
+            k++;
+        }
+        for (j=0;j<POPMERET;j++){
+           int x=rand()%POPMERET;
+           int y=rand()%POPMERET;
+           temp[k]=Keresztez(populacio[x],populacio[y]);
+           k++;
+         }
+        for (j=0;j<POPMERET;j++){
+           int x=rand()%POPMERET;
+           int y=rand()%POPMERET;
+           temp[k]=Keresztez(temp[x+POPMERET],temp[y+POPMERET]);
+           k++;
+         }
     struct onepersonrule *vegen = new struct onepersonrule[3];
     struct onepersonrule attheend[3];
-	attheend[0] = {NAME,JOSHUA};
-	attheend[1] = {SNACK,COOKIES};
-	attheend[2] = {MOVIE,THRILLER};
     attheend =
     {
         {NAME,JOSHUA},
@@ -118,6 +297,7 @@ int main() {
     // meret meghatarozasa
     int meret = 1;
     struct twopersonrule *balpont = new struct twopersonrule[meret];
+    struct twopersonrule  exactlyleft[1];
     for (int i=0; i<meret; ++i) {
         struct person szemely1, szemely2;
         // fajlbol beolvasni a parametereit
@@ -128,10 +308,10 @@ int main() {
         balpont[i].first = szemely1;
         balpont[i].second = szemely2;
     }
-    *balpont = struct twopersonrule exactlyleft[1] =
-    {
+    balpont = exactlyleft;
+        {
         { int fajl[32];
-        std::string line_;
+        string line_;
         ifstream file_("fajl.txt");
         if(file_.is_open()){
             getline(file_,line_);
@@ -139,13 +319,12 @@ int main() {
         }
     else
     exit(EXIT_FAILURE);
-    std::cin.get();
         };
     };
     struct twopersonrule *jobbpont = new struct twopersonrule[1];
 	struct twopersonrule exactlyright[1];
 	exactlyright[0] = {MOVIE,COMEDY,SNACK,CRACKERS};
-	exactlyright = 
+	exactlyright =
     {
         { MOVIE,COMEDY,SNACK,CRACKERS }
     };
@@ -157,11 +336,10 @@ int main() {
     {
         { AGE,ELEVEN,SHIRT,BLACK }
     };
-	balpont = somewhereleft;
+	balvhol = somewhereleft;
     struct positionrule *pozicio = new struct positionrule[1];
 	struct positionrule position[2];
-	position[0] = {AGE,FOURTEEN,3};
-	position[1] = {SHIRT,GREEN,1};
+	position=
     {
         { AGE,FOURTEEN,3 },
         { SHIRT,GREEN,1 }
@@ -169,9 +347,6 @@ int main() {
 	pozicio = position;
     struct threepersonrule *kozott = new struct threepersonrule[3];
 	struct threepersonrule between[3];
-	between[0] = {AGE,THIRTEEN,SHIRT,RED,MOVIE,ACTION};
-	between[1] = {SNACK,POPCORN,SHIRT,RED,NAME,NICHOLAS};
-	between[2] = {NAME,JOSHUA,NAME,NICHOLAS,NAME,DANIEL};
 	between =
     {
         { AGE,THIRTEEN,SHIRT,RED,MOVIE,ACTION },
@@ -181,16 +356,30 @@ int main() {
 	kozott = between;
     struct twopersonrule *ugyanaz = new struct twopersonrule[2];
 	struct twopersonrule sameperson[2];
-	sameperson[0] = {NAME,JOSHUA,MOVIE,HORROR};
-	sameperson[1] = {NAME,DANIEL,MOVIE,THRILLER};
 	sameperson =
 	{
         { NAME,JOSHUA,MOVIE,HORROR },
         { NAME,DANIEL,MOVIE,THRILLER }
     };
-	ugyan = sameperson;
+	ugyanaz = sameperson;
     fitness();
+    delete[] ugyanaz,kozott,pozicio,balpont,vegen,balvhol,jobbpont;
+    Rendezes(temp,4*POPMERET);
+        for (j=0; j<MEGTART;j++){
+            populacio[j]=temp[j];
+        }
+        for (j=MEGTART;j<POPMERET;j++){
+			k=rand()%((int) (POPMERET*1.2));
+			if (k<POPMERET){
+                populacio[j]=temp[j];
+			} else {
+                populacio[j]=temp[POPMERET+j];
+			}
+		}
 
+    cout << ("******************************\n");
+    egyedKiir(populacio[0]);
+    return 0;
 }
 
 
