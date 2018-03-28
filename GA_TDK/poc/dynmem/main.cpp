@@ -2,27 +2,17 @@
 #include <cstdlib>
 using namespace std;
 
-#define SZEK 4
-#define TULAJDONSAG 5
 #define POPMERET 100
 #define MEGTART 10
-
-
-const char *TULNEVEK[TULAJDONSAG][SZEK] = {
-        {"black","blue","green","red"},
-        {"Daniel", "Joshua", "Nicholas", "Ryan"},
-        {"action", "comedy", "horror", "thriller"},
-        {"chips", "cookies", "crackers", "popcorn"},
-        {"11", "12", "13", "14"}
-    };
 
 
 struct person {
         int property;
         int value;
 };
+
 struct gen{
-    int allel[TULAJDONSAG][SZEK];
+    int** allel;
     int megsert;
 };
 
@@ -47,32 +37,40 @@ struct positionrule {
     int hely;
 };
 
+struct alltherules {
+    int positionDB;
+    struct onepersonrule * positionrules;
+    // TODO toobbit is.
+};
 
-int hanyasSzek(struct gen egyed,int property, int value){
+
+int hanyasSzek(struct gen egyed, struct person meh){
     int sz;
     for(sz=0;sz<SZEK;sz++)
-        if (egyed.allel[property][sz]==value) return sz;
+        if (egyed.allel[meh.property][sz]==meh.value) return sz;
     return 0;
 }
 
-int testAtTheEnd(struct onepersonrule attheend[3]){
+int testAtTheEnd(struct gen egyed, struct onepersonrule* attheend, int db){
     int i, position, megsert=0;
-    for (i=0;i<3;i++){
-        position=hanyasSzek(attheend[i].first.property, attheend[i].first.value);
+    for (i=0;i<db;i++){
+        position=hanyasSzek(egyed, attheend[i].first);
         if (position>0 && position<SZEK-1) megsert++;
     }
     return megsert;
 }
 
-int testExactlyToTheLeft(struct twopersonrule exactlyleft[1]){
+int testExactlyToTheLeft(struct gen egyed, struct twopersonrule * exactlyleft, int db){
     int i, position1, position2, megsert=0;
     for (i=0;i<1;i++){
-        position1=hanyasSzek(exactlyleft[i].first.property, exactlyleft[i].first.value);
-        position2=hanyasSzek(exactlyleft[i].second.property, exactlyleft[i].second.value);
+        position1=hanyasSzek(egyed, exactlyleft[i].first);
+        position2=hanyasSzek(egyed, exactlyleft[i].second);
         if (position1!=position2-1) megsert++;
     }
     return megsert;
 }
+
+//TODO tobbire is mint az elozo kettonel
 
 int testExactlyToTheRight(struct twopersonrule exactlyright[1]){
     int i, position1, position2, megsert=0;
@@ -124,8 +122,8 @@ int testSomewhereBetween (struct threepersonrule between[3]){
 }
 
 
-int fitness(){
-    megsert+=testSomewhereBetween(*kozott);
+int fitness(struct gen egyed, struct alltherules rules){
+    megsert+=testSomewhereBetween(egyed,rules.kozott,rules.dbkozott); //tobbiere is ugynigy
     megsert+=testExactlyToTheLeft(*balpont);
     megsert+=testExactlyToTheRight(*jobbpont);
     megsert+=testPosition(*pozicio);
@@ -138,6 +136,9 @@ int fitness(){
 struct gen kezdetiRandom(){
     struct gen egyed;
     int t,sz;
+    egyed.allel = new int*[propertynum];
+    for(int i=0;i<propertynum;i++)
+        egyed.allel[i]=new int[szeknum];
     for (t=0;t<TULAJDONSAG;t++){
 		for(sz=0;sz<SZEK;sz++){
 			egyed.allel[t][sz]=t*10+sz;
@@ -252,7 +253,7 @@ struct gen Keresztez(struct gen egyed1, struct gen egyed2){
 }
 
 int main() {
-        struct gen populacio[POPMERET];
+    struct gen populacio[POPMERET];
     int i;
     for(i=0;i<POPMERET;i++) {
             populacio[i]=kezdetiRandom();
