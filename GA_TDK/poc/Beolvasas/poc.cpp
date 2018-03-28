@@ -2,28 +2,44 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+
 using namespace std;
 
 int main() {
     ifstream file("egyed.txt");
     if(file.is_open())
     {
-        int tulsz,szeksz;
-        file >> szeksz;
+		//Beolvasás
+        int tulsz,szekek;
+        file >> szekek;
         file >> tulsz;
-
-		string tulajdonsagok[tulsz];
-		string egyed[tulsz][szeksz];
+		string *tulajdonsagok = new string [tulsz];
+		string **egyed = new string * [tulsz];
+		for(int i = 0;i < tulsz;++i) {
+		file >> tulajdonsagok[i];
+		egyed[i] = new string [szekek];
+			for(int j = 0;j < szekek;++j) {
+			file >> egyed[i][j];
+			}
+		}
+		
+		//Kiiratás
 		for(int i =0; i < tulsz; i++){
-			file >> tulajdonsagok[i];
-			for(int j = 0; j < szeksz; ++j)
+			for(int j = 0; j < szekek; ++j)
 			{
-				file >> egyed[i][j];
 				cout << egyed[i][j] << "\t";
 			}
 		cout << "\n";
 		}
 		for(int j = 0; j < tulsz; ++j)
 		cout << tulajdonsagok[j] << "\t";
-    }
+		
+        //Felszabadítás
+		delete[] tulajdonsagok;
+		for(int i = 0;i < tulsz;++i){
+			 delete[] egyed[i]; 
+			 }
+		delete[] egyed;
+	}
+
 }
