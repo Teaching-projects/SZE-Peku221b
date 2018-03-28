@@ -145,12 +145,12 @@
     Az első mikor konkrétan megadják, hogy melyik kertben vagy melyik tulaj termeszti/nem termeszti az adott dolgot, de eme módon akár a tulajt is megadhatják.
     Ilyenkor egyszerűen csak megadjuk az adott cella értékét.
 
-    $$ termeszt[12,3]=0 $$
+    $$ termeszt_{12,3}=0 $$
 
     A második mikor csak annyit tudunk, hogy az adott növényt hányszor termeljük.
     Ilyen esetekben azt az előnyt használtuk ki, hogy mivel a táblázatunkban számok vannak, így lehet sima összeadás műveletet használni, így ilyenkor a sorösszegeket adtuk meg neki.
 
-    $$ \sum^{k\in Kertek} termeszt[1,k] =1 $$
+    $$ \sum_{k\in Kertek} termeszt_{1,k} =1 $$
 
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
     Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
@@ -159,7 +159,10 @@
 
     Végül, de nem utolsó sorban van még egy kikötési forma amit használtunk, de ez nem volt elég hatékony megoldás, melyről a következő alfejezetben lesz szó.
 
-    $$ \forall t\in Tulaj \wedge tulaj[t] =4 :\sum^{z\in Zoldsegek} termyeszt[z,t] =3 $$
+    \begin{equation}
+        \sum_{z\in Zoldsegek} termeszt_{z,t} = 3 \qquad \forall t\in Tulaj: tulaj_{t} = 4
+    \end{equation}
+    
 
 \subsection{Where helyett implikáció}
 
@@ -192,7 +195,7 @@
     Két fontos új kifejezés is megjelent a kikötésekben ennél a munkánál.
     Az első a „card” nevű függvény, ami megadja a részhalmaz elemszámát.
 
-    $$ \forall k \in Kertek: \mid termeszt \mid [k] =3 $$
+    $$ \forall k \in Kertek: \left\| Termeszt_k \right\| =3 $$
 
     Ehhez a „card”-hoz használtunk még helyenként az „intersect” függvényt is, ami két halmaz metszetét állítja elő.
 
@@ -215,7 +218,7 @@
     Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
     Ennek a módszernek pontos szemléltetése a 15.ábrán látható.
 
-    $$ \forall k \in Kertek, n \in 1..Noveny : termeszt[k,n] < tulaj[k,n+1] $$
+    $$ \forall k \in Kertek, n \in 1,\dots,Noveny : termeszt[k,n] < tulaj[k,n+1] $$
 \subsection{Kimenet formázása}
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
@@ -283,8 +286,8 @@
     Ennek kiváltására használtunk egy továbbfejlesztett korlátozás-leírási mód esetén tisztán relációs operátorokat(24. ábra).
 
     $$ movie[thiller,1]=0 $$
-    $$ \forall szek \in 2..db : movie[thriller,szek]=1 \rightarrow shirt[black,szek]=1 $$
-    $$ \forall szek\in 2..db : (movie[thriller,szek]=1) = (shirt[black,szek]=1) $$
+    $$ \forall szek \in 2..db : movie[thriller,szek]=1 \Rightarrow shirt[black,szek]=1 $$
+    $$ \forall szek\in 2..db : movie[thriller,szek]=1 \Leftrightarrow shirt[black,szek]=1 $$
 
     Az V. típusnál adott ember valamely tulajdonságú ember mellett balra (ill. jobbra) tetszőleges pozícióban foglal helyet (25. ábra).
     A második verzióban szintén relációs operátort (kisebb-egyenlő) használtunk az implikáció kiváltására (26. ábra).
@@ -304,6 +307,15 @@
     A kimenet képzése a nyelvnek megfelelő szintaktikával valósult meg(29. ábra).
 
     %kód
+    \begin{equation}
+    Y_{i,i',s,s'} =
+    \left\lbrace
+    \begin{array}{rl}
+        112336, &\mbox{ha $i,s$ szállítást $i',s'$ után végzi ugyanaz a robot} \\
+         &\mbox{különben}
+    \end{array}
+    \right. \nonumber
+    \end{equation}
 
     A format függvény pusztán esztétikai formázást, a show karakterlánccá konvertálást, a fix függvény pedig a változók értékének „stabilizálását” végzi.
     A where záradékban pedig azt vizsgáljuk, hogy a bináris mátrixban hol található 1-es érték, mert csak azokat az értékeket íratjuk ki.
@@ -340,14 +352,14 @@
     Másrészt pedig így elkerülhetjük a tömbök bejárása során a 
     kiindexelést.
 
-	$$ \forall p \in 1..db-1 : coctail[p]=cosmopolitan \leftrightarrow age[p+1]=sixty$$ 
-	$$ \wedge coctail[db] != cosmopolitan \wedge age[1] != sixty $$
+	$$ \forall p \in 1..db-1 : cocktail[p]=cosmopolitan \leftrightarrow age[p+1]=sixty$$ 
+	$$ \wedge cocktail[db] != cosmopolitan \wedge age[1] \neq sixty $$
 
     Az V. típust pedig a 34. ábrán látható módon, az implikáció operátor segítségével modelleztük.
     B változat esetében pedig az indexekkel való bejárásnál fogalmaztunk meg egy apróbb szabályt(35. ábra).
 
     %kód
-    $$ \forall a,b \in People \wedge a<b : !(coctail[a] =margarita \wedge dress[b]=blue) $$
+    $$ \forall a,b \in People \wedge a<b : \neg(cocktail[a] =margarita \wedge dress[b]=blue) $$
 
     A VI. korlátozástípusnál szintén kétféle modellt készítettünk, az A változatnál logikai 
     operátorral és a később részletesen taglalt visszafelé következtetés módszerével.
@@ -363,12 +375,12 @@
     Ehhez az xor azaz a kizáró vagy operátort hívtuk segítségül.
     A széksor széleit a IV. típusnál részletezett okok miatt ismét külön kezeltük.
 
-    $$ \forall p \in 2..db-1: (name[p]=Lidia \rightarrow (coctail[p-1]=cosmopolitan \oplus coctail[p+1]=cosmopolitan)) \wedge $$
-    	$$\forall p \in 2..db-1 : (coctail[p]=cosmopolitan \rightarrow (name[p-1]=Lidia \oplus name[p+1]=Lidia)) \wedge$$
-    	$$(name[1]=Lidia \rightarrow coctail[2]=cosmopolitan) \wedge$$
-    	$$(name[db]=Lidia \rightarrow coctail[db-1]=cosmopolitan) \wedge$$
-    	$$(coctail[1]= cosmopolitan \rightarrow name[Lidia]) \wedge$$
-    	$$(coctail[db]=cosmopolitan \rightarrow name[db-1]=Lidia) $$
+    $$ \forall p \in 2..db-1: (name[p]=Lidia \rightarrow (cocktail[p-1]=cosmopolitan \oplus cocktail[p+1]=cosmopolitan)) \wedge $$
+    	$$\forall p \in 2..db-1 : (cocktail[p]=cosmopolitan \rightarrow (name[p-1]=Lidia \oplus name[p+1]=Lidia)) \wedge$$
+    	$$(name[1]=Lidia \rightarrow cocktail[2]=cosmopolitan) \wedge$$
+    	$$(name[db]=Lidia \rightarrow cocktail[db-1]=cosmopolitan) \wedge$$
+    	$$(cocktail[1]= cosmopolitan \rightarrow name[Lidia]) \wedge$$
+    	$$(cocktail[db]=cosmopolitan \rightarrow name[db-1]=Lidia) $$
 
     Az eredmény kiíratásánál itt kihasználtuk azt, hogy a tömb elemeit nem kell vizsgálnunk, hanem sorrendben, vizsgálat nélkül kiírathatóak.
 
