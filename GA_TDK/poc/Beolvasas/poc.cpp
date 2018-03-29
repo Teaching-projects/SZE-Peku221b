@@ -5,6 +5,43 @@
 
 using namespace std;
 
+struct ZebraPuzzle {
+    int chairNum;
+    int propertyNum;
+    string* properties;
+    string** propertyvalues;
+    
+};
+
+struct ZebraPuzzle Example;
+
+bool readExample() {
+    // TODO beolvasni a feladatot a Pelda-ba. true, ha minden oke volt, false, ha nem.
+}
+
+void printExample() {
+    // TODO Valami egyszeru modon kiiratni a Pelda-t
+}
+
+void deleteExample() {
+    // Torolni es felszabaditani a Pelda-t. 
+}
+
+struct Solution {
+    int violation_count;
+    string** chromosome;
+};
+
+struct Solution newRandomSolution(){
+    struct Solution newSolution;
+    
+    // TODO lefoglalni, feltolteni random modon. (megsert egyelore 0-ra.)
+    
+    return newSolution;
+}
+
+void torolEgyed
+
 int main() {
     ifstream file("egyed.txt");
     if(file.is_open()) {
