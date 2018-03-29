@@ -145,12 +145,16 @@
     Az első mikor konkrétan megadják, hogy melyik kertben vagy melyik tulaj termeszti/nem termeszti az adott dolgot, de eme módon akár a tulajt is megadhatják.
     Ilyenkor egyszerűen csak megadjuk az adott cella értékét.
 
-    $$ termeszt_{12,3}=0 $$
+    \begin{equation}
+    termeszt_{12,3}=0 
+    \end{equation}
 
     A második mikor csak annyit tudunk, hogy az adott növényt hányszor termeljük.
     Ilyen esetekben azt az előnyt használtuk ki, hogy mivel a táblázatunkban számok vannak, így lehet sima összeadás műveletet használni, így ilyenkor a sorösszegeket adtuk meg neki.
-
-    $$ \sum_{k\in Kertek} termeszt_{1,k} =1 $$
+    
+	\begin{equation}
+    \sum_{k\in Kertek} termeszt_{1,k} =1 
+    \end{equation}
 
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
     Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
@@ -169,7 +173,9 @@
     Ha a „forall”-on belül olyan „where” feltétellel szűrünk, ami a változók értéke alapján szűri a korlátozást, akkor amíg nincs meghatározva ezen változók értéke, addig ezek a korlátozások nem vesznek részt a propagációban sem.
     Az előbbi kikötést, miszerint csak a Paulhoz tartozó kertre kell teljesülnie, hogy a zöldségek száma 3, implikációra cseréltük.
 
-    $$ \forall t\in Tulaj : tulaj[t]=4 \rightarrow \sum^{z\in Zoldsegek} J[z,t] =3 $$
+    \begin{equation}
+    tulaj_t=4 \rightarrow \sum_{z\in Zoldsegek} J_{z,t} =3 \qquad \forall t\in Tulaj
+    \end{equation}
 
     Ez a leírás javította a megoldó hatékonyságát, ahogy az a 3. fejezetben bemutatott futási eredményekből is látszik, így a további modellekben már csak ezt a fajta megfogalmazást 
     használtuk.
@@ -195,15 +201,21 @@
     Két fontos új kifejezés is megjelent a kikötésekben ennél a munkánál.
     Az első a „card” nevű függvény, ami megadja a részhalmaz elemszámát.
 
-    $$ \forall k \in Kertek: \left\| Termeszt_k \right\| =3 $$
+    \begin{equation}
+    \left\| Termeszt_k \right\| =3 \qquad \forall k \in Kertek
+    \end{equation}
 
     Ehhez a „card”-hoz használtunk még helyenként az „intersect” függvényt is, ami két halmaz metszetét állítja elő.
 
-    $$ \forall t \in Tulaj: I[t]=4 \rightarrow \mid Zoldsegek \cap termeszt[t] =3 \mid $$
+    \begin{equation}
+    I_t=4 \rightarrow \left\| Zoldsegek \cap termeszt_t =3 \right\| \quad \forall t \in Tulaj
+    \end{equation}
 
     A másik újdonság az "array union", ami a tömbben tárolt halmazok unióját képezi.
     
-    %$$ \mid \textdollar termeszt= \textdollar termenyek \mid $$
+    \begin{equation}
+     \left\| \textdollar termeszt= \textdollar termenyek \right\| 
+    \end{equation}
 
 \subsection{Integer mátrix}
 
@@ -218,7 +230,10 @@
     Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
     Ennek a módszernek pontos szemléltetése a 15.ábrán látható.
 
-    $$ \forall k \in Kertek, n \in 1,\dots,Noveny : termeszt[k,n] < tulaj[k,n+1] $$
+    \begin{equation}
+    termeszt_{k,n} < tulaj_{k,n+1} \qquad \forall k \in Kertek, n \in 1,\dots,Noveny
+	\end{equation}
+
 \subsection{Kimenet formázása}
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
@@ -261,48 +276,75 @@
     Belátható, hogy mivel egy tulajdonság kategóriából minden fiúhoz(egész pontosan ülőhelyhez, mivel még nem tudjuk, ki hol ül) pontosan egy értéket rendelünk hozzá, ezért az összes bináris mátrix sor- és oszlopösszegének egyenlőnek kell lennie 1-gyel.
     Ezt hivatottak biztosítani az alábbi korlátok(19. ábra).
 
-    $$ \forall p \in People :  \sum^{n\in N} name[n,p] =1 $$
-    $$ \forall n \in Names :  \sum^{p\in P} name[n,p] =1 $$
+    \begin{equation}
+    \sum_{n\in N} name_{n,p} =1 \qquad \forall p \in People
+    \end{equation}
+    \begin{equation}
+    \sum_{p\in P} name_{n,p} =1 \qquad \forall n \in Names
+    \end{equation}
 
     A forall biztosítja, hogy minden sorra(ill. oszlopra) teljesüljön az, hogy a sum függvény visszatérési értéke(amely az oszlopot ill. sort összegzi) 1.
     Ezek után következhetett a 13 korlátozás megfogalmazása.
     Ezen példa esetében 6 különböző típusú korlátozást azonosítottunk, amelyek esetében a kifejezések szerkezete változatlan csak az adatok(egész pontosan az indexelés) változik.
     Az I. típusnál konkrétan megmondják, hogy mely pozícióban milyen tulajdonságú ember ül(20. ábra).
 
-    $$ age[fourteen,3]=1 $$
+    \begin{equation}
+     age_ {fourteen,3}=1 
+     \end{equation}
 
     A II. típus hasonló az elsőhöz, de itt a széksor valamelyik széléről nyilatkozunk(21. ábra).
     Itt kihasználjuk, hogy bináris mátrixszal dolgozunk, ezért két elem összege 1 kell, hogy legyen, miszerint vagy az egyik szélen vagy a másikon ülhet Joshua.
 
-    $$ name[Joshua,1] + age[Joshua,db] =1 $$
+    \begin{equation}
+    name_{Joshua,1} + age_{Joshua,db} =1
+    \end{equation}
 
     A III. típusú korlátozás két tulajdonságot kapcsol össze egymással(22. ábra).
 
-    $$ \forall szek \in People : name[Joshua,szek] = movie[horror,szek] $$
+    \begin{equation}
+    name_{Joshua,szek} = movie_{horror,szek} \qquad \forall szek \in People
+    \end{equation}
 
     A IV. típus valamely tulajdonságú személy mellett közvetlenül balra(illetve jobbra) ülő emberről állít valamit(23. ábra).
     Itt viszont ki kell kötnünk, hogy az első helyen(tehát a bal szélen) nem ülhet a thriller kedvelő, mivel az ő bal oldalán már nem ülhet senki.
     A korlátozás megfogalmazásánál ez esetben az implikációs operátort(->) használtuk, amely kimondja, hogy ha megtaláltuk a thrillerkedvelőt, akkor fekete inges ül mellette(igaz állításból csak igaz következhet), egyéb esetben nem történik semmi.(hamis állításból bármi következik).
     Ennek kiváltására használtunk egy továbbfejlesztett korlátozás-leírási mód esetén tisztán relációs operátorokat(24. ábra).
 
-    $$ movie[thiller,1]=0 $$
-    $$ \forall szek \in 2..db : movie[thriller,szek]=1 \Rightarrow shirt[black,szek]=1 $$
-    $$ \forall szek\in 2..db : movie[thriller,szek]=1 \Leftrightarrow shirt[black,szek]=1 $$
+    \begin{equation}
+     movie_{thiller,1}=0 
+     \end{equation}
+    \begin{equation}
+    movie_{thriller,szek}=1 \Rightarrow shirt_{black,szek}=1 \quad \forall szek \in 2..db
+    \end{equation}
+    \begin{equation}
+    movie_{thriller,szek}=1 \Leftrightarrow shir_{black,szek}=1 \quad \forall szek\in 2..db
+    \end{equation}
 
     Az V. típusnál adott ember valamely tulajdonságú ember mellett balra (ill. jobbra) tetszőleges pozícióban foglal helyet (25. ábra).
     A második verzióban szintén relációs operátort (kisebb-egyenlő) használtunk az implikáció kiváltására (26. ábra).
 
-    $$ \forall x \in People : (age[eleven,x]=1) \rightarrow (\sum^{ szek \in 1..x-1 } shirt[black,szek]=1) $$
-    $$ \forall x \in People : age[eleven,x] <= \sum^{szek \in 1..x-1} shirt[black,szek] $$
+    \begin{equation}
+    (age_{eleven,x}=1) \rightarrow (\sum_{ szek \in 1..x-1 } shirt_{black,szek}=1) \quad \forall x \in People
+    \end{equation}
+    \begin{equation}
+    age_{eleven,x} <= \sum_{szek \in 1..x-1} shirt_{black,szek} \quad \forall x \in People
+     \end{equation}
 
     A VI. típusnál egy ember valamely két másik között tetszőleges pozícióban foglal helyet(27. ábra).
     Ebben az esetben viszont a logikai operátor relációsra cseréléséhez két részre kellett bontanunk az állítást(28. ábra).
 
-   $$ \forall x,y \in People : (age[thirteen,x]=1 \wedge movie[action,y]=1) $$
-   $$\rightarrow (\sum^{szek\in x+1..y-1} shirt[red,szek]=1) $$
+  %hibás, tördelni kell még
+  % \begin{equation}
+  %  \forall x,y \in People : (age_{thirteen,x}=1 \wedge movie_{action,y}=1) \\
+   %\rightarrow (\sum_{szek\in x+1..y-1} shirt_{red,szek}=1)
+   %\end{equation} 
     
-   $$ \forall x \in People: movie[action,x] <= \sum^{szek\in 1..x-1} shirt[red,szek] $$
-   $$ \forall x \in People: age[thirteen,x] <= \sum^{szek\in x+1..db} shirt[red,szek] $$
+   \begin{equation}
+   movie_{action,x} <= \sum_{szek\in 1..x-1} shirt_{red,szek} \quad \forall x \in People
+    \end{equation}
+   \begin{equation}
+   age_{thirteen,x} <= \sum_{szek\in x+1..db} shirt_{red,szek} \quad \forall x \in People
+   \end{equation}
 
     A kimenet képzése a nyelvnek megfelelő szintaktikával valósult meg(29. ábra).
 
@@ -345,21 +387,28 @@
     Az I. illetve II. típusú kikötés ebben a példában nem fordult ugyan elő, de modellezése hasonló módon történik, mint a „Movies” példa esetén.
     A III.(32 ábra) és IV.(33. ábra) típus esetén egyféle leírási mód választható csak.
 
-    $$ \forall p \in People : name[p]=Jane \leftrightarrow donation[p]=twentythousand $$
+    \begin{equation}
+    name_p=Jane \leftrightarrow donation_p=twentythousand \quad \forall p \in People
+    \end{equation}
 
     A IV. típusú korlátozás leírását is az ekvivalencia operátor(<->) használatával valósítottuk meg.
     Azokat az eseteket, amelyeknél az említett személyek valamely szélén ülnek a széksornak, itt külön kell kezelni, mivel ekkor egyértelmű egymáshoz viszonyított helyzetük.
     Másrészt pedig így elkerülhetjük a tömbök bejárása során a 
     kiindexelést.
 
-	$$ \forall p \in 1..db-1 : cocktail[p]=cosmopolitan \leftrightarrow age[p+1]=sixty$$ 
-	$$ \wedge cocktail[db] != cosmopolitan \wedge age[1] \neq sixty $$
+%hibás, tördelni kell még
+	\begin{equation}
+	cocktail_p=cosmopolitan \leftrightarrow age_{p+1}=sixty \quad \forall p \in 1..db-1
+	\wedge cocktail_db \neg cosmopolitan \wedge age_1 \neq sixty 
+	\end{equation}
 
     Az V. típust pedig a 34. ábrán látható módon, az implikáció operátor segítségével modelleztük.
     B változat esetében pedig az indexekkel való bejárásnál fogalmaztunk meg egy apróbb szabályt(35. ábra).
 
     %kód
-    $$ \forall a,b \in People \wedge a<b : \neg(cocktail[a] =margarita \wedge dress[b]=blue) $$
+   \begin{equation}
+    \neg(cocktail_a =margarita \wedge dress_b=blue) \quad \forall a,b \in People \wedge a<b
+     \end{equation}
 
     A VI. korlátozástípusnál szintén kétféle modellt készítettünk, az A változatnál logikai 
     operátorral és a később részletesen taglalt visszafelé következtetés módszerével.
@@ -375,12 +424,15 @@
     Ehhez az xor azaz a kizáró vagy operátort hívtuk segítségül.
     A széksor széleit a IV. típusnál részletezett okok miatt ismét külön kezeltük.
 
-    $$ \forall p \in 2..db-1: (name[p]=Lidia \rightarrow (cocktail[p-1]=cosmopolitan \oplus cocktail[p+1]=cosmopolitan)) \wedge $$
-    	$$\forall p \in 2..db-1 : (cocktail[p]=cosmopolitan \rightarrow (name[p-1]=Lidia \oplus name[p+1]=Lidia)) \wedge$$
-    	$$(name[1]=Lidia \rightarrow cocktail[2]=cosmopolitan) \wedge$$
-    	$$(name[db]=Lidia \rightarrow cocktail[db-1]=cosmopolitan) \wedge$$
-    	$$(cocktail[1]= cosmopolitan \rightarrow name[Lidia]) \wedge$$
-    	$$(cocktail[db]=cosmopolitan \rightarrow name[db-1]=Lidia) $$
+    %hibás, tördelni kell még
+    \begin{equation}
+     (name_p=Lidia \rightarrow (cocktail_{p-1}=cosmopolitan \oplus cocktail_{p+1}=cosmopolitan)) \quad \forall p \in 2..db-1 \wedge \\
+   	 (cocktail_p=cosmopolitan \rightarrow (name_{p-1}=Lidia \oplus name_{p+1}=Lidia)) \wedge \\
+     (name_1=Lidia \rightarrow cocktail_2=cosmopolitan) \wedge \\
+     (name_db=Lidia \rightarrow cocktail_{db-1}=cosmopolitan) \wedge \\
+     (cocktail_1= cosmopolitan \rightarrow name_{Lidia}) \wedge \\
+     (cocktail_db=cosmopolitan \rightarrow name_{db-1}=Lidia) \quad \forall p \in 2..db-1 
+     \end{equation} 
 
     Az eredmény kiíratásánál itt kihasználtuk azt, hogy a tömb elemeit nem kell vizsgálnunk, hanem sorrendben, vizsgálat nélkül kiírathatóak.
 
