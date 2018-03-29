@@ -40,7 +40,9 @@ struct Solution newRandomSolution(){
     return newSolution;
 }
 
-void torolEgyed
+void deleteSolution(struct Solution solution) {
+    // TODO felszabaditani a dinamikusan lefoglalt dolgokat, es mindent 0-ra, NULL-ra allitani.
+}
 
 int main() {
     ifstream file("egyed.txt");
