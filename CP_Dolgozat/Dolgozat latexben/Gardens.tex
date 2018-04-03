@@ -558,6 +558,7 @@
     Második körben az imént említett C Sharp program legenerálta ezen összegyűjtött sorszámok összes létező, 2 tagból álló kombinációját, majd újabb parancssoros futtatás következett.
     Megint feljegyeztük az eredményeket és ezt ismételtük mindaddig, amíg a sorszámok értékkészlete le nem szűkült teljesen.
     A kapott eredmények meglepőek voltak.
+    
     Még egy olyan kicsi és gyenge nehézségű, kevés kikötésből álló példánál is, mint amilyen a „Movies Night”, relatíve jelentős mennyiségű kikötés elhagyása esetén is teljesült, hogy az egyetlen kapott megoldás megegyezett a kiindulási feladat megoldásával.
     Ez esetben az összes 13-ból önmagában 3 korlátozás is redundánsnak bizonyult.
     Ezekből pedig 3 olyan különböző 2 tagból álló kombináció volt alkotható, amelyek egy időben is elhagyhatóak.
@@ -592,13 +593,32 @@
     Jellemzően minél több kifejezést szeretnénk egy időben feleslegessé minősíteni, annál inkább szűkül a választási spektrum, annál kevesebb kombináció jöhet számításba.
     Egy idő után elértük azt a küszöbértéket, amelynél több kifejezés nem hagyható el egyszerre.
     Ez jellemzően az összes kikötés számának 15-23\%-a volt.
+    
     A fentiek továbbá azt is jelentik, hogy a feladat megalkotói jelentős redundanciával dolgoztak a kikötések meghatározásánál.
     Ám ezt megállapítani a klasszikus módszerrel, miszerint egyszerűen kevesebb korlátozással kiírt példát akarunk megoldani papíron, sokszor egy átlagos képességű embernek nem lehetséges vagy túlságosan hosszú ideig tart.
     Esetünkben viszont egzakt matematikai-logikai modellekkel leírt korlátozásokat a számítógép oldotta meg, amely értelemszerűen az emberénél jóval nagyobb számítási kapacitással rendelkezik.
     Így a nem feltétlenül szükséges kifejezések felderítése viszonylag rövid idő alatt, egyszerű eszközökkel kivitelezhető volt.
-    Ez felhasználható a feladványok készítésekor a minél nehezebb feladatok eléréséhez, melyekben minden információt fel kell használni a megoldás során.
+    
     Futásidők tekintetében a módosítatlan, teljes feladathoz képest a kihagyásoknál jelentős változás sem a parancssoros sem a grafikus felületről történő futtatás során nem történt, bár egyes esetekben kis mértékben a futásidők megnőttek.
     A megoldók hatékonysága ismét bebizonyosodott, mivel kevesebb korlát, így a megoldáskeresés során kevesebb támpont esetén is komoly gyorsasággal adtak eredményt.
+    
+    Mindez felhasználható feladványok készítésekor a minél nehezebb feladatok eléréséhez, melyekben minden információt fel kell használni a megoldás során. A következő fejezet pontosan ezt tárgyalja, miszerint a különböző modellek, illetve a példa méretének növekedése milyen hatással van a futásteljesítményre.
+    
+    \chapter{Saját készítésű "óriás" feladvány}
+    
+    Az előző fejezetben tárgyalt redundáns korlátozások eltávolításakor merült fel a gondolat, hogy a felesleges kifejezések keresésére készített automatizmust valamilyen formában felhasználható lenne egy saját, a különböző forrásokból elérhető logikai feladványoknál nagyságrendekkel nagyobb példa létrehozására.
+    
+    A szakirodalomban, illetve internetes forrásokból elérhető, főként Zebra típusú logikai feladványok - köztük még a legnehezebbek is - maximum 6 tulajdonság kategóriával illetve maximum 5 különböző objektummal(általában emberrel) dolgoznak. Egyébként ezek pont a Fundraising Dinner feladvány méretei, mivel többek között ez rendelkezett maximális nagysággal. Ez részben érthető mivel ezeket emberek tervezték embereknek, akik szórakozásból oldják meg őket, többnyire papíron, így túlságosan nagy példa részükre nem adható. Mivel nekünk azonban rendelkezésre állt több különböző modell, így ezek még hitelesebb és szembetűnőbb összehasonlítására egy óriás példa létrehozása és tesztelése kézenfekvőnek tűnt.
+    
+    Ehhez egy 15x15-ös logikai feladványt alkottunk azaz 15 tulajdonságkategóriában egyenként 15 tulajdonság(tehát példaszinten 15 objektum/ember) volt. Így összesen 225 különböző, kitalált tulajdonsággal dolgoztunk. Ez az elérhető legnagyobb példa 30 tulajdonságának 7,5-szerese így elmondható, hogy egy szélsőségesen nagy példát sikerült létrehozni. Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy a 2.2. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon. Ezek típusonként egy-egy .csv típusú fájlba speciális formátumban lettek rögzítve. Majd egy általunk készített C Sharp nyelven írt kódgenerátor ezeket a fájlokat végigjárva MiniZinc nyelven írt korlátozásokká alakította, majd egy .mzn kiterjesztésű fájlba írta őket.
+    
+    \Abra{code_generator}{}{width=16cm}
+    
+    A \ref{fig_code_generator}. ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti. A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható. Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz. Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
+    
+    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán. Az eredmények a x. ábrán láthatóak. Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel.
+    
+    Grafikon helye...
 
 
 \chapter{Összefoglalás}
