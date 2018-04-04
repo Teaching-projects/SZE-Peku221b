@@ -5,6 +5,7 @@
 #include <new>
 
 using namespace std;
+    
 
 struct ZebraPuzzle {
     int chairNum;
@@ -17,32 +18,26 @@ struct ZebraPuzzle {
 struct ZebraPuzzle Example;
 
 bool readExample() {
-    int ok=true;
-    int szekek;
-    int tulsz;
+    bool ok=true;
     ifstream file("egyed.txt");
-    if(file.is_open())
-    {
-        file >> szekek;
-        file >> tulsz;
+    if(file.is_open()) {
         try{
-            string *tulajdonsagok = new string [tulsz];
-            string **egyed = new string * [tulsz];
-            for(int i = 0;i < tulsz;++i) {
-                file >> tulajdonsagok[i];
-                egyed[i] = new string [szekek];
-                for(int j = 0;j < szekek;++j) {
-                    file >> egyed[i][j];
+            file >> Example.chairNum;
+            file >> Example.propertyNum;
+            Example.properties = new string [Example.propertyNum];
+            Example.propertyvalues = new string * [Example.propertyNum];
+            for(int i = 0;i < Example.propertyNum;++i) {
+                file >> Example.properties[i];
+                Example.propertyvalues[i] = new string [Example.chairNum];
+                for(int j = 0;j < Example.chairNum;++j) {
+                    file >> Example.propertyvalues[i][j];
                 }
             }
+        } catch (bad_alloc & ba) {
+            cout << "Keves memoria " << ba.what();
+            ok=false;
         }
-        catch (bad_alloc & ba)
-          {
-             cout << "Keves memoria " << ba.what();
-             ok=false;
-          }
-    }
-    else{
+    } else {
         ok=false;
         exit(EXIT_FAILURE);
     }
@@ -50,11 +45,22 @@ bool readExample() {
 }
 
 void printExample() {
-    // TODO Valami egyszeru modon kiiratni a Pelda-t
+    cout<<"Example:\n";
+    for (int c=0;c<Example.chairNum; c++){
+        cout << "\t" << c+1;
+    }
+    cout << "\n";
+    for(int p=0;p<Example.propertyNum;p++){
+        cout<<Example.properties[p];
+        for (int c=0;c<Example.chairNum; c++){
+            cout << "\t" << Example.propertyvalues[p][c];
+        }
+        cout<<"\n";
+    }
 }
 
 void deleteExample() {
-    // Torolni es felszabaditani a Pelda-t.
+    // Torolni es felszabaditani a Example-t.
 }
 
 struct Solution {
@@ -62,96 +68,77 @@ struct Solution {
     string** chromosome;
 };
 
-struct Solution newRandomSolution(struct ZebraPuzzle Example,int chairN,int propertyN){
-    // TODO lefoglalni, feltolteni random modon. (megsert egyelore 0-ra.)
-	struct Solution newSolution = struct ZebraPuzzle Example.propertyvalues;
-
-    int switchCount=rand()%50+1;
+void Mutate(struct Solution * solution, int mutateCount = 50) {
     int i;
     string tmp;
-    for(i=0;i<switchCount;i++){
-        int switchProperty=rand()%propertyN;
-        int switchChair1=rand()%chairN;
-        int switchChair2=rand()%chairN;
-        while (switchChair1==switchChair2) {
-            switchChair2=rand()%chairN;
-        }
-        tmp=newSolution.chromosome[switchProperty][switchChair1];
-        newSolution.chromosome[switchProperty][switchChair1]=newSolution.chromosome[switchProperty][switchChair2];
-        newSolution.chromosome[switchProperty][switchChair2]=tmp;
+    int switchProperty, switchChair1, switchChair2;
+    for(i=0;i<mutateCount;i++){
+        switchProperty=rand()%Example.propertyNum;
+        switchChair1=rand()%Example.chairNum;
+        do {
+            switchChair2=rand()%Example.chairNum;
+        } while (switchChair1==switchChair2);
+        
+        tmp=solution->chromosome[switchProperty][switchChair1];
+        solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
+        solution->chromosome[switchProperty][switchChair2]=tmp;
     }
-	newSolution.violation_count=0;
-    return newSolution;
 }
-/*
- //Kezdeti Random, amikor már a newSolution.chromosome int lesz string helyett.
-struct Solution newRandomSolution(int chairN,int propertyN){
-    struct Solution newSolution;
-    int t,sz;
-    for (t=0;t<propertyN;t++){
-		for(sz=0;sz<chairN;sz++){
-			newSolution.chromosome[t][sz]=t*10+sz;
-        }
-    }
-    int i;
-    int j;
-    int tmp;
-    for (t=0;t<propertyN;t++){
-		for(i=chairN-1;i>=1;i--){
-            j=rand()%(i+1);
-            tmp=newSolution.chromosome[t][i];
-            newSolution.chromosome[t][i]=newSolution.chromosome[t][j];
-            newSolution.chromosome[t][j]=tmp;
-        }
-    }
-    newSolution.violation_count=0;
-    return newSolution;
-}
-*/
 
-void deleteSolution(struct Solution solution,int propertyNum) {
-    // TODO felszabaditani a dinamikusan lefoglalt dolgokat, es mindent 0-ra, NULL-ra allitani.
-        for(int i = 0;i < propertyNum;++i){
-             delete[] solution.chromosome[i];
+
+struct Solution * newRandomSolution(){
+	struct Solution * newSolution = new struct Solution;
+    newSolution->chromosome=new string * [Example.propertyNum];
+    for(int i = 0;i < Example.propertyNum;++i) {
+        newSolution->chromosome[i] = new string [Example.chairNum];
+        for(int j = 0;j < Example.chairNum;++j) {
+            newSolution->chromosome[i][j]=Example.propertyvalues[i][j];
         }
-        delete[] solution.violation_count;
-        delete[] solution;
+    }
+
+    int switchCount=rand()%50+1;
+
+    Mutate(newSolution,switchCount);
+
+    newSolution->violation_count=0; // todo majd lecserelni a hanyatsert fv hivasra
+    
+    return newSolution;
+}
+
+void printSolution(struct Solution * solution) {
+    cout<<"Solution:\n";
+    for (int c=0;c<Example.chairNum; c++){
+        cout << "\t" << c+1;
+    }
+    cout << "\n";
+    for(int p=0;p<Example.propertyNum;p++){
+        cout<<Example.properties[p];
+        for (int c=0;c<Example.chairNum; c++){
+            cout << "\t" << solution->chromosome[p][c];
+        }
+        cout<<"\n";
+    }
+}
+
+void deleteSolution(struct Solution * solution) {
+    for(int i = 0;i < Example.propertyNum;++i){
+         delete[] solution->chromosome[i];
+    }
+    delete[] solution->chromosome;
+    delete solution;
 }
 
 int main() {
-    ifstream file("egyed.txt");
-    if(file.is_open()) {
 
-        //Beolvasás
-        int tulsz,szekek;
-        file >> szekek;
-        file >> tulsz;
-        string *tulajdonsagok = new string [tulsz];
-        string **egyed = new string * [tulsz];
-        for(int i = 0;i < tulsz;++i) {
-            file >> tulajdonsagok[i];
-            egyed[i] = new string [szekek];
-            for(int j = 0;j < szekek;++j) {
-                file >> egyed[i][j];
-            }
-        }
+    if(readExample()) {
+        printExample();
 
-        //Kiiratás
-        for(int i =0; i < tulsz; i++){
-            for(int j = 0; j < szekek; ++j){
-                cout << egyed[i][j] << "\t";
-            }
-            cout << "\n";
-        }
-        for(int j = 0; j < tulsz; ++j)
-            cout << tulajdonsagok[j] << "\t";
+        Solution * testSolution = newRandomSolution();
+        printSolution(testSolution);
+        deleteSolution(testSolution);
 
-        //Felszabadítás
-        delete[] tulajdonsagok;
-        for(int i = 0;i < tulsz;++i){
-             delete[] egyed[i];
-        }
-        delete[] egyed;
+        
+        
+        deleteExample();
     }
-
 }
