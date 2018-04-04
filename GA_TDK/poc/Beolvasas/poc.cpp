@@ -15,6 +15,22 @@ struct OnePersonRule {
     struct Person first;
 };
 
+struct TwoPersonRule {
+    struct Person first;
+    struct Person second;
+};
+
+struct ThreePersonRule {
+    struct Person first;
+    struct Person second;
+    struct Person third;
+};
+
+struct PositionRule {
+    struct Person first;
+    int chair;
+};
+
 struct ZebraPuzzle {
     int chairNum;
     int propertyNum;
@@ -22,6 +38,21 @@ struct ZebraPuzzle {
     string** propertyvalues;
     int attheendRulesCount;
     struct OnePersonRule * attheendRules;
+    int exactlyleftRulesCount;
+    struct TwoPersonRule * exactlyleftRules;
+    int exactlyrightRulesCount;
+    struct TwoPersonRule * exactlyrightRules;
+    int somewhereleftRulesCount;
+    struct TwoPersonRule * somewhereleftRules;
+    int somewhererightRulesCount;
+    struct TwoPersonRule * somewhererightRules;
+    int positionRulesCount;
+    struct PositionRule * positionRules;
+    int betweenRulesCount;
+    struct ThreePersonRule * betweenRules;
+    int likesRulesCount;
+    struct TwoPersonRule * likesRules;
+
 };
 
 struct ZebraPuzzle Example;
@@ -53,8 +84,72 @@ bool readExample() {
                 file >> Example.attheendRules[r].first.property;
                 file >> Example.attheendRules[r].first.value;
             }
+            // Read exactlyleftconstraints
+            file >> Example.exactlyleftRulesCount;
+            Example.exactlyleftRules = new struct TwoPersonRule [Example.exactlyleftRulesCount];
+            for (int r=0;r<Example.exactlyleftRulesCount;r++) {
+                file >> Example.exactlyleftRules[r].first.property;
+                file >> Example.exactlyleftRules[r].first.value;
+                file >> Example.exactlyleftRules[r].second.property;
+                file >> Example.exactlyleftRules[r].second.value;  
+            }  
+            // Read exactlyrightconstraints
+            file >> Example.exactlyrightRulesCount;
+            Example.exactlyrightRules = new struct TwoPersonRule [Example.exactlyrightRulesCount];
+            for (int r=0;r<Example.exactlyrightRulesCount;r++) {
+                file >> Example.exactlyrightRules[r].first.property;
+                file >> Example.exactlyrightRules[r].first.value;
+                file >> Example.exactlyrightRules[r].second.property;
+                file >> Example.exactlyrightRules[r].second.value;              
+            }
+            // Read somewhereleftconstraints
+            file >> Example.somewhereleftRulesCount;
+            Example.somewhereleftRules = new struct TwoPersonRule [Example.somewhereleftRulesCount];
+            for (int r=0;r<Example.somewhereleftRulesCount;r++) {
+                file >> Example.somewhereleftRules[r].first.property;
+                file >> Example.somewhereleftRules[r].first.value;
+                file >> Example.somewhereleftRules[r].second.property;
+                file >> Example.somewhereleftRules[r].second.value;  
+            }  
+            // Read somewhererightconstraints
+            file >> Example.somewhererightRulesCount;
+            Example.somewhererightRules = new struct TwoPersonRule [Example.somewhererightRulesCount];
+            for (int r=0;r<Example.somewhererightRulesCount;r++) {
+                file >> Example.somewhererightRules[r].first.property;
+                file >> Example.somewhererightRules[r].first.value;
+                file >> Example.somewhererightRules[r].second.property;
+                file >> Example.somewhererightRules[r].second.value;              
+            }
+            // Read positionconstraints
+            file >> Example.positionRulesCount;
+            Example.positionRules = new struct PositionRule [Example.positionRulesCount];
+            for (int r=0;r<Example.positionRulesCount;r++) {
+                file >> Example.positionRules[r].first.property;
+                file >> Example.positionRules[r].first.value;
+                file >> Example.positionRules[r].chair;             
+            }       
+            // Read betweenconstraints
+            file >> Example.betweenRulesCount;
+            Example.betweenRules = new struct ThreePersonRule [Example.betweenRulesCount];
+            for (int r=0;r<Example.betweenRulesCount;r++) {
+                file >> Example.betweenRules[r].first.property;
+                file >> Example.betweenRules[r].first.value;
+                file >> Example.betweenRules[r].second.property;
+                file >> Example.betweenRules[r].second.value;  
+                file >> Example.betweenRules[r].third.property;
+                file >> Example.betweenRules[r].third.value;              
+            }
+            // Read likesconstraints
+            file >> Example.likesRulesCount;
+            Example.likesRules = new struct TwoPersonRule [Example.likesRulesCount];
+            for (int r=0;r<Example.likesRulesCount;r++) {
+                file >> Example.likesRules[r].first.property;
+                file >> Example.likesRules[r].first.value;
+                file >> Example.likesRules[r].second.property;
+                file >> Example.likesRules[r].second.value;  
+            }                 
         } catch (bad_alloc & ba) {
-            cout << "Keves memoria " << ba.what();
+            cout << "Run out of memory" << ba.what();
             ok=false;
         }
     } else {
@@ -77,6 +172,7 @@ void printExample() {
         }
         cout<<"\n";
     }
+    
     cout<<"The following people sit at one of the ends:\n";
     for(int r=0;r<Example.attheendRulesCount;r++)
         cout<<"\t The person who has "
@@ -84,6 +180,92 @@ void printExample() {
             <<" for "
             <<Example.attheendRules[r].first.property
             <<"\n";
+            
+    cout<<"The following people sit exactly left from another people:\n";
+    for(int r=0;r<Example.exactlyleftRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.exactlyleftRules[r].first.value
+            <<" for "
+            <<Example.exactlyleftRules[r].first.property
+            <<" and "
+            <<Example.exactlyleftRules[r].second.value
+            <<" for "
+            <<Example.exactlyleftRules[r].second.property
+            <<"\n";
+            
+    cout<<"The following people sit exactly right from another people:\n";
+    for(int r=0;r<Example.exactlyrightRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.exactlyrightRules[r].first.value
+            <<" for "
+            <<Example.exactlyrightRules[r].first.property
+            <<" and "
+            <<Example.exactlyrightRules[r].second.value
+            <<" for "
+            <<Example.exactlyrightRules[r].second.property
+            <<"\n";
+            
+    cout<<"The following people sit somewhere left from another people:\n";
+    for(int r=0;r<Example.somewhereleftRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.somewhereleftRules[r].first.value
+            <<" for "
+            <<Example.somewhereleftRules[r].first.property
+            <<" and "
+            <<Example.somewhereleftRules[r].second.value
+            <<" for "
+            <<Example.somewhereleftRules[r].second.property
+            <<"\n";
+            
+    cout<<"The following people sit somewhere right from another people:\n";
+    for(int r=0;r<Example.somewhererightRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.somewhererightRules[r].first.value
+            <<" for "
+            <<Example.somewhererightRules[r].first.property
+            <<" and "
+            <<Example.somewhererightRules[r].second.value
+            <<" for "
+            <<Example.somewhererightRules[r].second.property
+            <<"\n";
+
+    cout<<"The following people sit at the position:\n";
+    for(int r=0;r<Example.positionRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.positionRules[r].first.value
+            <<" for "
+            <<Example.positionRules[r].first.property
+            <<" sit at the "
+            <<Example.positionRules[r].chair
+            <<". position\n";     
+            
+    cout<<"The following people sit between the following two people:\n";
+    for(int r=0;r<Example.betweenRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.betweenRules[r].first.value
+            <<" for "
+            <<Example.betweenRules[r].first.property
+            <<" sits between "
+            <<Example.betweenRules[r].second.value
+            <<" for "
+            <<Example.betweenRules[r].second.property
+            <<" and "
+            <<Example.betweenRules[r].third.value
+            <<" for "
+            <<Example.betweenRules[r].third.property
+            <<"\n"; 
+            
+    cout<<"The following people likes something:\n";
+    for(int r=0;r<Example.likesRulesCount;r++)
+        cout<<"\t The person who has "
+            <<Example.likesRules[r].first.value
+            <<" for "
+            <<Example.likesRules[r].first.property
+            <<" likes "
+            <<Example.likesRules[r].second.value
+            <<" for "
+            <<Example.likesRules[r].second.property
+            <<"\n";                  
 }
 
 void deleteExample() {
