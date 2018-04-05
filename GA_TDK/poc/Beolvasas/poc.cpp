@@ -309,7 +309,7 @@ struct Solution * newRandomSolution(){
 
     Mutate(newSolution,switchCount);
 
-    newSolution->violation_count=0; // todo majd lecserelni a hanyatsert fv hivasra
+    newSolution->violation_count=0; // todo majd lecserelni a fitness(newSolution,Example) fgv hivasra
     
     return newSolution;
 }
@@ -337,16 +337,105 @@ void deleteSolution(struct Solution * solution) {
     delete solution;
 }
 
+int fitness(struct Solution *solution, struct ZebraPuzzle *zebra){
+    solution->violation_count=0;
+    
+    //AtTheEndTests
+    int count = zebra->attheendRulesCount;
+    int position;
+    for (int c=0;c<count;c++){
+        position=findPosition(solution->chromosome, zebra->attheendRules[c].first);
+        if (position>0 && position<zebra->chairNum-1) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }  
+    //ExactlyLeftTests
+    count = zebra->exactlyleftRulesCount;
+    int position1, position2;
+    for (int c=0;c<count;c++){
+        position1=findPosition(solution->chromosome, zebra->exactlyleftRules[c].first);
+        position2=findPosition(solution->chromosome, zebra->exactlyleftRules[c].second);
+        if (position1!=position2-1) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }   
+    //ExactlyRightTests
+    count = zebra->exactlyrightRulesCount;
+    for (int c=0;c<count;c++){
+        position1=findPosition(solution->chromosome, zebra->exactlyrightRules[c].first);
+        position2=findPosition(solution->chromosome, zebra->exactlyrightRules[c].second);
+        if (position2!=position1-1) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+	}
+	//SomewhereLeftTests	
+	count = zebra->somewhereleftRulesCount;
+    for (int c=0;c<count;c++){
+        position1=findPosition(solution->chromosome, zebra->somewhereleftRules[c].first);
+        position2=findPosition(solution->chromosome, zebra->somewhereleftRules[c].second);
+        if (position1>=position2) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }
+	//SomewhereRightTests	
+	count = zebra->somewhererightRulesCount;
+    for (int c=0;c<count;c++){
+        position1=findPosition(solution->chromosome, zebra->somewhererightRules[c].first);
+        position2=findPosition(solution->chromosome, zebra->somewhererightRules[c].second);
+        if (position1<=position2) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }  
+    //PositonTest
+	count = zebra->positionRulesCount;    
+    for (int c=0;c<count;c++){
+        if (zebra->positionRules[c].chair!=findPosition(solution->chromosome, zebra->positionRules[c].first)) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }
+    //BetweenTests
+    count = zebra->betweenRulesCount; 
+    int position3;
+      for (c=0;c<count;c++){
+		position1=findPosition(solution->chromosome, zebra->betweenRules[c].first);
+        position2=findPosition(solution->chromosome, zebra->betweenRules[c].second);
+        position3=findPosition(solution->chromosome, zebra->betweenRules[c].third);
+        if (!(position2<position1 && position1<position3)) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+      }
+    //LikesTests
+    count = zebra->likesRulesCount;
+    for (c=0;c<count;c++){
+		position1=findPosition(solution->chromosome, zebra->likesRules[c].first);
+		position2=findPosition(solution->chromosome, zebra->likesRules[c].second);
+		if (position1!=position2) {
+			solution->violation_count++;
+			cout << "(" << c << ") "; 
+		}
+    }  
+    //Result
+    return solution->violation_count;
+}
+
 int main() {
 
     if(readExample()) {
         printExample();
 
-        Solution * testSolution = newRandomSolution();
-        printSolution(testSolution);
-        deleteSolution(testSolution);
+	Solution * testSolution = newRandomSolution();
+	fitness(testSolution,Example);
+	printSolution(testSolution);
+	deleteSolution(testSolution);
         
         
-        deleteExample();
+	deleteExample();
     }
 }
