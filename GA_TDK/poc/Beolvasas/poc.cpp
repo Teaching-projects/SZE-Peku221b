@@ -3,6 +3,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <new>
+#include <ctime>
+
+#define POPSIZE 100
+#define ELITES 10
 
 using namespace std;
 
@@ -277,24 +281,6 @@ struct Solution {
     string** chromosome;
 };
 
-void Mutate(struct Solution * solution, int mutateCount = 50) {
-    int i;
-    string tmp;
-    int switchProperty, switchChair1, switchChair2;
-    for(i=0;i<mutateCount;i++){
-        switchProperty=rand()%Example.propertyNum;
-        switchChair1=rand()%Example.chairNum;
-        do {
-            switchChair2=rand()%Example.chairNum;
-        } while (switchChair1==switchChair2);
-        
-        tmp=solution->chromosome[switchProperty][switchChair1];
-        solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
-        solution->chromosome[switchProperty][switchChair2]=tmp;
-    }
-}
-
-
 struct Solution * newRandomSolution(){
 	struct Solution * newSolution = new struct Solution;
     newSolution->chromosome=new string * [Example.propertyNum];
@@ -304,14 +290,53 @@ struct Solution * newRandomSolution(){
             newSolution->chromosome[i][j]=Example.propertyvalues[i][j];
         }
     }
-
-    int switchCount=rand()%50+1;
+	int switchCount;
+	srand( time(0));
+	switchCount=rand()%50+1;
 
     Mutate(newSolution,switchCount);
 
     newSolution->violation_count=0; // todo majd lecserelni a fitness(newSolution,Example) fgv hivasra
     
     return newSolution;
+}
+
+void Orderby(struct Solution solution[], int size){
+	struct Solution X;
+	int i,j;
+	for (i=1;i<size;i++){
+ 		X=solution[i];
+  		j=i-1;
+  		while((j>=0) && (solution[j].violation_count>X.violation_count)){
+  			solution[j+1]=solution[j];
+  			j=j-1;
+  		}
+        solution[j+1]=X;
+	}
+}
+
+
+
+struct Solution Crossover(struct Solution * solution1, struct Solution * solution2){
+	int c,p;
+	struct Solution * solution = new struct Solution;
+	
+	int cut;
+	srand( time(0));
+	cut=rand()%Example.propertyNum;
+	for (p=0;p<Example.propertyNum;p++){
+		if (p<cut){
+            for (c=0;c<Example.chairNum;c++){
+                solution->chromosome[p][c]=solution1->chromosome[p][c];
+            }
+        } else {
+			for (c=0;c<Example.chairNum;c++){
+               solution->chromosome[p][c]=solution2->chromosome[p][c];
+			}
+		}
+	}
+    solution->violation_count=0;    //fitness(solution,Example)
+    return *solution;
 }
 
 void printSolution(struct Solution * solution) {
@@ -337,85 +362,85 @@ void deleteSolution(struct Solution * solution) {
     delete solution;
 }
 
-int fitness(struct Solution *solution, struct ZebraPuzzle *zebra){
+int fitness (struct Solution *solution){
     solution->violation_count=0;
     
     //AtTheEndTests
-    int count = zebra->attheendRulesCount;
+    int count = Example.attheendRulesCount;
     int position;
     for (int c=0;c<count;c++){
-        position=findPosition(solution->chromosome, zebra->attheendRules[c].first);
-        if (position>0 && position<zebra->chairNum-1) {
+        position=findPosition(solution->chromosome, Example.attheendRules[c].first);
+        if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
     }  
     //ExactlyLeftTests
-    count = zebra->exactlyleftRulesCount;
+    count = Example.exactlyleftRulesCount;
     int position1, position2;
     for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, zebra->exactlyleftRules[c].first);
-        position2=findPosition(solution->chromosome, zebra->exactlyleftRules[c].second);
+        position1=findPosition(solution->chromosome, Example.exactlyleftRules[c].first);
+        position2=findPosition(solution->chromosome, Example.exactlyleftRules[c].second);
         if (position1!=position2-1) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
     }   
     //ExactlyRightTests
-    count = zebra->exactlyrightRulesCount;
+    count = Example.exactlyrightRulesCount;
     for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, zebra->exactlyrightRules[c].first);
-        position2=findPosition(solution->chromosome, zebra->exactlyrightRules[c].second);
+        position1=findPosition(solution->chromosome, Example.exactlyrightRules[c].first);
+        position2=findPosition(solution->chromosome, Example.exactlyrightRules[c].second);
         if (position2!=position1-1) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
 	}
 	//SomewhereLeftTests	
-	count = zebra->somewhereleftRulesCount;
+	count = Example.somewhereleftRulesCount;
     for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, zebra->somewhereleftRules[c].first);
-        position2=findPosition(solution->chromosome, zebra->somewhereleftRules[c].second);
+        position1=findPosition(solution->chromosome, Example.somewhereleftRules[c].first);
+        position2=findPosition(solution->chromosome, Example.somewhereleftRules[c].second);
         if (position1>=position2) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
     }
 	//SomewhereRightTests	
-	count = zebra->somewhererightRulesCount;
+	count = Example.somewhererightRulesCount;
     for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, zebra->somewhererightRules[c].first);
-        position2=findPosition(solution->chromosome, zebra->somewhererightRules[c].second);
+        position1=findPosition(solution->chromosome, Example.somewhererightRules[c].first);
+        position2=findPosition(solution->chromosome, Example.somewhererightRules[c].second);
         if (position1<=position2) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
     }  
     //PositonTest
-	count = zebra->positionRulesCount;    
+	count = Example.positionRulesCount;    
     for (int c=0;c<count;c++){
-        if (zebra->positionRules[c].chair!=findPosition(solution->chromosome, zebra->positionRules[c].first)) {
+        if (Example.positionRules[c].chair!=findPosition(solution->chromosome, Example.positionRules[c].first)) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
     }
     //BetweenTests
-    count = zebra->betweenRulesCount; 
+    count = Example.betweenRulesCount; 
     int position3;
       for (c=0;c<count;c++){
-		position1=findPosition(solution->chromosome, zebra->betweenRules[c].first);
-        position2=findPosition(solution->chromosome, zebra->betweenRules[c].second);
-        position3=findPosition(solution->chromosome, zebra->betweenRules[c].third);
+		position1=findPosition(solution->chromosome, Example.betweenRules[c].first);
+        position2=findPosition(solution->chromosome, Example.betweenRules[c].second);
+        position3=findPosition(solution->chromosome, Example.betweenRules[c].third);
         if (!(position2<position1 && position1<position3)) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
 		}
       }
     //LikesTests
-    count = zebra->likesRulesCount;
+    count = Example.likesRulesCount;
     for (c=0;c<count;c++){
-		position1=findPosition(solution->chromosome, zebra->likesRules[c].first);
-		position2=findPosition(solution->chromosome, zebra->likesRules[c].second);
+		position1=findPosition(solution->chromosome, Example.likesRules[c].first);
+		position2=findPosition(solution->chromosome, Example.likesRules[c].second);
 		if (position1!=position2) {
 			solution->violation_count++;
 			cout << "(" << c << ") "; 
@@ -424,14 +449,81 @@ int fitness(struct Solution *solution, struct ZebraPuzzle *zebra){
     //Result
     return solution->violation_count;
 }
+void Execute(){
+	struct Solution * population = new struct Solution[POPSIZE];
+	int i;
+	for(i=0;i<POPSIZE;i++) {
+		population[i]=newRandomSolution();
+	}
+	struct Solution * temp = new struct Solution[POPSIZE*4];
+    // Iteralasok
+    int k;
+    int j;
+
+    for(i=0;population[0].violation_count!=0;i++){
+        cout <<"Generation %2d: " << i;
+        printSolution(population[0]);
+        k=0;
+        // Copy from previously population
+        for (j=0;j<POPSIZE; j++){
+            temp[k]=population[j];
+            k++;
+        }
+        // Mutations (x100)
+        for (j=0;j<POPSIZE; j++){
+            temp[k]=Mutation(population[j]);
+            k++;
+        }
+        // Crossover (x100)
+        for (j=0;j<POPSIZE;j++){
+			int x;
+			srand( time(0));
+			x=rand()%POPSIZE;
+			int y;
+			srand( time(0));
+			y=rand()%POPSIZE;
+           temp[k]=Crossover(population[x],population[y]);
+           k++;
+         }
+        // Crossover after Mutation (x100)
+        for (j=0;j<POPSIZE;j++){
+			int x;
+			srand( time(0));
+			x=rand()%POPSIZE;
+			int y;
+			srand( time(0));
+			y=rand()%POPSIZE;
+			temp[k]=Crossover(temp[x+POPSIZE],temp[y+POPSIZE]);
+			k++;
+         }
+        // Select the new generation
+        Orderby(temp,4*POPSIZE);
+        //The good solutions have better chance.
+        for (j=0; j<ELITES;j++){
+            population[j]=temp[j];
+        }
+        for (j=ELITES;j<POPSIZE;j++){
+			int k;
+			srand( time(0));
+			k=rand()%((int) (POPSIZE*1.2));
+			if (k<POPSIZE){
+                population[j]=temp[j];
+			} else {
+                population[j]=temp[POPSIZE+j];
+			}
+		}
+    }
+
+    cout << "******************************\n";
+    printSolution(population[0]);
+}
 
 int main() {
 
     if(readExample()) {
         printExample();
-
 	Solution * testSolution = newRandomSolution();
-	fitness(testSolution,Example);
+	fitness(testSolution);
 	printSolution(testSolution);
 	deleteSolution(testSolution);
         

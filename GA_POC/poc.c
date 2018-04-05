@@ -393,8 +393,6 @@ void Megold(){
            temp[k]=Keresztez(temp[x+POPMERET],temp[y+POPMERET]);
            k++;
          }
-
-
         // Valasszuk ki, kik maradnak
         Rendezes(temp,4*POPMERET);
         //Nagyobb esellyel maradnak a jok, de azert rosszak is bekerulhetnek.
