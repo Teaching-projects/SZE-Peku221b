@@ -14,5 +14,6 @@
 \select@language {magyar} \contentsline {subsection}{\numberline {2.2.2}Fundraising Dinner p\IeC {\'e}lda v\IeC {\'a}ltoz\IeC {\'o} t\IeC {\"o}mb\IeC {\"o}kkel}{19}{subsection.2.2.2}
 \select@language {magyar} \contentsline {section}{\numberline {2.3}Teszteredm\IeC {\'e}nyek}{22}{section.2.3}
 \select@language {magyar} \contentsline {chapter}{\numberline {3}Redund\IeC {\'a}ns megk\IeC {\"o}t\IeC {\'e}sek megkeres\IeC {\'e}se}{25}{chapter.3}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}\IeC {\"O}sszefoglal\IeC {\'a}s}{29}{chapter.4}
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\IeC {\'e}k}{29}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Saj\IeC {\'a}t k\IeC {\'e}sz\IeC {\'\i }t\IeC {\'e}s\IeC {\H u} "\IeC {\'o}ri\IeC {\'a}s" feladv\IeC {\'a}ny}{29}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}\IeC {\"O}sszefoglal\IeC {\'a}s}{31}{chapter.5}
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\IeC {\'e}k}{31}{chapter.5}
