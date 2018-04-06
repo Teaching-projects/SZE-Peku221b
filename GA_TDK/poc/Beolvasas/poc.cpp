@@ -95,8 +95,8 @@ bool readExample() {
                 file >> Example.exactlyleftRules[r].first.property;
                 file >> Example.exactlyleftRules[r].first.value;
                 file >> Example.exactlyleftRules[r].second.property;
-                file >> Example.exactlyleftRules[r].second.value;  
-            }  
+                file >> Example.exactlyleftRules[r].second.value;
+            }
             // Read exactlyrightconstraints
             file >> Example.exactlyrightRulesCount;
             Example.exactlyrightRules = new struct TwoPersonRule [Example.exactlyrightRulesCount];
@@ -104,7 +104,7 @@ bool readExample() {
                 file >> Example.exactlyrightRules[r].first.property;
                 file >> Example.exactlyrightRules[r].first.value;
                 file >> Example.exactlyrightRules[r].second.property;
-                file >> Example.exactlyrightRules[r].second.value;              
+                file >> Example.exactlyrightRules[r].second.value;
             }
             // Read somewhereleftconstraints
             file >> Example.somewhereleftRulesCount;
@@ -113,8 +113,8 @@ bool readExample() {
                 file >> Example.somewhereleftRules[r].first.property;
                 file >> Example.somewhereleftRules[r].first.value;
                 file >> Example.somewhereleftRules[r].second.property;
-                file >> Example.somewhereleftRules[r].second.value;  
-            }  
+                file >> Example.somewhereleftRules[r].second.value;
+            }
             // Read somewhererightconstraints
             file >> Example.somewhererightRulesCount;
             Example.somewhererightRules = new struct TwoPersonRule [Example.somewhererightRulesCount];
@@ -122,7 +122,7 @@ bool readExample() {
                 file >> Example.somewhererightRules[r].first.property;
                 file >> Example.somewhererightRules[r].first.value;
                 file >> Example.somewhererightRules[r].second.property;
-                file >> Example.somewhererightRules[r].second.value;              
+                file >> Example.somewhererightRules[r].second.value;
             }
             // Read positionconstraints
             file >> Example.positionRulesCount;
@@ -130,8 +130,8 @@ bool readExample() {
             for (int r=0;r<Example.positionRulesCount;r++) {
                 file >> Example.positionRules[r].first.property;
                 file >> Example.positionRules[r].first.value;
-                file >> Example.positionRules[r].chair;             
-            }       
+                file >> Example.positionRules[r].chair;
+            }
             // Read betweenconstraints
             file >> Example.betweenRulesCount;
             Example.betweenRules = new struct ThreePersonRule [Example.betweenRulesCount];
@@ -139,9 +139,9 @@ bool readExample() {
                 file >> Example.betweenRules[r].first.property;
                 file >> Example.betweenRules[r].first.value;
                 file >> Example.betweenRules[r].second.property;
-                file >> Example.betweenRules[r].second.value;  
+                file >> Example.betweenRules[r].second.value;
                 file >> Example.betweenRules[r].third.property;
-                file >> Example.betweenRules[r].third.value;              
+                file >> Example.betweenRules[r].third.value;
             }
             // Read likesconstraints
             file >> Example.likesRulesCount;
@@ -150,8 +150,8 @@ bool readExample() {
                 file >> Example.likesRules[r].first.property;
                 file >> Example.likesRules[r].first.value;
                 file >> Example.likesRules[r].second.property;
-                file >> Example.likesRules[r].second.value;  
-            }                 
+                file >> Example.likesRules[r].second.value;
+            }
         } catch (bad_alloc & ba) {
             cout << "Run out of memory" << ba.what();
             ok=false;
@@ -176,7 +176,7 @@ void printExample() {
         }
         cout<<"\n";
     }
-    
+
     cout<<"The following people sit at one of the ends:\n";
     for(int r=0;r<Example.attheendRulesCount;r++)
         cout<<"\t The person who has "
@@ -184,7 +184,7 @@ void printExample() {
             <<" for "
             <<Example.attheendRules[r].first.property
             <<"\n";
-            
+
     cout<<"The following people sit exactly left from another people:\n";
     for(int r=0;r<Example.exactlyleftRulesCount;r++)
         cout<<"\t The person who has "
@@ -196,7 +196,7 @@ void printExample() {
             <<" for "
             <<Example.exactlyleftRules[r].second.property
             <<"\n";
-            
+
     cout<<"The following people sit exactly right from another people:\n";
     for(int r=0;r<Example.exactlyrightRulesCount;r++)
         cout<<"\t The person who has "
@@ -208,7 +208,7 @@ void printExample() {
             <<" for "
             <<Example.exactlyrightRules[r].second.property
             <<"\n";
-            
+
     cout<<"The following people sit somewhere left from another people:\n";
     for(int r=0;r<Example.somewhereleftRulesCount;r++)
         cout<<"\t The person who has "
@@ -220,7 +220,7 @@ void printExample() {
             <<" for "
             <<Example.somewhereleftRules[r].second.property
             <<"\n";
-            
+
     cout<<"The following people sit somewhere right from another people:\n";
     for(int r=0;r<Example.somewhererightRulesCount;r++)
         cout<<"\t The person who has "
@@ -241,8 +241,8 @@ void printExample() {
             <<Example.positionRules[r].first.property
             <<" sit at the "
             <<Example.positionRules[r].chair
-            <<". position\n";     
-            
+            <<". position\n";
+
     cout<<"The following people sit between the following two people:\n";
     for(int r=0;r<Example.betweenRulesCount;r++)
         cout<<"\t The person who has "
@@ -257,8 +257,8 @@ void printExample() {
             <<Example.betweenRules[r].third.value
             <<" for "
             <<Example.betweenRules[r].third.property
-            <<"\n"; 
-            
+            <<"\n";
+
     cout<<"The following people likes something:\n";
     for(int r=0;r<Example.likesRulesCount;r++)
         cout<<"\t The person who has "
@@ -269,11 +269,22 @@ void printExample() {
             <<Example.likesRules[r].second.value
             <<" for "
             <<Example.likesRules[r].second.property
-            <<"\n";                  
+            <<"\n";
 }
 
 void deleteExample() {
-    // Torolni es felszabaditani a Example-t.
+    for(int i = 0;i < Example.propertyNum;++i) {
+            delete[] Example.propertyvalues[i];
+    }
+    delete Example.properties;
+    delete Example.attheendRules;
+    delete Example.exactlyleftRules;
+    delete Example.exactlyrightRules;
+    delete Example.somewhereleftRules;
+    delete Example.somewhererightRules;
+    delete Example.betweenRules;
+    delete Example.positionRules;
+    delete Example.likesRules;
 }
 
 struct Solution {
@@ -284,9 +295,9 @@ struct Solution {
 struct Solution Mutate(struct Solution * msolution, int mutateCount = 50) {
     int i;
     string tmp;
-    
+
     struct Solution * solution = new struct Solution;
-    
+
     int switchProperty, switchChair1, switchChair2;
     for(i=0;i<mutateCount;i++){
         switchProperty=rand()%Example.propertyNum;
@@ -294,7 +305,7 @@ struct Solution Mutate(struct Solution * msolution, int mutateCount = 50) {
         do {
             switchChair2=rand()%Example.chairNum;
         } while (switchChair1==switchChair2);
-        
+
         tmp=solution->chromosome[switchProperty][switchChair1];
         solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
         solution->chromosome[switchProperty][switchChair2]=tmp;
@@ -318,7 +329,7 @@ struct Solution * newRandomSolution(){
     Mutate(newSolution,switchCount);
 
     newSolution->violation_count=0; // todo majd lecserelni a fitness(newSolution,Example) fgv hivasra
-    
+
     return newSolution;
 }
 
@@ -339,7 +350,7 @@ void Orderby(struct Solution solution[], int size){
 struct Solution Crossover(struct Solution * solution1, struct Solution * solution2){
 	int c,p;
 	struct Solution * solution = new struct Solution;
-	
+
 	int cut;
 	srand( time(0));
 	cut=rand()%Example.propertyNum;
@@ -381,9 +392,16 @@ void deleteSolution(struct Solution * solution) {
     delete solution;
 }
 
+int findPosition(struct Solution * solution){
+    int c;
+    for(c=0;c<Example.chairNum;c++)
+        if (solution->chromosome[Example.propertyNum][Example.chairNum]==Person.value) return c;
+    return 0;
+}
+
 int fitness (struct Solution *solution){
     solution->violation_count=0;
-    
+
     //AtTheEndTests
     int count = Example.attheendRulesCount;
     int position;
@@ -391,9 +409,9 @@ int fitness (struct Solution *solution){
         position=findPosition(solution->chromosome, Example.attheendRules[c].first);
         if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
-    }  
+    }
     //ExactlyLeftTests
     count = Example.exactlyleftRulesCount;
     int position1, position2;
@@ -402,9 +420,9 @@ int fitness (struct Solution *solution){
         position2=findPosition(solution->chromosome, Example.exactlyleftRules[c].second);
         if (position1!=position2-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
-    }   
+    }
     //ExactlyRightTests
     count = Example.exactlyrightRulesCount;
     for (int c=0;c<count;c++){
@@ -412,39 +430,39 @@ int fitness (struct Solution *solution){
         position2=findPosition(solution->chromosome, Example.exactlyrightRules[c].second);
         if (position2!=position1-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
 	}
-	//SomewhereLeftTests	
+	//SomewhereLeftTests
 	count = Example.somewhereleftRulesCount;
     for (int c=0;c<count;c++){
         position1=findPosition(solution->chromosome, Example.somewhereleftRules[c].first);
         position2=findPosition(solution->chromosome, Example.somewhereleftRules[c].second);
         if (position1>=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
     }
-	//SomewhereRightTests	
+	//SomewhereRightTests
 	count = Example.somewhererightRulesCount;
     for (int c=0;c<count;c++){
         position1=findPosition(solution->chromosome, Example.somewhererightRules[c].first);
         position2=findPosition(solution->chromosome, Example.somewhererightRules[c].second);
         if (position1<=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
-    }  
+    }
     //PositonTest
-	count = Example.positionRulesCount;    
+	count = Example.positionRulesCount;
     for (int c=0;c<count;c++){
         if (Example.positionRules[c].chair!=findPosition(solution->chromosome, Example.positionRules[c].first)) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
     }
     //BetweenTests
-    count = Example.betweenRulesCount; 
+    count = Example.betweenRulesCount;
     int position3;
       for (c=0;c<count;c++){
 		position1=findPosition(solution->chromosome, Example.betweenRules[c].first);
@@ -452,7 +470,7 @@ int fitness (struct Solution *solution){
         position3=findPosition(solution->chromosome, Example.betweenRules[c].third);
         if (!(position2<position1 && position1<position3)) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
       }
     //LikesTests
@@ -462,9 +480,9 @@ int fitness (struct Solution *solution){
 		position2=findPosition(solution->chromosome, Example.likesRules[c].second);
 		if (position1!=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") "; 
+			cout << "(" << c << ") ";
 		}
-    }  
+    }
     //Result
     return solution->violation_count;
 }
@@ -566,7 +584,7 @@ int main() {
 	Solution * testSolution = newRandomSolution();
 	fitness(testSolution);
 	printSolution(testSolution);
-	deleteSolution(testSolution);    
+	deleteSolution(testSolution);
 	deleteExample();
 	Execute();
     }
