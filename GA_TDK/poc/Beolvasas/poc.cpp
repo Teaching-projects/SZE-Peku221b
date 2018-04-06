@@ -281,6 +281,27 @@ struct Solution {
     string** chromosome;
 };
 
+struct Solution Mutate(struct Solution * msolution, int mutateCount = 50) {
+    int i;
+    string tmp;
+    
+    struct Solution * solution = new struct Solution;
+    
+    int switchProperty, switchChair1, switchChair2;
+    for(i=0;i<mutateCount;i++){
+        switchProperty=rand()%Example.propertyNum;
+        switchChair1=rand()%Example.chairNum;
+        do {
+            switchChair2=rand()%Example.chairNum;
+        } while (switchChair1==switchChair2);
+        
+        tmp=solution->chromosome[switchProperty][switchChair1];
+        solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
+        solution->chromosome[switchProperty][switchChair2]=tmp;
+    }
+    return *solution;
+}
+
 struct Solution * newRandomSolution(){
 	struct Solution * newSolution = new struct Solution;
     newSolution->chromosome=new string * [Example.propertyNum];
@@ -314,8 +335,6 @@ void Orderby(struct Solution solution[], int size){
         solution[j+1]=X;
 	}
 }
-
-
 
 struct Solution Crossover(struct Solution * solution1, struct Solution * solution2){
 	int c,p;
@@ -450,10 +469,11 @@ int fitness (struct Solution *solution){
     return solution->violation_count;
 }
 void Execute(){
-	struct Solution * population = new struct Solution[POPSIZE];
 	int i;
+	struct Solution * population = new struct Solution[POPSIZE];
+
 	for(i=0;i<POPSIZE;i++) {
-		population[i]=newRandomSolution();
+		population[i]=*newRandomSolution();
 	}
 	struct Solution * temp = new struct Solution[POPSIZE*4];
     // Iteralasok
@@ -462,7 +482,10 @@ void Execute(){
 
     for(i=0;population[0].violation_count!=0;i++){
         cout <<"Generation %2d: " << i;
-        printSolution(population[0]);
+        struct Solution * firstsolution = new struct Solution;
+        *firstsolution = population[0];
+        printSolution(firstsolution);
+        delete firstsolution;
         k=0;
         // Copy from previously population
         for (j=0;j<POPSIZE; j++){
@@ -471,7 +494,10 @@ void Execute(){
         }
         // Mutations (x100)
         for (j=0;j<POPSIZE; j++){
-            temp[k]=Mutation(population[j]);
+			struct Solution * aktsolution = new struct Solution;
+			*aktsolution = population[j];
+            temp[k]=Mutate(aktsolution);
+            delete aktsolution;
             k++;
         }
         // Crossover (x100)
@@ -482,8 +508,14 @@ void Execute(){
 			int y;
 			srand( time(0));
 			y=rand()%POPSIZE;
-           temp[k]=Crossover(population[x],population[y]);
-           k++;
+			struct Solution * aktsolution1 = new struct Solution;
+			*aktsolution1 = population[x];
+			struct Solution * aktsolution2 = new struct Solution;
+			*aktsolution2 = population[y];
+			temp[k]=Crossover(aktsolution1,aktsolution2);
+			delete aktsolution1;
+			delete aktsolution2;
+			k++;
          }
         // Crossover after Mutation (x100)
         for (j=0;j<POPSIZE;j++){
@@ -493,7 +525,13 @@ void Execute(){
 			int y;
 			srand( time(0));
 			y=rand()%POPSIZE;
-			temp[k]=Crossover(temp[x+POPSIZE],temp[y+POPSIZE]);
+			struct Solution * aktsolution1 = new struct Solution;
+			*aktsolution1 = population[x+POPSIZE];
+			struct Solution * aktsolution2 = new struct Solution;
+			*aktsolution2 = population[y+POPSIZE];
+			temp[k]=Crossover(aktsolution1,aktsolution2);
+			delete aktsolution1;
+			delete aktsolution2;
 			k++;
          }
         // Select the new generation
@@ -515,7 +553,10 @@ void Execute(){
     }
 
     cout << "******************************\n";
-    printSolution(population[0]);
+    struct Solution * firstsolution = new struct Solution;
+    *firstsolution = population[0];
+    printSolution(firstsolution);
+    delete firstsolution;
 }
 
 int main() {
@@ -525,9 +566,8 @@ int main() {
 	Solution * testSolution = newRandomSolution();
 	fitness(testSolution);
 	printSolution(testSolution);
-	deleteSolution(testSolution);
-        
-        
+	deleteSolution(testSolution);    
 	deleteExample();
+	Execute();
     }
 }
