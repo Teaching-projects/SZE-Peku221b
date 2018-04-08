@@ -165,15 +165,66 @@
     Első dolgunk a változók deklarálása, méretének megadása és a tömbök létrehozása volt.
 
     Első kettőt az „int” és „set of int”, utóbbit az „array” kulcsszóval tettük meg, ami után megadtuk a tömb méretét, és azt, hogy milyen értékeket vegyenek fel az elemei.
-
-    \Abra{mtx_declaration}{}{width=12cm}
-
+	 \definecolor{mygreen}{rgb}{0, 0.5, 0}
+	\lstset{ 
+		backgroundcolor=\color{white},   
+		basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+		breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+		breaklines=true,                 % sets automatic line breaking
+		captionpos=b,                    % sets the caption-position to bottom
+		extendedchars=true,              
+		frame=single,	                   % adds a frame around the code
+		keepspaces=true,                 
+		morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+		keywordstyle=\color{mygreen},       % keyword style
+		keywordstyle={[2]\color{blue}},
+		keywords=[2]{forall, count, show, format, alldifferent, fix},
+		numbers=left,                    
+		numbersep=5pt,                   % how far the line-numbers are from the code
+		rulecolor=\color{black},         
+		showspaces=false,                
+		showstringspaces=false,          % underline spaces within strings only
+		showtabs=false,                  % show tabs within strings adding particular underscores
+		stepnumber=1,                    
+		tabsize=3,	                   % sets default tabsize to 2 spaces
+		title=Adatok létrehozása
+	}
+	\begin{lstlisting}
+	int: kertek;
+	set of int: Kertek = 1..kertek;
+	array[Termenyek, Kertek] of var {0, 1}: termeszt; \end{lstlisting}
+	
     A képeken is jól látszik, hogy Zick például csak virágokat termel, míg Hank-nél vagy 
     Sam-nél mind három fajta termény megtalálható, tehát nagyon különbözőek a kertek.
 
     Direkt ezekre az esetekre áll rendelkezésünkre az „alldifferent”, ami kifejezi, hogy mint a kertek, mint a tulajok csak és kizárólag egyszer szerepelnek és eltérnek egymástól.
-
-    \Abra{alldifferent1}{}{width=8cm}
+    
+\definecolor{mygreen}{rgb}{0, 0.5, 0}
+\lstset{ 
+	backgroundcolor=\color{white},   
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	extendedchars=true,              
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 
+	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+	keywordstyle=\color{mygreen},       % keyword style
+	keywordstyle={[2]\color{blue}},
+	keywords=[2]{forall, count, show, format, alldifferent, fix},
+	numbers=left,                    
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	rulecolor=\color{black},         
+	showspaces=false,                
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    
+	tabsize=3,	                   % sets default tabsize to 2 spaces
+	title="Alldifferent" parancs
+}
+    \begin{lstlisting}
+    constraint alldifferent(tulaj); \end{lstlisting}
 
     A leírásban sok olyan kikötés szerepel, ami kijelenti, hogy mi hányszor szerepel.
     Ennek három speciális esetét különböztettük meg.
@@ -194,16 +245,40 @@
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
     Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
 
-    \Abra{exactly}{}{width=14cm}
+    \definecolor{mygreen}{rgb}{0, 0.5, 0}
+    \lstset{ 
+    	backgroundcolor=\color{white},   
+    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    	breaklines=true,                 % sets automatic line breaking
+    	captionpos=b,                    % sets the caption-position to bottom
+    	extendedchars=true,              
+    	frame=single,	                   % adds a frame around the code
+    	keepspaces=true,                 
+    	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+    	keywordstyle=\color{mygreen},       % keyword style
+    	keywordstyle={[2]\color{blue}},
+    	keywords=[2]{forall, count, show, format, alldifferent, fix},
+    	numbers=left,                    
+    	numbersep=5pt,                   % how far the line-numbers are from the code
+    	rulecolor=\color{black},         
+    	showspaces=false,                
+    	showstringspaces=false,          % underline spaces within strings only
+    	showtabs=false,                  % show tabs within strings adding particular underscores
+    	stepnumber=1,                    
+    	tabsize=3,	                   % sets default tabsize to 2 spaces
+    	title="Exactly" bemutatása
+    }
+    \begin{lstlisting}
+    constraint exactly(1, [bool2int(sum(z in Zoldsegek) (termeszt[z, k])=4 \/ 
+     sum(gy in Gyumolcsok) (termeszt[gy, k])=4 \/ 
+     sum(v in Viragok) (termeszt [v,k])=4) | k in Kertek], 1); \end{lstlisting}
 
     Végül, de nem utolsó sorban van még egy kikötési forma amit használtunk, de ez nem volt elég hatékony megoldás, melyről a következő alfejezetben lesz szó.
 
     \begin{equation}
         \sum_{z\in Zoldsegek} termeszt_{z,t} = 3 \qquad \forall t\in Tulaj: tulaj_{t} = 4
     \end{equation}
-    % ezt mutassátok meg minizinc kóddal is
-    % amit viszont lehet matematikai jelöléssel, azt írjátok át arra
-    % a MiniZinc és Csharp forráskódok pedig \lst(input)listing paranccsal legyenek formázva
     
 
 \subsection{Where helyett implikáció}
@@ -251,7 +326,33 @@
 
     A következő ötletünk az volt, hogy a kétdimenziós tömb helyett halmazokkal reprezentáljuk a megoldást.
 
-    \Abra{set_declaration}{}{width=14cm}
+   \definecolor{mygreen}{rgb}{0, 0.5, 0}
+   \lstset{ 
+   	backgroundcolor=\color{white},   
+   	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+   	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+   	breaklines=true,                 % sets automatic line breaking
+   	captionpos=b,                    % sets the caption-position to bottom
+   	extendedchars=true,              
+   	frame=single,	                   % adds a frame around the code
+   	keepspaces=true,                 
+   	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+   	keywordstyle=\color{mygreen},       % keyword style
+   	keywordstyle={[2]\color{blue}},
+   	keywords=[2]{forall, count, show, format, alldifferent, fix},
+   	numbers=left,                    
+   	numbersep=5pt,                   % how far the line-numbers are from the code
+   	rulecolor=\color{black},         
+   	showspaces=false,                
+   	showstringspaces=false,          % underline spaces within strings only
+   	showtabs=false,                  % show tabs within strings adding particular underscores
+   	stepnumber=1,                    
+   	tabsize=3,	                   % sets default tabsize to 2 spaces
+   	title=Halmaz definiálása
+   }
+    \begin{lstlisting}
+    array[Kertek] of var set of Termenyek: termeszt;
+    \end{lstlisting}
 
     A tulajokat csak egy egyszerű tömbben tároltuk itt el, mint az első két változatban.
 
@@ -280,8 +381,33 @@
     Az első dimenzió maradt a kertek halmaza, de a második dimenzió már nem az összes terményen megy végig, hanem a 4 termesztett növényen, és nem bináris értékekkel történik a hozzárendelés, hanem 4 növénytípus „enum”-ként való megadásával.
     Egy másik fontos változtatás volt, hogy itt mivel nem tudtunk sorösszegeket számolni, így a „count”-ot kellett használnunk.
 
-
-    \Abra{count0}{}{width=14cm}
+\definecolor{mygreen}{rgb}{0, 0.5, 0}
+\lstset{ 
+	backgroundcolor=\color{white},   
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	extendedchars=true,              
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 
+	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+	keywordstyle=\color{mygreen},       % keyword style
+	keywordstyle={[2]\color{blue}},
+	keywords=[2]{forall, count, show, format, alldifferent, fix},
+	numbers=left,                    
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	rulecolor=\color{black},         
+	showspaces=false,                
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    
+	tabsize=3,	                   % sets default tabsize to 2 spaces
+	title="Count" használata
+}
+   \begin{lstlisting}
+   constraint forall(k in Kertek)(tulaj[k]=Hank ->
+   count([termeszt[k, n] | n in Noveny], oszirozsa)=0); \end{lstlisting}
 
     Egy plusz kikötést kellett még írnunk ehhez a változathoz, az egy megoldás megtartása érdekében.
     Le kellett fixálni a termények sorrendjét, hogy ne adja meg ugyanazt a megoldást különböző sorrendekkel a megoldó, így megkötöttük, hogy a 4 növény sorszám alapján növekvő sorrendben szerepeljen.
@@ -295,7 +421,34 @@
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
 
-    %kód
+\definecolor{mygreen}{rgb}{0, 0.5, 0}
+\lstset{ 
+	backgroundcolor=\color{white},   
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	extendedchars=true,              
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 
+	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+	keywordstyle=\color{mygreen},       % keyword style
+	keywordstyle={[2]\color{blue}},
+	keywords=[2]{forall, count, show, format, alldifferent, fix},
+	numbers=left,                    
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	rulecolor=\color{black},         
+	showspaces=false,                
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    
+	tabsize=3,	                   % sets default tabsize to 2 spaces
+	title="Output" formázása 
+}
+   \begin{lstlisting}
+   output [show(tulajNev[fix(tulaj[1])]) ++ ":\t"]++[show(termenyNev[t]) ++
+    " " | t in Termenyek where fix(termeszt[t,1])=1]++["\n"];  \end{lstlisting}
+   
     \Abra{output1}{}{width=14cm}
 
     Ötből három változatban az adatokat külső fájlban vannak tárolva, így például, ha csak a növények neveit szeretnénk módosítani, nem kell az egész programot átírni hanem csak az adatfájlt.

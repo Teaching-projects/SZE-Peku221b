@@ -7,6 +7,12 @@ Too many commas in name 1 of "Schulte, C., Tack, G., and Lagerkvist, M. Z." for 
 while executing---line 1049 of file plain.bst
 Warning--to sort, need author or key in gardens
 Warning--to sort, need author or key in zebra
+Warning--empty author in zebra
+Warning--empty journal in zebra
+Warning--empty year in zebra
+Warning--empty author in gardens
+Warning--empty journal in gardens
+Warning--empty year in gardens
 Warning--empty journal in logicpuzzles
 Warning--empty journal in magyarmodszer
 Warning--empty journal in logic
