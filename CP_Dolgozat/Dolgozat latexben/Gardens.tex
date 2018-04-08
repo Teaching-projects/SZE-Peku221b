@@ -1,6 +1,8 @@
 \documentclass[12pt,a4paper,twoside, openright]{report}
 
 \usepackage{makrok}
+\usepackage{listingsutf8}
+\usepackage{color}
 
 \author{Papp Ádám, Sós Nikolett\\Mérnök Informatikus BSc, I. évfolyam\\\ \\Témavezető: Ősz Olivér, doktorandusz\\Széchenyi István Egyetem,GIVK, Informatika Tanszék}
 \title{Logikai feladványok megoldása \\korlátprogramozással}
@@ -103,6 +105,8 @@
     Éppen ezért vizsgáltuk azt, hogy hogyan lehet az ilyen feladványok megoldását számítógépes segítséggel meghatározni.
 		
 \chapter{Feladatok modellezése korlátprogramozással}
+
+
 
 \section{Gardens feladatmegoldás} 
 
@@ -315,9 +319,44 @@
     	\item Életkor: 11, 12, 13 és 14 éves
     \end{enumerate}
     Ahhoz, hogy megtudjuk, melyik széken ki ült és milyen tulajdonságokkal rendelkezik, rendelkezésre áll 13 állítás, amelyeket a modellezés során korlátozásokként(constraint) kezeltünk.
-    Az első verziójú modell esetében a 4 fiú adatainak tárolására tulajdonságtípusonként egy-egy bináris értékeket(0, 1) tartalmazó 2 dimenziós mátrix került deklarálásra(\ref{fig_binary_mtx}. ábra).
+    Az első verziójú modell esetében a 4 fiú adatainak tárolására tulajdonságtípusonként egy-egy bináris értékeket(0, 1) tartalmazó 2 dimenziós mátrix került deklarálásra.
 
-    \Abra{binary_mtx}{}{width=10cm}
+    \definecolor{mygreen}{rgb}{0, 0.5, 0}
+    \lstset{ 
+    	backgroundcolor=\color{white},   
+    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    	breaklines=true,                 % sets automatic line breaking
+    	captionpos=b,                    % sets the caption-position to bottom
+    	extendedchars=true,              
+    	frame=single,	                   % adds a frame around the code
+    	keepspaces=true,                 
+    	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+    	keywordstyle=\color{mygreen},       % keyword style
+    	keywordstyle={[2]\color{blue}},
+    	keywords=[2]{forall, count, show, format, alldifferent, fix},
+    	numbers=left,                    
+    	numbersep=5pt,                   % how far the line-numbers are from the code
+    	rulecolor=\color{black},         
+    	showspaces=false,                
+    	showstringspaces=false,          % underline spaces within strings only
+    	showtabs=false,                  % show tabs within strings adding particular underscores
+    	stepnumber=1,                    
+    	tabsize=3,	                   % sets default tabsize to 2 spaces
+    	title=Tömbök deklarációja
+    }
+    
+    \begin{lstlisting}
+    int: db = 4;
+    set of int: PEOPLE = 1..db;
+    
+    enum NAMES = {Daniel, Joshua, Nicholas, Ryan};
+    enum MOVIES = {action, comedy, horror, thriller};
+    [...]
+    
+    array[COLORS, PEOPLE] of var {0, 1}: shirt;
+    array[NAMES, PEOPLE] of var {0, 1}: name;
+    [...]\end{lstlisting}
 
     A mátrixok sorai az egyes tulajdonságok konkrét értékeit az oszlopai pedig sorrendben a fiúk moziban elfoglalt helyét jelölik.
     A MiniZinc nyelv sajátosságait kihasználva, a sorokat egy-egy felsorol(enum) típusú tömb indexeli.
@@ -402,7 +441,8 @@
 
     A kimenet képzése a MiniZinc nyelvnek megfelelő szintaktikával valósult meg.
     
-	\Abra{output_minizinc}{}{width=14cm}
+	\begin{lstlisting}
+	output [format(width, show(n)) ++ "\t" | t in PEOPLE, n in NAMES where 		  fix(name[n,t])=1]++["\n"];\end{lstlisting}
 
     A format függvény pusztán esztétikai formázást, a show karakterlánccá konvertálást, a fix függvény pedig a változók értékének kiíratás előtti „stabilizálását” végzi.
     A where záradékban pedig azt vizsgáljuk, hogy a bináris mátrixban hol található 1-es érték, mert csak azokat az értékeket íratjuk ki.
@@ -421,14 +461,43 @@
     	\item Fogyasztott koktéljuk
     	\item Adakozott pénzmennyiség dollárban
     \end{enumerate}
-    Ennél az adatstruktúránál tulajdonságkategóriánként egy-egy felsorol(enum) típusú egydimenziós tömböt készítettünk, amelyet a már említett segédhalmazzal indexeltünk(30. ábra).
+    Ennél az adatstruktúránál tulajdonságkategóriánként egy-egy felsorol(enum) típusú egydimenziós tömböt készítettünk, amelyet a már említett segédhalmazzal indexeltünk.
 
-    \Abra{array_declaration}{}{width=7cm}
+    \definecolor{mygreen}{rgb}{0, 0.5, 0}
+    \lstset{ 
+    	backgroundcolor=\color{white},   
+    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    	breaklines=true,                 % sets automatic line breaking
+    	captionpos=b,                    % sets the caption-position to bottom
+    	extendedchars=true,              
+    	frame=single,	                   % adds a frame around the code
+    	keepspaces=true,                 
+    	morekeywords={constraint, enum, set, where, if, output, array, of, var},
+    	keywordstyle=\color{mygreen},       % keyword style
+    	keywordstyle={[2]\color{blue}},
+    	keywords=[2]{forall, count, show, format, alldifferent},
+    	numbers=left,                    
+    	numbersep=5pt,                   % how far the line-numbers are from the code
+    	rulecolor=\color{black},         
+    	showspaces=false,                
+    	showstringspaces=false,          % underline spaces within strings only
+    	showtabs=false,                  % show tabs within strings adding particular underscores
+    	stepnumber=1,                    
+    	tabsize=3,	                   % sets default tabsize to 2 spaces
+    	title=Tömbök deklarációja
+    }
+    
+    \begin{lstlisting}
+    array[PEOPLE] of var COLORS: dress;
+    array[PEOPLE] of var NAMES: name;\end{lstlisting}
 
     Itt a tárolt értékek már a konkrét tulajdonságok neveit vehetik fel, sorrendjük pedig meghatározza, hogy melyik széken ülő emberre mi jellemző.
-    Egy tömbön belül az értékek egyediségét az alldifferent globális constraint biztosítja(31. ábra).
-
-    \Abra{alldifferent}{}{width=7cm}
+    Egy tömbön belül az értékek egyediségét az alldifferent globális constraint biztosítja.
+   
+    \begin{lstlisting}
+    constraint alldifferent(dress);
+    constraint alldifferent(name);\end{lstlisting}
 
     A korábban már részletezett korlátozástípusok jelen adatstruktúra esetében a következőképpen lettek modellezve.
     Az I. illetve II. típusú kikötés ebben a példában nem fordult ugyan elő, de modellezése hasonló módon történik, mint a „Movies” példa esetén.
@@ -450,24 +519,39 @@
 	\end{aligned} 
 	\end{equation}
 
-    Az V. típus az implikáció operátorral pedig a \ref{fig_count1}. ábrán látható.
+    Az V. típus az implikáció operátorral pedig a \ref{eq:13}. ábrán látható.
     B változat esetében pedig az indexekkel való bejárásnál fogalmazható meg egy apróbb szabály(\ref{eq:14}).
 	
-	\Abra{count1}{}{width=14cm}
+	\begin{equation} \label{eq:13}
+		\begin{aligned}
+		&cocktail[x]=margarita \rightarrow count([dress[p] \quad \forall p \in 1..x-1], blue)=1 \quad \forall x \in PEOPLE \quad \wedge \\
+		&dress[x]=blue \rightarrow count([cocktail[p] \quad \forall p \in x+1..db], margarita)=1 \quad \forall x \in PEOPLE \quad \wedge \\
+		\end{aligned}
+	\end{equation}
 	
    \begin{equation} \label{eq:14}
     \neg(cocktail_a =margarita \wedge dress_b=blue) \quad \forall a,b \in People \wedge a<b
      \end{equation}
 
     A VI. korlátozástípusnál szintén kétféle modell készült, az A változatnál logikai 
-    operátorral és a később részletesen taglalt visszafelé következtetés módszerével(\ref{fig_count2}. ábra).
-    B 
-    verziónál viszont a count függvény segítségével történik a számlálás(\ref{fig_count3}. ábra).
+    operátorral és a később részletesen taglalt visszafelé következtetés módszerével és a count függvény segítségével(\ref{eq:15}).
+    B verziónál viszont újra az indexekkel való bejárásnál található egy apróbb kikötés(\ref{eq:16}).
 
-    \Abra{count2}{}{width=14cm}
+    \begin{equation} \label{eq:15}
+    \begin{aligned}  
+    	&donation[x]=fourtythousand \rightarrow count([dress[p] \quad \forall p \in 1..x-1], red)=1 \quad \forall x \in PEOPLE \wedge \\
+    	&dress[x]=red \rightarrow count([donation[p] \quad \forall p \in x+1..db], fourtythousand)=1 \quad \forall x \in PEOPLE \wedge \\
+    	&donation[x]=twentythousand \rightarrow count([dress[p] \quad \forall p \in x+1..db], red)=1 \quad \forall x \in PEOPLE \wedge \\
+    	&dress[x]=red \rightarrow count([donation[p] \quad \forall p \in 1..x-1], twentythousand)=1 \quad \forall x \in PEOPLE \wedge \\
+    \end{aligned}
+    \end{equation}
     
-    \Abra{count3}{}{width=14cm}
-    
+    \begin{equation} \label{eq:16}
+    \begin{aligned}
+    	&\neg(donation[a]=fourtythousand \wedge dress[b]=red) \quad \forall a,b \in PEOPLE \wedge a<b \qquad \wedge \\
+    	&\neg(dress[a]=red \wedge donation[b]=twentythousand) \quad \forall a,b \in PEOPLE \wedge a<b \qquad \wedge \\
+    \end{aligned}
+    \end{equation}
 
     Ezen felül ennél a feladatnál azonosítható volt egy újfajta korlátozás, amely egy objektum valamely oldaláról nyilatkozik, viszont nem rögzíti, hogy melyikről.
     Ezeknél az úgy nevezett visszafelé következtetés is felhasználásra került.
@@ -486,12 +570,11 @@
      &(cocktail_{db}=cosmopolitan \rightarrow name_{db-1}=Lidia) \quad \quad \forall p \in 2..db-1
      \end{aligned}
     \end{equation} 
-     
-     
-
+    
     Az eredmény kiíratásánál itt kihasználható az, hogy a tömb elemeit nem kell vizsgálni, hanem sorrendben, vizsgálat nélkül kiírathatóak.
-
-    \Abra{output_code}{}{width=14cm}
+	
+	\begin{lstlisting}
+	output [format(width,show(dress[p])) ++ "\t" | p in PEOPLE]++["\n"];\end{lstlisting}
 
 \section{Teszteredmények}
 
@@ -544,8 +627,37 @@
     A feladatok jellegéből adódóan egyértelműnek az az eset volt tekinthető, amikor a program lefutása után csak egy megoldást talál, amely az eredeti – minden kikötést tartalmazó – feladatkiírásnak is megfelel.
     Módszerünk a következő volt: minden kikötést egy elágazásban helyeztünk el(\ref{fig_selection}. ábra).
 
-    %kód
-    \Abra{selection}{}{width=14cm}
+    \definecolor{mygreen}{rgb}{0, 0.5, 0}
+    \lstset{ 
+    	backgroundcolor=\color{white},   
+    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    	breaklines=true,                 % sets automatic line breaking
+    	captionpos=b,                    % sets the caption-position to bottom
+    	extendedchars=true,              
+    	frame=single,	                   % adds a frame around the code
+    	keepspaces=true,                 
+    	morekeywords={constraint, then, else, in, endif, xor, where, if},
+    	keywordstyle=\color{mygreen},       % keyword style
+    	keywordstyle={[2]\color{blue}},
+    	keywords=[2]{forall, count},
+    	numbers=left,                    
+    	numbersep=5pt,                   % how far the line-numbers are from the code
+    	rulecolor=\color{black},         
+    	showspaces=false,                
+    	showstringspaces=false,          % underline spaces within strings only
+    	showtabs=false,                  % show tabs within strings adding particular underscores
+    	stepnumber=1,                    
+    	stringstyle=\color{red},     % string literal style
+    	tabsize=3,	                   % sets default tabsize to 2 spaces
+    	title=Elágazásba ágyazott kikötés
+    }
+
+    \begin{lstlisting}
+    	constraint if kivesszuk[4]=1 then true else
+    		forall(p in PEOPLE)(necklace[p]=sapphire <-> age[p]=fiftyfive)
+    	endif;\end{lstlisting}
+    
 
     A „kivesszuk” egy, a korlátozások számával egyező elemszámú bináris értékeket tartalmazó tömb.
     Amennyiben a tömb adott indexű eleme 1 értéket tartalmaz, akkor a korlátozás a konkrét kifejezés értéke helyett egyszerűen igaz értéket vesz fel, így a kifejezést figyelmen kívül lesz hagyva.
@@ -612,13 +724,75 @@
     
     Ehhez egy 15x15-ös logikai feladványt alkottunk azaz 15 tulajdonságkategóriában egyenként 15 tulajdonság(tehát példaszinten 15 objektum/ember) volt. Így összesen 225 különböző, kitalált tulajdonsággal dolgoztunk. Ez az elérhető legnagyobb példa 30 tulajdonságának 7,5-szerese így elmondható, hogy egy szélsőségesen nagy példát sikerült létrehozni. Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy a 2.2. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon. Ezek típusonként egy-egy .csv típusú fájlba speciális formátumban lettek rögzítve. Majd egy általunk készített C Sharp nyelven írt kódgenerátor ezeket a fájlokat végigjárva MiniZinc nyelven írt korlátozásokká alakította, majd egy .mzn kiterjesztésű fájlba írta őket.
     
-    \Abra{code_generator}{}{width=16cm}
+    \definecolor{myblue}{rgb}{0.165, 0.623, 0.792}
+    \definecolor{myred}{rgb}{0.639, 0.082, 0.082} 
+    \lstset{ 
+    	language = csh,
+    	backgroundcolor=\color{white},   
+    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    	breaklines=true,                 % sets automatic line breaking
+    	captionpos=b,                    % sets the caption-position to bottom
+    	commentstyle=\color{green},    % comment style
+    	extendedchars=true,              
+    	frame=single,	                   % adds a frame around the code
+    	keepspaces=true,                 
+    	morekeywords={while, for, string, new, using, int},
+    	keywordstyle=\color{blue},       % keyword style
+    	keywordstyle={[2]\color{myblue}},
+    	keywords=[2]{List, StreamReader, String},
+    	numbers=left,                    
+    	numbersep=5pt,                   % how far the line-numbers are from the code
+    	rulecolor=\color{black},         
+    	showspaces=false,                
+    	showstringspaces=false,          % underline spaces within strings only
+    	showtabs=false,                  % show tabs within strings adding particular underscores
+    	stepnumber=1,                    
+    	stringstyle=\color{myred},     % string literal style
+    	tabsize=3,	                   % sets default tabsize to 2 spaces
+    	title=Kód generátor forráskódrészlete
+    }
     
-    A \ref{fig_code_generator}. ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti. A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható. Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz. Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
+	\begin{lstlisting}
+		string[] kategoriak = new string[15];
+		List<string> output = new List<string>();
+		string[] files = { "InOneOfTheEnds.csv", "Likes.csv", "SomewhereBetween.csv", "InPosition.csv", "SomewhereToTheLeft-Right.csv", "ExactlyToTheLeft-Right.csv" };
+		string[] constraints = { "constraint {0}[1]={1} xor {0}[db]={1};",
+		"constraint forall(szek in PEOPLE)({0}[szek]={1} -> {2}[szek]={3});",
+		"constraint forall(x in PEOPLE)({4}[x]={5} -> count([{2}[szek] | szek in 1..x-1], {3})=1) /\\ forall(x in PEOPLE)({2}[x]={3} -> count([{0}[szek] | szek in x+1..db], {1})=1);",
+		"constraint {0}[{3}]={1};",
+		"constraint forall(x in PEOPLE)({2}[x]={3} -> count([{0}[szek] | szek in 1..x-1], {1})=1);",
+		"constraint forall(szek in 2..db)({2}[szek]={3} -> {0}[szek-1]={1});",
+		"constraint forall(x in PEOPLE)({2}[x]={3} -> count([{0}[szek] | szek in x+1..db], {1})=1);",
+		"constraint forall(szek in 1..db-1)({2}[szek]={3} -> {0}[szek+1]={1});" };
+		
+		using (StreamReader sr = new StreamReader("Kategoriak.csv"))
+		{
+			int sorok = 0;
+			while (!sr.EndOfStream)
+			{
+				kategoriak[sorok] = sr.ReadLine();
+				sorok++;
+			}
+		}
+		
+		for (int i = 0; i < kategoriak.Length; i++)
+		{
+			output.Add(String.Format("array[PEOPLE] of var {0}: {1};", kategoriak[i].Split(";")[0] + "S", kategoriak[i].Split(";")[0]));
+		}
+		for (int i = 0; i < kategoriak.Length; i++)
+		{
+			output.Add(String.Format("constraint alldifferent({0});", kategoriak[i].Split(";")[0]));
+		}
+	\end{lstlisting}
     
-    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán. Az eredmények a x. ábrán láthatóak. Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel.
+    A fenti ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti. A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható. Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz. Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
     
-    Grafikon helye...
+    \Abra{futasido3}{}{width=14cm}
+    
+    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinner-el. Az eredmények a \ref{fig_futasido3}. ábrán láthatóak. Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel. A grafikonról leolvasható, hogy nem meglepő módon, az összes modell  esetében a futásidők megnövekedtek a könnyebb példához viszonyítva. Viszont az már érdekesebb, hogy a legkisebb mértékű növekedés a bináris mátrixokat és relációs operátorokat használó modell esetében jelent meg, itt csupán 9 ms amely szinte elhanyagolható. Ebből a szempontból pedig a legrosszabbul ugyanennek az adatreprezentációnak a logikai operátorokat tartalmazó változata teljesített(92 ms). Ennek ellenére a legjobb eredményt ezúttal is a felsorol típusú tömböket tartalmazó modell érte el, közülük is az A verzió, amely a 2.2.2. alfejezetben bemutatott formátumban, a B verzióval ellentétben teljesen mellőzi a where záradékot. Ebből levonhatjuk azt a következtetést, amelyet még a kisebb példa esetében jelentkező csupán 1 ms-os futásidő különbség esetén alaptalan lett volna kijelenteni. Miszerint ennél az óriás feladatnál már tapasztalt jelentős(52 ms) időbeli eltérés alapján, célszerű a korlátozások megfogalmazásakor a where záradék teljes körű mellőzése, még akkor is ha csupán indexeket és nem döntési változókat használunk benne(mint ahogyan az történt például a Gardens alapverziója esetén). Azonban jelen vizsgálati eredmények ismeretében már látható az, hogy mely modell szerzett ezüstérmet a képzeletbeli dobogón, ami a hatékonyságot illeti. Ugyanis míg nem állt rendelkezésre ezen óriás feladvány, addig a tömbös adatszerkezet B verziója tűnt kézenfekvő opciónak amennyiben ki szeretnénk választani a második leggyorsabban eredményt produkáló modellt. Viszont a korlátozások és változók számának ilyen drasztikus emelése után a tömbös modell B verziója szintén ugyanilyen drasztikus futásidő növekedést produkált. Ellenben a bináris mátrixos, relációs operátoros modell a hozzárendelendő tulajdonságok számának 750\%-os emelése esetén csupán 4,6\%-os futásidőbéli növekedést mutatott. Így habár ilyen nagy méretű példa esetén sem ez a leghatékonyabb megoldás, viszont a legjobban skálázható. Amint az látszik a Movies Night-Fundraising Dinner illetve Fundraising Dinner-Óriás Példa összehasonlításokból, ez a modell minél inkább növeljük a feladat nagyságát annál kisebb mértékben növeli a futásidőt, míg a tömbösnél ez éppen fordítva van.
+    
+    Összefoglalva: sem a relációs operátorok(különösen az implikáció és az ekvivalencia) sem pedig a where záradék használata nem ajánlott amennyiben Einstein-típusú logikai feladványokat szeretne valaki modellezni, mivel ezen elemek meglehetősen rontják a hatékonyságot. Helyettük inkább ajánlott felsorol típusú tömbök használata, illetve alternatívaként áll még a bináris mátrixok használata a relációs operátorokkal kombinálva.
 
 
 \chapter{Összefoglalás}
@@ -626,7 +800,7 @@
     Munkánk során az „Einstein-féle” logikai feladványok szerkezetét és lehetséges megoldásukat vizsgáltuk.
     A feladatok általános modellezése végett megismerkedtünk a korlátprogramozás módszereivel.
     A feladatokat többféle módon modelleztük, és megvizsgáltuk az egyes modellek megoldási hatékonyságát.
-    Ez után azt vizsgáltuk, hogy hogyan lehet kiszűrni a redundáns megkötéseket, amik elhagyásával még egyértelműen megoldható marad a feladat.
+    Ez után azt vizsgáltuk, hogy hogyan lehet kiszűrni a redundáns megkötéseket, amik elhagyásával még egyértelműen megoldható marad a feladat. Végül létrehoztunk egy saját készítésű, a szakirodalomban fellelhető feladványoknál nagyságrendekkel nagyobb példát. Ezen tesztelni tudtuk, hogy modelljeink mennyire bizonyulnak hatékonynak abban az esetben, ha a tulajdonságok és kikötések számát drasztikus mértékben emeljük meg.
 			
 
 \addcontentsline{toc}{chapter}{Irodalomjegyzék}
