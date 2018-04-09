@@ -382,7 +382,7 @@
     	\item Életkor: 11, 12, 13 és 14 éves
     \end{enumerate}
     Ahhoz, hogy megtudjuk, melyik széken ki ült és milyen tulajdonságokkal rendelkezik, rendelkezésre áll 13 állítás, amelyeket a modellezés során korlátozásokként(constraint) kezeltünk.
-    Az első verziójú modell esetében a 4 fiú adatainak tárolására tulajdonságtípusonként egy-egy bináris értékeket(0, 1) tartalmazó 2 dimenziós mátrix került deklarálásra.
+    Az első verziójú modell esetében a 4 fiú adatainak tárolására tulajdonságtípusonként egy-egy bináris értékeket(0, 1) tartalmazó 2 dimenziós mátrix került deklarálásra.(\ref{code6})
 
     \definecolor{mygreen}{rgb}{0, 0.5, 0}
     \lstset{ 
@@ -406,10 +406,9 @@
     	showtabs=false,                  % show tabs within strings adding particular underscores
     	stepnumber=1,                    
     	tabsize=3,	                   % sets default tabsize to 2 spaces
-    	title=Tömbök deklarációja
     }
     
-    \begin{lstlisting}
+    \begin{lstlisting} [caption=Tömbök és felsorol típusok deklarációja, label=code6]
     int: db = 4;
     set of int: PEOPLE = 1..db;
     
@@ -502,9 +501,9 @@
    \end{aligned}
    \end{equation}
 
-    A kimenet képzése a MiniZinc nyelvnek megfelelő szintaktikával valósult meg.
+    A kimenet képzése a MiniZinc nyelvnek megfelelő szintaktikával valósult meg.(\ref{code5})
     
-	\begin{lstlisting}
+	\begin{lstlisting} [caption=Kimenet, label=code5]
 	output [format(width, show(n)) ++ "\t" | t in PEOPLE, n in NAMES where 		  fix(name[n,t])=1]++["\n"];\end{lstlisting}
 
     A format függvény pusztán esztétikai formázást, a show karakterlánccá konvertálást, a fix függvény pedig a változók értékének kiíratás előtti „stabilizálását” végzi.
@@ -525,7 +524,7 @@
     	\item Fogyasztott koktéljuk
     	\item Adakozott pénzmennyiség dollárban
     \end{enumerate}
-    Ennél az adatstruktúránál tulajdonságkategóriánként egy-egy felsorol(enum) típusú egydimenziós tömböt készítettünk, amelyet a már említett segédhalmazzal indexeltünk.
+    Ennél az adatstruktúránál tulajdonságkategóriánként egy-egy felsorol(enum) típusú egydimenziós tömböt készítettünk, amelyet a már említett segédhalmazzal indexeltünk.(\ref{code4})
 
     \definecolor{mygreen}{rgb}{0, 0.5, 0}
     \lstset{ 
@@ -549,17 +548,16 @@
     	showtabs=false,                  % show tabs within strings adding particular underscores
     	stepnumber=1,                    
     	tabsize=3,	                   % sets default tabsize to 2 spaces
-    	title=Tömbök deklarációja
     }
     
-    \begin{lstlisting}
+    \begin{lstlisting} [caption=Tömbök deklarációja, label=code4]
     array[PEOPLE] of var COLORS: dress;
     array[PEOPLE] of var NAMES: name;\end{lstlisting}
 
     Itt a tárolt értékek már a konkrét tulajdonságok neveit vehetik fel, sorrendjük pedig meghatározza, hogy melyik széken ülő emberre mi jellemző.
-    Egy tömbön belül az értékek egyediségét az alldifferent globális constraint biztosítja.
+    Egy tömbön belül az értékek egyediségét az alldifferent globális constraint biztosítja.(\ref{code3})
    
-    \begin{lstlisting}
+    \begin{lstlisting} [caption=Tömbön belüli egyediség biztosítása, label=code3]
     constraint alldifferent(dress);
     constraint alldifferent(name);\end{lstlisting}
 
@@ -618,13 +616,13 @@
     \end{aligned}
     \end{equation}
 
-    Ezen felül ennél a feladatnál azonosítható volt egy újfajta korlátozás, amely egy objektum valamely oldaláról nyilatkozik, viszont nem rögzíti, hogy melyikről.
+    Ezen felül ennél a feladatnál azonosítható volt egy újfajta korlátozás, amely egy objektum valamely oldaláról nyilatkozik, viszont nem rögzíti, hogy melyikről.(\ref{eq:17})
     Ezeknél az úgy nevezett visszafelé következtetés is felhasználásra került.
     Az alábbi példát megvizsgálva észrevehető, hogy abból, hogy Lidia a Cosmopolitant ivó mellett ül, viszont következik az is hogy a Cosmopolitan fogyasztó mellett – üljön ő bárhol is - valamely oldalon kell helyet foglalnia Lidia-nak.
     Ezt az \texttt{xor}(kizáró vagy) operátor biztosítja.
     A széksor széleit a IV. típusnál részletezett okok miatt ismét külön kellett kezelni.
 
-    \begin{equation}
+    \begin{equation} \label{eq:17}
     \begin{aligned}
      &(name_p=Lidia) \rightarrow (cocktail_{p-1}=cosmopolitan \oplus cocktail_{p+1}=cosmopolitan) \quad \wedge \\
    	 &(cocktail_p=cosmopolitan) \rightarrow (name_{p-1}=Lidia \oplus name_{p+1}=Lidia) \quad \wedge \\
@@ -635,9 +633,9 @@
      \end{aligned}
     \end{equation} 
     
-    Az eredmény kiíratásánál itt kihasználható az, hogy a tömb elemeit nem kell vizsgálni, hanem sorrendben, vizsgálat nélkül kiírathatóak.
+    Az eredmény kiíratásánál itt kihasználható az, hogy a tömb elemeit nem kell vizsgálni, hanem sorrendben, vizsgálat nélkül kiírathatóak.(\ref{code2})
 	
-	\begin{lstlisting}
+	\begin{lstlisting} [caption=Kimenet, label=code2]
 	output [format(width,show(dress[p])) ++ "\t" | p in PEOPLE]++["\n"];\end{lstlisting}
 
 \section{Teszteredmények}
@@ -646,7 +644,7 @@
     Érdeklődésünk középpontjában az állt, hogy a különböző nehézségű példák, illetve az elérő módon modellezett korlátozások miként befolyásolják a megoldók hatékonyságát.
     A korábbi fejezetben már vázolt „Gardens” nevű példa elkészülte után, a tesztelés kezdeteként a MiniZinc IDE és a Gecode megoldó két verzióját is összevetettük egymással.
 
-    \Abra{futasido1}{}{width=14cm}
+    \Abra{futasido1}{Futásidők összehasonlítása a szoftver verziói és a modellek között}{width=14cm}
 
     A \ref{fig_futasido1}. ábra tartalmazza a futási eredményeket milliszekundumban(ms) mérve.
     Megoldóként ez esetben a Gecode-ot használtuk.
@@ -669,7 +667,7 @@
     Megoldóként továbbra is a Gecode-ot használtuk, és az átlagszámítási módszer 
     is azonos volt az előzőekben ismertetetthez.
 
-    \Abra{futasido2}{}{width=14cm}
+    \Abra{futasido2}{Futásidők összehasonlítása a különböző feladványok és modellek között}{width=14cm}
 
     Amint az a \ref{fig_futasido2}. ábrán látható a „Fundraising Dinner” feladat esetében hosszabb futásidőket tapasztalhatóak, mint a „Movies Night” esetében, amely a példa összetettebb mivoltát tekintve nem meglepő.
     Az viszont már jóval szembetűnőbb, hogy az eltérés nagyon kicsi, ami jelzi, hogy a megoldó egy nagyobb és nehezebb, több hozzárendeléssel dolgozó feladat esetében is képes a futásidőket abszolút alacsony szinten tartani.
@@ -689,7 +687,7 @@
     Célunk ezek megkeresése, továbbá annak meghatározása volt, hogy elhagyásuk miképpen befolyásolja, vagy befolyásolja-e egyáltalán a különböző megoldók futási illetve megoldási idejét.
     Mivel a megoldók gyorsasága már a korábbiakban bebizonyosodott, ezért nagy esély mutatkozott arra, hogy  egy vagy több korlátozás eltávolítása esetén is rövid idő alatt meg lehet határozni, hogy továbbra is egyértelmű-e az eredmény.
     A feladatok jellegéből adódóan egyértelműnek az az eset volt tekinthető, amikor a program lefutása után csak egy megoldást talál, amely az eredeti – minden kikötést tartalmazó – feladatkiírásnak is megfelel.
-    Módszerünk a következő volt: minden kikötést egy elágazásban helyeztünk el(\ref{fig_selection}. ábra).
+    Módszerünk a következő volt: minden kikötést egy elágazásban helyeztünk el(\ref{code1}. ábra).
 
     \definecolor{mygreen}{rgb}{0, 0.5, 0}
     \lstset{ 
@@ -714,10 +712,9 @@
     	stepnumber=1,                    
     	stringstyle=\color{red},     % string literal style
     	tabsize=3,	                   % sets default tabsize to 2 spaces
-    	title=Elágazásba ágyazott kikötés
     }
 
-    \begin{lstlisting}
+    \begin{lstlisting} [caption=Elágazásba ágyazott kikötés, label=code1]
     	constraint if kivesszuk[4]=1 then true else
     		forall(p in PEOPLE)(necklace[p]=sapphire <-> age[p]=fiftyfive)
     	endif;\end{lstlisting}
@@ -744,7 +741,7 @@
     
     \begin{table}[h]
     	\centering
-    	\caption{}
+    	\caption{Elhagyható kifejezések}
     	\label{elhagyhato}   
     	\begin{tabular}{|c|c|c|c|}
     		\hline 
@@ -821,10 +818,10 @@
     	stepnumber=1,                    
     	stringstyle=\color{myred},     % string literal style
     	tabsize=3,	                   % sets default tabsize to 2 spaces
-    	title=Kód generátor forráskódrészlete
+    	%title=Kód generátor forráskódrészlete
     }
     
-	\begin{lstlisting}
+	\begin{lstlisting}[caption=Kód generátor forráskódrészlete, label=code]
 		string[] kategoriak = new string[15];
 		List<string> output = new List<string>();
 		string[] files = { "InOneOfTheEnds.csv", "Likes.csv", "SomewhereBetween.csv", "InPosition.csv", "SomewhereToTheLeft-Right.csv", "ExactlyToTheLeft-Right.csv" };
@@ -857,7 +854,7 @@
 		}
 	\end{lstlisting}
     
-    A fenti ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti.
+    A \ref{code} kódrészleten a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti.
     A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható.
     Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz.
     Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
