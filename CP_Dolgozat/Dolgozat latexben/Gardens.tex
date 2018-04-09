@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,twoside, openright]{report}
+\documentclass[12pt,a4paper]{report}
 
 \usepackage{makrok}
 \usepackage{listingsutf8}
@@ -6,6 +6,30 @@
 
 \author{Papp Ádám, Sós Nikolett\\Mérnök Informatikus BSc, I. évfolyam\\\ \\Témavezető: Ősz Olivér, doktorandusz\\Széchenyi István Egyetem, GIVK, Informatika Tanszék}
 \title{Logikai feladványok megoldása \\korlátprogramozással}
+
+\definecolor{mygreen}{rgb}{0, 0.5, 0}
+\lstset{ 
+    backgroundcolor=\color{white},   
+    basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+    breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % sets the caption-position to bottom
+    extendedchars=true,              
+    frame=single,	                   % adds a frame around the code
+    keepspaces=true,                 
+    morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
+    keywordstyle=\color{mygreen},       % keyword style
+    keywordstyle={[2]\color{blue}},
+    keywords=[2]{forall, count, show, format, alldifferent, fix},
+    numbers=left,                    
+    numbersep=5pt,                   % how far the line-numbers are from the code
+    rulecolor=\color{black},         
+    showspaces=false,                
+    showstringspaces=false,          % underline spaces within strings only
+    showtabs=false,                  % show tabs within strings adding particular underscores
+    stepnumber=1,                    
+    tabsize=3,	                   % sets default tabsize to 2 spaces
+}
 
 \begin{document}
 
@@ -60,7 +84,7 @@
     A szomszédsági mátrixot – ami egyben a feltételek listája is itt esetünkben – kikötések van megadva.
     A legprimitívebb mód erre az, hogy a szomszédok meg vannak adva páronként, amiknek más és más értéket kell felvenniük, azaz két egymás mellett lévő rész nem lehet egyenlő tulajdonságú.
 
-    \Abra{terkepszinezes}{Térképszínezési feladat MiniZinc modellje}{width=8cm}
+    \Abra{terkepszinezes}{Térképszínezési feladat MiniZinc modellje}{width=7.5cm}
 
     A megoldó úgy dolgozik, hogy kiválaszt egy változót – a példában egy országot – és beállítja egy lehetséges értékre – színre.
     Ezután a korlátozások alapján következtetve csökkenti a többi változó lehetséges értékkészletét.
@@ -125,11 +149,14 @@
 
 \subsection{Bináris mátrix}
 
-    Először is az általunk használt parancsokat mutatnám be a kikötések fajtái alapján a megoldásunk első verzióján.
-    Itt bináris mátrix segítségével dolgoztunk, azaz, ha megtalálható valami a kertben, akkor a helyére 1-est, ha nem akkor 0-át raktunk a táblázatba.
-    A tulajok egy külön tömbben vannak tárolva, melyeket összekötöttünk a kertekkel.
+    Az első változatban bináris mátrixot használtunk a döntések modellezésére.
+    A következőkben ezt a változatot mutatjuk be, és ezen keresztül a használt MiniZinc kulcsszavakat is ismertetjük.
+    A kertek és termények közötti hozzárendelést egy bináris változókat tartalmazó mátrix valósítja meg.
+    Egy lehetséges megoldás mátrixa látható \aref{termenymatrix}. táblázatban.
+    A tulajok egy külön változó tömbben vannak tárolva, amely minden kertre megadja a hozzá tartozó tulajt.
 	
-	\begin{table}
+	\begin{table}[ht!]
+        \label{termenymatrix}
 		\centering
 		\caption{}
 		\begin{tabular}{|c|c|c|c|c|c|}
@@ -164,33 +191,12 @@
 	\end{table}
      
     A legfontosabb, hogy minden utasítást „constraint”-el kell kezdeni.
-    A szó maga is nagyon jól szemlélteti, hogy ami mögé van írva, azt úgymond „kikényszerítjük”, hogy tartsa be a munka során.
-    Első dolgunk a változók deklarálása, méretének megadása és a tömbök létrehozása volt.
-
-    Első kettőt az „int” és „set of int”, utóbbit az „array” kulcsszóval tettük meg, ami után megadtuk a tömb méretét, és azt, hogy milyen értékeket vegyenek fel az elemei.
-	 \definecolor{mygreen}{rgb}{0, 0.5, 0}
-	\lstset{ 
-		backgroundcolor=\color{white},   
-		basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-		breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-		breaklines=true,                 % sets automatic line breaking
-		captionpos=b,                    % sets the caption-position to bottom
-		extendedchars=true,              
-		frame=single,	                   % adds a frame around the code
-		keepspaces=true,                 
-		morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-		keywordstyle=\color{mygreen},       % keyword style
-		keywordstyle={[2]\color{blue}},
-		keywords=[2]{forall, count, show, format, alldifferent, fix},
-		numbers=left,                    
-		numbersep=5pt,                   % how far the line-numbers are from the code
-		rulecolor=\color{black},         
-		showspaces=false,                
-		showstringspaces=false,          % underline spaces within strings only
-		showtabs=false,                  % show tabs within strings adding particular underscores
-		stepnumber=1,                    
-		tabsize=3,	                   % sets default tabsize to 2 spaces
-}
+    A szó maga is jól szemlélteti, hogy ami mögé van írva, azt úgymond „kikényszerítjük”, hogy tartsa be a megoldás során.
+    Elsőként deklarálni kell a változókat, tömböket, megadni a tömbök méretét.
+    A kertek számát egy egész (int) paraméterrel adtuk meg.
+    A „set of int” létrehoz egy számokból álló tömböt.
+    A „var” kulcsszóval lehet változót deklarálni, majd meg kell adni az értékkészletét, ami jelen esetben ${0,1}$.
+    Az „array” segítségével pedig egy akár többdimenziós tömböt lehet létrehozni, amivel deklaráltuk a változókból álló mátrixot.
 \lstset{
 			title=Adatok létrehozása
 }
@@ -355,6 +361,7 @@
     Ez a módszer is egy jó megoldás, ha munkát szeretnénk spórolni később.
 
 \section{Zebra feladatok}
+\label{sec_zebra}
 
     A bevezetőben bemutatott Einstein-féle úgynevezett Zebra Puzzle-típusú fejtörők\cite{zebra} modellezése és megoldása tette ki kutatási tevékenységünk nagy részét.
     A cél az volt, a minél több féle adatszerkezettel és esetleg egy adatszerkezethez is minél több féle módon leírható korlátozások készítése.
@@ -722,9 +729,9 @@
     Ezen elvet követve mindegyik korlátozás egy a fenti ábrához hasonló vezérlési szerkezetbe került beágyazásra.
     A "kivesszuk” tömböt pedig a könnyebb szerkeszthetőség érdekében nem a modellen belül lett definiálva, hanem értéke külön fájl(ok)ból lett beolvasva.
     Mivel egyes példák nagy mennyiségű kikötést tartalmaznak és ebből következően rengeteg féle kombinációban lehetne ezeket elhagyni, így igyekeztük ezeket a teszteket valamilyen szinten automatizálni.
-    Az adatfájlok (a "kivesszuk” tömb definícióját tartalmazó) egy C Sharp programmal voltak generálva oly módon, hogy első körben mindegyikben a tömbnek pontosan egy eleme lesz 1 értékű, így értelemszerűen a korlátozások darabszámával egyező adatfájl keletkezett.
+    Az adatfájlok (a "kivesszuk” tömb definícióját tartalmazó) egy C\# programmal voltak generálva oly módon, hogy első körben mindegyikben a tömbnek pontosan egy eleme lesz 1 értékű, így értelemszerűen a korlátozások darabszámával egyező adatfájl keletkezett.
     Ezeket a modellel együtt parancssorból futtattuk és feljegyeztük azokat a sorszámokat, amelyek esetén egyértelmű eredmény született.
-    Második körben az imént említett C Sharp program legenerálta ezen összegyűjtött sorszámok összes létező, 2 tagból álló kombinációját, majd újabb parancssoros futtatás következett.
+    Második körben az imént említett C\# program legenerálta ezen összegyűjtött sorszámok összes létező, 2 tagból álló kombinációját, majd újabb parancssoros futtatás következett.
     Megint feljegyeztük az eredményeket és ezt ismételtük mindaddig, amíg a sorszámok értékkészlete le nem szűkült teljesen.
     A kapott eredmények meglepőek voltak.
     
@@ -784,7 +791,7 @@
     
     Ehhez egy 15x15-ös logikai feladványt alkottunk azaz 15 tulajdonságkategóriában egyenként 15 tulajdonság(tehát példaszinten 15 objektum/ember) volt.
     Így összesen 225 különböző, kitalált tulajdonsággal dolgoztunk. Ez az elérhető legnagyobb példa 30 tulajdonságának 7,5-szerese így elmondható, hogy egy szélsőségesen nagy példát sikerült létrehozni.
-    Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy a 2.2. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon.
+    Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy \aref{sec_zebra}. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon.
     Ezek típusonként egy-egy .csv típusú fájlba speciális formátumban lettek rögzítve.
     Majd egy általunk készített C\# nyelven írt kódgenerátor ezeket a fájlokat végigjárva MiniZinc nyelven írt korlátozásokká alakította, majd egy .mzn kiterjesztésű fájlba írta őket.
     
@@ -857,13 +864,15 @@
     
     \Abra{futasido3}{}{width=14cm}
     
-    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinner-el.
+    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinnerrel.
     Az eredmények a \ref{fig_futasido3}. ábrán láthatóak.
     Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel.
+    
     A grafikonról leolvasható, hogy nem meglepő módon, az összes modell  esetében a futásidők megnövekedtek a könnyebb példához viszonyítva.
     Viszont az már érdekesebb, hogy a legkisebb mértékű növekedés a bináris mátrixokat és relációs operátorokat használó modell esetében jelent meg, itt csupán 9 ms amely szinte elhanyagolható.
     Ebből a szempontból pedig a legrosszabbul ugyanennek az adatreprezentációnak a logikai operátorokat tartalmazó változata teljesített(92 ms).
-    Ennek ellenére a legjobb eredményt ezúttal is a felsorol típusú tömböket tartalmazó modell érte el, közülük is az A verzió, amely \aref{sec_fundraising} alfejezetben bemutatott formátumban, a B verzióval ellentétben teljesen mellőzi a where záradékot.
+    Ennek ellenére a legjobb eredményt ezúttal is a felsorol típusú tömböket tartalmazó modell érte el, közülük is az A verzió, amely \aref{sec_fundraising}. alfejezetben bemutatott formátumban, a B verzióval ellentétben teljesen mellőzi a where záradékot.
+    
     Ebből levonhatjuk azt a következtetést, amelyet még a kisebb példa esetében jelentkező csupán 1 ms-os futásidő különbség esetén alaptalan lett volna kijelenteni.
     Miszerint ennél az óriás feladatnál már tapasztalt jelentős(52 ms) időbeli eltérés alapján, célszerű a korlátozások megfogalmazásakor a where záradék teljes körű mellőzése, még akkor is ha csupán indexeket és nem döntési változókat használunk benne(mint ahogyan az történt például a Gardens alapverziója esetén).
     Azonban jelen vizsgálati eredmények ismeretében már látható az, hogy mely modell szerzett ezüstérmet a képzeletbeli dobogón, ami a hatékonyságot illeti.

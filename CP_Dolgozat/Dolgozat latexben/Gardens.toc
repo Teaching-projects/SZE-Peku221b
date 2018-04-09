@@ -1,19 +1,19 @@
-\select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{7}{chapter.1}
-\select@language {magyar} \contentsline {section}{\numberline {1.1}Korl\IeC {\'a}tprogramoz\IeC {\'a}s bemutat\IeC {\'a}sa}{7}{section.1.1}
-\select@language {magyar} \contentsline {section}{\numberline {1.2}Logikai feladv\IeC {\'a}nyok bemutat\IeC {\'a}sa}{9}{section.1.2}
-\select@language {magyar} \contentsline {chapter}{\numberline {2}Feladatok modellez\IeC {\'e}se korl\IeC {\'a}tprogramoz\IeC {\'a}ssal}{11}{chapter.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.1}Gardens feladatmegold\IeC {\'a}s}{11}{section.2.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.1}Bin\IeC {\'a}ris m\IeC {\'a}trix}{12}{subsection.2.1.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.2}Where helyett implik\IeC {\'a}ci\IeC {\'o}}{13}{subsection.2.1.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.3}Tulaj hozz\IeC {\'a}rendel\IeC {\'e}si m\IeC {\'a}trix}{13}{subsection.2.1.3}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.4}Term\IeC {\'e}ny halmazok}{14}{subsection.2.1.4}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.5}Integer m\IeC {\'a}trix}{14}{subsection.2.1.5}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.6}Kimenet form\IeC {\'a}z\IeC {\'a}sa}{15}{subsection.2.1.6}
-\select@language {magyar} \contentsline {section}{\numberline {2.2}Zebra feladatok}{15}{section.2.2}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Movies p\IeC {\'e}lda bin\IeC {\'a}ris m\IeC {\'a}trixszal}{16}{subsection.2.2.1}
-\select@language {magyar} \contentsline {subsection}{\numberline {2.2.2}Fundraising Dinner p\IeC {\'e}lda v\IeC {\'a}ltoz\IeC {\'o} t\IeC {\"o}mb\IeC {\"o}kkel}{18}{subsection.2.2.2}
-\select@language {magyar} \contentsline {section}{\numberline {2.3}Teszteredm\IeC {\'e}nyek}{21}{section.2.3}
-\select@language {magyar} \contentsline {chapter}{\numberline {3}Redund\IeC {\'a}ns megk\IeC {\"o}t\IeC {\'e}sek megkeres\IeC {\'e}se}{25}{chapter.3}
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Saj\IeC {\'a}t k\IeC {\'e}sz\IeC {\'\i }t\IeC {\'e}s\IeC {\H u} "\IeC {\'o}ri\IeC {\'a}s" feladv\IeC {\'a}ny}{29}{chapter.4}
-\select@language {magyar} \contentsline {chapter}{\numberline {5}\IeC {\"O}sszefoglal\IeC {\'a}s}{33}{chapter.5}
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\IeC {\'e}k}{33}{chapter.5}
+\select@language {magyar} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{3}{chapter.1}
+\select@language {magyar} \contentsline {section}{\numberline {1.1}Korl\IeC {\'a}tprogramoz\IeC {\'a}s bemutat\IeC {\'a}sa}{3}{section.1.1}
+\select@language {magyar} \contentsline {section}{\numberline {1.2}Logikai feladv\IeC {\'a}nyok bemutat\IeC {\'a}sa}{5}{section.1.2}
+\select@language {magyar} \contentsline {chapter}{\numberline {2}Feladatok modellez\IeC {\'e}se korl\IeC {\'a}tprogramoz\IeC {\'a}ssal}{6}{chapter.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Gardens feladatmegold\IeC {\'a}s}{6}{section.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.1}Bin\IeC {\'a}ris m\IeC {\'a}trix}{7}{subsection.2.1.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.2}Where helyett implik\IeC {\'a}ci\IeC {\'o}}{8}{subsection.2.1.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.3}Tulaj hozz\IeC {\'a}rendel\IeC {\'e}si m\IeC {\'a}trix}{9}{subsection.2.1.3}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.4}Term\IeC {\'e}ny halmazok}{9}{subsection.2.1.4}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.5}Integer m\IeC {\'a}trix}{9}{subsection.2.1.5}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.1.6}Kimenet form\IeC {\'a}z\IeC {\'a}sa}{10}{subsection.2.1.6}
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Zebra feladatok}{10}{section.2.2}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Movies p\IeC {\'e}lda bin\IeC {\'a}ris m\IeC {\'a}trixszal}{11}{subsection.2.2.1}
+\select@language {magyar} \contentsline {subsection}{\numberline {2.2.2}Fundraising Dinner p\IeC {\'e}lda v\IeC {\'a}ltoz\IeC {\'o} t\IeC {\"o}mb\IeC {\"o}kkel}{14}{subsection.2.2.2}
+\select@language {magyar} \contentsline {section}{\numberline {2.3}Teszteredm\IeC {\'e}nyek}{16}{section.2.3}
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Redund\IeC {\'a}ns megk\IeC {\"o}t\IeC {\'e}sek megkeres\IeC {\'e}se}{19}{chapter.3}
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Saj\IeC {\'a}t k\IeC {\'e}sz\IeC {\'\i }t\IeC {\'e}s\IeC {\H u} "\IeC {\'o}ri\IeC {\'a}s" feladv\IeC {\'a}ny}{22}{chapter.4}
+\select@language {magyar} \contentsline {chapter}{\numberline {5}\IeC {\"O}sszefoglal\IeC {\'a}s}{26}{chapter.5}
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyz\IeC {\'e}k}{26}{chapter.5}
