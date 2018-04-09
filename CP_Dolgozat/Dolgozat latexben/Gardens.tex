@@ -699,17 +699,18 @@
 
     \begin{equation} \label{eq:15}
     \begin{aligned}  
-    	&donation[x]=fourtythousand \rightarrow count([dress[p] \quad \forall p \in 1..x-1], red)=1 \quad \forall x \in PEOPLE \wedge \\
-    	&dress[x]=red \rightarrow count([donation[p] \quad \forall p \in x+1..db], fourtythousand)=1 \quad \forall x \in PEOPLE \wedge \\
-    	&donation[x]=twentythousand \rightarrow count([dress[p] \quad \forall p \in x+1..db], red)=1 \quad \forall x \in PEOPLE \wedge \\
-    	&dress[x]=red \rightarrow count([donation[p] \quad \forall p \in 1..x-1], twentythousand)=1 \quad \forall x \in PEOPLE \wedge \\
+   	    &donation[x]=fourtythousand \rightarrow count([dress[p] \quad \forall p \in 1..x-1], red)=1 \quad \wedge \\
+   	    &dress[x]=red \rightarrow count([donation[p] \quad \forall p \in x+1..db], fourtythousand)=1 \quad \wedge \\
+   	    &donation[x]=twentythousand \rightarrow count([dress[p] \quad \forall p \in x+1..db], red)=1 \quad \wedge \\
+   	    &dress[x]=red \rightarrow count([donation[p] \quad \forall p \in 1..x-1], twentythousand)=1 \\
+        &\forall x \in PEOPLE
     \end{aligned}
     \end{equation}
     
     \begin{equation} \label{eq:16}
     \begin{aligned}
-    	&\neg(donation[a]=fourtythousand \wedge dress[b]=red) \quad \forall a,b \in PEOPLE \wedge a<b \qquad \wedge \\
-    	&\neg(dress[a]=red \wedge donation[b]=twentythousand) \quad \forall a,b \in PEOPLE \wedge a<b \qquad \wedge \\
+    	&\neg(donation[a]=fourtythousand \wedge dress[b]=red) \quad \wedge \\
+    	&\neg(dress[a]=red \wedge donation[b]=twentythousand) \quad \forall a,b \in PEOPLE \wedge a<b \\
     \end{aligned}
     \end{equation}
 
@@ -721,9 +722,8 @@
 
     \begin{equation}
     \begin{aligned}
-     &(name_p=Lidia) \rightarrow (cocktail_{p-1}=cosmopolitan \oplus cocktail_{p+1}=cosmopolitan) \\ 
-     &\quad \quad \forall  p \in 2..db-1 \quad \wedge \\
-   	 &(cocktail_p=cosmopolitan) \rightarrow (name_{p-1}=Lidia \oplus name_{p+1}=Lidia) \quad  \wedge \\
+     &(name_p=Lidia) \rightarrow (cocktail_{p-1}=cosmopolitan \oplus cocktail_{p+1}=cosmopolitan) \quad \wedge \\
+   	 &(cocktail_p=cosmopolitan) \rightarrow (name_{p-1}=Lidia \oplus name_{p+1}=Lidia) \quad \wedge \\
      &(name_1=Lidia \rightarrow cocktail_2=cosmopolitan) \quad \wedge \\
      &(name_{db}=Lidia \rightarrow cocktail_{db-1}=cosmopolitan) \quad \wedge \\
      &(cocktail_1= cosmopolitan \rightarrow name_2=Lidia) \quad \wedge \\
