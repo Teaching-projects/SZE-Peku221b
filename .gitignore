@@ -11,3 +11,5 @@
 *.spl
 *.synctex.gz
 *.log
+*.bbl
+*.blg

@@ -1,25 +1,19 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Gardens.aux
-The style file: plain.bst
+The style file: unsrt.bst
 Database file #1: gardens.bib
+Warning--empty journal in sketchpad
 Name 1 in "Schulte, C., Tack, G., and Lagerkvist, M. Z." has a comma at the end for entry gecode
-while executing---line 1049 of file plain.bst
+while executing---line 944 of file unsrt.bst
 Too many commas in name 1 of "Schulte, C., Tack, G., and Lagerkvist, M. Z." for entry gecode
-while executing---line 1049 of file plain.bst
-Warning--to sort, need author or key in gardens
-Warning--to sort, need author or key in zebra
-Warning--empty author in zebra
-Warning--empty journal in zebra
-Warning--empty year in zebra
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in gecode
+Warning--empty journal in logic
+Warning--empty journal in logicpuzzles
+Warning--empty journal in magyarmodszer
 Warning--empty author in gardens
 Warning--empty journal in gardens
 Warning--empty year in gardens
-Warning--empty journal in logicpuzzles
-Warning--empty journal in magyarmodszer
-Warning--empty journal in logic
-Name 1 in "Schulte, C., Tack, G., and Lagerkvist, M. Z." has a comma at the end for entry gecode
-while executing---line 1090 of file plain.bst
-Too many commas in name 1 of "Schulte, C., Tack, G., and Lagerkvist, M. Z." for entry gecode
-while executing---line 1090 of file plain.bst
-Warning--empty journal in gecode
-Warning--empty journal in sketchpad
-(There were 4 error messages)
+Warning--empty author in zebra
+Warning--empty journal in zebra
+Warning--empty year in zebra
+(There were 2 error messages)
