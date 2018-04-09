@@ -190,8 +190,10 @@
 		showtabs=false,                  % show tabs within strings adding particular underscores
 		stepnumber=1,                    
 		tabsize=3,	                   % sets default tabsize to 2 spaces
-		title=Adatok létrehozása
-	}
+}
+\lstset{
+			title=Adatok létrehozása
+}
 	\begin{lstlisting}
 	int: kertek;
 	set of int: Kertek = 1..kertek;
@@ -202,28 +204,7 @@
 
     Direkt ezekre az esetekre áll rendelkezésünkre az „alldifferent”, ami kifejezi, hogy mint a kertek, mint a tulajok csak és kizárólag egyszer szerepelnek és eltérnek egymástól.
     
-\definecolor{mygreen}{rgb}{0, 0.5, 0}
 \lstset{ 
-	backgroundcolor=\color{white},   
-	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
-	extendedchars=true,              
-	frame=single,	                   % adds a frame around the code
-	keepspaces=true,                 
-	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-	keywordstyle=\color{mygreen},       % keyword style
-	keywordstyle={[2]\color{blue}},
-	keywords=[2]{forall, count, show, format, alldifferent, fix},
-	numbers=left,                    
-	numbersep=5pt,                   % how far the line-numbers are from the code
-	rulecolor=\color{black},         
-	showspaces=false,                
-	showstringspaces=false,          % underline spaces within strings only
-	showtabs=false,                  % show tabs within strings adding particular underscores
-	stepnumber=1,                    
-	tabsize=3,	                   % sets default tabsize to 2 spaces
 	title="Alldifferent" parancs
 }
     \begin{lstlisting}
@@ -248,28 +229,7 @@
     A harmadik pedig nagyon hasonlít a másodikhoz, de a szövegben valamilyen formában még jobban hangsúlyozza az állítást.
     Ilyen esetekre van az „exactly” a kulcsszó a gyűjteményben , aminek konkrét felépítési kritériuma van.
 
-    \definecolor{mygreen}{rgb}{0, 0.5, 0}
     \lstset{ 
-    	backgroundcolor=\color{white},   
-    	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-    	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-    	breaklines=true,                 % sets automatic line breaking
-    	captionpos=b,                    % sets the caption-position to bottom
-    	extendedchars=true,              
-    	frame=single,	                   % adds a frame around the code
-    	keepspaces=true,                 
-    	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-    	keywordstyle=\color{mygreen},       % keyword style
-    	keywordstyle={[2]\color{blue}},
-    	keywords=[2]{forall, count, show, format, alldifferent, fix},
-    	numbers=left,                    
-    	numbersep=5pt,                   % how far the line-numbers are from the code
-    	rulecolor=\color{black},         
-    	showspaces=false,                
-    	showstringspaces=false,          % underline spaces within strings only
-    	showtabs=false,                  % show tabs within strings adding particular underscores
-    	stepnumber=1,                    
-    	tabsize=3,	                   % sets default tabsize to 2 spaces
     	title="Exactly" bemutatása
     }
     \begin{lstlisting}
@@ -329,28 +289,7 @@
 
     A következő ötletünk az volt, hogy a kétdimenziós tömb helyett halmazokkal reprezentáljuk a megoldást.
 
-   \definecolor{mygreen}{rgb}{0, 0.5, 0}
    \lstset{ 
-   	backgroundcolor=\color{white},   
-   	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-   	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-   	breaklines=true,                 % sets automatic line breaking
-   	captionpos=b,                    % sets the caption-position to bottom
-   	extendedchars=true,              
-   	frame=single,	                   % adds a frame around the code
-   	keepspaces=true,                 
-   	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-   	keywordstyle=\color{mygreen},       % keyword style
-   	keywordstyle={[2]\color{blue}},
-   	keywords=[2]{forall, count, show, format, alldifferent, fix},
-   	numbers=left,                    
-   	numbersep=5pt,                   % how far the line-numbers are from the code
-   	rulecolor=\color{black},         
-   	showspaces=false,                
-   	showstringspaces=false,          % underline spaces within strings only
-   	showtabs=false,                  % show tabs within strings adding particular underscores
-   	stepnumber=1,                    
-   	tabsize=3,	                   % sets default tabsize to 2 spaces
    	title=Halmaz definiálása
    }
     \begin{lstlisting}
@@ -384,28 +323,7 @@
     Az első dimenzió maradt a kertek halmaza, de a második dimenzió már nem az összes terményen megy végig, hanem a 4 termesztett növényen, és nem bináris értékekkel történik a hozzárendelés, hanem 4 növénytípus „enum”-ként való megadásával.
     Egy másik fontos változtatás volt, hogy itt mivel nem tudtunk sorösszegeket számolni, így a „count”-ot kellett használnunk.
 
-\definecolor{mygreen}{rgb}{0, 0.5, 0}
 \lstset{ 
-	backgroundcolor=\color{white},   
-	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
-	extendedchars=true,              
-	frame=single,	                   % adds a frame around the code
-	keepspaces=true,                 
-	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-	keywordstyle=\color{mygreen},       % keyword style
-	keywordstyle={[2]\color{blue}},
-	keywords=[2]{forall, count, show, format, alldifferent, fix},
-	numbers=left,                    
-	numbersep=5pt,                   % how far the line-numbers are from the code
-	rulecolor=\color{black},         
-	showspaces=false,                
-	showstringspaces=false,          % underline spaces within strings only
-	showtabs=false,                  % show tabs within strings adding particular underscores
-	stepnumber=1,                    
-	tabsize=3,	                   % sets default tabsize to 2 spaces
 	title="Count" használata
 }
    \begin{lstlisting}
@@ -424,28 +342,7 @@
 
     A kimeneteket egységesen minden verziónál formáztuk a jobb olvashatóság érdekében.
 
-\definecolor{mygreen}{rgb}{0, 0.5, 0}
 \lstset{ 
-	backgroundcolor=\color{white},   
-	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-	breaklines=true,                 % sets automatic line breaking
-	captionpos=b,                    % sets the caption-position to bottom
-	extendedchars=true,              
-	frame=single,	                   % adds a frame around the code
-	keepspaces=true,                 
-	morekeywords={constraint, enum, set, where, if, output, array, of, var, in},
-	keywordstyle=\color{mygreen},       % keyword style
-	keywordstyle={[2]\color{blue}},
-	keywords=[2]{forall, count, show, format, alldifferent, fix},
-	numbers=left,                    
-	numbersep=5pt,                   % how far the line-numbers are from the code
-	rulecolor=\color{black},         
-	showspaces=false,                
-	showstringspaces=false,          % underline spaces within strings only
-	showtabs=false,                  % show tabs within strings adding particular underscores
-	stepnumber=1,                    
-	tabsize=3,	                   % sets default tabsize to 2 spaces
 	title="Output" formázása 
 }
    \begin{lstlisting}
