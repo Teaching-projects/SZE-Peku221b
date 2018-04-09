@@ -52,6 +52,7 @@
     Az egyik legnépszerűbb megoldó a Gecode, melynek fő alkotója Christian Schulte\cite{gecode}.
     A munkát 2002-ben kezdték meg, 2005 decemberében adták ki az első verziót, és onnantól kezdve több évben is aranyérmes lett az Association for Constraint Programming által rendezett versenyeken.
     A Gecode-on kívül más megoldókkal is képes együttműködni a MiniZinc, ilyen például a Gurobi, a Chuffed és a CBC.
+    
     A megoldók általános működését legkönnyebben egy feladaton keresztül lehet szemléltetni.
     A feladványt a szakirodalomban „négyszín tételként” szokták említeni.
     Adottak bizonyos országok és ezeket úgy kell kiszínezni adott számú színnel, hogy a szomszédos területek ne legyenek azonosak.
@@ -59,7 +60,7 @@
     A szomszédsági mátrixot – ami egyben a feltételek listája is itt esetünkben – kikötések van megadva.
     A legprimitívebb mód erre az, hogy a szomszédok meg vannak adva páronként, amiknek más és más értéket kell felvenniük, azaz két egymás mellett lévő rész nem lehet egyenlő tulajdonságú.
 
-    \Abra{terkepszinezes}{}{width=8cm}
+    \Abra{terkepszinezes}{Térképszínezési feladat MiniZinc modellje}{width=8cm}
 
     A megoldó úgy dolgozik, hogy kiválaszt egy változót – a példában egy országot – és beállítja egy lehetséges értékre – színre.
     Ezután a korlátozások alapján következtetve csökkenti a többi változó lehetséges értékkészletét.
@@ -68,9 +69,11 @@
     Ha a propagáció során egy változó lehetséges értékkészlete üressé válik, akkor a megoldó visszavonja a legutolsó értékadást, és az adott értéket kizárja a változó értékkészletéből, mert ellentmondáshoz vezet.
     Ezután egy másik értéket ad neki, vagy egy új változót választ ki.
     Amikor minden változónak sikerült értéket adni, akkor az egy lehetséges megoldása a feladatnak.
+    
     Természetesen nem csak egy megoldás létezhet, ha például a piros és a fekete szín fel van cserélve egymással, akkor az már másik megoldásnak fog számítani.
     Ha több megoldásra vagyunk kíváncsiak, folytathatjuk a keresést az utolsó értékadás visszavonásával.
     A korlátprogramozásnak ez egy hatalmas előnye más módszerekhez képest, hogy az összes lehetséges megoldást kiadja nekünk, nem pedig csak egyet.
+    
     A módszer optimalizálásra is használható, ahol a megoldások értékét egy célfüggvény adja meg.
     A keresés során egy további korlátozást kell figyelembe venni: hogy a megoldás értéke az eddig megtalált megoldásoknál jobb legyen.
 
@@ -81,9 +84,11 @@
     Fontos megjegyezni, hogy nem tartotta külön tudománynak, csupán egy eszközként tekintett rá más szakirányokhoz.
     Szerinte ennek az elsajátítása ugyanannyira nem „tudatos”, mint az anyanyelv megtanulása.\cite{logic}
     A összes vizsgált feladatunk a logikára épül, ezért is kapták a „logikai feladvány” nevet.
+    
     Mi részletesebben az „Einstein-féle” esetekkel\cite{logicpuzzles} dolgoztunk.
     Ezekben a feladatokban adottak személyek és hozzájuk több személyes tulajdonság vagy tárgy, melyek mindegyike csak egy bizonyos emberhez tartozik, de hogy melyik kihez, annak a meghatározása maga a feladat.
     A feladvány megad néhány állítást a személyekről és tulajdonságaikról, melyekből levezethető a helyes hozzárendelés.
+    
     A leghíresebb feladata a következő.
     Adva van öt különböző színű ház egymás mellett, melyekben más és más nemzetiségű lakó él.
     Mind az öt ház tulajdonosa egy bizonyos italt iszik, egy bizonyos márkájú cigarettát vesz, és egy adott háziállata van.
@@ -103,10 +108,9 @@
     Einstein feladatát egyes források szerint az emberiség csupán 2 százaléka képes megoldani, ami nem tudományosan alátámasztott adat, de azt mindenképpen kifejezi, hogy bizony jó logikára van szükség hozzá.
     Ez is bizonyítja, hogy egyes feladatoknál ahhoz, hogy megkapjuk az eredményt sok időt és energiát kell belefektetni a munkába.
     Éppen ezért vizsgáltuk azt, hogy hogyan lehet az ilyen feladványok megoldását számítógépes segítséggel meghatározni.
-		
+
+
 \chapter{Feladatok modellezése korlátprogramozással}
-
-
 
 \section{Gardens feladatmegoldás} 
 
@@ -116,7 +120,6 @@
     Ezeken a területeken 12-féle növényből termesztenek 4-et fejenként.
     Azt is tudjuk, hogy ezekből a terményekből 4 gyümölcs, 4 zöldség és 4 virág van.
     Azt, hogy ki melyik kertben dolgozik és azt, hogy mit tartalmaznak ezek, azt kikötések sora után tudjuk csak meg, aminek a végeredményét az alábbi kép szemlélteti.
-
 
     \Abra{gardens}{}{width=10cm}
 
@@ -604,6 +607,7 @@
     A where záradékban pedig azt vizsgáljuk, hogy a bináris mátrixban hol található 1-es érték, mert csak azokat az értékeket íratjuk ki.
 
 \subsection{Fundraising Dinner példa változó tömbökkel}
+\label{sec_fundraising}
 
     Az eddigiekben részletezett bináris mátrix mellett egy másik, ettől merőben eltérő adatszerkezettel rendelkező implementációt is készítettünk.
     Ezt a második, 5x6-os méretű feladatunkon, a „Fundraising Dinner” címűn keresztül fogjuk bemutatni.
@@ -743,7 +747,7 @@
     A \ref{fig_futasido1}. ábra tartalmazza a futási eredményeket milliszekundumban(ms) mérve.
     Megoldóként ez esetben a Gecode-ot használtuk.
     Az átlag mindegyik esetben 6 futtatás számtani közepe.
-    Az adatokból több következetés is levonható.
+    Az adatokból több következtetés is levonható.
     Egyrészről, a 2.1.6-os verzió minden esetben valamivel lassabban oldotta meg a példákat, elmondható, hogy készítői láthatóan javítottak termékükön és optimalizálták a hatékonyságát.
     A második szembetűnő jelenség, miszerint az készített alapmodell/alapverzió, még meglehetősen nyersnek bizonyult megoldhatóság szempontjából is.
     A futási eredmények jó okot szolgáltatnak a forall függvény where záradékában döntési alapként felhasznált, értékkel még nem feltétlenül rendelkező változók használatának kerülésére.
@@ -876,9 +880,16 @@
     
     Az előző fejezetben tárgyalt redundáns korlátozások eltávolításakor merült fel a gondolat, hogy a felesleges kifejezések keresésére készített automatizmust valamilyen formában felhasználható lenne egy saját, a különböző forrásokból elérhető logikai feladványoknál nagyságrendekkel nagyobb példa létrehozására.
     
-    A szakirodalomban, illetve internetes forrásokból elérhető, főként Zebra típusú logikai feladványok - köztük még a legnehezebbek is - maximum 6 tulajdonság kategóriával illetve maximum 5 különböző objektummal(általában emberrel) dolgoznak. Egyébként ezek pont a Fundraising Dinner feladvány méretei, mivel többek között ez rendelkezett maximális nagysággal. Ez részben érthető mivel ezeket emberek tervezték embereknek, akik szórakozásból oldják meg őket, többnyire papíron, így túlságosan nagy példa részükre nem adható. Mivel nekünk azonban rendelkezésre állt több különböző modell, így ezek még hitelesebb és szembetűnőbb összehasonlítására egy óriás példa létrehozása és tesztelése kézenfekvőnek tűnt.
+    A szakirodalomban, illetve internetes forrásokból elérhető, főként Zebra típusú logikai feladványok - köztük még a legnehezebbek is - maximum 6 tulajdonság kategóriával illetve maximum 5 különböző objektummal(általában emberrel) dolgoznak.
+    Egyébként ezek pont a Fundraising Dinner feladvány méretei, mivel többek között ez rendelkezett maximális nagysággal.
+    Ez részben érthető mivel ezeket emberek tervezték embereknek, akik szórakozásból oldják meg őket, többnyire papíron, így túlságosan nagy példa részükre nem adható.
+    Mivel nekünk azonban rendelkezésre állt több különböző modell, így ezek még hitelesebb és szembetűnőbb összehasonlítására egy óriás példa létrehozása és tesztelése kézenfekvőnek tűnt.
     
-    Ehhez egy 15x15-ös logikai feladványt alkottunk azaz 15 tulajdonságkategóriában egyenként 15 tulajdonság(tehát példaszinten 15 objektum/ember) volt. Így összesen 225 különböző, kitalált tulajdonsággal dolgoztunk. Ez az elérhető legnagyobb példa 30 tulajdonságának 7,5-szerese így elmondható, hogy egy szélsőségesen nagy példát sikerült létrehozni. Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy a 2.2. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon. Ezek típusonként egy-egy .csv típusú fájlba speciális formátumban lettek rögzítve. Majd egy általunk készített C Sharp nyelven írt kódgenerátor ezeket a fájlokat végigjárva MiniZinc nyelven írt korlátozásokká alakította, majd egy .mzn kiterjesztésű fájlba írta őket.
+    Ehhez egy 15x15-ös logikai feladványt alkottunk azaz 15 tulajdonságkategóriában egyenként 15 tulajdonság(tehát példaszinten 15 objektum/ember) volt.
+    Így összesen 225 különböző, kitalált tulajdonsággal dolgoztunk. Ez az elérhető legnagyobb példa 30 tulajdonságának 7,5-szerese így elmondható, hogy egy szélsőségesen nagy példát sikerült létrehozni.
+    Ehhez összesen 238 darab korlátozás került megfogalmazásra úgy, hogy a 2.2. fejezetben bemutatott 6 típusú korlátozás mindegyikéhez körülbelül egyenlő számú tartozzon.
+    Ezek típusonként egy-egy .csv típusú fájlba speciális formátumban lettek rögzítve.
+    Majd egy általunk készített C\# nyelven írt kódgenerátor ezeket a fájlokat végigjárva MiniZinc nyelven írt korlátozásokká alakította, majd egy .mzn kiterjesztésű fájlba írta őket.
     
     \definecolor{myblue}{rgb}{0.165, 0.623, 0.792}
     \definecolor{myred}{rgb}{0.639, 0.082, 0.082} 
@@ -942,13 +953,31 @@
 		}
 	\end{lstlisting}
     
-    A fenti ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti. A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható. Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz. Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
+    A fenti ábrán a kódgenerátor forráskódjának egy részlete látható, amely éppen a tömbös modellünk B verzióját készíti.
+    A constraints tömbben található 8 db helyőrzőkkel(kapcsos zárójelek közötti számok) gazdagon tarkított string literál módosításával tetszőleges modell korlátozásai generálhatóak, sőt akár más programozási/modellezési nyelvekre is könnyedén átírható.
+    Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz.
+    Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
     
     \Abra{futasido3}{}{width=14cm}
     
-    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinner-el. Az eredmények a \ref{fig_futasido3}. ábrán láthatóak. Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel. A grafikonról leolvasható, hogy nem meglepő módon, az összes modell  esetében a futásidők megnövekedtek a könnyebb példához viszonyítva. Viszont az már érdekesebb, hogy a legkisebb mértékű növekedés a bináris mátrixokat és relációs operátorokat használó modell esetében jelent meg, itt csupán 9 ms amely szinte elhanyagolható. Ebből a szempontból pedig a legrosszabbul ugyanennek az adatreprezentációnak a logikai operátorokat tartalmazó változata teljesített(92 ms). Ennek ellenére a legjobb eredményt ezúttal is a felsorol típusú tömböket tartalmazó modell érte el, közülük is az A verzió, amely a 2.2.2. alfejezetben bemutatott formátumban, a B verzióval ellentétben teljesen mellőzi a where záradékot. Ebből levonhatjuk azt a következtetést, amelyet még a kisebb példa esetében jelentkező csupán 1 ms-os futásidő különbség esetén alaptalan lett volna kijelenteni. Miszerint ennél az óriás feladatnál már tapasztalt jelentős(52 ms) időbeli eltérés alapján, célszerű a korlátozások megfogalmazásakor a where záradék teljes körű mellőzése, még akkor is ha csupán indexeket és nem döntési változókat használunk benne(mint ahogyan az történt például a Gardens alapverziója esetén). Azonban jelen vizsgálati eredmények ismeretében már látható az, hogy mely modell szerzett ezüstérmet a képzeletbeli dobogón, ami a hatékonyságot illeti. Ugyanis míg nem állt rendelkezésre ezen óriás feladvány, addig a tömbös adatszerkezet B verziója tűnt kézenfekvő opciónak amennyiben ki szeretnénk választani a második leggyorsabban eredményt produkáló modellt. Viszont a korlátozások és változók számának ilyen drasztikus emelése után a tömbös modell B verziója szintén ugyanilyen drasztikus futásidő növekedést produkált. Ellenben a bináris mátrixos, relációs operátoros modell a hozzárendelendő tulajdonságok számának 750\%-os emelése esetén csupán 4,6\%-os futásidőbéli növekedést mutatott. Így habár ilyen nagy méretű példa esetén sem ez a leghatékonyabb megoldás, viszont a legjobban skálázható. Amint az látszik a Movies Night-Fundraising Dinner illetve Fundraising Dinner-Óriás Példa összehasonlításokból, ez a modell minél inkább növeljük a feladat nagyságát annál kisebb mértékben növeli a futásidőt, míg a tömbösnél ez éppen fordítva van.
+    Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinner-el.
+    Az eredmények a \ref{fig_futasido3}. ábrán láthatóak.
+    Az átlagszámítási módszer megegyezett a  3. fejezetben ismertetettel.
+    A grafikonról leolvasható, hogy nem meglepő módon, az összes modell  esetében a futásidők megnövekedtek a könnyebb példához viszonyítva.
+    Viszont az már érdekesebb, hogy a legkisebb mértékű növekedés a bináris mátrixokat és relációs operátorokat használó modell esetében jelent meg, itt csupán 9 ms amely szinte elhanyagolható.
+    Ebből a szempontból pedig a legrosszabbul ugyanennek az adatreprezentációnak a logikai operátorokat tartalmazó változata teljesített(92 ms).
+    Ennek ellenére a legjobb eredményt ezúttal is a felsorol típusú tömböket tartalmazó modell érte el, közülük is az A verzió, amely \aref{sec_fundraising} alfejezetben bemutatott formátumban, a B verzióval ellentétben teljesen mellőzi a where záradékot.
+    Ebből levonhatjuk azt a következtetést, amelyet még a kisebb példa esetében jelentkező csupán 1 ms-os futásidő különbség esetén alaptalan lett volna kijelenteni.
+    Miszerint ennél az óriás feladatnál már tapasztalt jelentős(52 ms) időbeli eltérés alapján, célszerű a korlátozások megfogalmazásakor a where záradék teljes körű mellőzése, még akkor is ha csupán indexeket és nem döntési változókat használunk benne(mint ahogyan az történt például a Gardens alapverziója esetén).
+    Azonban jelen vizsgálati eredmények ismeretében már látható az, hogy mely modell szerzett ezüstérmet a képzeletbeli dobogón, ami a hatékonyságot illeti.
+    Ugyanis míg nem állt rendelkezésre ezen óriás feladvány, addig a tömbös adatszerkezet B verziója tűnt kézenfekvő opciónak amennyiben ki szeretnénk választani a második leggyorsabban eredményt produkáló modellt.
+    Viszont a korlátozások és változók számának ilyen drasztikus emelése után a tömbös modell B verziója szintén ugyanilyen drasztikus futásidő növekedést produkált.
+    Ellenben a bináris mátrixos, relációs operátoros modell a hozzárendelendő tulajdonságok számának 750\%-os emelése esetén csupán 4,6\%-os futásidőbéli növekedést mutatott.
+    Így habár ilyen nagy méretű példa esetén sem ez a leghatékonyabb megoldás, viszont a legjobban skálázható.
+    Amint az látszik a Movies Night-Fundraising Dinner illetve Fundraising Dinner-Óriás Példa összehasonlításokból, ez a modell minél inkább növeljük a feladat nagyságát annál kisebb mértékben növeli a futásidőt, míg a tömbösnél ez éppen fordítva van.
     
-    Összefoglalva: sem a relációs operátorok(különösen az implikáció és az ekvivalencia) sem pedig a where záradék használata nem ajánlott amennyiben Einstein-típusú logikai feladványokat szeretne valaki modellezni, mivel ezen elemek meglehetősen rontják a hatékonyságot. Helyettük inkább ajánlott felsorol típusú tömbök használata, illetve alternatívaként áll még a bináris mátrixok használata a relációs operátorokkal kombinálva.
+    Összefoglalva: sem a relációs operátorok(különösen az implikáció és az ekvivalencia) sem pedig a where záradék használata nem ajánlott amennyiben Einstein-típusú logikai feladványokat szeretne valaki modellezni, mivel ezen elemek meglehetősen rontják a hatékonyságot.
+    Helyettük inkább ajánlott felsorol típusú tömbök használata, illetve alternatívaként áll még a bináris mátrixok használata a relációs operátorokkal kombinálva.
 
 
 \chapter{Összefoglalás}
@@ -956,11 +985,13 @@
     Munkánk során az „Einstein-féle” logikai feladványok szerkezetét és lehetséges megoldásukat vizsgáltuk.
     A feladatok általános modellezése végett megismerkedtünk a korlátprogramozás módszereivel.
     A feladatokat többféle módon modelleztük, és megvizsgáltuk az egyes modellek megoldási hatékonyságát.
-    Ez után azt vizsgáltuk, hogy hogyan lehet kiszűrni a redundáns megkötéseket, amik elhagyásával még egyértelműen megoldható marad a feladat. Végül létrehoztunk egy saját készítésű, a szakirodalomban fellelhető feladványoknál nagyságrendekkel nagyobb példát. Ezen tesztelni tudtuk, hogy modelljeink mennyire bizonyulnak hatékonynak abban az esetben, ha a tulajdonságok és kikötések számát drasztikus mértékben emeljük meg.
-			
+    Ez után azt vizsgáltuk, hogy hogyan lehet kiszűrni a redundáns megkötéseket, amik elhagyásával még egyértelműen megoldható marad a feladat.
+    Végül létrehoztunk egy saját készítésű, a szakirodalomban fellelhető feladványoknál nagyságrendekkel nagyobb példát.
+    Ezen tesztelni tudtuk, hogy modelljeink mennyire bizonyulnak hatékonynak abban az esetben, ha a tulajdonságok és kikötések számát drasztikus mértékben emeljük meg.
+
 
 \addcontentsline{toc}{chapter}{Irodalomjegyzék}
 \bibliographystyle{plain}
-\bibliography{gardens}				
-				
-\end{document}				
+\bibliography{gardens}
+
+\end{document}
