@@ -407,7 +407,7 @@
     A mátrixok sorai az egyes tulajdonságok konkrét értékeit az oszlopai pedig sorrendben a fiúk moziban elfoglalt helyét jelölik.
     A MiniZinc nyelv sajátosságait kihasználva, a sorokat egy-egy felsorol(enum) típusú tömb indexeli.
     Ennek a megoldás kiíratásánál illetve a korlátozások megfogalmazásánál lesz különös szerepe.
-    Az oszlopok indexelésére pedig szintén a leíró nyelv sajátossága miatt egy {1..4} értékkészletű segédhalmazt(PEOPLE) használtunk, ahogy az a \ref{fig_binary_mtx}. ábrán is látható.
+    Az oszlopok indexelésére pedig szintén a leíró nyelv sajátossága miatt egy {1..4} értékkészletű segédhalmazt(PEOPLE) használtunk, ahogy az a \ref{code6}. ábrán is látható.
     Vegyünk egy példát: amennyiben a movie mátrix 3. sorának és 1. oszlopának metszetében az 1-es érték szerepel(\texttt{movie[horror, 1]=1}) azt jelenti, hogy az első helyen ülő fiúnak a horrorfilm a kedvence.
     A \texttt{db} változóra a teljeskörű paraméterezhetőség miatt van szükség, értéke jelen esetben a fiúk(és egyben kategóriánként a különböző tulajdonságok) számával egyenlő. A későbbiekben fogjuk sűrűn használni.
     Belátható, hogy mivel egy tulajdonság kategóriából minden fiúhoz(egész pontosan ülőhelyhez, mivel még nem tudjuk, ki hol ül) pontosan egy értéket rendelhetünk hozzá, ezért az összes bináris mátrix sor- és oszlopösszegeinek egyenlőnek kell lenniük 1-gyel.
@@ -569,15 +569,15 @@
     B változat esetében pedig az indexekkel való bejárásnál fogalmazható meg egy apróbb szabály(\ref{eq:14}).
 	
 	\begin{equation} \label{eq:13}
-		\begin{aligned}
-		&cocktail[x]=margarita \rightarrow count([dress[p] \quad \forall p \in 1..x-1], blue)=1 \quad \forall x \in PEOPLE \quad \wedge \\
-		&dress[x]=blue \rightarrow count([cocktail[p] \quad \forall p \in x+1..db], margarita)=1 \quad \forall x \in PEOPLE \quad \wedge \\
-		\end{aligned}
+	\begin{aligned}
+	&cocktail[x]=margarita \rightarrow count([dress[p] \quad \forall p \in 1..x-1], blue)=1 \quad \forall x \in PEOPLE \quad \wedge \\
+	&dress[x]=blue \rightarrow count([cocktail[p] \quad \forall p \in x+1..db], margarita)=1 \quad \forall x \in PEOPLE \quad \wedge \\
+	\end{aligned}
 	\end{equation}
 	
-   \begin{equation} \label{eq:14}
-    \neg(cocktail_a =margarita \wedge dress_b=blue) \quad \forall a,b \in People \wedge a<b
-     \end{equation}
+	\begin{equation} \label{eq:14}
+	\neg(cocktail_a =margarita \wedge dress_b=blue) \quad \forall a,b \in People \wedge a<b
+	\end{equation}
 
     A VI. korlátozástípusnál szintén kétféle modell készült, az A változatnál logikai 
     operátorral és a később részletesen taglalt visszafelé következtetés módszerével és a count függvény segítségével(\ref{eq:15}).
@@ -843,7 +843,7 @@
     Esetleg más, a logikai feladványok esetén alkalmazható módszer(pl genetikus algoritmusok célfüggvényei) nagy mennyiségű de azonos sémájú kódja esetén is alkalmazható univerzális eszköz.
     Ezen felül látható, hogy nem csak a korlátozások, hanem például a tömbök deklarációja, illetve a különbözőséget biztosító alldifferent sorokat is a generátor hozza létre(alsó két for ciklus), így még tovább csökkenthető a fölösleges munka egy-egy példa készítésekor.
     
-    \Abra{futasido3}{}{width=14cm}
+    \Abra{futasido3}{Óriás példa futásidejei a különböző modellek esetében}{width=14cm}
     
     Az összes általunk készített modell generálása után, futásidők tekintetében összehasonlítást végeztünk az óriás példán, illetve a szakirodalomban jelenleg elérhető legnehezebb példával a korábban megvizsgált Fundraising dinnerrel.
     Az eredmények a \ref{fig_futasido3}. ábrán láthatóak.
