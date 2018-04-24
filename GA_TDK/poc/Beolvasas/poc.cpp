@@ -61,6 +61,12 @@ struct ZebraPuzzle {
 
 struct ZebraPuzzle Example;
 
+int getPropertyID(string property){
+    for(int c=0; c<Example.propertyNum; c++)
+        if (Example.properties[c]==property) return c;
+    return -1;
+}
+
 bool readExample() {
     bool ok=true;
     ifstream file("egyed.txt");
@@ -276,6 +282,7 @@ void deleteExample() {
     for(int i = 0;i < Example.propertyNum;++i) {
             delete[] Example.propertyvalues[i];
     }
+    delete [] Example.propertyvalues;
     delete Example.properties;
     delete Example.attheendRules;
     delete Example.exactlyleftRules;
@@ -292,96 +299,24 @@ struct Solution {
     string** chromosome;
 };
 
-struct Solution Mutate(struct Solution * msolution, int mutateCount = 50) {
-    int i;
-    string tmp;
-
-    struct Solution * solution = new struct Solution;
-
-    int switchProperty, switchChair1, switchChair2;
-    for(i=0;i<mutateCount;i++){
-        switchProperty=rand()%Example.propertyNum;
-        switchChair1=rand()%Example.chairNum;
-        do {
-            switchChair2=rand()%Example.chairNum;
-        } while (switchChair1==switchChair2);
-
-        tmp=solution->chromosome[switchProperty][switchChair1];
-        solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
-        solution->chromosome[switchProperty][switchChair2]=tmp;
-    }
-    return *solution;
-}
-
-struct Solution * newRandomSolution(){
-	struct Solution * newSolution = new struct Solution;
+struct Solution * newEmptySolution() {
+    struct Solution * newSolution = new struct Solution;
     newSolution->chromosome=new string * [Example.propertyNum];
     for(int i = 0;i < Example.propertyNum;++i) {
         newSolution->chromosome[i] = new string [Example.chairNum];
-        for(int j = 0;j < Example.chairNum;++j) {
-            newSolution->chromosome[i][j]=Example.propertyvalues[i][j];
-        }
     }
-	int switchCount;
-	srand( time(0));
-	switchCount=rand()%50+1;
-
-    Mutate(newSolution,switchCount);
-
-    newSolution->violation_count=0; // todo majd lecserelni a fitness(newSolution,Example) fgv hivasra
-
     return newSolution;
 }
 
-void Orderby(struct Solution solution[], int size){
-	struct Solution X;
-	int i,j;
-	for (i=1;i<size;i++){
- 		X=solution[i];
-  		j=i-1;
-  		while((j>=0) && (solution[j].violation_count>X.violation_count)){
-  			solution[j+1]=solution[j];
-  			j=j-1;
-  		}
-        solution[j+1]=X;
-	}
-}
-
-struct Solution Crossover(struct Solution * solution1, struct Solution * solution2){
-	int c,p;
-	struct Solution * solution = new struct Solution;
-
-	int cut;
-	srand( time(0));
-	cut=rand()%Example.propertyNum;
-	for (p=0;p<Example.propertyNum;p++){
-		if (p<cut){
-            for (c=0;c<Example.chairNum;c++){
-                solution->chromosome[p][c]=solution1->chromosome[p][c];
-            }
-        } else {
-			for (c=0;c<Example.chairNum;c++){
-               solution->chromosome[p][c]=solution2->chromosome[p][c];
-			}
-		}
-	}
-    solution->violation_count=0;    //fitness(solution,Example)
-    return *solution;
-}
-
-void printSolution(struct Solution * solution) {
-    cout<<"Solution:\n";
-    for (int c=0;c<Example.chairNum; c++){
-        cout << "\t" << c+1;
-    }
-    cout << "\n";
-    for(int p=0;p<Example.propertyNum;p++){
-        cout<<Example.properties[p];
-        for (int c=0;c<Example.chairNum; c++){
-            cout << "\t" << solution->chromosome[p][c];
+struct Solution * copySolution(struct Solution * other) {
+    struct Solution * copy = newEmptySolution();
+    for(int i = 0;i < Example.propertyNum;++i) {
+        for(int j = 0;j < Example.chairNum;++j) {
+            copy->chromosome[i][j]=other->chromosome[i][j];
         }
-        cout<<"\n";
     }
+    copy->violation_count = other->violation_count;
+    return copy;
 }
 
 void deleteSolution(struct Solution * solution) {
@@ -392,26 +327,29 @@ void deleteSolution(struct Solution * solution) {
     delete solution;
 }
 
-int findPosition(struct Solution * solution){
+int findPosition(struct Solution* solution, Person p){
     int c;
     for(c=0;c<Example.chairNum;c++)
-        if (solution->chromosome[Example.propertyNum][Example.chairNum]==Person.value) return c;
+        if (solution->chromosome[getPropertyID(p.property)][c]==p.value) return c;
     return 0;
 }
 
-int fitness (struct Solution *solution){
+
+void updateFitness (struct Solution *solution){
     solution->violation_count=0;
+    int position;
 
     //AtTheEndTests
-    int count = Example.attheendRulesCount;
-    int position;
-    for (int c=0;c<count;c++){
-        position=findPosition(solution->chromosome, Example.attheendRules[c].first);
+    cout << "At the end rules violated: ";
+    for (int r=0;r<Example.attheendRulesCount;r++){
+        position=findPosition(solution, Example.attheendRules[r].first);
         if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+			cout << "(" << r << ") ";
 		}
     }
+    cout<<endl;
+    /*
     //ExactlyLeftTests
     count = Example.exactlyleftRulesCount;
     int position1, position2;
@@ -482,110 +420,202 @@ int fitness (struct Solution *solution){
 			solution->violation_count++;
 			cout << "(" << c << ") ";
 		}
-    }
-    //Result
-    return solution->violation_count;
+    }*/
 }
+
+struct Solution * Mutate(struct Solution * msolution, int mutateCount = 50) {
+    int i;
+    string tmp;
+
+    struct Solution * solution = copySolution(msolution);
+    
+
+    int switchProperty, switchChair1, switchChair2;
+    for(i=0;i<mutateCount;i++){
+        switchProperty=rand()%Example.propertyNum;
+        switchChair1=rand()%Example.chairNum;
+        do {
+            switchChair2=rand()%Example.chairNum;
+        } while (switchChair1==switchChair2);
+
+        tmp=solution->chromosome[switchProperty][switchChair1];
+        solution->chromosome[switchProperty][switchChair1]=solution->chromosome[switchProperty][switchChair2];
+        solution->chromosome[switchProperty][switchChair2]=tmp;
+    }
+    updateFitness(solution);
+    return solution;
+}
+
+struct Solution * newRandomSolution(){
+	struct Solution * newSolution = newEmptySolution();
+    for(int i = 0;i < Example.propertyNum;++i) {
+        for(int j = 0;j < Example.chairNum;++j) {
+            newSolution->chromosome[i][j]=Example.propertyvalues[i][j];
+        }
+    }
+	int switchCount;
+	srand( time(0));
+	switchCount=rand()%50+1;
+
+    Mutate(newSolution,switchCount);
+
+    updateFitness(newSolution); 
+
+    return newSolution;
+}
+
+void Orderby(struct Solution ** solutions, int size){
+	struct Solution * X;
+	int i,j;
+	for (i=1;i<size;i++){
+ 		X=solutions[i];
+  		j=i-1;
+  		while((j>=0) && (solutions[j]->violation_count>X->violation_count)){
+  			solutions[j+1]=solutions[j];
+  			j=j-1;
+  		}
+        solutions[j+1]=X;
+	}
+}
+
+struct Solution * Crossover(struct Solution * solution1, struct Solution * solution2){
+	int c,p;
+	struct Solution * solution = newEmptySolution();
+
+	int cut;
+	srand( time(0));
+	cut=rand()%Example.propertyNum;
+	for (p=0;p<Example.propertyNum;p++){
+		if (p<cut){
+            for (c=0;c<Example.chairNum;c++){
+                solution->chromosome[p][c]=solution1->chromosome[p][c];
+            }
+        } else {
+			for (c=0;c<Example.chairNum;c++){
+               solution->chromosome[p][c]=solution2->chromosome[p][c];
+			}
+		}
+	}
+    updateFitness(solution);
+    return solution;
+}
+
+void printSolution(struct Solution * solution) {
+    cout<<"Solution:\n";
+    for (int c=0;c<Example.chairNum; c++){
+        cout << "\t" << c+1;
+    }
+    cout << "\n";
+    for(int p=0;p<Example.propertyNum;p++){
+        cout<<Example.properties[p];
+        for (int c=0;c<Example.chairNum; c++){
+            cout << "\t" << solution->chromosome[p][c];
+        }
+        cout<<"\n";
+    }
+}
+
+
+
+
+
 void Execute(){
 	int i;
-	struct Solution * population = new struct Solution[POPSIZE];
+	struct Solution ** population = new struct Solution * [POPSIZE];
 
 	for(i=0;i<POPSIZE;i++) {
-		population[i]=*newRandomSolution();
+		population[i]=newRandomSolution();
 	}
-	struct Solution * temp = new struct Solution[POPSIZE*4];
+	struct Solution ** temp = new struct Solution * [POPSIZE*4];
     // Iteralasok
     int k;
     int j;
 
-    for(i=0;population[0].violation_count!=0;i++){
-        cout <<"Generation %2d: " << i;
-        struct Solution * firstsolution = new struct Solution;
-        *firstsolution = population[0];
-        printSolution(firstsolution);
-        delete firstsolution;
+    for(i=0;population[0]->violation_count!=0;i++){
+        cout <<"Generation "<< i <<": \n";
+        printSolution(population[0]);
         k=0;
         // Copy from previously population
         for (j=0;j<POPSIZE; j++){
-            temp[k]=population[j];
+            temp[k]=copySolution(population[j]);
             k++;
         }
         // Mutations (x100)
         for (j=0;j<POPSIZE; j++){
-			struct Solution * aktsolution = new struct Solution;
-			*aktsolution = population[j];
-            temp[k]=Mutate(aktsolution);
-            delete aktsolution;
+            temp[k]=Mutate(population[j]);
             k++;
         }
         // Crossover (x100)
         for (j=0;j<POPSIZE;j++){
-			int x;
 			srand( time(0));
+			int x;
 			x=rand()%POPSIZE;
 			int y;
-			srand( time(0));
 			y=rand()%POPSIZE;
-			struct Solution * aktsolution1 = new struct Solution;
-			*aktsolution1 = population[x];
-			struct Solution * aktsolution2 = new struct Solution;
-			*aktsolution2 = population[y];
-			temp[k]=Crossover(aktsolution1,aktsolution2);
-			delete aktsolution1;
-			delete aktsolution2;
+			temp[k]=Crossover(population[x],population[y]);
 			k++;
          }
         // Crossover after Mutation (x100)
         for (j=0;j<POPSIZE;j++){
-			int x;
 			srand( time(0));
+			int x;
 			x=rand()%POPSIZE;
 			int y;
-			srand( time(0));
 			y=rand()%POPSIZE;
-			struct Solution * aktsolution1 = new struct Solution;
-			*aktsolution1 = population[x+POPSIZE];
-			struct Solution * aktsolution2 = new struct Solution;
-			*aktsolution2 = population[y+POPSIZE];
-			temp[k]=Crossover(aktsolution1,aktsolution2);
-			delete aktsolution1;
-			delete aktsolution2;
+			temp[k]=Crossover(temp[x+POPSIZE],temp[y+POPSIZE]);
 			k++;
          }
+        // Delete old population
+        for(int i=0; i<POPSIZE; i++){
+            deleteSolution(population[i]);
+        }
         // Select the new generation
+        // Order them based on fitness
         Orderby(temp,4*POPSIZE);
         //The good solutions have better chance.
         for (j=0; j<ELITES;j++){
-            population[j]=temp[j];
+            population[j]=copySolution(temp[j]);
         }
         for (j=ELITES;j<POPSIZE;j++){
 			int k;
 			srand( time(0));
 			k=rand()%((int) (POPSIZE*1.2));
 			if (k<POPSIZE){
-                population[j]=temp[j];
+                population[j]=copySolution(temp[j]);
 			} else {
-                population[j]=temp[POPSIZE+j];
+                population[j]=copySolution(temp[POPSIZE+j]);
 			}
 		}
+        // Delete temporary population array
+        for(int i=0; i<POPSIZE*4; i++){
+            deleteSolution(temp[i]);
+        }
     }
 
     cout << "******************************\n";
-    struct Solution * firstsolution = new struct Solution;
-    *firstsolution = population[0];
-    printSolution(firstsolution);
-    delete firstsolution;
+    
+    printSolution(population[0]);
+
+    for (j=0; j<ELITES;j++){
+            population[j]=copySolution(temp[j]);
+    }
+    delete [] population;
+    delete [] temp;
 }
 
 int main() {
 
     if(readExample()) {
         printExample();
-	Solution * testSolution = newRandomSolution();
-	fitness(testSolution);
-	printSolution(testSolution);
-	deleteSolution(testSolution);
-	deleteExample();
-	Execute();
+
+        // Test stingle solution
+        /*Solution * testSolution = newRandomSolution();
+        updateFitness(testSolution);
+        printSolution(testSolution);
+        deleteSolution(testSolution);*/
+
+        // Execute GA
+        Execute();
+        deleteExample();
     }
 }
