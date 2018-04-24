@@ -11,6 +11,7 @@
 using namespace std;
 
 string itoa(int a){
+    if (a==0) return "0";
     string s;
     for (s="";a != 0;a/=10) 
         s = char('0'+(a%10)) + s;
@@ -353,10 +354,10 @@ string updateFitness (struct Solution *solution){
         position=findPosition(solution, Example.attheendRules[r].first);
         if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
+            violated += " ate( ";
+            violated += itoa(r);
+            violated +=") ";
 		}
-        violated += " ate( ";
-        violated += itoa(r);
-        violated +=") ";
     }
     /*
     //ExactlyLeftTests
