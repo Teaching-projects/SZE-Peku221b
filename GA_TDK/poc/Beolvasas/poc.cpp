@@ -10,6 +10,14 @@
 
 using namespace std;
 
+string itoa(int a){
+    string s;
+    for (s="";a != 0;a/=10) 
+        s = char('0'+(a%10)) + s;
+    return s;
+        
+}
+
 struct Person {
     string property;
     string value;
@@ -335,20 +343,21 @@ int findPosition(struct Solution* solution, Person p){
 }
 
 
-void updateFitness (struct Solution *solution){
+string updateFitness (struct Solution *solution){
     solution->violation_count=0;
     int position;
+    string violated="";
 
     //AtTheEndTests
-    cout << "At the end rules violated: ";
     for (int r=0;r<Example.attheendRulesCount;r++){
         position=findPosition(solution, Example.attheendRules[r].first);
         if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
-			cout << "(" << r << ") ";
 		}
+        violated += " ate( ";
+        violated += itoa(r);
+        violated +=") ";
     }
-    cout<<endl;
     /*
     //ExactlyLeftTests
     count = Example.exactlyleftRulesCount;
@@ -421,6 +430,8 @@ void updateFitness (struct Solution *solution){
 			cout << "(" << c << ") ";
 		}
     }*/
+
+    return violated;
 }
 
 struct Solution * Mutate(struct Solution * msolution, int mutateCount = 50) {
@@ -513,6 +524,8 @@ void printSolution(struct Solution * solution) {
         }
         cout<<"\n";
     }
+    string violate=updateFitness(solution);
+    cout<<"Violate: "<<violate<<endl;
 }
 
 
