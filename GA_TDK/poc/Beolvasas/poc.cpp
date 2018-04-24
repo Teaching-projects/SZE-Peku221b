@@ -354,83 +354,90 @@ string updateFitness (struct Solution *solution){
         position=findPosition(solution, Example.attheendRules[r].first);
         if (position>0 && position<Example.chairNum-1) {
 			solution->violation_count++;
-            violated += " ate( ";
+            violated += " ate(";
             violated += itoa(r);
             violated +=") ";
 		}
     }
-    /*
+   
     //ExactlyLeftTests
-    count = Example.exactlyleftRulesCount;
     int position1, position2;
-    for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, Example.exactlyleftRules[c].first);
-        position2=findPosition(solution->chromosome, Example.exactlyleftRules[c].second);
+    for (int r=0;r<Example.exactlyleftRulesCount;r++){
+        position1=findPosition(solution, Example.exactlyleftRules[r].first);
+        position2=findPosition(solution, Example.exactlyleftRules[r].second);
         if (position1!=position2-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " eleft(";
+            violated += itoa(r);
+            violated +=") ";
 		}
-    }
+    } 
     //ExactlyRightTests
-    count = Example.exactlyrightRulesCount;
-    for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, Example.exactlyrightRules[c].first);
-        position2=findPosition(solution->chromosome, Example.exactlyrightRules[c].second);
+    for (int r=0;r<Example.exactlyrightRulesCount;r++){
+        position1=findPosition(solution, Example.exactlyrightRules[r].first);
+        position2=findPosition(solution, Example.exactlyrightRules[r].second);
         if (position2!=position1-1) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " eright(";
+            violated += itoa(r);
+            violated +=") ";
 		}
 	}
 	//SomewhereLeftTests
-	count = Example.somewhereleftRulesCount;
-    for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, Example.somewhereleftRules[c].first);
-        position2=findPosition(solution->chromosome, Example.somewhereleftRules[c].second);
+    for (int r=0;r<Example.somewhereleftRulesCount;r++){
+        position1=findPosition(solution, Example.somewhereleftRules[r].first);
+        position2=findPosition(solution, Example.somewhereleftRules[r].second);
         if (position1>=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " sleft(";
+            violated += itoa(r);
+            violated +=") ";
 		}
     }
 	//SomewhereRightTests
-	count = Example.somewhererightRulesCount;
-    for (int c=0;c<count;c++){
-        position1=findPosition(solution->chromosome, Example.somewhererightRules[c].first);
-        position2=findPosition(solution->chromosome, Example.somewhererightRules[c].second);
+    for (int r=0;r<Example.somewhererightRulesCount;r++){
+        position1=findPosition(solution, Example.somewhererightRules[r].first);
+        position2=findPosition(solution, Example.somewhererightRules[r].second);
         if (position1<=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " sright(";
+            violated += itoa(r);
+            violated +=") ";
 		}
     }
     //PositonTest
-	count = Example.positionRulesCount;
-    for (int c=0;c<count;c++){
-        if (Example.positionRules[c].chair!=findPosition(solution->chromosome, Example.positionRules[c].first)) {
+    for (int r=0;r<Example.positionRulesCount;r++){
+        if (Example.positionRules[r].chair!=findPosition(solution, Example.positionRules[r].first)) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " sright(";
+            violated += itoa(r);
+            violated +=") ";
 		}
     }
     //BetweenTests
-    count = Example.betweenRulesCount;
     int position3;
-      for (c=0;c<count;c++){
-		position1=findPosition(solution->chromosome, Example.betweenRules[c].first);
-        position2=findPosition(solution->chromosome, Example.betweenRules[c].second);
-        position3=findPosition(solution->chromosome, Example.betweenRules[c].third);
+      for (int r=0;r<Example.betweenRulesCount;r++){
+		position1=findPosition(solution, Example.betweenRules[r].first);
+        position2=findPosition(solution, Example.betweenRules[r].second);
+        position3=findPosition(solution, Example.betweenRules[r].third);
         if (!(position2<position1 && position1<position3)) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " sright(";
+            violated += itoa(r);
+            violated +=") ";
 		}
       }
     //LikesTests
-    count = Example.likesRulesCount;
-    for (c=0;c<count;c++){
-		position1=findPosition(solution->chromosome, Example.likesRules[c].first);
-		position2=findPosition(solution->chromosome, Example.likesRules[c].second);
+    for (int r=0;r<Example.likesRulesCount;r++){
+		position1=findPosition(solution, Example.likesRules[r].first);
+		position2=findPosition(solution, Example.likesRules[r].second);
 		if (position1!=position2) {
 			solution->violation_count++;
-			cout << "(" << c << ") ";
+            violated += " sright(";
+            violated += itoa(r);
+            violated +=") ";
 		}
-    }*/
+    }
 
     return violated;
 }
@@ -480,13 +487,13 @@ void Orderby(struct Solution ** solutions, int size){
 	struct Solution * X;
 	int i,j;
 	for (i=1;i<size;i++){
- 		X=solutions[i];
+ 		X=copySolution(solutions[i]);
   		j=i-1;
   		while((j>=0) && (solutions[j]->violation_count>X->violation_count)){
-  			solutions[j+1]=solutions[j];
+  			solutions[j+1]=copySolution(solutions[j]);
   			j=j-1;
   		}
-        solutions[j+1]=X;
+        solutions[j+1]=copySolution(X);
 	}
 }
 
@@ -592,7 +599,7 @@ void Execute(){
         }
         for (j=ELITES;j<POPSIZE;j++){
 			int k;
-			srand( time(0));
+			srand(time(0));
 			k=rand()%((int) (POPSIZE*1.2));
 			if (k<POPSIZE){
                 population[j]=copySolution(temp[j]);
